@@ -1,0 +1,2 @@
+serviceClass: bpi.most.client.rpc.DpChangedEventService
+path: 3861D3E49BAE5944EDBC60093C1BBD01.gwt.rpc

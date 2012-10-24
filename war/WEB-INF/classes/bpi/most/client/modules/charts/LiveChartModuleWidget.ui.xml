@@ -1,0 +1,39 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:myd="urn:import:bpi.most.client.utils.ui"
+	xmlns:gen="urn:import:bpi.most.client.utils.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+	<ui:style>
+		
+	</ui:style>
+
+	<g:AbsolutePanel
+		styleName="absolute-panel absolute-panel-livechart absolute-panel-livechart-north">
+
+		<!-- <g:AbsolutePanel ui:field="vp"
+			styleName="absolute-panel absolute-panel-datapoint">
+			<g:VerticalPanel styleName="vertical-panel vertical-panel-datapoint">
+				<g:Label ui:field="labelflowpanel"
+					styleName="label label-livechart label-livechart-datapoint">Data point output</g:Label>
+				<g:FlowPanel ui:field="contentArea" styleName="flow-panel flow-panel-datapoint">
+				</g:FlowPanel>
+			</g:VerticalPanel>
+		</g:AbsolutePanel>
+ -->
+ 
+ <myd:DpSelectWidget></myd:DpSelectWidget>
+		<g:AbsolutePanel ui:field="dockRoot" styleName="dropWidgetArea">
+			<myd:GeneralDropWidget ui:field="drop1"
+				styleName="dropWidget red floatLeft dWidget-uid-livechart gwt-uid-first">
+			</myd:GeneralDropWidget>
+			<myd:GeneralDropWidget ui:field="drop2"
+				styleName="dropWidget red floatLeft dWidget-uid-livechart">
+			</myd:GeneralDropWidget>
+		</g:AbsolutePanel>
+
+	</g:AbsolutePanel>
+
+
+
+
+
+</ui:UiBinder>

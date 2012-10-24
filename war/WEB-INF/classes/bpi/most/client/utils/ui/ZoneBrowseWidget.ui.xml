@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		<g:HorizontalPanel>
+
+			<c:CellBrowser ui:field="cellBrowser" width="1000px"
+				height="400px"></c:CellBrowser>
+
+			<g:FlowPanel ui:field="contentArea"></g:FlowPanel>
+		</g:HorizontalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 

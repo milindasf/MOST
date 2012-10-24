@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:myd="urn:import:bpi.most.client.utils.ui" xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:style>
+		.bg {
+			background-color: white;
+		}
+	</ui:style>
+
+	<!-- unique panel is necessary for every module to ensure dnd functionality -->
+
+	<g:AbsolutePanel ui:field="demPanel"
+		styleName="white absolute-panel absolute-panel-3dview  uid-dragonmaster dWidget-uid-livechart">
+		<g:FlowPanel styleName="flow-panel flow-panel-3dview dd">
+			<!-- <g:Label styleName="label label-export">Export Module</g:Label> <myd:DropWidget 
+				ui:field="drop1" styleName="dropWidget-desktopModule red floatLeft"> </myd:DropWidget> 
+				<myd:DropWidget ui:field="drop2" styleName="dropWidget-desktopModule red 
+				floatLeft"> </myd:DropWidget> -->
+			
+			<g:FlowPanel ui:field="panviewchanger" styleName="unselectable">
+				<g:Anchor ui:field="pan" styleName="pan button inactive">Pan</g:Anchor>
+				<g:Anchor ui:field="rotate" styleName="view button inactive">Rotate</g:Anchor>
+			</g:FlowPanel>
+
+			<g:FlowPanel ui:field='mainViewControlsLeft' styleName="unselectable">
+				<g:FlowPanel styleName="model-slider transparency">
+					<g:Label styleName="slider_text">Transparency</g:Label>
+					<g:FlowPanel styleName="slider_dummy" ui:field="transparencySlider"></g:FlowPanel>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="model-slider explode">
+					<g:Label styleName="slider_text">Expose</g:Label>
+					<g:FlowPanel styleName="slider_dummy" ui:field="exposeSlider"></g:FlowPanel>
+				</g:FlowPanel>
+				<g:FlowPanel styleName="model-slider explode">
+					<g:Label styleName="slider_text">Zoom</g:Label>
+					<g:FlowPanel styleName="slider_dummy" ui:field="zoomSlider"></g:FlowPanel>
+				</g:FlowPanel>
+
+				<g:FlowPanel ui:field='controlsDp' styleName="ui-accordion unselectable">
+					<g:FlowPanel
+						styleName="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+						<g:Anchor href='#'>Preview Datapoint</g:Anchor>
+					</g:FlowPanel>
+					<g:FlowPanel
+						styleName="unobtrusive-scroll ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+						<myd:GeneralDropWidget ui:field="dpPreview" styleName="dWidget-uid-3d dropWidget dropWidget-desktopModule dWidget-uid-livechart dWidget-uid-desktop">
+				
+						</myd:GeneralDropWidget>
+						<!-- <g:Anchor styleName="icon">&nbsp;</g:Anchor> -->
+						<g:FlowPanel styleName="dp_message">
+						
+						</g:FlowPanel>
+					</g:FlowPanel>
+				</g:FlowPanel>
+				<!-- <g:FlowPanel ui:field='mainViewControlsLeft1'>
+				
+				</g:FlowPanel> -->
+				
+				<g:FlowPanel ui:field='controlsError' styleName="ui-accordion unselectable">
+					<g:FlowPanel
+						styleName="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+						<g:Anchor href='#'>Warning</g:Anchor>
+					</g:FlowPanel>
+					<g:FlowPanel
+						styleName="unobtrusive-scroll ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+						<g:Anchor styleName="icon">&nbsp;</g:Anchor>
+						<g:Label styleName="error_message">There are no errors!</g:Label>
+					</g:FlowPanel>
+				</g:FlowPanel>
+			</g:FlowPanel>
+
+	<g:FlowPanel ui:field='mainViewControls' styleName="unselectable">
+		<g:FlowPanel ui:field='controlsView' styleName="ui-accordion">
+			<g:FlowPanel
+				styleName="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top">
+				<g:Anchor href='#'>Views</g:Anchor>
+			</g:FlowPanel>
+			<g:FlowPanel
+				styleName="unobtrusive-scroll ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+<g:Anchor ui:field="viewDefault">Default</g:Anchor><g:Anchor>&nbsp;|&nbsp;</g:Anchor>
+<g:Anchor ui:field="viewFront">Front</g:Anchor><g:Anchor>&nbsp;|&nbsp;</g:Anchor>
+<g:Anchor ui:field="viewSide">Side</g:Anchor><g:Anchor>&nbsp;|&nbsp;</g:Anchor>
+<g:Anchor ui:field="viewTop">Top</g:Anchor><g:Label> </g:Label>
+<g:Anchor ui:field="resetView">Set View to Datapoint</g:Anchor>
+			</g:FlowPanel>
+		</g:FlowPanel>
+		
+		<g:HTML><div id='controls-accordion' >
+			<h3>
+				<a href='#'>Zonenhierarchie (IFC)</a>
+			</h3>
+			<div id='controlsAccordionObjects' styleName='unobtrusive-scroll'>
+				<form id='controls-relationships'></form>
+			</div>
+			<!-- <h3> <a href='#'></a> </h3> <div id='controls-accordion-properties'> 
+				<form id='controls-properties'></form> </div> -->
+			<h3>
+				<a href='#'>Zonenlogik</a>
+			</h3>
+			<div>
+				<form id='controls-layers'></form>
+			</div>
+			<!-- <h3><a href='#'>Annotations</a></h3> <div></div> -->
+		</div></g:HTML>
+	</g:FlowPanel>
+
+			<g:HTML styleName="dd">
+				<div class="snapshots-button feedback-panel">
+					<!-- <div id="phjf_cont"> hier steht der Inhalt </div> -->
+					<div class="border" id="border"></div>
+					<a class="button-link" id="button-link" onclick="snapshot()">
+						Snapshots
+					</a>
+				</div>
+				<div id='scenejsLog' style='display:none;'></div>
+				<div id='dialog-background' style='display:none;'>
+					<div id='dialog-file-import' class='dialog-frame' style='display:none;'>
+						<a class='dialog-close' href='#'>x</a>
+						<div id='dialog-logo-file'>SceneJS File</div>
+						<div class='dialog-steps'>
+							<a id='file-import-step1' class='dialog-step dialog-step-active'
+								href='#'>Select file</a>
+						</div>
+						<div class='dialog-main'>
+							<form id='upload-form' class='dialog-tab' onsubmit='return false;'>
+								<input type='file' id='upload-file' name='upload-file'></input>
+								<div id='upload-file-info'></div>
+								<div class='dialog-buttons'>
+									<button type='submit' class='dialog-button'>Open</button>
+								</div>
+								<div class='dialog-messages'>
+									<p id='file-import-message-info' class='dialog-message-info'></p>
+									<p id='file-import-message-error' class='dialog-message-error'></p>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div id='dialog-bimserver-import' class='dialog-frame' style='display:none;'>
+						<a class='dialog-close' href='#'>x</a>
+						<div id='dialog-logo-bimserver'></div>
+						<div class='dialog-steps'>
+							<a id='bimserver-import-step1' class='dialog-step dialog-step-active'
+								href='#'>Login</a>
+							<a id='bimserver-import-step2' class='dialog-step' href='#'>Choose
+								a project</a>
+						</div>
+						<div class='dialog-main'>
+							<form id='dialog-tab-bimserver1' class='dialog-tab'
+								onsubmit='return false;' style='display:none;'>
+								<div>
+									<label for='bimserver-login-url'>BIMserver</label>
+									<input id='bimserver-login-url' name='bimserver-login-url'
+										type='url' value='http://localhost:8080'></input>
+								</div>
+								<div>
+									<label for='bimserver-login-username'>Username</label>
+									<input id='bimserver-login-username' name='bimserver-login-username'
+										type='email' placeholder='user@website.com'></input>
+								</div>
+								<div>
+									<label for='bimserver-login-password'>Password</label>
+									<input id='bimserver-login-password' name='bimserver-login-password'
+										type='password'></input>
+								</div>
+								<div class='dialog-buttons'>
+									<button id='bimserver-login-submit' type='submit' class='dialog-button'>Login</button>
+								</div>
+								<div class='dialog-messages'>
+									<p id='bimserver-import-message-info' class='dialog-message-info'></p>
+									<p id='bimserver-import-message-error' class='dialog-message-error'></p>
+								</div>
+							</form>
+							<form id='dialog-tab-bimserver2' class='dialog-tab'
+								onsubmit='return false;' style='display:none;'>
+								<ul id='bimserver-projects'></ul>
+								<div class='dialog-buttons'>
+									<button id='bimserver-projects-submit' class='dialog-button'
+										disabled='disabled'>Open</button>
+									<button id='bimserver-projects-refresh' class='dialog-button'>Refresh</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div id='main-layout'>
+					<menu id='top-menu' class='horizontal-list' type='toolbar'>
+						<li class='top-menu-left'>
+							<a id='top-menu-return-bimserver' href='http://localhost:8082/'
+								style='display: none'>&lt; BiMserver</a>
+							<a href='#' class="load-button">Load Model</a>
+							<menu class='top-menu-dropdown vertical-list'>
+								<div class='top-menu-float'>
+									<h4>Import</h4>
+									<li>
+										<a href='#' id='top-menu-import-bimserver'>BIMserver Project</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-import-scenejs'>SceneJS File</a>
+									</li>
+								</div>
+							</menu>
+						</li>
+						<!-- <li>
+							<a href='#'>Display</a>
+							<menu class='top-menu-dropdown vertical-list'>
+								<div class='top-menu-float'>
+									<h4>Palette</h4>
+									<li>
+										<a href='#' id='top-menu-palette-winter'>Winter Colors</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-palette-autumn'>Autumn Colors</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-palette-spring'>Spring Colors</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-palette-summer'>Summer Colors</a>
+									</li>
+								</div>
+							</menu>
+						</li>
+						<li>
+							<a href='#'>Settings</a>
+							<menu class='top-menu-dropdown vertical-list'>
+								<div class='top-menu-float'>
+									<h4>Performance</h4>
+									<li>
+										<a href='#' id='top-menu-performance-quality' class='top-menu-activated'>High
+											Quality</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-performance-performance'>High Performance</a>
+									</li>
+									<hr></hr>
+									<h4>Mode</h4>
+									<li>
+										<a href='#' id='top-menu-mode-basic' class='top-menu-activated'>Basic Mode</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-mode-advanced'>Advanced Mode</a>
+									</li>
+								</div>
+							</menu>
+						</li>
+						<li>
+							<a href='#'>Share</a>
+							<menu class='top-menu-dropdown vertical-list'>
+								<div class='top-menu-float'>
+									<li>
+										<a href='#' id='top-menu-share-facebook'>Facebook</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-share-twitter'>Twitter</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-share-gplus'>Google+</a>
+									</li>
+									<li>
+										<a href='#' id='top-menu-share-email'>Email</a>
+									</li>
+								</div>
+							</menu>
+						</li>
+						<li>
+							<a href='#' id='top-menu-about'>About</a>
+						</li>
+						<li>
+							<a href='#' id='top-menu-help' class='top-menu-activated'>Help</a>
+						</li>
+						 -->
+					</menu>
+					<div class='main-layout-row'>
+						<div style='display:table;width:100%;height:100%'>
+							<div style='display:table-row;width:100%;height:100%'>
+								<div id='main-view'>
+									<div class='firefox-relative-cell'>
+										<div id='main-menu'>
+											<div id='main-menu-logo'></div>
+											<!-- <div class='main-menu-panel ui-widget-content'> <h3>Controls</h3> 
+												<menu type='toolbar'> <li><a href='#'>+ Select</a></li> <li><a href='#'>+ 
+												Arcball</a></li> <li><a href='#'>+ Annotate</a></li> </menu> </div> -->
+											<!-- <div class='main-menu-panel ui-widget-content'>
+												<h3>Views</h3>
+												<menu type='toolbar'>
+													<li>
+														<a href='#' id='main-views-reset'>+ Reset</a>
+													</li>
+													</menu>
+											</div>
+											-->
+										</div>
+										<div id='viewport'>
+											<!-- -->
+											<canvas id='scenejsCanvas' class="unselectable" width='1024' height='512'>
+												<p>
+													This application requires a browser that supports the
+													<a href='http://www.w3.org/html/wg/html5/'>HTML5</a>
+													&lt;canvas&gt; feature.
+												</p>
+											</canvas>
+											<!-- -->
+										</div>
+										<div id='main-view-keys'>
+											<div class='shortcut shortcut-selection shortcut-inspection'>
+												<div class='shortcut-mouse-left'></div>
+												x2
+												<span class='shortcut-description'>Inspect element</span>
+											</div>
+											<div class='shortcut shortcut-navigation'>
+												<div class='shortcut-mouse-left'></div>
+												<span class='shortcut-description'>Select an element</span>
+											</div>
+											<div class='shortcut shortcut-navigation'>
+												<div class='shortcut-mouse-left'></div>
+												<span class='shortcut-description'>Rotate the view</span>
+											</div>
+											<div class='shortcut shortcut-navigation'>
+												<div class='shortcut-mouse-middle'></div>
+												<span class='shortcut-description'>Pan the view</span>
+											</div>
+											<div class='shortcut shortcut-navigation'>
+												<div class='shortcut-mouse-scroll'></div>
+												<span class='shortcut-description'>Zoom in and out</span>
+											</div>
+											<div class='shortcut shortcut-standard'>
+												<div class='shortcut-key'>F11</div>
+												<span class='shortcut-description'>Fullscreen mode</span>
+											</div>
+											<div class='shortcut shortcut-standard'>
+												<div class='shortcut-key'>h</div>
+												<span class='shortcut-description'>Toggle help</span>
+											</div>
+										</div>
+										
+										<div id='main-view-help' class="unselectable"></div>
+									</div>
+								</div>
+								
+								<div id='snapshots-fold' style="display:none;">
+									<div class='firefox-relative-cell'>
+										<div>
+											<h2>Snapshots</h2>
+										</div>
+										<div id='snapshots-area'>
+											<div id='snapshots-animframe'>
+											</div>
+											<div id='snapshots'>
+											</div>
+											<a href='#' id='snapshot-placeholder'>
+												+ Snapshot
+											</a>
+										</div>
+										<menu id='snapshots-toolbar' class='horizontal-list'
+											type='toolbar'>
+											<li id='snapshots-toolbar-play'>
+												<a id='snapshots-play' href='#'>&gt; Play</a>
+											</li>
+											<!-- <li id='snapshots-toolbar-export' class='position-top-right'> 
+												<a href='#'>Export</a> <menu type='toolbar' class='snapshots-toolbar-pullup'> 
+												<li><a href='#'>PDF</a></li> </menu> </li> -->
+										</menu>
+									</div>
+								</div>
+								
+							
+								
+							</div>
+						</div>
+							
+					</div>
+					
+				</div>
+				<!-- bimsurfer -->
+
+				<!--<script type='application/javascript'> var pageElement = document.getElementById('main-layout'); 
+					pageElement.style.MozUserSelect='none'; pageElement.onmousedown=function(){return 
+					false}; </script> -->
+
+
+
+
+				<!-- bimsurfer -->
+			</g:HTML>
+		</g:FlowPanel>
+	</g:AbsolutePanel>
+</ui:UiBinder>

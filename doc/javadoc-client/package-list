@@ -1,0 +1,14 @@
+bpi.most.client
+bpi.most.client.login
+bpi.most.client.mainlayout
+bpi.most.client.model
+bpi.most.client.modules
+bpi.most.client.modules.charts
+bpi.most.client.modules.charts.Highchart
+bpi.most.client.modules.d3viewer
+bpi.most.client.modules.desktop
+bpi.most.client.modules.exporter
+bpi.most.client.modules.feedback
+bpi.most.client.rpc
+bpi.most.client.utils
+bpi.most.client.utils.dnd

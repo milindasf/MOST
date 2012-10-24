@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style>
+    .panel {
+      background-color: yellow;
+      width: 150px;
+      height: 150px;
+    }
+  </ui:style>
+  <g:FlowPanel styleName="loginBox">
+        <g:FlowPanel styleName="logo-startpage">
+       	  <g:Anchor href="http://www.tuwien.ac.at" target="_blank">
+               <img src="public/img/layout/TULogo.png" class="TULogo" />
+          </g:Anchor>          		
+        </g:FlowPanel>
+        
+        <g:FlowPanel styleName="shadow-header">
+         	<g:Label></g:Label>
+        </g:FlowPanel>
+        
+    <g:FormPanel styleName="loginForm">
+      <g:VerticalPanel styleName="width100">
+        <g:FlowPanel>
+          <g:Image url="public/img/layout/Most_logo.png" styleName="LoginLogo"></g:Image>
+          
+          <g:FlowPanel styleName="label-login-explanation">
+          	<g:Label>Username:</g:Label><g:Label styleName="italic">mostsoc</g:Label> 
+          	<g:Label>Passwort:</g:Label><g:Label styleName="italic">demo12</g:Label>
+          </g:FlowPanel>
+          
+          <g:FlowPanel styleName="label-login-explanation">
+          	<g:Label>This demo is optimized for Firefox only!</g:Label>
+          </g:FlowPanel>
+          
+          
+          <g:TextBox styleName="text-box text-box-username" ui:field="user">mostsoc</g:TextBox>
+       
+          <g:PasswordTextBox styleName="text-box text-box-password" ui:field="pw">demo12</g:PasswordTextBox>
+        </g:FlowPanel>
+        <g:FlowPanel>
+          <g:Button ui:field="loginBtn" styleName="button button-login">Login</g:Button>
+        </g:FlowPanel>
+      </g:VerticalPanel>
+    </g:FormPanel>
+	  <g:FlowPanel styleName="footer">
+	  	<g:Label styleName="footer-shinespot"></g:Label>
+	  </g:FlowPanel>
+	</g:FlowPanel>
+  
+</ui:UiBinder>

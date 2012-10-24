@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:my="urn:import:bpi.most.client.utils.ui"
+	xmlns:myd="urn:import:bpi.most.client.utils.ui">
+
+	<ui:style>
+		.re {
+			background-color: red;
+			width: 400px;
+			height: 1000px;
+		}
+	</ui:style>
+	<g:AbsolutePanel ui:field="mPMmPanel"
+		styleName="absolute-panel absolute-panel-person"><!-- <g:Label styleName="label label-livechart">Livechart Module</g:Label> -->
+			<g:FormPanel ui:field="form">
+				<g:FlowPanel styleName="flow-panel flow-panel-person">
+					<g:VerticalPanel styleName="vertical-panel vertical-panel-person">
+						<g:Label styleName="label label-person">Neues Arbeitsplatzprotokoll</g:Label>
+
+					</g:VerticalPanel>
+
+					<myd:GeneralDropWidget ui:field="dropField1"
+						styleName="dropWidget-desktopModule red floatLeft">
+						<myd:draggable>
+							<myd:GeneralDragWidget ui:field="drag1">
+								<myd:header>
+									<g:HorizontalPanel>
+										<g:Label styleName="label-icon-airmovement"></g:Label>
+										<g:Label styleName="label label-person label-person-airmovement">Luftbewegung</g:Label>
+									</g:HorizontalPanel>
+								</myd:header>
+
+								<myd:content>
+									<g:FlowPanel styleName="flow-panel flow-panel-airmovement">
+
+										<g:FlowPanel styleName="flow-panel flow-panel-room">
+											<g:Label>Ich kann derzeit die Luftbewegung:</g:Label>
+											<g:RadioButton name="Luft" formValue="stark spüren">stark
+												spüren</g:RadioButton>
+											<g:RadioButton name="Luft" formValue="deutlich spüren">deutlich
+												spüren</g:RadioButton>
+											<g:RadioButton name="Luft" formValue="spüren">spüren</g:RadioButton>
+											<g:RadioButton name="Luft" formValue="kaum spüren">kaum
+												spüren</g:RadioButton>
+											<g:RadioButton name="Luft" formValue="nicht spüren">nicht
+												spüren</g:RadioButton>
+										</g:FlowPanel>
+										<g:FlowPanel styleName="flow-panel flow-panel-cloth">
+											<g:Label>Ich finde derzeit die Luftbewegung</g:Label>
+											<g:RadioButton name="Luftbewegung" formValue="sehr angenehm">sehr
+												angenehm</g:RadioButton>
+											<g:RadioButton name="Luftbewegung" formValue="angenehm">angenehm</g:RadioButton>
+											<g:RadioButton name="Luftbewegung" formValue="neutral">neutral</g:RadioButton>
+											<g:RadioButton name="Luftbewegung" formValue="unangenehm">unangenehm</g:RadioButton>
+											<g:RadioButton name="Luftbewegung" formValue="sehr unangenehm">sehr
+												unangenehm</g:RadioButton>
+										</g:FlowPanel>
+									</g:FlowPanel>
+
+								</myd:content>
+							</myd:GeneralDragWidget>
+						</myd:draggable>
+					</myd:GeneralDropWidget>
+
+					<g:VerticalPanel styleName="vertical-panel vertical-panel-airtemp"
+						ui:field="pmLufttemperatur">
+						<g:Label styleName="label-icon-airtemp"></g:Label>
+						<g:Label ui:field="labelflowpanelAirtemp"
+							styleName="label label-person label-person-airtemp">Lufttemperatur</g:Label>
+						<g:FlowPanel styleName="flow-panel flow-panel-airtemp">
+
+							<g:FlowPanel styleName="flow-panel flow-panel-room"
+								ui:field="temperatur">
+								<g:Label>Ich finde den Raum derzeit:</g:Label>
+								<g:RadioButton name="Temperatur" formValue="heiss">heiss</g:RadioButton>
+								<g:RadioButton name="Temperatur" formValue="warm">warm</g:RadioButton>
+								<g:RadioButton name="Temperatur " formValue="etwas warm">etwas
+									warm</g:RadioButton>
+								<g:RadioButton name="Temperatur" formValue="neutral">neutral</g:RadioButton>
+								<g:RadioButton name="Temperatur" formValue="etwas kühl">etwas
+									kühl</g:RadioButton>
+								<g:RadioButton name="Temperatur" formValue="kühl">kühl</g:RadioButton>
+								<g:RadioButton name="Temperatur" formValue="kalt">kalt</g:RadioButton>
+							</g:FlowPanel>
+							<g:FlowPanel styleName="flow-panel flow-panel-cloth"
+								ui:field="bekleidung">
+								<g:Label>Meine Kleidung ist:</g:Label>
+								<g:RadioButton name="Temperatur" formValue="heiss">leicht</g:RadioButton>
+								<g:RadioButton name="Temperatur" formValue="warm">mittel</g:RadioButton>
+								<g:RadioButton name="Temperatur " formValue="etwas warm">schwer</g:RadioButton>
+							</g:FlowPanel>
+						</g:FlowPanel>
+					</g:VerticalPanel>
+
+					<g:VerticalPanel styleName="vertical-panel vertical-panel-airmovement">
+						<g:Label styleName="label-icon-airmovement"></g:Label>
+						<g:Label ui:field="labelflowpanelAirMovement"
+							styleName="label label-person label-person-airmovement">Luftbewegung</g:Label>
+						<g:FlowPanel styleName="flow-panel flow-panel-airmovement">
+
+							<g:FlowPanel styleName="flow-panel flow-panel-room"
+								ui:field="airmovement">
+								<g:Label>Ich kann derzeit die Luftbewegung:</g:Label>
+								<g:RadioButton name="Luft" formValue="stark spüren">stark spüren</g:RadioButton>
+								<g:RadioButton name="Luft" formValue="deutlich spüren">deutlich
+									spüren</g:RadioButton>
+								<g:RadioButton name="Luft" formValue="spüren">spüren</g:RadioButton>
+								<g:RadioButton name="Luft" formValue="kaum spüren">kaum spüren</g:RadioButton>
+								<g:RadioButton name="Luft" formValue="nicht spüren">nicht spüren</g:RadioButton>
+							</g:FlowPanel>
+							<g:FlowPanel styleName="flow-panel flow-panel-cloth"
+								ui:field="cloth">
+								<g:Label>Ich finde derzeit die Luftbewegung</g:Label>
+								<g:RadioButton name="Luftbewegung" formValue="sehr angenehm">sehr
+									angenehm</g:RadioButton>
+								<g:RadioButton name="Luftbewegung" formValue="angenehm">angenehm</g:RadioButton>
+								<g:RadioButton name="Luftbewegung" formValue="neutral">neutral</g:RadioButton>
+								<g:RadioButton name="Luftbewegung" formValue="unangenehm">unangenehm</g:RadioButton>
+								<g:RadioButton name="Luftbewegung" formValue="sehr unangenehm">sehr
+									unangenehm</g:RadioButton>
+							</g:FlowPanel>
+						</g:FlowPanel>
+					</g:VerticalPanel>
+
+					<g:VerticalPanel styleName="vertical-panel vertical-panel-activity">
+						<g:Label styleName="label-icon-activity"></g:Label>
+						<g:Label ui:field="labelflowpanelActivity"
+							styleName="label label-person label-person-activity">Aktivität</g:Label>
+						<g:FlowPanel styleName="flow-panel flow-panel-activity">
+
+							<g:FlowPanel styleName="flow-panel flow-panel-actRoom"
+								ui:field="activity">
+								<g:Label>Ich bewege mich im Raum:</g:Label>
+								<g:RadioButton name="Aktivitaet" formValue="sitzedn">sitzend</g:RadioButton>
+								<g:RadioButton name="Aktivitaet" formValue="stehend">stehend</g:RadioButton>
+								<g:RadioButton name="Aktivitaet " formValue="leichte Aktivitaet">leichte
+									Aktivität</g:RadioButton>
+								<g:RadioButton name="Aktivitaet" formValue="mittlere Aktivitaet">mittlere
+									Aktivität</g:RadioButton>
+								<g:RadioButton name="Aktivitaet" formValue="koerperliche Arbeit">körperliche
+									Arbeit</g:RadioButton>
+							</g:FlowPanel>
+							<g:FlowPanel styleName="flow-panel flow-panel-feeling"
+								ui:field="feeling">
+								<g:Label>Ich fühle mich heute:</g:Label>
+								<g:RadioButton name="Tagesverfassung" formValue="hervorragend">hervorragend</g:RadioButton>
+								<g:RadioButton name="Tagesverfassung" formValue="gesund">gesund</g:RadioButton>
+								<g:RadioButton name="Tagesverfassung" formValue="leicht unwohl">leicht
+									unwohl</g:RadioButton>
+								<g:RadioButton name="Tagesverfassung" formValue="unwohl">unwohl</g:RadioButton>
+								<g:RadioButton name="Tagesverfassung" formValue="krank">krank</g:RadioButton>
+							</g:FlowPanel>
+						</g:FlowPanel>
+					</g:VerticalPanel>
+
+					<g:VerticalPanel styleName="vertical-panel vertical-panel-summary">
+						<g:Label styleName="label-icon-summary"></g:Label>
+						<g:Label ui:field="labelflowpanelSummary"
+							styleName="label label-person label-person-summary">Zusammenfassung</g:Label>
+						<g:FlowPanel styleName="flow-panel flow-panel-summary">
+
+							<g:FlowPanel styleName="flow-panel" ui:field="summary">
+								<g:FlowPanel styleName="flow-panel-table">
+
+									<g:FlowPanel styleName="flow-panel-tr">
+										<g:Label styleName="label label-icon-temp-small">Temperatur</g:Label>
+										<g:FlowPanel styleName="flow-panel flow-panel-subtable">
+											<g:Label styleName="label-chosen-text">neutral</g:Label>
+											<g:Label styleName="label-icon-status label-icon-green-ok"></g:Label>
+										</g:FlowPanel>
+										<g:FlowPanel styleName="flow-panel flow-panel-subtable">
+											<g:Label styleName="label-chosen-text">leicht</g:Label>
+											<g:Label styleName="label-icon-status label-icon-green-ok"></g:Label>
+										</g:FlowPanel>
+									</g:FlowPanel>
+
+									<g:FlowPanel styleName="flow-panel-tr">
+										<g:Label styleName="label label-icon-air-small">Luftbewegung</g:Label>
+										<g:FlowPanel styleName="flow-panel flow-panel-subtable">
+											<g:Label styleName="label-chosen-text">spürbar</g:Label>
+											<g:Label styleName="label-icon-status label-icon-green-ok"></g:Label>
+										</g:FlowPanel>
+										<g:FlowPanel styleName="flow-panel flow-panel-subtable">
+											<g:Label styleName="label-chosen-text">neutral</g:Label>
+											<g:Label styleName="label-icon-status label-icon-green-ok"></g:Label>
+										</g:FlowPanel>
+									</g:FlowPanel>
+
+									<g:FlowPanel styleName="flow-panel-tr">
+										<g:Label styleName="label label-icon-act-small">Aktivität</g:Label>
+										<g:FlowPanel styleName="flow-panel flow-panel-subtable">
+											<g:Label styleName="label-chosen-text">mittlere Aktivität</g:Label>
+											<g:Label styleName="label-icon-status label-icon-green-grey"></g:Label>
+										</g:FlowPanel>
+										<g:FlowPanel styleName="flow-panel flow-panel-subtable">
+											<g:Label styleName="label-chosen-text">leicht unwohl</g:Label>
+											<g:Label styleName="label-icon-status label-icon-green-grey"></g:Label>
+										</g:FlowPanel>
+									</g:FlowPanel>
+
+									<g:HorizontalPanel styleName="horizontal-panel horizontal-panel-save">
+										<g:Button ui:field="save" styleName="saveButton">Save</g:Button>
+									</g:HorizontalPanel>
+
+								</g:FlowPanel>
+							</g:FlowPanel>
+
+						</g:FlowPanel>
+					</g:VerticalPanel>
+
+
+
+				</g:FlowPanel>
+			</g:FormPanel>
+	</g:AbsolutePanel>
+</ui:UiBinder>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:style>
+		.panel { /*	background-color: ivory;*/
+			
+		}
+		
+		.drag { /*	  width:200px;
+				  height:200px;
+				  background-color: yellow;*/
+			
+		}
+	</ui:style>
+	<!-- <g:FlowPanel ui:field="dragParent" styleName="widget"> <g:FlowPanel 
+		ui:field="draggin" styleName="widget-header"></g:FlowPanel> <g:FlowPanel 
+		ui:field="cont" styleName="widget-content"> </g:FlowPanel> </g:FlowPanel> -->
+	<g:FlowPanel ui:field="dragParent" styleName="DNDdragParent">
+		<g:FlowPanel ui:field="draggin" styleName="DNDHeader"></g:FlowPanel>
+		<g:FlowPanel ui:field="cont" styleName="DNDContent">
+
+		</g:FlowPanel>
+	</g:FlowPanel>
+</ui:UiBinder>

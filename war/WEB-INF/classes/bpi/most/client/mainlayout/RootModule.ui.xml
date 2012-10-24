@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<ui:style>
+		
+	</ui:style>
+	<g:DockLayoutPanel unit="EM" ui:field="rootDock"
+		styleName="rootDock">
+		<g:north size="7">
+			<g:FlowPanel ui:field="rootNorth" styleName="rootNorth">
+				<g:FlowPanel styleName="logo">
+					<g:Anchor href="http://www.tuwien.ac.at" target="_blank">
+						<img src="public/img/layout/TULogo.png" class="TULogo" style="width:148px;" />
+					</g:Anchor>
+				</g:FlowPanel>
+				<g:AbsolutePanel styleName="mostLogo">
+					<g:Anchor href="http://most.bpi.tuwien.ac.at" target="_blank">
+						<img src="public/img/layout/Most_logo.png" />
+					</g:Anchor>
+				</g:AbsolutePanel>
+				<g:Label styleName="metaNav" ui:field="helplabel">
+					Hilfe
+				</g:Label>
+				<g:FlowPanel styleName="login">
+					<g:Image url="public/img/layout/infoIcon.png" styleName="infoIcon"></g:Image>
+					<g:Label styleName="loginLabel">
+						Logged in: GSOC Demo User
+					</g:Label>
+					<g:Button ui:field="logoutButton" styleName="logoutButton">Logout</g:Button>
+				</g:FlowPanel>
+			</g:FlowPanel>
+		</g:north>
+		<g:south size="0">
+			<g:FlowPanel ui:field="rootSouth" styleName="rootSouth ">
+			</g:FlowPanel>
+		</g:south>
+		<g:west size="15">
+			<g:LayoutPanel>
+				<g:layer height="100%" bottom="0px">
+					<g:LayoutPanel ui:field="rootWest" height="100%"
+						styleName="navigation"></g:LayoutPanel>
+				</g:layer>
+			</g:LayoutPanel>
+		</g:west>
+		<g:center>
+			<g:AbsolutePanel ui:field="boundaryPanel" width="100%"
+				height="100%">
+				<!-- <g:AbsolutePanel ui:field="widgetPanel" styleName="widgetPanel"></g:AbsolutePanel> -->
+				<g:FlowPanel ui:field="rootCenter" styleName="rootCenter"
+					width="100%" height="100%">
+					<g:Label></g:Label>
+				</g:FlowPanel>
+				<!-- <g:FlowPanel ui:field="sidebar" styleName="sidebar"></g:FlowPanel> -->
+			</g:AbsolutePanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

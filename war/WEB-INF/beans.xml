@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+  xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+  <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+    
+  <!-- jaxrs:servers are per request
+  	this is either possible by 
+  	++ using the attribute "beanNames"
+  	++ or by using an explicit service factory described in (more verbose):
+  		http://cxf.apache.org/docs/jaxrs-services-configuration.html#JAXRSServicesConfiguration-Lifecyclemanagement
+  		
+  		the configuration would look like (untested):
+  		<jaxrs:server id="zoneService" address="/zones" beanNames="zoneResource">
+  			<jaxrs:serviceFactories>
+		      <ref bean="zoneFactory" />
+		    </jaxrs:serviceFactories>
+			<jaxrs:inInterceptors>
+				<ref bean="authFilter"/>
+		 	</jaxrs:inInterceptors>
+		</jaxrs:server>
+  		
+  		<bean id="zoneFactory" class="org.apache.cxf.jaxrs.spring.SpringResourceFactory">
+	     <property name="beanId" value="zoneResource"/>
+	  </bean>
+	  
+   -->
+  
+  <!-- Zone Resource -->
+  <jaxrs:server id="zoneService" address="/zones" beanNames="zoneResource">
+    <jaxrs:inInterceptors>
+     <ref bean="authFilter"/>
+ 	</jaxrs:inInterceptors>
+  </jaxrs:server>
+  
+  <!-- Datapoint Resource -->
+  <jaxrs:server id="dpService" address="/dp" beanNames="dpResource">
+    <jaxrs:inInterceptors>
+     <ref bean="authFilter"/>
+ 	</jaxrs:inInterceptors>
+  </jaxrs:server>
+  
+  <bean id="authFilter" class="bpi.most.server.services.rest.RestAuthInterceptor">
+        <!-- authorization bean properties -->
+    </bean>
+    
+  <bean id="zoneResource" class="bpi.most.server.services.rest.impl.ZoneResImpl" scope="prototype"/>
+  <bean id="dpResource" class="bpi.most.server.services.rest.impl.DpResImpl" />
+</beans>

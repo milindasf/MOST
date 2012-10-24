@@ -1,0 +1,2 @@
+serviceClass: bpi.most.client.rpc.PersonModuleService
+path: 8F6C43AD86F63371F1631360C2454625.gwt.rpc

@@ -1,0 +1,12 @@
+target
+*.iml
+*.ipr
+.DS_Store
+.idea
+.project
+.classpath
+.settings
+.svn
+.gwt
+gwt-unitCache
+

@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!-- 
+NEW how to:
+
+1. set the gwt.sdk.location where the gwt sdk is located on your machine
+2. use the ant targets "jar" to compile the sources - this is what you have done manually before
+3. use the ant targets "deploy" as allways to generate the war file and copy it to the bin folder 
+
+ -->
+
+<!-- #
+OLD HowTo deploy
+A) compile GWT project
+B) Export JAR file of src to 
+  	war\WEB-INF\lib\gwt-most.jar 
+  	<projectname>/war/WEB-INF/lib/gwt-most.jar
+C) Run this ant script
+D) deploy bin/most.war 
+ -->
+
+	<project name="most" basedir=".." default="default">
+ 		<property name="src.dir" value="src"/>
+ 		<property name="bin.dir" value="bin"/>
+ 		<property name="classes.dir" value="${bin.dir}/classes"/>
+	    <property name="jar.dir" value="${bin.dir}/jar"/>
+	    <property name="lib.dir" value="lib"/>
+	    <property name="jar.file" value="gwt-most.jar"/>
+	    <property name="web.lib.dir" value="war/WEB-INF/lib"/>
+	    
+	    <!-- IMPORTANT: set location of your gwt installation 
+	    this is the path where all gwt jars (like gwt-servlet.jar, gwt-user.jar, ...) are located
+	    -->
+	    <property name="gwt.sdk.location" value="" />
+ 		
+ 		
+	<target name="default" depends="deploy"></target>
+ 
+	<!-- classpath to be able to compile the sources -->
+	 <path id="project.classpath" >
+         <fileset dir="${lib.dir}">
+             <include name="**/*.jar"/>
+         </fileset>
+         <fileset dir="${gwt.sdk.location}">
+             <include name="**/*.jar"/>
+         </fileset>
+         <pathelement location="${build.dir}"/>
+     </path>
+     
+	<!-- compiling the most classes and copy files which are in the source folder -->
+	<target name="compile" description="compile most source code" >
+	    
+	    <!-- we fail explicitly if someone has forgotten to set the gwt sdk path -->
+	    <fail message="you have to set the property called gwt.sdk.location to your local gwt sdk installation!">
+			<condition>
+        		<equals arg1="${gwt.sdk.location}" arg2=""/>
+			</condition>
+		</fail>
+	    
+	    <mkdir dir="${classes.dir}" />
+        <javac
+            srcdir="${src.dir}"
+            destdir="${classes.dir}"
+            classpathref="project.classpath"
+            debug="true"
+            deprecation="true"
+        	encoding="utf-8">
+             <exclude name="${src.dir}/bpi/most/client**" />
+        </javac>
+        <!-- there are some files in the src folder which are no java files (log4j.properties, ...) but have also be copied -->
+        <copy todir="${classes.dir}">
+           <fileset dir="${src.dir}"
+             includes="**/*.xml,**/*.properties,**/*.txt" />
+        </copy>
+    </target>
+	  
+	<!-- packaging all compiled files to a jar file and copy it to the web-inf/libs folder -->
+	  <target name="jar" depends="compile" description="packs all most source files into a single .jar file">
+	    <mkdir dir="${jar.dir}" />
+	    <!-- build the jar file -->
+	    <jar destfile="${jar.dir}/${jar.file}"
+	         basedir="${classes.dir}"
+	         includes="**/*.*"/>
+	    <!-- copy the jar file in the applications web lib folder -->
+	     <copy todir="${web.lib.dir}" file="${jar.dir}/${jar.file}"/>
+	  </target>
+	
+	
+	<target name="buildwar" description="packs the complete most web app into a singel .war file">
+		<war basedir="war" destfile="tools/most.war" webxml="war/WEB-INF/web.xml">
+			<exclude name="WEB-INF/**" />
+			<webinf dir="war/WEB-INF/">
+				<include name="**/*.jar" />
+				<include name="beans.xml"/>
+			</webinf>
+		</war>
+	</target>
+	
+	<target name="deploy" depends="buildwar" description="moves the deployable .war file to the bin folder">
+		<move file="tools/most.war" todir="${bin.dir}" />
+	</target>
+		 
+	<target name="clean" description="deletes all built contents">
+	    <echo message="cleaning ${bin.dir}"/>
+	    <delete includeemptydirs="true">
+	        <fileset dir="${bin.dir}" includes="**/*" />
+	    </delete>
+	</target>
+ 	 
+</project>

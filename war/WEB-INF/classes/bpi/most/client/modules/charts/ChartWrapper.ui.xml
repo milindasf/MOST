@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:hc="urn:import:bpi.most.client.modules.charts.Highchart"
+	xmlns:gen="urn:import:bpi.most.client.utils.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:FlowPanel ui:field="flowPanel">
+		<g:AbsolutePanel styleName="timeInput">
+			<g:Label styleName="label label-date01" ui:field="ld01">from</g:Label>
+			<gen:DateTimePickerBox ui:field="startTime"
+				styleName="dtpb dtpb-from"></gen:DateTimePickerBox>
+			<g:Label styleName="label label-date02" ui:field="ld02">until</g:Label>
+			<gen:DateTimePickerBox ui:field="endTime"
+				styleName="dtpb dtpb-to"></gen:DateTimePickerBox>
+		</g:AbsolutePanel>
+		<g:AbsolutePanel styleName="liveInput">
+			<g:CheckBox ui:field="chkBox" name="searchArea" formValue="Typ"
+				styleName="check-box">Live</g:CheckBox>
+			<g:ListBox ui:field="listBox" styleName="list-box">
+				<g:item value="3600000">1 hour</g:item>
+				<g:item value="43200000">12 hours</g:item>
+				<g:item value="86400000">1 day</g:item>
+				<g:item value="604800000">1 week</g:item>
+				<g:item value="2592000000">1 month</g:item>
+			</g:ListBox>
+			<g:Button ui:field="estimatedButton" visible="false">estimated
+				values</g:Button>
+		</g:AbsolutePanel>
+		<g:Widget ui:field="chosenChart"></g:Widget>
+	</g:FlowPanel>
+</ui:UiBinder> 
