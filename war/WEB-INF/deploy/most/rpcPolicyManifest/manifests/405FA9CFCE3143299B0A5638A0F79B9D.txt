@@ -1,2 +1,0 @@
-serviceClass: bpi.most.client.rpc.ZoneService
-path: A895581856933A370BA82E4284EA75C5.gwt.rpc

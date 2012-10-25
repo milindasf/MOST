@@ -1,2 +1,0 @@
-serviceClass: bpi.most.client.rpc.ModuleControllerService
-path: 4133D1722462A61E1039829C6A6C00C2.gwt.rpc

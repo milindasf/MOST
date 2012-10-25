@@ -1,2 +1,0 @@
-serviceClass: bpi.most.client.rpc.DatapointService
-path: 3C30B45E9D1BD277C9048F3915A1EF78.gwt.rpc

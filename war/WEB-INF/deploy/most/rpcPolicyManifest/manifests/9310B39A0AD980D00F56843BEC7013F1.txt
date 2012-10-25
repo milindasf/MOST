@@ -1,2 +1,0 @@
-serviceClass: bpi.most.client.rpc.AuthenticationService
-path: B449D8D0FCEB4174144352C18451EEBD.gwt.rpc

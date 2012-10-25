@@ -9,4 +9,5 @@ target
 .svn
 .gwt
 gwt-unitCache
-
+bin/
+war/WEB-INF/deploy/
