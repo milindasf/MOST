@@ -1,0 +1,119 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>bpi.most</groupId>
+  <artifactId>most-parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>MOST Parent Project</name>
+  <url>http://most.bpi.tuwien.ac.at/</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <profiles>
+    <profile>
+      <id>parent</id>
+      <activation>
+        <file>
+          <exists>${project.baseUri}/lib</exists>
+        </file>
+      </activation>
+      <properties>
+        <most.local.repo.url>${project.baseUri}/lib</most.local.repo.url>
+      </properties>
+    </profile>
+    <profile>
+      <id>child</id>
+      <activation>
+        <file>
+          <missing>${project.baseUri}/lib</missing>
+        </file>
+      </activation>
+      <properties>
+        <most.local.repo.url>${project.baseUri}/../lib</most.local.repo.url>
+      </properties>
+    </profile>
+  </profiles>
+
+  <modules>
+    <module>most-domain</module>
+    <module>most-service-api</module>
+    <module>most-service-impl</module>
+    <module>most-web</module>
+    <module>most-rest</module>
+    <module>most-opc</module>
+    <module>most-obix</module>
+  </modules>
+    
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-service-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-service-impl</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-web</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-rest</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-opc</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-obix</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <id>most.local</id>
+      <url>${most.local.repo.url}</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>ignore</checksumPolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>ignore</checksumPolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  
+  <developers>
+    <developer>
+      <id>jakobk</id>
+      <name>Jakob Korherr</name>
+      <email>jakobk@apache.org</email>
+      <organization>Vienna University of Technology</organization>
+      <organizationUrl>http://www.tuwien.ac.at/</organizationUrl>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
+
+</project>

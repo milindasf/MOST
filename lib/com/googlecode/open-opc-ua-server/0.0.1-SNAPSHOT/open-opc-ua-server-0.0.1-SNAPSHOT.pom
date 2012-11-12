@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode</groupId>  
+  <artifactId>open-opc-ua-server</artifactId>
+  <name>open-opc-ua-server</name>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.opcfoundation</groupId>  
+      <artifactId>opc-ua-stack</artifactId>
+      <version>1.01.308.2</version>
+    </dependency>
+  </dependencies>
+  
+</project>

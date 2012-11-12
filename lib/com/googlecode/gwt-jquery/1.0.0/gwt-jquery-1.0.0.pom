@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode</groupId>  
+  <artifactId>gwt-jquery</artifactId>
+  <name>gwt-jquery</name>
+  <version>1.0.0</version>
+</project>

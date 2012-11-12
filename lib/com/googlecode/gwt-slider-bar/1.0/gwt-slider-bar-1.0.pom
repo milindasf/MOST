@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode</groupId>  
+  <artifactId>gwt-slider-bar</artifactId>
+  <name>gwt-slider-bar</name>
+  <version>1.0</version>
+</project>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode</groupId>  
+  <artifactId>gwt-timepicker</artifactId>
+  <name>gwt-timepicker</name>
+  <version>0.21</version>
+</project>

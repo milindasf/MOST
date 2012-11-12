@@ -9,5 +9,9 @@ target
 .svn
 .gwt
 gwt-unitCache
-bin/
-war/WEB-INF/deploy/
+target
+most-web/src/main/webapp/most
+most-web/src/main/webapp/WEB-INF/classes
+most-web/src/main/webapp/WEB-INF/deploy
+most-web/src/main/webapp/WEB-INF/lib
+
