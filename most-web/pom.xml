@@ -136,6 +136,10 @@
           <!--i18nMessagesBundle>bpi.most.client.Messages</i18nMessagesBundle-->
           <mode>htmlunit</mode>
           <includes>**/MostGwtTestSuite.java</includes>
+          <force>true</force>
+          <modules>
+            <module>bpi.most.Most</module>
+          </modules>
         </configuration>
         <dependencies>
           <dependency>
