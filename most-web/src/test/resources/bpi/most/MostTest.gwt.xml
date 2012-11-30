@@ -1,3 +1,5 @@
-<module rename-to='most'>
+<module rename-to='mosttest'>
 	<inherits name="bpi.most.Most" />
+	
+	<servlet path="/services/gwtrpc/authentication" class="bpi.most.server.services.gwtrpc.AuthenticationServiceImpl" />
 </module>
