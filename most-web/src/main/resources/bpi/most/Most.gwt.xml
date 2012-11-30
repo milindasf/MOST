@@ -6,6 +6,7 @@
 	<inherits name="com.summatech.gwt.GwtTimepicker" />
 	<inherits name='de.novanic.eventservice.GWTEventService' />
 	<inherits name="com.kiouri.sliderbar.SliderBarMVP" />
+	<inherits name="com.google.gwt.junit.JUnit" />
 	<entry-point class="bpi.most.client.Most"></entry-point>
 	<source path="client" />
 	<source path="shared" />

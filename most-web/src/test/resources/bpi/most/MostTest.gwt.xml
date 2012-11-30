@@ -1,0 +1,3 @@
+<module rename-to='most'>
+	<inherits name="bpi.most.Most" />
+</module>
