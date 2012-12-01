@@ -12,6 +12,7 @@ public class MostGwtTestSuite extends GWTTestSuite
     {
         TestSuite suite = new TestSuite("Most GWT integration-test suite");
         suite.addTestSuite(BasicGwtTest.class);
+        suite.addTestSuite(AuthenticationServiceGwtTest.class);
         return suite;
     }
 
