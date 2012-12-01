@@ -11,10 +11,10 @@ target
 gwt-unitCache
 target
 most-web/src/main/webapp/most
+most-web/src/main/webapp/mosttest
 most-web/src/main/webapp/WEB-INF/classes
 most-web/src/main/webapp/WEB-INF/deploy
 most-web/src/main/webapp/WEB-INF/lib
 war
 www-test
-mosttest
 
