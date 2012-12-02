@@ -15,5 +15,12 @@
   <artifactId>most-service-api</artifactId>
   <packaging>jar</packaging>
   <name>MOST Service API</name>
+  
+  <dependencies>
+    <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-domain</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>
