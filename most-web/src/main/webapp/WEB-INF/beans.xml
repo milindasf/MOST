@@ -52,5 +52,5 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
     </bean>
     
   <bean id="zoneResource" class="bpi.most.server.services.rest.impl.ZoneResImpl" scope="prototype"/>
-  <bean id="dpResource" class="bpi.most.server.services.rest.impl.DpResImpl" scope="prototype" />
+  <bean id="dpResource" class="bpi.most.server.services.rest.impl.DpResImpl" />
 </beans>

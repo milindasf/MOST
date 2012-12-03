@@ -34,7 +34,7 @@ import javax.inject.Inject;
  *
  * @author Jakob Korherr
  */
-@ContextConfiguration(locations = "/META-INF/most-service.spring.xml")
+@ContextConfiguration(locations = "/test-context.spring.xml")
 public class AuthenticationServiceTest extends AbstractTransactionalJUnit4SpringContextTests
 {
 

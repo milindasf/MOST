@@ -1,12 +1,10 @@
 package bpi.most.server.services.gwtrpc;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import bpi.most.server.services.User;
 
-import bpi.most.service.api.AuthenticationService;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -14,12 +12,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Handles session and permission management. HttpSession is used for login/logout. 
  * @author robert.zach@tuwien.ac.at
  */
-public class AuthenticationServiceImpl extends SpringGwtServlet implements bpi.most.client.rpc.AuthenticationService, IsSerializable {
+public class AuthenticationServiceImpl extends RemoteServiceServlet implements bpi.most.client.rpc.AuthenticationService, IsSerializable {
   private static final long serialVersionUID = 1L;
-
-  @Inject
-  private AuthenticationService authenticationService;
-
+  
   public AuthenticationServiceImpl() {
 
   }
@@ -31,10 +26,11 @@ public class AuthenticationServiceImpl extends SpringGwtServlet implements bpi.m
    */
   public boolean login(String userId, String plainPassword) {
 	  boolean result = false;
+	  bpi.most.server.services.AuthenticationService authService = bpi.most.server.services.AuthenticationService.getInstance();
 	  User loginUser = new User(userId);
-
+	  
 	  //check if user is valid
-	  if (authenticationService.isValidPassword(userId, plainPassword)) {
+	  if (authService.isValidPassword(loginUser, plainPassword)) {
 		  result = true;
 		//TODO add user to session
 		 HttpSession session = this.getThreadLocalRequest().getSession(true);
