@@ -2,4 +2,6 @@
 	<inherits name="bpi.most.Most" />
 	
 	<servlet path="/services/gwtrpc/authentication" class="bpi.most.server.services.gwtrpc.AuthenticationServiceImpl" />
+	<servlet path="/services/gwtrpc/zone" class="bpi.most.server.services.gwtrpc.ZoneServiceImpl" />
+	<servlet path="/services/gwtrpc/dp" class="bpi.most.server.services.gwtrpc.DatapointServiceImpl" />
 </module>

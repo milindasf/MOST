@@ -1,5 +1,6 @@
 package bpi.most.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bpi.most.client.rpc.AuthenticationService;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  * Tests for MOST ZoneServiceImpl.
  * 
  * @author Lukas Weichselbaum
+ * @author Christoph Lauscher
  */
 public class ZoneServiceGwtTest extends GWTTestCase
 {
@@ -62,16 +64,22 @@ public class ZoneServiceGwtTest extends GWTTestCase
             {
                 // Verify that the response is correct.
             	assertEquals(expectedResult, result);
+                
+            	// query head zones after successful login
+            	List<String> expected = new ArrayList<String>();
+            	expected.add("name4");
+            	
+                zoneService.getHeadZones(createZoneAsyncCallback(expected)); // TODO: replace null with something useful
 
                 // Now that we have received a response, we need to tell the
                 // test runner that the test is complete. You must call finishTest() after
                 // an asynchronous test finishes successfully, or the test will time out.
-                finishTest();
+                //finishTest();
             }
         };
     }
     
-    private AsyncCallback<List<ZoneDTO>> createZoneAsyncCallback(final List<ZoneDTO> expectedResult){
+    private AsyncCallback<List<ZoneDTO>> createZoneAsyncCallback(final List<String> expectedResult){
     	return new AsyncCallback<List<ZoneDTO>>()
         {
             public void onFailure(Throwable caught)
@@ -83,7 +91,15 @@ public class ZoneServiceGwtTest extends GWTTestCase
             public void onSuccess(List<ZoneDTO> result)
             {
                 // Verify that the response is correct.
-            	assertEquals(expectedResult, result);
+        		assertNotNull(result);
+        		
+        		List<String> resultNames = new ArrayList<String>();
+        		
+            	for(ZoneDTO z : result){
+            		resultNames.add(z.getName());
+            	}
+            	
+            	assertEquals(expectedResult, resultNames);
 
                 // Now that we have received a response, we need to tell the
                 // test runner that the test is complete. You must call finishTest() after
@@ -97,7 +113,5 @@ public class ZoneServiceGwtTest extends GWTTestCase
     {
     	// Send login request to the server.
         authenticationService.login("mostsoc", "demo12", createBooleanAsyncCallback(true));
-        
-        zoneService.getHeadZones(createZoneAsyncCallback(null)); // TODO: replace null with something useful
     }
 }
