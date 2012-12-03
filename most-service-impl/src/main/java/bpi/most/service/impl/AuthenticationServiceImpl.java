@@ -5,6 +5,7 @@ import bpi.most.service.impl.utils.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private EntityManager em;
 
     @Override
+    @Transactional
     public boolean isValidPassword(String userName, String plainPassword) {
         byte[] pwHash = null;
         try {
