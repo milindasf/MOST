@@ -1,6 +1,7 @@
 package bpi.most.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bpi.most.client.rpc.AuthenticationService;
@@ -8,6 +9,7 @@ import bpi.most.client.rpc.AuthenticationServiceAsync;
 import bpi.most.client.rpc.DatapointService;
 import bpi.most.client.rpc.DatapointServiceAsync;
 import bpi.most.shared.DpDTO;
+import bpi.most.shared.DpDatasetDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
@@ -51,40 +53,11 @@ public class DatapointServiceGwtTest extends GWTTestCase
         delayTestFinish(10000);
     }
     
-    
-    
-    private AsyncCallback<ArrayList<DpDTO>> createDatapointAsyncCallback(final List<String> expectedResult){
-    	return new AsyncCallback<ArrayList<DpDTO>>()
-        {
-            public void onFailure(Throwable caught)
-            {
-                // The request resulted in an unexpected error.
-                fail("Request failure: " + caught.getMessage());
-            }
 
-            public void onSuccess(ArrayList<DpDTO> result)
-            {
-                // Verify that the response is correct.
-        		assertNotNull(result);
-        		
-        		List<String> resultNames = new ArrayList<String>();
-        		
-            	for(DpDTO d : result){
-            		resultNames.add(d.getName());
-            	}
-            	
-            	assertEquals(expectedResult, resultNames);
-
-                // Now that we have received a response, we need to tell the
-                // test runner that the test is complete. You must call finishTest() after
-                // an asynchronous test finishes successfully, or the test will time out.
-                finishTest();
-            }
-        };
-    }
-    
-    private AsyncCallback<Boolean> createBooleanAsyncCallback(final Boolean expectedResult){
-    	return new AsyncCallback<Boolean>()
+    public void testGetDatapoints()
+    {
+    	// Send login request to the server.
+        authenticationService.login("mostsoc", "demo12", new AsyncCallback<Boolean>()
         {
             public void onFailure(Throwable caught)
             {
@@ -95,10 +68,10 @@ public class DatapointServiceGwtTest extends GWTTestCase
             public void onSuccess(Boolean result)
             {
                 // Verify that the response is correct.
-            	assertEquals(expectedResult, result);
+            	assertTrue(result);
                 
             	// query datapoints after successful login
-            	List<String> expected = new ArrayList<String>();
+            	final List<String> expected = new ArrayList<String>();
             	expected.add("cdi1");
             	expected.add("cdi2");
             	expected.add("cdi3");
@@ -282,21 +255,178 @@ public class DatapointServiceGwtTest extends GWTTestCase
             	expected.add("WsWindSpeed1");
             	expected.add("WsWindDirection1");
             	
-            	dpService.getDatapoints(createDatapointAsyncCallback(expected));
+            	dpService.getDatapoints(new AsyncCallback<ArrayList<DpDTO>>()
+            	        {
+                    public void onFailure(Throwable caught)
+                    {
+                        // The request resulted in an unexpected error.
+                        fail("Request failure: " + caught.getMessage());
+                    }
 
-                // Now that we have received a response, we need to tell the
-                // test runner that the test is complete. You must call finishTest() after
-                // an asynchronous test finishes successfully, or the test will time out.
-                //finishTest();
+                    public void onSuccess(ArrayList<DpDTO> result)
+                    {
+                        // Verify that the response is correct.
+                		assertNotNull(result);
+                		
+                		List<String> resultNames = new ArrayList<String>();
+                		
+                    	for(DpDTO d : result){
+                    		resultNames.add(d.getName());
+                    	}
+                    	
+                    	assertEquals(expected, resultNames);
+
+                        // Now that we have received a response, we need to tell the
+                        // test runner that the test is complete. You must call finishTest() after
+                        // an asynchronous test finishes successfully, or the test will time out.
+                        finishTest();
+                    }
+                });
             }
-        };
+        });        
     }
-
-    public void testGetDatapoints()
+    
+    public void testGetDatapoints_withSearchString()
     {
     	// Send login request to the server.
-        authenticationService.login("mostsoc", "demo12", createBooleanAsyncCallback(true));
-        
-        //dpService.getDatapoints(createZoneAsyncCallback(null));
+        authenticationService.login("mostsoc", "demo12", new AsyncCallback<Boolean>()
+        {
+            public void onFailure(Throwable caught)
+            {
+                // The request resulted in an unexpected error.
+                fail("Request failure: " + caught.getMessage());
+            }
+
+            public void onSuccess(Boolean result)
+            {
+                // Verify that the response is correct.
+            	assertTrue(result);
+                
+            	// query datapoints after successful login
+            	final List<String> expected = new ArrayList<String>();
+            	expected.add("cdi1");
+            	expected.add("cdi2");
+            	expected.add("cdi3");
+            	expected.add("cdi4");
+            	expected.add("cdi5");
+            	expected.add("cdi6");
+            	expected.add("cdi7");
+            	
+            	// get datapoints with "cdi" in name
+            	dpService.getDatapoints("cdi", new AsyncCallback<ArrayList<DpDTO>>()
+            	        {
+                    public void onFailure(Throwable caught)
+                    {
+                        // The request resulted in an unexpected error.
+                        fail("Request failure: " + caught.getMessage());
+                    }
+
+                    public void onSuccess(ArrayList<DpDTO> result)
+                    {
+                        // Verify that the response is correct.
+                		assertNotNull(result);
+                		
+                		List<String> resultNames = new ArrayList<String>();
+                		
+                    	for(DpDTO d : result){
+                    		resultNames.add(d.getName());
+                    	}
+                    	
+                    	assertEquals(expected, resultNames);
+
+                        // Now that we have received a response, we need to tell the
+                        // test runner that the test is complete. You must call finishTest() after
+                        // an asynchronous test finishes successfully, or the test will time out.
+                        finishTest();
+                    }
+                });
+            }
+        });        
+    }
+    
+    public void testGetDataPeriodic()
+    {
+    	// Send login request to the server.
+        authenticationService.login("mostsoc", "demo12", new AsyncCallback<Boolean>()
+        {
+            public void onFailure(Throwable caught)
+            {
+                // The request resulted in an unexpected error.
+                fail("Request failure: " + caught.getMessage());
+            }
+
+            public void onSuccess(Boolean result)
+            {
+                // Verify that the response is correct.
+            	assertTrue(result);
+            	
+            	// get periodic data of "cdi1" from "5/5/2012 12:00" to "7/5/2012 12:00"
+            	try {
+					dpService.getDataPeriodic("cdi1", new Date(1304589600000L), new Date(1304762400000L), 600f,  new AsyncCallback<DpDatasetDTO>()
+					        {
+					    public void onFailure(Throwable caught)
+					    {
+					        // The request resulted in an unexpected error.
+					        fail("Request failure: " + caught.getMessage());
+					    }
+
+					    public void onSuccess(DpDatasetDTO result)
+					    {
+					        // Verify that the response is correct.
+					    	// The returned DpDatasetDTO should have 289 elements.
+					    	assertEquals(289, result.size());
+
+					        // Now that we have received a response, we need to tell the
+					        // test runner that the test is complete. You must call finishTest() after
+					        // an asynchronous test finishes successfully, or the test will time out.
+					        finishTest();
+					    }
+					});
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				}
+            }
+        });        
+    }
+    
+    public void testGetNumberOfValues()
+    {
+    	// Send login request to the server.
+        authenticationService.login("mostsoc", "demo12", new AsyncCallback<Boolean>()
+        {
+            public void onFailure(Throwable caught)
+            {
+                // The request resulted in an unexpected error.
+                fail("Request failure: " + caught.getMessage());
+            }
+
+            public void onSuccess(Boolean result)
+            {
+                // Verify that the response is correct.
+            	assertTrue(result);
+            	
+            	// get number of vales of datapoint "cdi1" from "5/5/2012 12:00" to "7/5/2012 12:00"
+            	dpService.getNumberOfValues("cdi1", new Date(1304589600000L), new Date(1304762400000L), new AsyncCallback<Integer>()
+            	        {
+                    public void onFailure(Throwable caught)
+                    {
+                        // The request resulted in an unexpected error.
+                        fail("Request failure: " + caught.getMessage());
+                    }
+
+                    public void onSuccess(Integer result)
+                    {
+                        // Verify that the response is correct.
+                    	// There should be 598 values for cdi1 in the database
+                    	assertEquals(598, result.intValue());
+
+                        // Now that we have received a response, we need to tell the
+                        // test runner that the test is complete. You must call finishTest() after
+                        // an asynchronous test finishes successfully, or the test will time out.
+                        finishTest();
+                    }
+                });
+            }
+        });        
     }
 }
