@@ -11,12 +11,11 @@ import bpi.most.domain.Zone;
 
 /**
  * Interface Specification of Connector Service.
+ * provides information about defined Connectors (Datapoint - Connector - Device/Sensor/Actor)
  *
  * @author Lukas Weichselbaum
  */
 public interface ConnectorService {
 
     public List<Connector> getConnection(User user);
-
-    public List<Connector> getConnection(User user, Dp dp, String deviceName, String connectionType, Zone zone, String connectorID);
 }

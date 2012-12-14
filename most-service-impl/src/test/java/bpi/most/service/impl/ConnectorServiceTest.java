@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.inject.Inject;
 
@@ -20,8 +21,7 @@ public class ConnectorServiceTest extends AbstractTransactionalJUnit4SpringConte
     private ConnectorService connectorServiceService;
 
     @Test
-    @Transactional
-    public void testName() throws Exception {
-        // TODO: write tests
+    public void testGetConnection_withNullAsUser_shouldReturnConnectors(){
+        Assert.notEmpty(connectorServiceService.getConnection(null));    //TODO: improve test case; at the moment there is no table "connection" in DB!?
     }
 }
