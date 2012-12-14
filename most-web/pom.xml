@@ -24,6 +24,30 @@
 
   <dependencies>
     <dependency>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-domain</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>bpi.most</groupId>
+      <artifactId>most-service-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>bpi.most</groupId>
+      <artifactId>most-service-impl</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-atinject_1.0_spec</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>4.1.0.Final</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-servlet</artifactId>
       <version>${gwtVersion}</version>

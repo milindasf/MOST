@@ -39,7 +39,7 @@
         <property name="dataSource" ref="mostDataSource" />
     </bean>
 
-    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
