@@ -1,4 +1,4 @@
-package bpi.most.domain;
+package bpi.most.domain.user;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

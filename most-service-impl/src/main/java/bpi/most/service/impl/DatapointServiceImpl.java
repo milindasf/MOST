@@ -1,9 +1,9 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.Dp;
-import bpi.most.domain.DpData;
-import bpi.most.domain.DpDataset;
-import bpi.most.domain.User;
+import bpi.most.domain.datapoint.Dp;
+import bpi.most.domain.datapoint.DpData;
+import bpi.most.domain.datapoint.DpDataset;
+import bpi.most.domain.user.User;
 import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,11 +2,8 @@ package bpi.most.service.api;
 
 import java.util.List;
 
-import bpi.most.domain.Connector;
-import bpi.most.domain.Dp;
-import bpi.most.domain.User;
-import bpi.most.domain.Zone;
-
+import bpi.most.domain.connector.Connector;
+import bpi.most.domain.user.User;
 
 
 /**

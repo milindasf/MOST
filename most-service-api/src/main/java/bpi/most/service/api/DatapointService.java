@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observer;
 
-import bpi.most.domain.Dp;
-import bpi.most.domain.DpData;
-import bpi.most.domain.DpDataset;
-import bpi.most.domain.User;
+import bpi.most.domain.datapoint.Dp;
+import bpi.most.domain.datapoint.DpData;
+import bpi.most.domain.datapoint.DpDataset;
+import bpi.most.domain.user.User;
 
 
 /**

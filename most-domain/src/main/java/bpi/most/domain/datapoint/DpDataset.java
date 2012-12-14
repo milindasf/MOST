@@ -1,6 +1,6 @@
 /* TODO: Refactor! */
 
-package bpi.most.domain;
+package bpi.most.domain.datapoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;

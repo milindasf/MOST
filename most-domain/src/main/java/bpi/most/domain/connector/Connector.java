@@ -1,6 +1,6 @@
 /* TODO: Refactor! */
 
-package bpi.most.domain;
+package bpi.most.domain.connector;
 
 import java.io.Serializable;
 

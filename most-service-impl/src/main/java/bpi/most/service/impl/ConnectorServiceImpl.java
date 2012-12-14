@@ -1,7 +1,7 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.Connector;
-import bpi.most.domain.User;
+import bpi.most.domain.connector.Connector;
+import bpi.most.domain.user.User;
 import bpi.most.service.api.ConnectorService;
 import bpi.most.service.impl.db.DbPool;
 import org.slf4j.Logger;

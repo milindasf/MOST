@@ -1,7 +1,7 @@
 /* TODO: Refactor! */
 
 
-package bpi.most.domain;
+package bpi.most.domain.zone;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

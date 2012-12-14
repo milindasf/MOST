@@ -1,8 +1,8 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.Dp;
-import bpi.most.domain.User;
-import bpi.most.domain.Zone;
+import bpi.most.domain.datapoint.Dp;
+import bpi.most.domain.user.User;
+import bpi.most.domain.zone.Zone;
 import bpi.most.service.api.ZoneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
