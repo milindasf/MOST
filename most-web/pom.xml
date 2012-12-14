@@ -188,6 +188,58 @@
           </excludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.5</version>
+        <executions>
+          <execution>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>src/main/webapp/WEB-INF/lib</directory>
+                  <followSymlinks>false</followSymlinks>
+                  <useDefaultExcludes>false</useDefaultExcludes>
+                  <includes>
+                    <include>*.jar</include>
+                  </includes>
+                  <excludes>
+                    <exclude>gwt-servlet.jar</exclude>
+                  </excludes>
+                </fileset>
+                <fileset>
+                  <directory>src/main/webapp/WEB-INF/classes</directory>
+                  <followSymlinks>false</followSymlinks>
+                  <useDefaultExcludes>false</useDefaultExcludes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>src/main/webapp/WEB-INF/lib</outputDirectory>
+              <excludeArtifactIds>gwt-servlet</excludeArtifactIds>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
