@@ -2,6 +2,7 @@ package bpi.most.service.impl;
 
 import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.service.api.DatapointService;
+import bpi.most.service.impl.helper.ValueHolder;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
@@ -32,7 +33,7 @@ public class DatapointServiceImpl implements DatapointService {
 
     @Override
     public boolean isValidDp(final String dpName) {
-        final boolean[] result = new boolean[]{false};  // must use an array in order to be able to access it from inner class
+        final ValueHolder<Boolean> resultHolder = new ValueHolder<Boolean>(Boolean.FALSE);
         try {
             ((Session) em.getDelegate()).doWork(new Work() {
                 @Override
@@ -47,7 +48,7 @@ public class DatapointServiceImpl implements DatapointService {
                         rs = cstmt.getResultSet();
                         if (rs.first()) {
                             // Datapoint exists
-                            result[0] = true;
+                            resultHolder.setValue(true);
                         }
                     } finally {
                         if (rs != null) {
@@ -63,7 +64,7 @@ public class DatapointServiceImpl implements DatapointService {
         catch (HibernateException e) {
             log.error("An exception occurred while calling stored procedure 'getDatapoint'", e);
         }
-        return result[0];
+        return resultHolder.getValue();
     }
 
     @Override
