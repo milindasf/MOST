@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Contains the metadata of a connection (Datapoint - Connector - Device)
  * @author robert.zach@tuwien.ac.at
  */
-public class Connector implements Serializable {
+public class ConnectorVO implements Serializable {
     
 	private static final long serialVersionUID = 743912991919824495L;
     
@@ -35,9 +35,9 @@ public class Connector implements Serializable {
 	/**
 	 * constructor without deadband, min/max, etc. information 
 	 */
-	public Connector(int connectionNumber, String dpName, String deviceName, String connectionType,
-                     String connectionVariables, boolean writeable, String vendor,
-                     String model) {
+	public ConnectorVO(int connectionNumber, String dpName, String deviceName, String connectionType,
+                       String connectionVariables, boolean writeable, String vendor,
+                       String model) {
 		super();
 		this.connectionNumber = connectionNumber;
 		this.dpName = dpName;
@@ -52,9 +52,9 @@ public class Connector implements Serializable {
 	/**
 	 * constructor including deadband, min/max, etc. information 
 	 */
-	public Connector(int connectionNumber, String dpName, String deviceName, String connectionType,
-                     String connectionVariables, boolean writeable, String vendor,
-                     String model, String unit, String type, double min, double max, double deadband, int sampleInterval, int minSampleInterval) {
+	public ConnectorVO(int connectionNumber, String dpName, String deviceName, String connectionType,
+                       String connectionVariables, boolean writeable, String vendor,
+                       String model, String unit, String type, double min, double max, double deadband, int sampleInterval, int minSampleInterval) {
 		super();
 		this.connectionNumber = connectionNumber;
 		this.dpName = dpName;

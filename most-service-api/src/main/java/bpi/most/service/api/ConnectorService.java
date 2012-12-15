@@ -2,7 +2,7 @@ package bpi.most.service.api;
 
 import java.util.List;
 
-import bpi.most.domain.connector.Connector;
+import bpi.most.domain.connector.ConnectorVO;
 import bpi.most.domain.user.User;
 
 
@@ -14,5 +14,5 @@ import bpi.most.domain.user.User;
  */
 public interface ConnectorService {
 
-    public List<Connector> getConnection(User user);
+    public List<ConnectorVO> getConnection(User user);
 }

@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Finds {@link Connector} domain objects from a given {@link EntityManager}.
+ * Finds {@link ConnectorVO} domain objects from a given {@link EntityManager}.
  *
  * @author Jakob Korherr
  */
@@ -29,8 +29,8 @@ public class ConnectorFinder {
         this.em = em;
     }
 
-    public List<Connector> findConnections() {
-        final List<Connector> result = new LinkedList<Connector>();
+    public List<ConnectorVO> findConnections() {
+        final List<ConnectorVO> result = new LinkedList<ConnectorVO>();
 
         try {
             ((Session) em.getDelegate()).doWork(new Work() {
@@ -50,7 +50,7 @@ public class ConnectorFinder {
                         while (rs.next()) {
                             //set worst case values if null.
                             double min = rs.getDouble("min");
-                            min = (rs.wasNull()) ? - Double.MAX_VALUE : min;
+                            min = (rs.wasNull()) ? -Double.MAX_VALUE : min;
                             double max = rs.getDouble("max");
                             max = (rs.wasNull()) ? Double.MAX_VALUE : max;
                             double deadband = rs.getDouble("deadband");
@@ -60,10 +60,10 @@ public class ConnectorFinder {
                             int minSampleInterval = rs.getInt("sample_interval_min");
                             minSampleInterval = (rs.wasNull()) ? 0 : minSampleInterval;
                             //create DTO
-                            result.add(new Connector(rs.getInt("number"),rs.getString("datapoint_name"), rs.getString("device_name"),
+                            result.add(new ConnectorVO(rs.getInt("number"), rs.getString("datapoint_name"), rs.getString("device_name"),
                                     rs.getString("connection_type"), rs.getString("connection_variables"),
                                     rs.getBoolean("writeable"), rs.getString("vendor"), rs.getString("model"), rs.getString("unit"),
-                                    rs.getString("type"), min, max, deadband, sampleInterval, minSampleInterval ));
+                                    rs.getString("type"), min, max, deadband, sampleInterval, minSampleInterval));
                         }
                     } finally {
                         if (rs != null) {

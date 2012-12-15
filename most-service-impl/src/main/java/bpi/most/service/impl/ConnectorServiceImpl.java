@@ -1,6 +1,6 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.connector.Connector;
+import bpi.most.domain.connector.ConnectorVO;
 import bpi.most.domain.connector.ConnectorFinder;
 import bpi.most.domain.user.User;
 import bpi.most.service.api.ConnectorService;
@@ -37,7 +37,7 @@ public class ConnectorServiceImpl implements ConnectorService {
 
     @Override
     @Transactional
-    public List<Connector> getConnection(User user) {
+    public List<ConnectorVO> getConnection(User user) {
         return connectorFinder.findConnections();
     }
 
