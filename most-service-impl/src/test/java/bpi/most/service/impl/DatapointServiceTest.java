@@ -1,6 +1,7 @@
 package bpi.most.service.impl;
 
 import bpi.most.service.api.DatapointService;
+import junit.framework.Assert;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -21,7 +22,14 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
 
     @Test
     @Transactional
-    public void testName() throws Exception {
-        // TODO: write tests
+    public void test_isValidDp_nonExistingDatapoint_shouldBeFalse() throws Exception {
+        Assert.assertFalse(datapointService.isValidDp("non-existing-datapoint"));
     }
+
+    @Test
+    @Transactional
+    public void test_isValidDp_existingDatapoint_shouldBeTrue() throws Exception {
+        Assert.assertTrue(datapointService.isValidDp("cdi1"));
+    }
+
 }

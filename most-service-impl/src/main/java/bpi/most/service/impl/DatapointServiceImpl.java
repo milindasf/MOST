@@ -46,7 +46,7 @@ public class DatapointServiceImpl implements DatapointService {
                         cstmt.execute();
                         rs = cstmt.getResultSet();
                         if (rs.first()) {
-                            // DatapointVO exists
+                            // Datapoint exists
                             result[0] = true;
                         }
                     } finally {
