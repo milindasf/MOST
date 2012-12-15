@@ -59,8 +59,6 @@ public interface DatapointService {
      * Get a list of {@link DatapointVO} of all data points in the database that
      * contains the search string and are in the given zone.
      *
-     * @deprecated Maybe replaced in the future with a {@link ZoneDTO} instead
-     *             of a string.
      * @param searchstring
      *            The string to be searched for.
      * @param zone

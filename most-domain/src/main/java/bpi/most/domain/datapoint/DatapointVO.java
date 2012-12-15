@@ -17,16 +17,9 @@ import java.io.Serializable;
 @XmlRootElement(name = "Datapoint")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class DatapointVO implements Serializable {
-	//TODO: move permission definition out of DTO
-	//available permissions
-	public enum Permissions {
-		   READ,WRITE,ADMIN;
-	}
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
+
 	public String name;
 	public String type;
 	public String description;
