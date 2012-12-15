@@ -5,7 +5,7 @@ import bpi.most.client.rpc.ModuleControllerService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class ModuleControllerServiceImpl extends RemoteServiceServlet implements  ModuleControllerService {
+public class GwtRpcModuleControllerService extends RemoteServiceServlet implements  ModuleControllerService {
   
   /**
    * 

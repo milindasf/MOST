@@ -24,7 +24,7 @@
 
 <servlet>
 <servlet-name>AuthenticationServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.AuthenticationServiceImpl</servlet-class>
+<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcAuthenticationService</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>AuthenticationServiceImpl</servlet-name>
@@ -33,7 +33,7 @@
 
 <servlet>
 <servlet-name>PersonModuleServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.PersonModuleServiceImpl</servlet-class>
+<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcPersonModuleService</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name> PersonModuleServiceImpl</servlet-name>
@@ -42,7 +42,7 @@
 
 <servlet>
 <servlet-name>ModuleControllerServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.ModuleControllerServiceImpl</servlet-class>
+<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcModuleControllerService</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>ModuleControllerServiceImpl</servlet-name>
@@ -51,7 +51,7 @@
 
 <servlet>
 <servlet-name>DatapointServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.DatapointServiceImpl</servlet-class>
+<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDatapointService</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>DatapointServiceImpl</servlet-name>
@@ -60,7 +60,7 @@
 
 <servlet>
 <servlet-name>ZoneServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.ZoneServiceImpl</servlet-class>
+<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcZoneService</servlet-class>
 </servlet>
 <servlet-mapping>
 <servlet-name>ZoneServiceImpl</servlet-name>
@@ -69,7 +69,7 @@
 
 <servlet> 
 <servlet-name>DpChangedEventServiceImpl</servlet-name> 
-<servlet-class>bpi.most.server.services.gwtrpc.DpChangedEventServiceImpl</servlet-class> 
+<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDpChangedEventService</servlet-class>
 </servlet> 
 	 
 <servlet-mapping> 

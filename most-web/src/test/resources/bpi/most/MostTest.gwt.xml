@@ -1,7 +1,7 @@
 <module rename-to='mosttest'>
 	<inherits name="bpi.most.Most" />
 	
-	<servlet path="/services/gwtrpc/authentication" class="bpi.most.server.services.gwtrpc.AuthenticationServiceImpl" />
-	<servlet path="/services/gwtrpc/zone" class="bpi.most.server.services.gwtrpc.ZoneServiceImpl" />
-	<servlet path="/services/gwtrpc/dp" class="bpi.most.server.services.gwtrpc.DatapointServiceImpl" />
+	<servlet path="/services/gwtrpc/authentication" class="bpi.most.server.services.gwtrpc.GwtRpcAuthenticationService" />
+	<servlet path="/services/gwtrpc/zone" class="bpi.most.server.services.gwtrpc.GwtRpcZoneService" />
+	<servlet path="/services/gwtrpc/dp" class="bpi.most.server.services.gwtrpc.GwtRpcDatapointService" />
 </module>

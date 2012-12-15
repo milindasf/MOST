@@ -17,7 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
- * Tests for MOST ZoneServiceImpl.
+ * Tests for MOST GwtRpcZoneService.
  * 
  * @author Lukas Weichselbaum
  * @author Christoph Lauscher

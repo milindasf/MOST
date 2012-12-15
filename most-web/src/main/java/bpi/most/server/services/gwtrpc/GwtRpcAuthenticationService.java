@@ -14,13 +14,15 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Handles session and permission management. HttpSession is used for login/logout. 
  * @author robert.zach@tuwien.ac.at
  */
-public class AuthenticationServiceImpl extends SpringGwtServlet implements bpi.most.client.rpc.AuthenticationService, IsSerializable {
+public class GwtRpcAuthenticationService extends SpringGwtServlet
+        implements bpi.most.client.rpc.AuthenticationService, IsSerializable {
+
   private static final long serialVersionUID = 1L;
 
   @Inject
   private AuthenticationService authenticationService;
 
-  public AuthenticationServiceImpl() {
+  public GwtRpcAuthenticationService() {
 
   }
   

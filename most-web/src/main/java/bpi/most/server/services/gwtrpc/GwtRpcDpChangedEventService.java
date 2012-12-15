@@ -23,13 +23,13 @@ import de.novanic.eventservice.client.event.domain.DomainFactory;
 import de.novanic.eventservice.service.RemoteEventServiceServlet;
 
 /**
- * The DpChangedEventServiceImpl handle the attached datapoints which should be updated
+ * The GwtRpcDpChangedEventService handle the attached datapoints which should be updated
  * after a new measurement is assigned
  *
  * @TODO move this function to DatapointService
  * @author Johannes Weber
  */
-public class DpChangedEventServiceImpl extends RemoteEventServiceServlet 
+public class GwtRpcDpChangedEventService extends RemoteEventServiceServlet
 implements DpChangedEventService {
 	/**
 	 * Serial Version ID needed for XML-RPC calls
@@ -47,7 +47,7 @@ implements DpChangedEventService {
 	 */
 	private ArrayList<Datapoint> activeEventListeners = new ArrayList<Datapoint>();
 	
-	private static final Logger LOG = Logger.getLogger(DpChangedEventServiceImpl.class);
+	private static final Logger LOG = Logger.getLogger(GwtRpcDpChangedEventService.class);
 
 	/**
 	 * This Method starts listening for new measurement data

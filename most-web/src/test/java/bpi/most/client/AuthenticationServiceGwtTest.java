@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
- * Tests for MOST AuthenticationServiceImpl.
+ * Tests for MOST GwtRpcAuthenticationService.
  * 
  * @author Lukas Weichselbaum
  */

@@ -16,7 +16,7 @@ import bpi.most.server.utils.DbPool;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
-public class PersonModuleServiceImpl extends RemoteServiceServlet implements
+public class GwtRpcPersonModuleService extends RemoteServiceServlet implements
     PersonModuleService {
   
   @Override
