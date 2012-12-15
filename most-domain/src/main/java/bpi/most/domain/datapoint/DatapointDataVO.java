@@ -16,7 +16,7 @@ import java.util.Date;
  */	
 @XmlRootElement(name = "dpdata")
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class DpData implements Serializable{
+public class DatapointDataVO implements Serializable{
 
 	/**
 	 * 
@@ -25,17 +25,17 @@ public class DpData implements Serializable{
 	
 	private Date timestamp = null;
 	private Double value = null;
-	private Float quality = (float)1;	//default value is 1
+	private Float quality = 1F;	//default value is 1
 
-	public DpData() {
+	public DatapointDataVO() {
 		super();
 	}
-	public DpData(Date timestamp, Double value) {
+	public DatapointDataVO(Date timestamp, Double value) {
 		super();
 		this.timestamp = timestamp;
 		this.value = value;
 	}
-	public DpData(Date timestamp, Double value, Float quality) {
+	public DatapointDataVO(Date timestamp, Double value, Float quality) {
 		super();
 		this.timestamp = timestamp;
 		this.value = value;
@@ -68,7 +68,7 @@ public class DpData implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "DpData [timestamp=" + timestamp + ", value=" + value
+		return "DatapointDataVO [timestamp=" + timestamp + ", value=" + value
 				+ ", quality=" + quality + "]";
 	}
 }

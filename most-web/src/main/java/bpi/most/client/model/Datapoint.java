@@ -148,7 +148,7 @@ public class Datapoint extends Observable {
 	 * @param dpHandler
 	 *            A custom Handler, with which you can handle the asynchronous
 	 *            RPC call.
-	 * @return Returns a DpDataset with the values between start and end time
+	 * @return Returns a DatapointDatasetVO with the values between start and end time
 	 *         with the selected period.
 	 */
 	public DpDatasetDTO getDataPeriodic(Date starttime, Date endtime,

@@ -115,7 +115,7 @@ implements DpChangedEventService {
 	}
 	
 	/**
-	 * Get Domain for given Dp name
+	 * Get Domain for given DatapointVO name
 	 */
 	/**
 	 * This Method generate and returns the Domain depended on the provided dpName

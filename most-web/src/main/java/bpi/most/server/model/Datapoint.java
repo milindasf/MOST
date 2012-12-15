@@ -65,17 +65,17 @@ public abstract class Datapoint extends Observable {
 	public abstract int delData(Date starttime, Date endtime);
 
 	/**
-	 * @return The latest value in Monitoring DB as DpData, null if empty
+	 * @return The latest value in Monitoring DB as DatapointDataVO, null if empty
 	 */
 	public abstract DpDataDTO getData();
 
 	/**
-	 * @return A DpDataset from start- to endtime, null if empty
+	 * @return A DatapointDatasetVO from start- to endtime, null if empty
 	 */
 	public abstract DpDatasetDTO getData(Date starttime, Date endtime);
 
 	/**
-	 * @return a DpDataset from start- to endtime, null if empty
+	 * @return a DatapointDatasetVO from start- to endtime, null if empty
 	 */
 	public abstract DpDatasetDTO getDataPeriodic(Date starttime, Date endtime,
 			Float period, int mode);

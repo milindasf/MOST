@@ -140,7 +140,7 @@ public class DpController {
 			cstmt.execute();
 			rs = cstmt.getResultSet();
 			if (rs.first()) {
-				// Dp exists
+				// DatapointVO exists
 				result = true;
 			}
 		} catch (SQLException e) {

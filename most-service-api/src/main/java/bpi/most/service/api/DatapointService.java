@@ -1,44 +1,74 @@
 package bpi.most.service.api;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observer;
+import bpi.most.domain.datapoint.DatapointVO;
 
-import bpi.most.domain.datapoint.Dp;
-import bpi.most.domain.datapoint.DpData;
-import bpi.most.domain.datapoint.DpDataset;
-import bpi.most.domain.user.User;
+import java.util.List;
 
 
 /**
  * Interface Specification of Datapoint Service.
  *
  * @author Lukas Weichselbaum
+ * @author Jakob Korherr
  */
 public interface DatapointService {
-    public int addData(User user, Dp dp, DpData measurement);
 
-    public DpData getData(User user, Dp dp);
+    /**
+     * A) Searches for data point in the object cache. <br> B) Instantiates respective
+     * physical or virtual data point.
+     *
+     * @param dpName
+     *            The name of the data point.
+     *
+     * @return Returns an instance of a "physical" (DpServer) or "virtual"
+     *          (DpVirtual) data point. Null if not valid.
+     */
+    // TODO specify class Datapoint.
+    // public Datapoint getDatapoint(String dpName);
 
-    public DpDataset getData(User user, Dp dp, Date starttime, Date endtime);
+    /**
+     * Checks if a data point with the given name is in the database.
+     *
+     * @param dpName
+     *            The name of the data point you are looking for.
+     * @return Returns true if a data point with the given name exists, false
+     *         otherwise.
+     */
+    public boolean isValidDp(String dpName);
 
-    public DpDataset getDataPeriodic(User user, Dp dp, Date starttime, Date endtime, Float period);
+    /**
+     * Get a list of {@link DatapointVO} of all data points in the database.
+     *
+     * @return Returns a list of {@link DatapointVO} of all data points in the
+     *         database.
+     */
+    public List<DatapointVO> getDatapoints();
 
-    public int getNumberOfValues(User user, Dp dp, Date starttime, Date endtime);
+    /**
+     * Get a list of {@link DatapointVO} of all data points in the database that
+     * contains the search string.
+     *
+     * @param searchstring
+     *            The string to be searched for.
+     * @return Returns a list of {@link DatapointVO} of all data points in the
+     *         database that contains the search string.
+     */
+    public List<DatapointVO> getDatapoints(String searchstring);
 
-    public boolean addDpObserver(User user, Dp dpEntity, Observer observer);
+    /**
+     * Get a list of {@link DatapointVO} of all data points in the database that
+     * contains the search string and are in the given zone.
+     *
+     * @deprecated Maybe replaced in the future with a {@link ZoneDTO} instead
+     *             of a string.
+     * @param searchstring
+     *            The string to be searched for.
+     * @param zone
+     *            The zone in which you want to search.
+     * @return Returns a list of {@link DatapointVO} of all data points in the
+     *         database that contains the search string and are in the given
+     *         zone.
+     */
+    public List<DatapointVO> getDatapoints(String searchstring, String zone);
 
-    public boolean deleteDpObserver(User user, Dp dpEntity, Observer observer);
-
-    public boolean addWarningObserver(User user, Observer observer);
-
-    public boolean deletesWarningObserver(User user, Observer observer);
-
-    public ArrayList<Dp> getDatapoints(User user);
-
-    public ArrayList<Dp> getDatapoints(User user, String searchstring);
-
-    public ArrayList<Dp> getDatapoints(User user, String searchstring, String zone);
-
-    public Dp getDatapoint(User user, Dp dp);
 }

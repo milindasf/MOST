@@ -1,8 +1,9 @@
 package bpi.most.service.api;
 
 import java.util.List;
+
+import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.domain.user.User;
-import bpi.most.domain.datapoint.Dp;
 import bpi.most.domain.zone.Zone;
 
 
@@ -19,5 +20,5 @@ public interface ZoneService {
 
     public Zone getZone(User user, Zone zone);
 
-    public List<Dp> getDatapoints(User user, Zone zoneEntity, int sublevels);
+    public List<DatapointVO> getDatapoints(User user, Zone zoneEntity, int sublevels);
 }

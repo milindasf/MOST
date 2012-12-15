@@ -95,7 +95,7 @@ public class Sum extends DpVirtualFactory {
 				dataset.add(child.getData());
 				allValues.add(dataset);
 			}
-			//sum up and return single DpData
+			//sum up and return single DatapointDataVO
 			return calculate(allValues).get(0);
 		}
 		
@@ -135,7 +135,7 @@ public class Sum extends DpVirtualFactory {
 
 		/**
 		 * Sums up each row of a number of DpDatasets
-		 * works only if number of DpData in DpDatasets is the same!
+		 * works only if number of DatapointDataVO in DpDatasets is the same!
 		 * @return A Dataset
 		 */
 		public DpDatasetDTO calculate(List<DpDatasetDTO> allValues) {
@@ -145,7 +145,7 @@ public class Sum extends DpVirtualFactory {
 			for (DpDatasetDTO nextDataset : allValues) {
 				//loop each dataset and calculate result
 				for (int i = 0; i < nextDataset.size(); i++) {
-					//add DpData if not in result yet
+					//add DatapointDataVO if not in result yet
 					if (result.size() <= i) {
 						result.add(nextDataset.get(i));
 					}else {
@@ -173,7 +173,7 @@ public class Sum extends DpVirtualFactory {
 								newValue.setQuality(nextValue.getQuality());
 							}
 							//### calculate end
-							// store resulting DpData
+							// store resulting DatapointDataVO
 							result.set(i, newValue);
 						}
 					}

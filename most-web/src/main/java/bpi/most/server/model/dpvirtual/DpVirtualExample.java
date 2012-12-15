@@ -13,7 +13,7 @@ import bpi.most.shared.DpDatasetDTO;
  * Add new Virtual Datapoints to the file META-INF/services/bpi.most.server.DpVirtualFactory
  * The ID must be a unique string in the DB data_source - virtual column
  * Additional virtual dp can be loaded at runtime by copying a jar with the implementation into the server classpath
- * Don't change the name of the Dp here. It will be forced to the DB definition in the DpController 
+ * Don't change the name of the DatapointVO here. It will be forced to the DB definition in the DpController
  * @author robert.zach@tuwien.ac.at
  * @parameter virtualDpId Requested virtual dp type
  * @return A Datapoint Instance or null if the requested type (string id) is not support 
@@ -40,7 +40,7 @@ public class DpVirtualExample extends DpVirtualFactory {
 		 */
 		/*
 		@Override
-		public DpDataset getData(Date starttime, Date endtime) {
+		public DatapointDatasetVO getData(Date starttime, Date endtime) {
 			- get required information, e.g. getCustomAttr("myVariable");
 			- get measurements, e.g. DpController.getInstance().getDatapoint("XXX").
 			- calculate something

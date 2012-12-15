@@ -1,6 +1,6 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.datapoint.Dp;
+import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.service.api.ZoneService;
@@ -41,7 +41,7 @@ public class ZoneServiceImpl implements ZoneService{
     }
 
     @Override
-    public List<Dp> getDatapoints(User user, Zone zoneEntity, int sublevels) {
+    public List<DatapointVO> getDatapoints(User user, Zone zoneEntity, int sublevels) {
         return null;  //TODO: implement
     }
 }

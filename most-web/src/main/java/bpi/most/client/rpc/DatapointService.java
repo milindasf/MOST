@@ -22,7 +22,7 @@ public interface DatapointService extends RemoteService {
 	 *            Start time of the period you want the data.
 	 * @param endtime
 	 *            End time of the period you want the data.
-	 * @return Returns a DpDataset with the values between start and end time.
+	 * @return Returns a DatapointDatasetVO with the values between start and end time.
 	 */
 	public DpDatasetDTO getData(String datapointName, Date starttime,
 			Date endtime);
@@ -73,7 +73,7 @@ public interface DatapointService extends RemoteService {
 	 *            End time of the period you want the data.
 	 * @param period
 	 *            The period in seconds, with which you want the data.
-	 * @return Returns a DpDataset with the values between start and end time
+	 * @return Returns a DatapointDatasetVO with the values between start and end time
 	 *         with the selected period.
 	 */
 	public DpDatasetDTO getDataPeriodic(String datapointName, Date starttime,

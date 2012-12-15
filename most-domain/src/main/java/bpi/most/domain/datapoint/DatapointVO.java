@@ -16,7 +16,7 @@ import java.io.Serializable;
 
 @XmlRootElement(name = "Datapoint")
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class Dp implements Serializable {
+public class DatapointVO implements Serializable {
 	//TODO: move permission definition out of DTO
 	//available permissions
 	public enum Permissions {
@@ -31,17 +31,17 @@ public class Dp implements Serializable {
 	public String type;
 	public String description;
 	
-	public Dp() {
+	public DatapointVO() {
 		this.name = "null";
 		this.type = "null";
 		this.description = "null";
 	}
 
-	public Dp(String datapointName) {
+	public DatapointVO(String datapointName) {
 		this.name = datapointName;
 	}
 	
-	public Dp(String name, String type, String description) {
+	public DatapointVO(String name, String type, String description) {
 		this.name = name;
 		this.type = type;
 		this.description = description;
@@ -76,7 +76,7 @@ public class Dp implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Dp [name=" + name + ", type=" + type + ", description="
+		return "DatapointVO [name=" + name + ", type=" + type + ", description="
 				+ description + "]";
 	}
 }

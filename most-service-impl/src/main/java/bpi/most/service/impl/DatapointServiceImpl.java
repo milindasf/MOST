@@ -1,19 +1,21 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.datapoint.Dp;
-import bpi.most.domain.datapoint.DpData;
-import bpi.most.domain.datapoint.DpDataset;
-import bpi.most.domain.user.User;
+import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.service.api.DatapointService;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observer;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Implementation of {@link bpi.most.service.api.DatapointService}.
@@ -21,7 +23,7 @@ import java.util.Observer;
  * @author Lukas Weichselbaum
  */
 @Service
-public class DatapointServiceImpl implements DatapointService{
+public class DatapointServiceImpl implements DatapointService {
 
     private static final Logger log = LoggerFactory.getLogger(DatapointServiceImpl.class);
 
@@ -29,67 +31,54 @@ public class DatapointServiceImpl implements DatapointService{
     private EntityManager em;
 
     @Override
-    public int addData(User user, Dp dp, DpData measurement) {
-        return 0;  //TODO: implement
+    public boolean isValidDp(final String dpName) {
+        final boolean[] result = new boolean[]{false};  // must use an array in order to be able to access it from inner class
+        try {
+            ((Session) em.getDelegate()).doWork(new Work() {
+                @Override
+                public void execute(Connection connection) throws SQLException {
+                    CallableStatement cstmt = null;
+                    ResultSet rs = null;
+
+                    try {
+                        cstmt = connection.prepareCall("{CALL getDatapoint(?)}");
+                        cstmt.setString(1, dpName);
+                        cstmt.execute();
+                        rs = cstmt.getResultSet();
+                        if (rs.first()) {
+                            // DatapointVO exists
+                            result[0] = true;
+                        }
+                    } finally {
+                        if (rs != null) {
+                            rs.close();
+                        }
+                        if (cstmt != null) {
+                            cstmt.close();
+                        }
+                    }
+                }
+            });
+        }
+        catch (HibernateException e) {
+            log.error("An exception occurred while calling stored procedure 'getDatapoint'", e);
+        }
+        return result[0];
     }
 
     @Override
-    public DpData getData(User user, Dp dp) {
-        return null;  //TODO: implement
+    public List<DatapointVO> getDatapoints() {
+        return null;  // TODO implement
     }
 
     @Override
-    public DpDataset getData(User user, Dp dp, Date starttime, Date endtime) {
-        return null;  //TODO: implement
+    public List<DatapointVO> getDatapoints(String searchstring) {
+        return null;   // TODO implement
     }
 
     @Override
-    public DpDataset getDataPeriodic(User user, Dp dp, Date starttime, Date endtime, Float period) {
-        return null;  //TODO: implement
+    public List<DatapointVO> getDatapoints(String searchstring, String zone) {
+        return null;   // TODO implement
     }
 
-    @Override
-    public int getNumberOfValues(User user, Dp dp, Date starttime, Date endtime) {
-        return 0;  //TODO: implement
-    }
-
-    @Override
-    public boolean addDpObserver(User user, Dp dpEntity, Observer observer) {
-        return false;  //TODO: implement
-    }
-
-    @Override
-    public boolean deleteDpObserver(User user, Dp dpEntity, Observer observer) {
-        return false;  //TODO: implement
-    }
-
-    @Override
-    public boolean addWarningObserver(User user, Observer observer) {
-        return false;  //TODO: implement
-    }
-
-    @Override
-    public boolean deletesWarningObserver(User user, Observer observer) {
-        return false;  //TODO: implement
-    }
-
-    @Override
-    public ArrayList<Dp> getDatapoints(User user) {
-        return null;  //TODO: implement
-    }
-
-    @Override
-    public ArrayList<Dp> getDatapoints(User user, String searchstring) {
-        return null;  //TODO: implement
-    }
-
-    @Override
-    public ArrayList<Dp> getDatapoints(User user, String searchstring, String zone) {
-        return null;  //TODO: implement
-    }
-
-    @Override
-    public Dp getDatapoint(User user, Dp dp) {
-        return null;  //TODO: implement
-    }
 }

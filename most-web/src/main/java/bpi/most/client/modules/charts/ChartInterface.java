@@ -332,7 +332,7 @@ public interface ChartInterface {
 	 * 
 	 * @param name
 	 *            The name of the series.
-	 * @return The DpDataset of the series.
+	 * @return The DatapointDatasetVO of the series.
 	 */
 	public DpDatasetDTO getDataset(String name);
 }

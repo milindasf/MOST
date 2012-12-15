@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Is an ArrayList of DpData (single measurements).
- * FIXME Implement some Hashlist for performance optimization during searches in the DpDataset
+ * Is an ArrayList of DatapointDataVO (single measurements).
+ * FIXME Implement some Hashlist for performance optimization during searches in the DatapointDatasetVO
  * FIXME Research of overhead code (getDataBefore(), etc. ) is transfered over the wire (client - server) each time? If so, create static helper Class.
  * @author robert.zach@tuwien.ac.at
  */
@@ -33,7 +33,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 	
 	//#### Search methods #####
 	/**
-	 * @return A DpData before the respective timestamp, null if nothing before timstamp  
+	 * @return A DatapointDataVO before the respective timestamp, null if nothing before timstamp
 	 */
 	public DpDataDTO getDataBefore(Date timestamp) {
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -49,7 +49,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 		return result;
 	}
 	/**
-	 * @return A DpData before or equal the respective timestamp, null if nothing before timstamp  
+	 * @return A DatapointDataVO before or equal the respective timestamp, null if nothing before timstamp
 	 */
 	public DpDataDTO getDataBeforeOrEqual(Date timestamp) {
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -66,7 +66,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 		return result;
 	}
 	/**
-	 * @return A DpDataset (all measurements) before the respective timestamp, emtpy Dataset if nothing is before timestamp  
+	 * @return A DatapointDatasetVO (all measurements) before the respective timestamp, emtpy Dataset if nothing is before timestamp
 	 */
 	public DpDatasetDTO getDatasetBefore(Date timestamp) {
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -83,7 +83,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 		return result;
 	}
 	/**
-	 * @return A DpDataset (all measurements) before or equal the respective timestamp, emtpy Dataset if nothing is before timestamp  
+	 * @return A DatapointDatasetVO (all measurements) before or equal the respective timestamp, emtpy Dataset if nothing is before timestamp
 	 */
 	public DpDatasetDTO getDatasetBeforeOrEqual(Date timestamp) {
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -102,7 +102,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 	}
 	
 	/**
-	 * @return A DpData after the respective timestamp, null if nothing after timstamp  
+	 * @return A DatapointDataVO after the respective timestamp, null if nothing after timstamp
 	 */
 	public DpDataDTO getDataAfter(Date timestamp) {		
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -116,7 +116,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 		return result;
 	}
 	/**
-	 * @return A DpData after or equal the respective timestamp, null if nothing after timstamp  
+	 * @return A DatapointDataVO after or equal the respective timestamp, null if nothing after timstamp
 	 */
 	public DpDataDTO getDataAfterOrEqual(Date timestamp) {		
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -131,7 +131,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 		return result;
 	}
 	/**
-	 * @return A DpDataset (all measurements) before the respective timestamp, emtpy Dataset if nothing is before timestamp  
+	 * @return A DatapointDatasetVO (all measurements) before the respective timestamp, emtpy Dataset if nothing is before timestamp
 	 */
 	public DpDatasetDTO getDatasetAfter(Date timestamp) {
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort
@@ -146,7 +146,7 @@ public class DpDatasetDTO extends ArrayList<DpDataDTO> implements Serializable{
 		return result;
 	}
 	/**
-	 * @return A DpDataset (all measurements) before the respective timestamp, emtpy Dataset if nothing is before timestamp  
+	 * @return A DatapointDatasetVO (all measurements) before the respective timestamp, emtpy Dataset if nothing is before timestamp
 	 */
 	public DpDatasetDTO getDatasetAfterOrEqual(Date timestamp) {
 		//FIXME: date sorted arraylist is assumed right now, implement compare --> sort

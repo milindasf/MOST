@@ -80,7 +80,7 @@ public class DpPhysical extends Datapoint {
 	}
 
 	/**
-	 * @return The latest value in Monitoring DB as DpData, null if empty
+	 * @return The latest value in Monitoring DB as DatapointDataVO, null if empty
 	 */
 	public DpDataDTO getData() {
 		DpDatasetDTO queryResult = null;
@@ -96,7 +96,7 @@ public class DpPhysical extends Datapoint {
 	}
 
 	/**
-	 * @return A DpDataset from start- to endtime, null if empty
+	 * @return A DatapointDatasetVO from start- to endtime, null if empty
 	 */
 	public DpDatasetDTO getData(Date starttime, Date endtime) {
 		DpDatasetDTO result = null;
@@ -116,7 +116,7 @@ public class DpPhysical extends Datapoint {
 	}
 
 	/**
-	 * @return a DpDataset from start- to endtime, null if empty
+	 * @return a DatapointDatasetVO from start- to endtime, null if empty
 	 */
 	public DpDatasetDTO getDataPeriodic(Date starttime, Date endtime,
 			Float period, int mode) {
@@ -206,7 +206,7 @@ public class DpPhysical extends Datapoint {
 	}
 
 	/**
-	 * @return A DpDataset from query string, null if empty
+	 * @return A DatapointDatasetVO from query string, null if empty
 	 */
 	protected DpDatasetDTO getDatasetFromQuery(String query) {
 		Connection connection = null;

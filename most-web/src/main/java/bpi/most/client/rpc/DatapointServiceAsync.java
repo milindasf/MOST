@@ -138,7 +138,7 @@ public interface DatapointServiceAsync {
 	 * 
 	 *            <pre>
 	 * <code>
-	 * new AsyncCallback<DpDataset>() {
+	 * new AsyncCallback<DatapointDatasetVO>() {
 	 * 		public void onSuccess(DpDatasetDTO result) {
 	 * 					
 	 * 		}

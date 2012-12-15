@@ -57,7 +57,7 @@ public class DatapointService {
 	/**
 	 * latest measurement see {@link bpi.most.server.model.Datapoint#getData()}
 	 * 
-	 * @return DpDataset of requested timeframe, null if no permissions TODO:
+	 * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
 	 *         throw exceptions if no permissions, etc.
 	 */
 	public DpDataDTO getData(User user, DpDTO dpDTO) {
@@ -71,7 +71,7 @@ public class DatapointService {
 	}
 
 	/**
-	 * @return DpDataset of requested timeframe, null if no permissions TODO:
+	 * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
 	 *         throw exceptions if no permissions, etc.
 	 */
 	public DpDatasetDTO getData(User user, DpDTO dpDTO, Date starttime,
@@ -102,7 +102,7 @@ public class DatapointService {
 	 *            End time of the period you want the data.
 	 * @param period
 	 *            The period in seconds, with which you want the data.
-	 * @return Returns a DpDataset with the values between start and end time
+	 * @return Returns a DatapointDatasetVO with the values between start and end time
 	 *         with the selected period.
 	 */
 	public DpDatasetDTO getDataPeriodic(User user, DpDTO dpDTO, Date starttime,
