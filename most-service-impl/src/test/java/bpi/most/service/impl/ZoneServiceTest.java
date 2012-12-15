@@ -13,7 +13,7 @@ import javax.inject.Inject;
  *
  * @author Lukas Weichselbaum
  */
-@ContextConfiguration(locations = "/test-context.spring.xml")
+@ContextConfiguration(locations = "/META-INF/most-service.spring.xml")
 public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTests{
 
     @Inject

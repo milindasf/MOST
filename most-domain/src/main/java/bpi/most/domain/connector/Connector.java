@@ -8,19 +8,23 @@ import java.io.Serializable;
  * Contains the metadata of a connection (Datapoint - Connector - Device)
  * @author robert.zach@tuwien.ac.at
  */
-public class Connector implements Serializable{
+public class Connector implements Serializable {
+    
 	private static final long serialVersionUID = 743912991919824495L;
+    
 	public int connectionNumber = 0;	//unique identifier of a connection
-	public String dpName = null;
-	public String deviceName = null;
-	public String connectionType = null;
-	public String connectionVariables = null;
+	public String dpName;
+	public String deviceName;
+	public String connectionType;
+	public String connectionVariables;
 	public boolean writeable = false;
-	public String vendor = null;
-	public String model = null;
+	public String vendor;
+	public String model;
+
 	//dp specific
-	public String unit = null;
-	public String type = null;
+	public String unit;
+	public String type;
+
 	//set worst case value. used if set to null
 	public double min = - Double.MAX_VALUE;
 	public double max = Double.MAX_VALUE;
