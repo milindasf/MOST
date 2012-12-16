@@ -1,5 +1,0 @@
-<module rename-to='mosttest'>
-	<inherits name="bpi.most.Most" />
-	
-	<servlet path="/services/gwtrpc/authentication" class="bpi.most.server.rpc.mock.MockGwtRpcAuthenticationService" />
-</module>
