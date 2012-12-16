@@ -41,5 +41,12 @@ public class User {
             joinColumns = @JoinColumn(name = "uid", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="rid", referencedColumnName="id"))
     private List<Role> roles;
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
