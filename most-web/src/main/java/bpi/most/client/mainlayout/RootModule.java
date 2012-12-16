@@ -5,8 +5,10 @@ package bpi.most.client.mainlayout;
 
 import java.util.Iterator;
 
-import bpi.most.client.login.LoginModule;
+import bpi.most.client.login.LoginViewWidget;
 import bpi.most.client.modules.ModuleController;
+import bpi.most.client.rpc.AuthenticationService;
+import bpi.most.client.rpc.AuthenticationServiceAsync;
 import bpi.most.client.utils.ComputedStyle;
 import bpi.most.client.utils.dnd.DNDController;
 import bpi.most.client.utils.dnd.DropWidget;
@@ -48,7 +50,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class RootModule extends Composite implements HasWidgets {
 
-	private static final Binder binder = GWT.create(Binder.class);
+    private final AuthenticationServiceAsync authenticationService = GWT.create(AuthenticationService.class);
+
+    private static final Binder binder = GWT.create(Binder.class);
 	public static Integer windowWidth;
 	public static Integer dropWidgetWidth = 500;
 
@@ -115,16 +119,15 @@ public class RootModule extends Composite implements HasWidgets {
 	@UiHandler("logoutButton")
 	void handleClick(ClickEvent e) {
 
-		(new LoginModule()).authenticationService
-				.logout(new AsyncCallback<Boolean>() {
+		authenticationService.logout(new AsyncCallback<Boolean>() {
 
 					@Override
 					public void onSuccess(Boolean result) {
 
 						RootLayoutPanel.get().clear();
 						RootPanel.get().clear();
-						// LoginModule.setNull();
-						RootPanel.get().add(new LoginModule());
+						// LoginViewWidget.setNull();
+						RootPanel.get().add(new LoginViewWidget());
 					}
 
 					@Override

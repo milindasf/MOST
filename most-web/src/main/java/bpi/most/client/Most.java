@@ -3,10 +3,12 @@
  */
 package bpi.most.client;
 
-import bpi.most.client.login.LoginModule;
+import bpi.most.client.login.LoginViewWidget;
 import bpi.most.client.mainlayout.RootModule;
-
+import bpi.most.client.rpc.AuthenticationService;
+import bpi.most.client.rpc.AuthenticationServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -30,8 +32,9 @@ public class Most implements EntryPoint { // , ValueChangeHandler<String>
   public static final String INIT_HISTORY = "init";
   /** The common service. */
 
-  
-  // TODO create DpController-Object here?
+  private final AuthenticationServiceAsync authenticationService = GWT.create(AuthenticationService.class);
+
+    // TODO create DpController-Object here?
   /*
    * (non-Javadoc)
    * 
@@ -43,14 +46,14 @@ public class Most implements EntryPoint { // , ValueChangeHandler<String>
     RootPanel.get().clear();
     RootLayoutPanel.get().clear();
     if (sessionID != null) {
-      new LoginModule().authenticationService.isValidSession(sessionID,
+      authenticationService.isValidSession(sessionID,
           new AsyncCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean result) {
               if (result) {
                 RootLayoutPanel.get().add(new RootModule());
               } else {
-                RootPanel.get().add(new LoginModule());
+                RootPanel.get().add(new LoginViewWidget());
               }
             }
             
@@ -61,7 +64,7 @@ public class Most implements EntryPoint { // , ValueChangeHandler<String>
             }
           });
     } else {
-      RootPanel.get().add(new LoginModule());
+      RootPanel.get().add(new LoginViewWidget());
     }
   }
 }
