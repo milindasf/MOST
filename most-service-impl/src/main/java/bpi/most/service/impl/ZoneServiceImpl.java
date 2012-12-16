@@ -6,6 +6,9 @@ import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.service.api.ZoneService;
 import bpi.most.service.impl.db.DbPool;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+
+import static bpi.most.service.impl.utils.DbUtils.prepareSearchParameter;
 
 /**
  * Implementation of {@link bpi.most.service.api.ZoneService}.
@@ -33,24 +41,21 @@ public class ZoneServiceImpl implements ZoneService {
     @PersistenceContext(unitName = "most")
     private EntityManager em;
 
-    @Inject
-    private DbPool dbPool;
+    private int cacheSize = 100;
+    private LinkedHashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, 0.7f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<Integer, Zone> eldest) {
+            return size() > cacheSize;
+        }
+    };
 
-    List<Zone> cachedZones = new ArrayList<Zone>();
 
     /**
      * searches for instance of zone in cache
-     * TODO: keep it small --> only for currently active zones
      * @return return Zone if cached, null if emtpy
      */
     public Zone lookupZoneInCache(int zoneId) {
-        //TODO: implement searchable datastructure
-        for (int i = 0; i < cachedZones.size(); i++) {
-            if (cachedZones.get(i).getZoneId() == zoneId) {
-                return cachedZones.get(i);
-            }
-        }
-        return null;
+        return cachedZones.get(zoneId);
     }
 
     /**
@@ -74,45 +79,27 @@ public class ZoneServiceImpl implements ZoneService {
             return result;
         } else {
             //get zone info from db
-            Connection connection = null;
-            CallableStatement cstmt = null;
-            ResultSet rs = null;
 
-            try {
-                connection = dbPool.getDataSource().getConnection();
-                cstmt = connection.prepareCall("{CALL getZoneParameters(?)}");
-                cstmt.setInt(1, zoneId);
-                cstmt.execute();
-                rs = cstmt.getResultSet();
-                //check if valid
-                if (rs.next()) {
-                    //create zone, add to cache and return
-                    result = new Zone(rs.getInt("idzone"));
-                    cachedZones.add(result);
+            log.debug("Fetching zones with id {}", zoneId);
+            // noinspection unchecked
+            try{
+                List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParameters(:zoneId)}")
+                        .setParameter("zoneId", zoneId)
+                        .setReadOnly(true)
+                        .setResultTransformer(Transformers.aliasToBean(Zone.class))
+                        .list();
+
+                if(zoneList.size() == 0){
+                    return null;
+                }else{
+                    result = zoneList.get(0);
+                    cachedZones.put(result.getZoneId(), result);
                     return result;
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) {
-                        rs.close();
-                    }
-
-                    if (cstmt != null) {
-                        cstmt.close();
-                    }
-
-                    if (connection != null) {
-                        connection.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            }catch(HibernateException e){
+                return null;
             }
-
         }
-        return null;
     }
 
     /**
@@ -122,56 +109,27 @@ public class ZoneServiceImpl implements ZoneService {
      */
     @Override
     public List<Zone> getZone(String searchPattern) {
-        List<Zone> result = new ArrayList<Zone>();
-
         //get zone info from db
-        Connection connection = null;
-        CallableStatement cstmt = null;
-        ResultSet rs = null;
+        log.debug("Fetching zones with searchPattern {}", searchPattern);
+        try{
+            List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParametersSearch(:p,:searchPattern)}")
+                    .setParameter("p", null)
+                    .setParameter("searchPattern", searchPattern)
+                    .setReadOnly(true)
+                    .setResultTransformer(Transformers.aliasToBean(Zone.class))
+                    .list();
 
-        try {
-            connection = dbPool.getDataSource().getConnection();
-            cstmt = connection.prepareCall("{CALL getZoneParametersSearch(?,?)}");
-            //set first parameter to NULL --> search all parameters
-            cstmt.setString(1, "NULL");
-            cstmt.setString(2, searchPattern);
-            cstmt.execute();
-            rs = cstmt.getResultSet();
-            //add all zones to resultset
-            while (rs.next()) {
-                //check if zone is cached
-                Zone cachedZone = lookupZoneInCache(rs.getInt("idzone"));
-                if ( cachedZone != null ) {
-                    result.add(cachedZone);
-                }else {
-                    //create zone, add to cache and return
-                    cachedZone = new Zone(rs.getInt("idzone"));
-                    cachedZones.add(cachedZone);
-                    result.add(cachedZone);
+            if(zoneList.size() == 0){
+                return null;
+            }else{
+                for (Zone zone : zoneList) {
+                    cachedZones.put(zone.getZoneId(), zone);
                 }
-
+                return zoneList;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-
-                if (cstmt != null) {
-                    cstmt.close();
-                }
-
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        }catch(HibernateException e){
+            return null;
         }
-
-        return result;
     }
 
     /**
@@ -179,52 +137,7 @@ public class ZoneServiceImpl implements ZoneService {
      */
     @Override
     public List<Zone> getHeadZones() {
-        List<Zone> result = new ArrayList<Zone>();
-
-        //get zone info from db
-        Connection connection = null;
-        CallableStatement cstmt = null;
-        ResultSet rs = null;
-
-        try {
-            connection = dbPool.getDataSource().getConnection();
-            cstmt = connection.prepareCall("{CALL getHeadzones(?)}");
-            cstmt.setString(1, null);
-            cstmt.execute();
-            rs = cstmt.getResultSet();
-            //add all zones to resultset
-            while (rs.next()) {
-                //check if zone is cached
-                Zone cachedZone = lookupZoneInCache(rs.getInt(1));
-                if ( cachedZone != null ) {
-                    result.add(cachedZone);
-                }else {
-                    //create zone, add to cache and return
-                    cachedZone = new Zone(rs.getInt(1));
-                    cachedZones.add(cachedZone);
-                    result.add(cachedZone);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-
-                if (cstmt != null) {
-                    cstmt.close();
-                }
-
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
+        return getHeadZones(null);
     }
 
     /**
@@ -233,53 +146,42 @@ public class ZoneServiceImpl implements ZoneService {
      */
     @Override
     public List<Zone> getHeadZones(User user) {
-        List<Zone> result = new ArrayList<Zone>();
+        List<Zone> zoneList = new ArrayList<Zone>();
+        String username = null;
+
+        if(user != null){
+            username = user.getName();
+        }
 
         //get zone info from db
-        Connection connection = null;
-        CallableStatement cstmt = null;
-        ResultSet rs = null;
+        log.debug("Fetching zones with user {}", username);
+        try{
+            // The stored procedure returns a list of all zones ids that have no superzones
+            // The stored procedure returns the highest zones for that the given user (a list of Integers).
+            List<Integer> zoneIDs = ((Session) em.getDelegate()).createSQLQuery("{CALL getHeadzones(:user)}")
+                    .setParameter("user", username)
+                    .setReadOnly(true)
+                    .list();
 
-        try {
-            connection = dbPool.getDataSource().getConnection();
-            cstmt = connection.prepareCall("{CALL getHeadzones(?)}");
-            cstmt.setString(1, user.getName());
-            cstmt.execute();
-            System.out.println(cstmt.toString());
-            rs = cstmt.getResultSet();
-            //add all zones to resultset
-            while (rs.next()) {
-                //check if zone is cached
-                Zone cachedZone = lookupZoneInCache(rs.getInt(1));
-                if ( cachedZone != null ) {
-                    result.add(cachedZone);
-                }else {
-                    //create zone, add to cache and return
-                    cachedZone = new Zone(rs.getInt(1));
-                    cachedZones.add(cachedZone);
-                    result.add(cachedZone);
+            // Retrieve the corresponding zone for each zoneId in the result
+            for(Integer zoneId:zoneIDs){
+                Zone zone = getZone(zoneId);
+                if(zone != null){
+                    zoneList.add(zone);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
 
-                if (cstmt != null) {
-                    cstmt.close();
+            if(zoneList.size() != 0){
+                for (Zone zone : zoneList) {
+                    cachedZones.put(zone.getZoneId(), zone);
                 }
-
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            return zoneList;
+
+        }catch(HibernateException e){
+            return new ArrayList<Zone>();
         }
-        return result;
     }
 
 }

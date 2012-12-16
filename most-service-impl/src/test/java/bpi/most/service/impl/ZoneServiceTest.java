@@ -23,12 +23,6 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
     @Inject
     private ZoneService zoneService;
 
-
-    @Test
-    public void testGetHeadZones_shouldReturn3HeadZones() throws Exception {
-        Assert.assertEquals(3, zoneService.getHeadZones().size());
-    }
-
     @Test
     public void testGetHeadZones_fromUser_shouldReturn1HeadZone() throws Exception {
         User user = new User();
@@ -48,7 +42,7 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void testGetZone_withId_shouldReturnZoneWithSameId() throws Exception {
-        int zoneId = 10;
+        int zoneId = 6;
         Zone zone = zoneService.getZone(zoneId);
         Assert.assertEquals(zoneId, zone.getZoneId());
     }
@@ -61,12 +55,26 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
     }
 
     @Test
-    public void testGetZone_withZone_shouldReturnZoneWithSameId() throws Exception {
-        int zoneId = 10;
-        Zone SearchZone = new Zone();
-        SearchZone.setZoneId(10);
+         public void testGetZone_withZone_shouldReturnZoneWithSameId() throws Exception {
+        int zoneId = 8;
+        Zone SearchZone = new Zone(zoneId);
         Zone zone = zoneService.getZone(SearchZone);
         Assert.assertEquals(zoneId, zone.getZoneId());
     }
 
+    @Test
+    public void testGetZone_withSearchPattern_shouldReturn23Zone() throws Exception {
+        List<Zone> zones = zoneService.getZone("city");
+        Assert.assertEquals(23, zones.size());
+    }
+
+    @Test
+    public void testGetZone_withSearchPattern_shouldReturnNull() throws Exception {
+        Assert.assertNull(zoneService.getZone("not-existing"));
+    }
+
+    @Test
+    public void testGetHeadZones_shouldReturn3HeadZones() throws Exception {
+        Assert.assertEquals(3, zoneService.getHeadZones().size());
+    }
 }
