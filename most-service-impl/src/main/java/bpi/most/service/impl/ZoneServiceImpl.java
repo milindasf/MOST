@@ -5,28 +5,18 @@ package bpi.most.service.impl;
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.service.api.ZoneService;
-import bpi.most.service.impl.db.DbPool;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-
-
-import static bpi.most.service.impl.utils.DbUtils.prepareSearchParameter;
 
 /**
  * Implementation of {@link bpi.most.service.api.ZoneService}.
@@ -48,6 +38,10 @@ public class ZoneServiceImpl implements ZoneService {
             return size() > cacheSize;
         }
     };
+
+    void resetCache() {
+        cachedZones.clear();
+    }
 
 
     /**
@@ -81,12 +75,12 @@ public class ZoneServiceImpl implements ZoneService {
             //get zone info from db
 
             log.debug("Fetching zones with id {}", zoneId);
-            // noinspection unchecked
             try{
+                // noinspection unchecked
                 List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParameters(:zoneId)}")
+                        .addEntity(Zone.class)
                         .setParameter("zoneId", zoneId)
                         .setReadOnly(true)
-                        .setResultTransformer(Transformers.aliasToBean(Zone.class))
                         .list();
 
                 if(zoneList.size() == 0){
@@ -113,11 +107,12 @@ public class ZoneServiceImpl implements ZoneService {
         //get zone info from db
         log.debug("Fetching zones with searchPattern {}", searchPattern);
         try{
+            // noinspection unchecked
             List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParametersSearch(:p,:searchPattern)}")
+                    .addEntity(Zone.class)
                     .setParameter("p", null)
                     .setParameter("searchPattern", searchPattern)
                     .setReadOnly(true)
-                    .setResultTransformer(Transformers.aliasToBean(Zone.class))
                     .list();
 
             if(zoneList.size() == 0){
@@ -160,6 +155,7 @@ public class ZoneServiceImpl implements ZoneService {
         try{
             // The stored procedure returns a list of all zones ids that have no superzones
             // The stored procedure returns the highest zones for that the given user (a list of Integers).
+            // noinspection unchecked
             List<Integer> zoneIDs = ((Session) em.getDelegate()).createSQLQuery("{CALL getHeadzones(:user)}")
                     .setParameter("user", username)
                     .setReadOnly(true)

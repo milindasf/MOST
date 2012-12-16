@@ -4,6 +4,7 @@ import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.service.api.ZoneService;
 import junit.framework.Assert;
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -22,6 +23,11 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Inject
     private ZoneService zoneService;
+
+    @After
+    public void tearDown() throws Exception {
+        ((ZoneServiceImpl) zoneService).resetCache();
+    }
 
     @Test
     public void testGetHeadZones_fromUser_shouldReturn1HeadZone() throws Exception {
@@ -55,7 +61,7 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
     }
 
     @Test
-         public void testGetZone_withZone_shouldReturnZoneWithSameId() throws Exception {
+    public void testGetZone_withZone_shouldReturnZoneWithSameId() throws Exception {
         int zoneId = 8;
         Zone SearchZone = new Zone(zoneId);
         Zone zone = zoneService.getZone(SearchZone);
