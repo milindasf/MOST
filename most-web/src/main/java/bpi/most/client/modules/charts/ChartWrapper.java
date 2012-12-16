@@ -260,9 +260,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 			public void onDrop(DropEvent event) {
 				event.preventDefault();
 				DNDController.setDragoverNull();
-				if (DNDController.getDragwindow() != null) {
-					// do nothing because its another DragWindow
-				} else {
+				if (DNDController.getDragwindow() == null){
 					// handle the drop of anything else, maybe check
 					// DNDController.getDragwidget and maybe pass-through to the
 					// widget in the SimplePanel
@@ -336,8 +334,6 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 		if (chkBox.getValue() == true) {
 			setLiveTimeFrame(Long.valueOf(listBox.getValue(listBox
 					.getSelectedIndex())));
-		} else {
-			// nothing to do yet
 		}
 	}
 
@@ -543,7 +539,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	private void checkLiveTimeFrame(Long value) {
 		// TODO find global solution for time zone problem
 		// TODO add time zone support to ChartWrapper
-		if (chkBox.getValue() == true) {
+		if (chkBox.getValue()) {
 			boolean flag = false;
 			@SuppressWarnings("deprecation")
 			final Date newLiveframeStartDate = new Date((new Date().getTime())
@@ -556,7 +552,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 
 				}
 			}
-			if (flag == true) {
+			if (flag) {
 				// 86400000 is just a value big enough to be sure it's far
 				// enough in the past to delete all old data points
 				delDataset(
@@ -835,100 +831,100 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 *            The new value of the start date-time.
 	 */
 	private void eventTimeStart(final Date olddate, final Date date) {
-		if (olddate.getTime() == date.getTime()) {
-			// do nothing
-		} else if (olddate.getTime() < date.getTime()) {
-			delDataset(olddate, date);
-		} else if (olddate.getTime() > date.getTime()) {
-			for (int i = 0; i < dplist.size(); i++) {
-				showLoading("get new data");
-				if (((ChartInterface) chosenChart).getPeriodicFlag(dplist
-						.get(i).getDatapointName()) == true) {
-					final Datapoint dptemp = dplist.get(i);
-					dptemp.getNumberOfValues(startDate, endDate,
-							new DatapointHandler((Object) getThis(), dptemp) {
-								public void onSuccess(int result) {
-									if (result > MAXPOINTS) {
-										for (int i = 0; i < 720; i++) {
-											if (300 * i > (((endDate.getTime() / 1000) - (startDate
-													.getTime() / 1000)) / MAXPOINTS)) {
-												dptemp.getDataPeriodic(
-														startDate, endDate,
-														new Float(i * 300.0),
-														new DatapointHandler(
-																(Object) this,
-																dptemp) {
-															public void onSuccess(
-																	DpDatasetDTO dataSet) {
-																setDataset(
-																		dataSet,
-																		true);
-																hideLoading();
-															}
-														});
-												break;
-											}
-										}
-									} else {
-										dptemp.getData(startDate, endDate,
-												new DatapointHandler(
-														(Object) getThis(),
-														dptemp) {
-													public void onSuccess(
-															DpDatasetDTO dataSet) {
-														setDataset(dataSet,
-																false);
-														hideLoading();
-													}
-												});
-									}
-								}
-							});
-				} else {
-					final Datapoint dptemp = dplist.get(i);
-					dptemp.getNumberOfValues(date, olddate,
-							new DatapointHandler((Object) getThis(), dptemp) {
-								public void onSuccess(int result) {
-									if (((((ChartInterface) chosenChart)
-											.getPointCount(dptemp
-													.getDatapointName())) + result) > MAXPOINTS) {
-										for (int i = 0; i < 720; i++) {
-											if (300 * i > (((endDate.getTime() / 1000) - (startDate
-													.getTime() / 1000)) / MAXPOINTS)) {
-												dptemp.getDataPeriodic(
-														startDate, endDate,
-														new Float(i * 300.0),
-														new DatapointHandler(
-																(Object) this,
-																dptemp) {
-															public void onSuccess(
-																	DpDatasetDTO dataSet) {
-																setDataset(
-																		dataSet,
-																		true);
-																hideLoading();
-															}
-														});
-												break;
-											}
-										}
-									} else {
-										dptemp.getData(date, olddate,
-												new DatapointHandler(
-														(Object) getThis(),
-														dptemp) {
-													public void onSuccess(
-															DpDatasetDTO dataSet) {
-														prependDataset(dataSet);
-														hideLoading();
-													}
-												});
-									}
-								}
-							});
-				}
-			}
-		}
+		if (olddate.getTime() != date.getTime()) {
+            if (olddate.getTime() < date.getTime()) {
+                delDataset(olddate, date);
+            } else if (olddate.getTime() > date.getTime()) {
+                for (int i = 0; i < dplist.size(); i++) {
+                    showLoading("get new data");
+                    if (((ChartInterface) chosenChart).getPeriodicFlag(dplist
+                            .get(i).getDatapointName()) == true) {
+                        final Datapoint dptemp = dplist.get(i);
+                        dptemp.getNumberOfValues(startDate, endDate,
+                                new DatapointHandler((Object) getThis(), dptemp) {
+                                    public void onSuccess(int result) {
+                                        if (result > MAXPOINTS) {
+                                            for (int i = 0; i < 720; i++) {
+                                                if (300 * i > (((endDate.getTime() / 1000) - (startDate
+                                                        .getTime() / 1000)) / MAXPOINTS)) {
+                                                    dptemp.getDataPeriodic(
+                                                            startDate, endDate,
+                                                            new Float(i * 300.0),
+                                                            new DatapointHandler(
+                                                                    (Object) this,
+                                                                    dptemp) {
+                                                                public void onSuccess(
+                                                                        DpDatasetDTO dataSet) {
+                                                                    setDataset(
+                                                                            dataSet,
+                                                                            true);
+                                                                    hideLoading();
+                                                                }
+                                                            });
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            dptemp.getData(startDate, endDate,
+                                                    new DatapointHandler(
+                                                            (Object) getThis(),
+                                                            dptemp) {
+                                                        public void onSuccess(
+                                                                DpDatasetDTO dataSet) {
+                                                            setDataset(dataSet,
+                                                                    false);
+                                                            hideLoading();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                    } else {
+                        final Datapoint dptemp = dplist.get(i);
+                        dptemp.getNumberOfValues(date, olddate,
+                                new DatapointHandler((Object) getThis(), dptemp) {
+                                    public void onSuccess(int result) {
+                                        if (((((ChartInterface) chosenChart)
+                                                .getPointCount(dptemp
+                                                        .getDatapointName())) + result) > MAXPOINTS) {
+                                            for (int i = 0; i < 720; i++) {
+                                                if (300 * i > (((endDate.getTime() / 1000) - (startDate
+                                                        .getTime() / 1000)) / MAXPOINTS)) {
+                                                    dptemp.getDataPeriodic(
+                                                            startDate, endDate,
+                                                            new Float(i * 300.0),
+                                                            new DatapointHandler(
+                                                                    (Object) this,
+                                                                    dptemp) {
+                                                                public void onSuccess(
+                                                                        DpDatasetDTO dataSet) {
+                                                                    setDataset(
+                                                                            dataSet,
+                                                                            true);
+                                                                    hideLoading();
+                                                                }
+                                                            });
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            dptemp.getData(date, olddate,
+                                                    new DatapointHandler(
+                                                            (Object) getThis(),
+                                                            dptemp) {
+                                                        public void onSuccess(
+                                                                DpDatasetDTO dataSet) {
+                                                            prependDataset(dataSet);
+                                                            hideLoading();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                    }
+                }
+            }
+        }
 	}
 
 	/**
@@ -940,100 +936,100 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 *            The new value of the start date-time.
 	 */
 	private void eventTimeEnd(final Date olddate, final Date date) {
-		if (olddate.getTime() == date.getTime()) {
-			// do nothing
-		} else if (olddate.getTime() < date.getTime()) {
-			for (int i = 0; i < dplist.size(); i++) {
-				showLoading("get new data");
-				if (((ChartInterface) chosenChart).getPeriodicFlag(dplist
-						.get(i).getDatapointName()) == true) {
-					final Datapoint dptemp = dplist.get(i);
-					dptemp.getNumberOfValues(startDate, endDate,
-							new DatapointHandler((Object) getThis(), dptemp) {
-								public void onSuccess(int result) {
-									if (result > MAXPOINTS) {
-										for (int i = 0; i < 720; i++) {
-											if (300 * i > (((endDate.getTime() / 1000) - (startDate
-													.getTime() / 1000)) / MAXPOINTS)) {
-												dptemp.getDataPeriodic(
-														startDate, endDate,
-														new Float(i * 300.0),
-														new DatapointHandler(
-																(Object) this,
-																dptemp) {
-															public void onSuccess(
-																	DpDatasetDTO dataSet) {
-																setDataset(
-																		dataSet,
-																		true);
-																hideLoading();
-															}
-														});
-												break;
-											}
-										}
-									} else {
-										dptemp.getData(startDate, endDate,
-												new DatapointHandler(
-														(Object) getThis(),
-														dptemp) {
-													public void onSuccess(
-															DpDatasetDTO dataSet) {
-														setDataset(dataSet,
-																false);
-														hideLoading();
-													}
-												});
-									}
-								}
-							});
-				} else {
-					final Datapoint dptemp = dplist.get(i);
-					dptemp.getNumberOfValues(olddate, date,
-							new DatapointHandler((Object) getThis(), dptemp) {
-								public void onSuccess(int result) {
-									if (((((ChartInterface) chosenChart)
-											.getPointCount(dptemp
-													.getDatapointName())) + result) > MAXPOINTS) {
-										for (int i = 0; i < 720; i++) {
-											if (300 * i > (((endDate.getTime() / 1000) - (startDate
-													.getTime() / 1000)) / MAXPOINTS)) {
-												dptemp.getDataPeriodic(
-														startDate, endDate,
-														new Float(i * 300.0),
-														new DatapointHandler(
-																(Object) this,
-																dptemp) {
-															public void onSuccess(
-																	DpDatasetDTO dataSet) {
-																setDataset(
-																		dataSet,
-																		true);
-																hideLoading();
-															}
-														});
-												break;
-											}
-										}
-									} else {
-										dptemp.getData(olddate, date,
-												new DatapointHandler(
-														(Object) getThis(),
-														dptemp) {
-													public void onSuccess(
-															DpDatasetDTO dataSet) {
-														appendDataset(dataSet);
-														hideLoading();
-													}
-												});
-									}
-								}
-							});
-				}
-			}
-		} else if (olddate.getTime() > date.getTime()) {
-			delDataset(date, olddate);
-		}
+		if (olddate.getTime() != date.getTime()) {
+            if (olddate.getTime() < date.getTime()) {
+                for (int i = 0; i < dplist.size(); i++) {
+                    showLoading("get new data");
+                    if (((ChartInterface) chosenChart).getPeriodicFlag(dplist
+                            .get(i).getDatapointName()) == true) {
+                        final Datapoint dptemp = dplist.get(i);
+                        dptemp.getNumberOfValues(startDate, endDate,
+                                new DatapointHandler((Object) getThis(), dptemp) {
+                                    public void onSuccess(int result) {
+                                        if (result > MAXPOINTS) {
+                                            for (int i = 0; i < 720; i++) {
+                                                if (300 * i > (((endDate.getTime() / 1000) - (startDate
+                                                        .getTime() / 1000)) / MAXPOINTS)) {
+                                                    dptemp.getDataPeriodic(
+                                                            startDate, endDate,
+                                                            new Float(i * 300.0),
+                                                            new DatapointHandler(
+                                                                    (Object) this,
+                                                                    dptemp) {
+                                                                public void onSuccess(
+                                                                        DpDatasetDTO dataSet) {
+                                                                    setDataset(
+                                                                            dataSet,
+                                                                            true);
+                                                                    hideLoading();
+                                                                }
+                                                            });
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            dptemp.getData(startDate, endDate,
+                                                    new DatapointHandler(
+                                                            (Object) getThis(),
+                                                            dptemp) {
+                                                        public void onSuccess(
+                                                                DpDatasetDTO dataSet) {
+                                                            setDataset(dataSet,
+                                                                    false);
+                                                            hideLoading();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                    } else {
+                        final Datapoint dptemp = dplist.get(i);
+                        dptemp.getNumberOfValues(olddate, date,
+                                new DatapointHandler((Object) getThis(), dptemp) {
+                                    public void onSuccess(int result) {
+                                        if (((((ChartInterface) chosenChart)
+                                                .getPointCount(dptemp
+                                                        .getDatapointName())) + result) > MAXPOINTS) {
+                                            for (int i = 0; i < 720; i++) {
+                                                if (300 * i > (((endDate.getTime() / 1000) - (startDate
+                                                        .getTime() / 1000)) / MAXPOINTS)) {
+                                                    dptemp.getDataPeriodic(
+                                                            startDate, endDate,
+                                                            new Float(i * 300.0),
+                                                            new DatapointHandler(
+                                                                    (Object) this,
+                                                                    dptemp) {
+                                                                public void onSuccess(
+                                                                        DpDatasetDTO dataSet) {
+                                                                    setDataset(
+                                                                            dataSet,
+                                                                            true);
+                                                                    hideLoading();
+                                                                }
+                                                            });
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            dptemp.getData(olddate, date,
+                                                    new DatapointHandler(
+                                                            (Object) getThis(),
+                                                            dptemp) {
+                                                        public void onSuccess(
+                                                                DpDatasetDTO dataSet) {
+                                                            appendDataset(dataSet);
+                                                            hideLoading();
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                    }
+                }
+            } else if (olddate.getTime() > date.getTime()) {
+                delDataset(date, olddate);
+            }
+        }
 	}
 
 	/**

@@ -277,47 +277,46 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 	public void dragOverProcedure(DragOverEvent event) {
 
 		if(((DragInterface)DNDController.getCurrentDrag()).isDroppable()) {
-		/**
-		 * loop through all child elements of the current parent and check where
-		 * to insert the dragged element
-		 **/
-		for (int i = 0; i < DNDController.getCurrentParentWidget().getElement()
-				.getChildCount(); i++) {
-			/** check if it's the right parent **/
-			if (DNDController
-					.getCurrentParentWidget()
-					.getElement()
-					.getChild(i)
-					.toString()
-					.contains(
-							getWidget().getElement().getId().toString().trim())) {
-				/** specify where to insert the dragged element **/
-				if ((event.getNativeEvent().getClientY() - DNDController
-						.getRelMouseToElemY()) < (getWidget().getAbsoluteTop() + getWidget()
-						.getOffsetHeight() / 2.5)) {
-					Document.get()
-							.getElementById(
-									DNDController.getCurrentParentWidget()
-											.getElement().getId())
-							.insertBefore(
-									DNDController.getCurrentDrag().getElement(),
-									getWidget().getElement());
-					// DNDController.setIndex(i);
-					// DNDController.setBefore(true);
-				} else {
-					Document.get()
-							.getElementById(
-									DNDController.getCurrentParentWidget()
-											.getElement().getId())
-							.insertAfter(
-									DNDController.getCurrentDrag().getElement(),
-									getWidget().getElement());
-					// DNDController.setIndex(i);
-					// DNDController.setBefore(false);
-				}
-			} else {
-			}
-		}
+            /**
+             * loop through all child elements of the current parent and check where
+             * to insert the dragged element
+             **/
+            for (int i = 0; i < DNDController.getCurrentParentWidget().getElement()
+                    .getChildCount(); i++) {
+                /** check if it's the right parent **/
+                if (DNDController
+                        .getCurrentParentWidget()
+                        .getElement()
+                        .getChild(i)
+                        .toString()
+                        .contains(
+                                getWidget().getElement().getId().toString().trim())) {
+                    /** specify where to insert the dragged element **/
+                    if ((event.getNativeEvent().getClientY() - DNDController
+                            .getRelMouseToElemY()) < (getWidget().getAbsoluteTop() + getWidget()
+                            .getOffsetHeight() / 2.5)) {
+                        Document.get()
+                                .getElementById(
+                                        DNDController.getCurrentParentWidget()
+                                                .getElement().getId())
+                                .insertBefore(
+                                        DNDController.getCurrentDrag().getElement(),
+                                        getWidget().getElement());
+                        // DNDController.setIndex(i);
+                        // DNDController.setBefore(true);
+                    } else {
+                        Document.get()
+                                .getElementById(
+                                        DNDController.getCurrentParentWidget()
+                                                .getElement().getId())
+                                .insertAfter(
+                                        DNDController.getCurrentDrag().getElement(),
+                                        getWidget().getElement());
+                        // DNDController.setIndex(i);
+                        // DNDController.setBefore(false);
+                    }
+                }
+            }
 		}
 	}
 
@@ -334,11 +333,6 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 		} else {
 			DNDController.getCurrentParent().getDropPanel()
 					.add(DNDController.getCurrentDrag());
-		}
-
-		if (DNDController.getOriginalParentWidget() != DNDController
-				.getCurrentParentWidget()) {
-
 		}
 	}
 

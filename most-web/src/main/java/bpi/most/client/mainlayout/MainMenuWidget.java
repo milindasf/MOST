@@ -200,15 +200,15 @@ public class MainMenuWidget extends Composite {
 
 				RootModule.rootCenter.clear();
 				RootModule.rootCenter.add(module);
-				try {
-					String[] url = Window.Location.getHref().split("#");
-					if (!url[url.length - 1].toString().trim()
-							.equals(moduleUrl.toString().trim())) {
-
-					}
-				} catch (Exception e) {
-
-				}
+//				try {
+//					String[] url = Window.Location.getHref().split("#");
+//					if (!url[url.length - 1].toString().trim()
+//							.equals(moduleUrl.toString().trim())) {
+//                        //TODO
+//					}
+//				} catch (Exception e) {
+//
+//				}
 			}
 		});
 	}

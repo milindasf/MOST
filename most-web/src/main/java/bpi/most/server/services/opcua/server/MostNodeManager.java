@@ -96,9 +96,10 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 				//zones have subzones and datapoints as children
 				result.addAll(getSubZones(parentZone));
 				result.addAll(getDatapoints(parentZone));
-			}else if (DP_NODE.equals(className)){
-				
 			}
+//            else if (DP_NODE.equals(className)){
+//
+//			}
 		}
 		
 		return result;

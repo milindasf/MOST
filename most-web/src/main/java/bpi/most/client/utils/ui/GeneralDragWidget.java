@@ -312,7 +312,6 @@ public class GeneralDragWidget extends DragWidget implements DragInterface {
 					// DNDController.setIndex(i);
 					// DNDController.setBefore(false);
 				}
-			} else {
 			}
 		}
 	}
@@ -330,11 +329,6 @@ public class GeneralDragWidget extends DragWidget implements DragInterface {
 		} else {
 			DNDController.getCurrentParent().getDropPanel()
 					.add(DNDController.getCurrentDrag());
-		}
-
-		if (DNDController.getOriginalParentWidget() != DNDController
-				.getCurrentParentWidget()) {
-
 		}
 	}
 

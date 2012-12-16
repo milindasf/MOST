@@ -243,8 +243,6 @@ public class DpSearchWidget extends Composite {
 											}
 
 										}
-									} else {
-										// Window.alert("Empty");
 									}
 								}
 
