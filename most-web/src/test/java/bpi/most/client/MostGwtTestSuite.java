@@ -1,20 +1,16 @@
 package bpi.most.client;
 
+import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import com.google.gwt.junit.tools.GWTTestSuite;
-
-public class MostGwtTestSuite extends GWTTestSuite
+public abstract class MostGwtTestSuite extends GWTTestSuite
 {
     
     public static Test suite()
     {
         TestSuite suite = new TestSuite("Most GWT integration-test suite");
-        suite.addTestSuite(BasicGwtTest.class);
-        suite.addTestSuite(AuthenticationServiceGwtTest.class);
-        suite.addTestSuite(ZoneServiceGwtTest.class);
-        suite.addTestSuite(DatapointServiceGwtTest.class);
+        // suite.addTestSuite(XYZ.class);
         return suite;
     }
 
