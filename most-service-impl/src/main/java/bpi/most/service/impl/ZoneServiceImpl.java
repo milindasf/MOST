@@ -1,16 +1,14 @@
-// TODO weix: refactor
-
 package bpi.most.service.impl;
 
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
+import bpi.most.domain.zone.ZoneFinder;
 import bpi.most.service.api.ZoneService;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -31,6 +29,13 @@ public class ZoneServiceImpl implements ZoneService {
     @PersistenceContext(unitName = "most")
     private EntityManager em;
 
+    private ZoneFinder zoneFinder;
+
+    @PostConstruct
+    protected void init() {
+        zoneFinder = new ZoneFinder(em);
+    }
+
     private int cacheSize = 100;
     private LinkedHashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, 0.7f, true) {
         @Override
@@ -39,10 +44,12 @@ public class ZoneServiceImpl implements ZoneService {
         }
     };
 
+    /**
+     * reset the cache
+     */
     void resetCache() {
         cachedZones.clear();
     }
-
 
     /**
      * searches for instance of zone in cache
@@ -53,16 +60,32 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     /**
+     * add zone object to the cache
+     * @param zone Zone object which should be cached
+     */
+    private void cacheZone(Zone zone){
+        if(zone != null){
+            cachedZones.put(zone.getZoneId(), zone);
+        }
+    }
+
+    /**
      * @param zone Zone object
      * @return returns the respective Zone object, zoneID is used as identifier
      */
     @Override
     public Zone getZone(Zone zone) {
-        return getZone(zone.getZoneId());
+        Zone result = lookupZoneInCache(zone.getZoneId());
+        if (result != null) {
+            return result;
+        } else {
+            result = zoneFinder.getZone(zone.getZoneId());
+            cacheZone(result);
+            return result;
+        }
     }
 
     /**
-     * TODO: May change type of zoneID to support IfcGloballyUniqueId IDs of IFC
      * @param zoneId Unique ID of the zone
      * @return Requested Zone, null if not valid
      */
@@ -72,28 +95,9 @@ public class ZoneServiceImpl implements ZoneService {
         if (result != null) {
             return result;
         } else {
-            //get zone info from db
-
-            log.debug("Fetching zones with id {}", zoneId);
-            try{
-                // noinspection unchecked
-                List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParameters(:zoneId)}")
-                        .addEntity(Zone.class)
-                        .setParameter("zoneId", zoneId)
-                        .setReadOnly(true)
-                        .list();
-
-                if(zoneList.size() == 0){
-                    return null;
-                }else{
-                    result = zoneList.get(0);
-                    cachedZones.put(result.getZoneId(), result);
-                    return result;
-                }
-            }catch(HibernateException e){
-                log.debug(e.getStackTrace().toString());
-                return null;
-            }
+            result = zoneFinder.getZone(zoneId);
+            cacheZone(result);
+            return result;
         }
     }
 
@@ -104,29 +108,13 @@ public class ZoneServiceImpl implements ZoneService {
      */
     @Override
     public List<Zone> getZone(String searchPattern) {
-        //get zone info from db
-        log.debug("Fetching zones with searchPattern {}", searchPattern);
-        try{
-            // noinspection unchecked
-            List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParametersSearch(:p,:searchPattern)}")
-                    .addEntity(Zone.class)
-                    .setParameter("p", null)
-                    .setParameter("searchPattern", searchPattern)
-                    .setReadOnly(true)
-                    .list();
-
-            if(zoneList.size() == 0){
-                return null;
-            }else{
-                for (Zone zone : zoneList) {
-                    cachedZones.put(zone.getZoneId(), zone);
-                }
-                return zoneList;
+        List<Zone> results = zoneFinder.getZone(searchPattern);
+        if(results != null){
+            for (Zone result : results) {
+                cacheZone(result);
             }
-        }catch(HibernateException e){
-            log.debug(e.getStackTrace().toString());
-            return null;
         }
+        return results;
     }
 
     /**
@@ -143,44 +131,18 @@ public class ZoneServiceImpl implements ZoneService {
      */
     @Override
     public List<Zone> getHeadZones(User user) {
-        List<Zone> zoneList = new ArrayList<Zone>();
-        String username = null;
+        List<Zone> zones = new ArrayList<Zone>();
+        List<Integer> results = zoneFinder.getHeadZoneIds(user);
 
-        if(user != null){
-            username = user.getName();
+        // Retrieve the corresponding zone for each zoneId in the result
+        for(Integer zoneId:results){
+            Zone zone = getZone(zoneId);
+            if(zone != null){
+                zones.add(zone);
+                cachedZones.put(zone.getZoneId(), zone);
+            }
         }
 
-        //get zone info from db
-        log.debug("Fetching zones with user {}", username);
-        try{
-            // The stored procedure returns a list of all zones ids that have no superzones
-            // The stored procedure returns the highest zones for that the given user (a list of Integers).
-            // noinspection unchecked
-            List<Integer> zoneIDs = ((Session) em.getDelegate()).createSQLQuery("{CALL getHeadzones(:user)}")
-                    .setParameter("user", username)
-                    .setReadOnly(true)
-                    .list();
-
-            // Retrieve the corresponding zone for each zoneId in the result
-            for(Integer zoneId:zoneIDs){
-                Zone zone = getZone(zoneId);
-                if(zone != null){
-                    zoneList.add(zone);
-                }
-            }
-
-            if(zoneList.size() != 0){
-                for (Zone zone : zoneList) {
-                    cachedZones.put(zone.getZoneId(), zone);
-                }
-            }
-
-            return zoneList;
-
-        }catch(HibernateException e){
-            log.debug(e.getStackTrace().toString());
-            return new ArrayList<Zone>();
-        }
+        return zones;
     }
-
 }
