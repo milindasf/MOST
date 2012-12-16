@@ -1,6 +1,6 @@
 package bpi.most.client.login;
 
-import bpi.most.client.mainlayout.RootModule;
+import bpi.most.client.mainlayout.RootModuleCreator;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.Widget;
  * View widget used for user authentication.
  */
 public class LoginViewWidget extends Composite implements LoginView {
+
+    static final String WRONG_LOGIN_DATA_MSG = "Wrong Username and/or Password. Please try again.";
 
     /**
      * The Constant binder.
@@ -50,18 +52,25 @@ public class LoginViewWidget extends Composite implements LoginView {
     @UiField
     PasswordTextBox pw;
 
-    private LoginPresenter loginPresenter;
+    private final RootModuleCreator rootModuleCreator;
+    private final LoginPresenter loginPresenter;
 
     /**
      * Instantiates a new login module.
      */
-    public LoginViewWidget() {
-        loginPresenter = new LoginPresenter(this, new LoginUserVerifierImpl());
+    public LoginViewWidget(RootModuleCreator rootModuleCreator) {
+        this.rootModuleCreator = rootModuleCreator;
+        this.loginPresenter = new LoginPresenter(this, new LoginUserVerifierImpl());
 
         initWidget(binder.createAndBindUi(this));
 
         user.getElement().setAttribute("placeholder", "Username");
         pw.getElement().setAttribute("placeholder", "Password");
+
+        // assign DOM IDs to widgets for testing purposes
+        loginBtn.getElement().setId("loginBtn");
+        user.getElement().setId("loginUsernameTextBox");
+        pw.getElement().setId("loginPasswordTextBox");
     }
 
     @Override
@@ -69,12 +78,12 @@ public class LoginViewWidget extends Composite implements LoginView {
         RootPanel.get().clear();
         RootLayoutPanel.get().clear();
         RootPanel.get().add(RootLayoutPanel.get());
-        RootLayoutPanel.get().add(new RootModule());
+        RootLayoutPanel.get().add(rootModuleCreator.createRootModule());
     }
 
     @Override
     public void showLoginError() {
-        Window.alert("Wrong Username and/or Password. Please try again.");
+        Window.alert(WRONG_LOGIN_DATA_MSG);
     }
 
     @Override
