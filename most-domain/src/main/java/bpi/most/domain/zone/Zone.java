@@ -15,6 +15,9 @@ import javax.persistence.*;
         uniqueConstraints = @UniqueConstraint(name = "name_UNIQUE", columnNames = {"name"}))
 public class Zone {
 
+    public Zone() {
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "idzone")
@@ -78,95 +81,4 @@ public class Zone {
 				+ ", building=" + building + ", floor=" + floor + ", room="
 				+ room + ", area=" + area + ", volume=" + volume + "]";
 	}
-
-    public Zone() {
-    }
-
-    public Integer getIdzone() {
-        return idzone;
-    }
-
-    public void setIdzone(Integer idzone) {
-        this.idzone = idzone;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(String county) {
-        this.county = county;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(String building) {
-        this.building = building;
-    }
-
-    public String getFloor() {
-        return floor;
-    }
-
-    public void setFloor(String floor) {
-        this.floor = floor;
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-    public double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
 }
