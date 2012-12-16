@@ -97,6 +97,7 @@ public class ZoneServiceImpl implements ZoneService {
                     return result;
                 }
             }catch(HibernateException e){
+                log.debug(e.getStackTrace().toString());
                 return null;
             }
         }
@@ -128,6 +129,7 @@ public class ZoneServiceImpl implements ZoneService {
                 return zoneList;
             }
         }catch(HibernateException e){
+            log.debug(e.getStackTrace().toString());
             return null;
         }
     }
@@ -180,6 +182,7 @@ public class ZoneServiceImpl implements ZoneService {
             return zoneList;
 
         }catch(HibernateException e){
+            log.debug(e.getStackTrace().toString());
             return new ArrayList<Zone>();
         }
     }
