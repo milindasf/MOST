@@ -121,21 +121,21 @@ public class RootModule extends Composite implements HasWidgets {
 
 		authenticationService.logout(new AsyncCallback<Boolean>() {
 
-					@Override
-					public void onSuccess(Boolean result) {
+            @Override
+            public void onSuccess(Boolean result) {
 
-						RootLayoutPanel.get().clear();
-						RootPanel.get().clear();
-						// LoginViewWidget.setNull();
-						RootPanel.get().add(new LoginViewWidget());
-					}
+                RootLayoutPanel.get().clear();
+                RootPanel.get().clear();
+                // LoginViewWidget.setNull();
+                RootPanel.get().add(new LoginViewWidget(new RootModuleCreator()));
+            }
 
-					@Override
-					public void onFailure(Throwable caught) {
+            @Override
+            public void onFailure(Throwable caught) {
 
-						Window.alert(caught.getMessage());
-					}
-				});
+                Window.alert(caught.getMessage());
+            }
+        });
 	}
 
 	public static FlowPanel getRootNorth() {

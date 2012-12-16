@@ -5,6 +5,7 @@ package bpi.most.client;
 
 import bpi.most.client.login.LoginViewWidget;
 import bpi.most.client.mainlayout.RootModule;
+import bpi.most.client.mainlayout.RootModuleCreator;
 import bpi.most.client.rpc.AuthenticationService;
 import bpi.most.client.rpc.AuthenticationServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
@@ -41,7 +42,6 @@ public class Most implements EntryPoint { // , ValueChangeHandler<String>
    * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
    */
   public void onModuleLoad() {
-
     String sessionID = Cookies.getCookie("sid");
     RootPanel.get().clear();
     RootLayoutPanel.get().clear();
@@ -53,7 +53,7 @@ public class Most implements EntryPoint { // , ValueChangeHandler<String>
               if (result) {
                 RootLayoutPanel.get().add(new RootModule());
               } else {
-                RootPanel.get().add(new LoginViewWidget());
+                RootPanel.get().add(new LoginViewWidget(new RootModuleCreator()));
               }
             }
             
@@ -64,7 +64,7 @@ public class Most implements EntryPoint { // , ValueChangeHandler<String>
             }
           });
     } else {
-      RootPanel.get().add(new LoginViewWidget());
+      RootPanel.get().add(new LoginViewWidget(new RootModuleCreator()));
     }
   }
 }
