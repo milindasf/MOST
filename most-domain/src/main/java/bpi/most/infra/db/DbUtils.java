@@ -1,4 +1,4 @@
-package bpi.most.service.impl.utils;
+package bpi.most.infra.db;
 
 import javax.persistence.PersistenceException;
 
