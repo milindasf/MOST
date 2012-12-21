@@ -81,7 +81,7 @@ public class DatapointFinder {
      * Transforms a result of the stored procedure getDatapoint() into a {@link DatapointVO}
      * after matching a zone filter.
      */
-    private static class DatapointVOZoneFilteringResultTransformer extends DatapointVOResultTransformer {
+    private static final class DatapointVOZoneFilteringResultTransformer extends DatapointVOResultTransformer {
 
         private boolean initialized = false;
         private int zoneIdZoneIndex;

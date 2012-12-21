@@ -20,7 +20,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LiveChartModuleWidget extends ModuleWidget {
+public final class LiveChartModuleWidget extends ModuleWidget {
 
 	public static LiveChartModuleWidget ref;
 	

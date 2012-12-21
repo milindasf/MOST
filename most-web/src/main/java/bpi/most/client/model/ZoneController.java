@@ -18,7 +18,7 @@ import bpi.most.shared.ZoneDTO;
  * @author mike
  * 
  */
-public class ZoneController {
+public final class ZoneController {
 
 	private static ZoneController ref = null;
 

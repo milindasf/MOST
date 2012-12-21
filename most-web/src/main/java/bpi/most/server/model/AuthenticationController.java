@@ -15,7 +15,7 @@ import bpi.most.server.utils.DbPool;
  * TODO: move addUserToRole(), etc. methods to User class
  * @author robert.zach@tuwien.ac.at
  */
-public class AuthenticationController {
+public final class AuthenticationController {
 	private static AuthenticationController ref;
 	
 	// Singleton

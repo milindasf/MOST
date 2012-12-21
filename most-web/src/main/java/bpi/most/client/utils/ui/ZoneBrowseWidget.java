@@ -119,7 +119,7 @@ public class ZoneBrowseWidget extends Composite {
 		}
 	}
 
-	private static class CustomTreeModel implements TreeViewModel {
+	private static final class CustomTreeModel implements TreeViewModel {
 
 		private CustomTreeModel() {
 			

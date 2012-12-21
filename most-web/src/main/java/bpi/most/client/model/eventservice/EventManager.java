@@ -20,7 +20,7 @@ import de.novanic.eventservice.client.event.domain.DomainFactory;
  *
  * @author Johannes Weber
  */
-public class EventManager {
+public final class EventManager {
 	/**
      * Singleton reference 
      */

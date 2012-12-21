@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author sg
  */
-public class DesktopModuleWidget extends ModuleWidget implements HasWidgets {
+public final class DesktopModuleWidget extends ModuleWidget implements HasWidgets {
 
 	private static final Binder binder = GWT.create(Binder.class);
 

@@ -8,7 +8,7 @@ import bpi.most.server.model.AuthenticationController;
  * Different implementations (GWT-RPC, OPC UA, SOAP, etc.) should be based on this implementations
  * @author robert.zach@tuwien.ac.at
  */
-public class AuthenticationService {
+public final class AuthenticationService {
 	AuthenticationController authCtrl = AuthenticationController.getInstance();
 	private static AuthenticationService ref = null;
 	

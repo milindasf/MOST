@@ -13,7 +13,7 @@ import bpi.most.shared.ZoneDTO;
  * This service provide methods for Connectors to request dp and connection information
  * @author robert.zach@tuwien.ac.at
  */
-public class ConnectorService {
+public final class ConnectorService {
 	ConnectorController connCtrl = ConnectorController.getInstance();
 	private static ConnectorService ref = null;
 

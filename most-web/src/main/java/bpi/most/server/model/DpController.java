@@ -17,7 +17,7 @@ import bpi.most.shared.ZoneDTO;
  * 
  * @author robert.zach@tuwien.ac.at
  */
-public class DpController {
+public final class DpController {
 
 	private static DpController ref = null;
 	ArrayList<Datapoint> datapoints = new ArrayList<Datapoint>();

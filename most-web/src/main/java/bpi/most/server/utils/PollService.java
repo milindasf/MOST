@@ -27,7 +27,7 @@ import bpi.most.shared.DpDataDTO;
  * default poll interval is 60 seconds.
  * @author robert.zach@tuwien.ac.at
  */
-public class PollService {
+public final class PollService {
 	private static PollService ref = null;
 	Timer dpPolltimer = new Timer();
 	Timer warningPolltimer = new Timer();

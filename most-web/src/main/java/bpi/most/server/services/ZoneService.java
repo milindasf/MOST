@@ -15,7 +15,7 @@ import bpi.most.shared.ZoneDTO;
  * Different implementations (GWT-RPC, OPC UA, SOAP, etc.) should be based on this implementations
  * @author robert.zach@tuwien.ac.at
  */
-public class ZoneService {
+public final class ZoneService {
 	
 	ZoneController zoneCtrl = ZoneController.getInstance();
 	private static ZoneService ref = null;

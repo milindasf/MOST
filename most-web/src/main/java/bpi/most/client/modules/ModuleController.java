@@ -29,7 +29,7 @@ import com.google.gwt.core.client.GWT;
  * 
  * @author sg
  */
-public class ModuleController {
+public final class ModuleController {
 
 	public static final ModuleControllerServiceAsync moduleCtrlService = GWT
 			.create(ModuleControllerService.class);

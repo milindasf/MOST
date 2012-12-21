@@ -11,7 +11,7 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
  * @author robert.zach@tuwien.ac.at
  *
  */
-public class DbPool {
+public final class DbPool {
 
 	private static DbPool ref;
 	//JDBC pool

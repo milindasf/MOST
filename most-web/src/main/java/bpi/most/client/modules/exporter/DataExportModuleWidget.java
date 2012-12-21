@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author sg
  */
-public class DataExportModuleWidget extends ModuleWidget {
+public final class DataExportModuleWidget extends ModuleWidget {
 
 	/**
 	 * The Constant MODULE_NAME: Needed for a various number of operation,

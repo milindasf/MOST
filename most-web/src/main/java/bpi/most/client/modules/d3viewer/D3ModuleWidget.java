@@ -46,7 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author sg
  */
-public class D3ModuleWidget extends ModuleWidget {
+public final class D3ModuleWidget extends ModuleWidget {
 
 	private static D3ModuleWidget ref = null;
 

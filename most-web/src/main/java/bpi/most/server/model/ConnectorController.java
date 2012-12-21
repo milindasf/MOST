@@ -15,7 +15,7 @@ import bpi.most.shared.ConnectorDTO;
  * provides information about defined Connectors (Datapoint - Connector - Device/Sensor/Actor)
  * @author robert.zach@tuwien.ac.at
  */
-public class ConnectorController {
+public final class ConnectorController {
 	private static ConnectorController ref = null;
 	
 

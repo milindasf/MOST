@@ -12,7 +12,7 @@ import bpi.most.shared.WarningDTO;
  * Currently only "global" observing of warnings is possible
  * @author robert.zach@tuwien.ac.at
  */
-public class WarningController extends Observable {
+public final class WarningController extends Observable {
 	private static WarningController ref = null;
  
 	/**

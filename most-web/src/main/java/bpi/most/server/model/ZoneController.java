@@ -18,7 +18,7 @@ import bpi.most.shared.ZoneDTO;
 /**
  * @author robert.zach@tuwien.ac.at
  */
-public class ZoneController {
+public final class ZoneController {
 
 	private static ZoneController ref;
 	List<Zone> cachedZones = new ArrayList<Zone>();

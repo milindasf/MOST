@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author sg
  */
-public class FeedbackModuleWidget extends ModuleWidget {
+public final class FeedbackModuleWidget extends ModuleWidget {
 
 	public final ModuleControllerServiceAsync moduleCtrlService = GWT
 			.create(ModuleControllerService.class);

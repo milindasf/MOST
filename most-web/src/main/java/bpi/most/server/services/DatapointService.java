@@ -20,7 +20,7 @@ import bpi.most.shared.ZoneDTO;
  * @author robert.zach@tuwien.ac.at
  *TODO check on all RPCs if dp is valid
  */
-public class DatapointService {
+public final class DatapointService {
 	DpController dpCtrl = DpController.getInstance();
 	private static DatapointService ref = null;
 
@@ -114,7 +114,7 @@ public class DatapointService {
 			// set mode of getDataPeriodic() to 1, because other modes are
 			// currently not well supported (or even not implemented)
 			result = dp.getDataPeriodic(starttime, endtime, period, 1);
-			;
+			; 
 		}
 		return result;
 	}
