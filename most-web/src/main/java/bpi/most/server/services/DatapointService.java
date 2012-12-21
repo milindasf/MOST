@@ -114,7 +114,6 @@ public final class DatapointService {
 			// set mode of getDataPeriodic() to 1, because other modes are
 			// currently not well supported (or even not implemented)
 			result = dp.getDataPeriodic(starttime, endtime, period, 1);
-			; 
 		}
 		return result;
 	}
