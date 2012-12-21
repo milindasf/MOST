@@ -43,9 +43,9 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 	 */
 	public class RadiatorHeatPowerImplementation extends Datapoint {
 		//Custom Attributes
-		private final String IDdpMeanTemp = "dpMeanTemp";
-		private final String IDstandartHeatOutput = "standartHeatOutput";
-		private final String IDdpRoomTemp = "dpRoomTemp";
+		private static final String IDdpMeanTemp = "dpMeanTemp";
+		private static final String IDstandartHeatOutput = "standartHeatOutput";
+		private static final String IDdpRoomTemp = "dpRoomTemp";
 		DpController dpct = null;
 		private DpDatasetDTO defaultRoomTemp; 
 		

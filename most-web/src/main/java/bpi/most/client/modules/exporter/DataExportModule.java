@@ -35,9 +35,9 @@ public class DataExportModule implements ModuleInterface {
 	 * including menu rendering.
 	 */
 	public static final String MODULE_URL = "#export";
-	public final String linkInMenuItem = "ui-element-3 dWidget-uid-export";
-	public final String menuItemId = "ui-link-export";
-	public final String menuIconClass = "mod-ctrl-anchor";
+	public static final String linkInMenuItem = "ui-element-3 dWidget-uid-export";
+	public static final String menuItemId = "ui-link-export";
+	public static final String menuIconClass = "mod-ctrl-anchor";
 	public AbsolutePanel prepareSubMenuPanel = new AbsolutePanel();
 
 	public DataExportModule() {

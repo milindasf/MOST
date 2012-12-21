@@ -43,7 +43,7 @@ public class Sum extends DpVirtualFactory {
 	 */
 	public class SumImplementation extends Datapoint {
 		//Custom Attributes
-		private final String IDdpType = "dpType";
+		private static final String IDdpType = "dpType";
 		//requested type
 		String requestedType = null;
 		ZoneController zoneCtrl = null;

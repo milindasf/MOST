@@ -50,7 +50,7 @@ public class D3ModuleWidget extends ModuleWidget {
 
 	private static D3ModuleWidget ref = null;
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 	private static ArrayList<DpWidget> activeDpWidgets = new ArrayList<DpWidget>();
 	private static int zoomLevel = 0;
 	private static int transparencyLevel = 0;
@@ -128,7 +128,7 @@ public class D3ModuleWidget extends ModuleWidget {
 	private D3ModuleWidget(ModuleInterface module) {
 		super(module);
 
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		initZoomLevel();
 		initClickEventDatapointMarked();
 		initZoomLevelAbsolute();

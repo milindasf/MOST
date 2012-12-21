@@ -21,11 +21,11 @@ public class LiveChartModule implements ModuleInterface {
 
 	public static final String MODULE_URL = "#liveChart";
 
-	public final String linkInMenuItem = "ui-element-1 dWidget-uid-livechart ui-link-livechart";
+	public static final String linkInMenuItem = "ui-element-1 dWidget-uid-livechart ui-link-livechart";
 
-	public final String menuItemId = "ui-link-livechart";
+	public static final String menuItemId = "ui-link-livechart";
 
-	public final String menuIconClass = "mod-ctrl-anchor";
+	public static final String menuIconClass = "mod-ctrl-anchor";
 
 	public LiveChartModule() {
 

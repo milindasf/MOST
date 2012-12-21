@@ -16,9 +16,9 @@ public class FeedbackModule implements ModuleInterface {
 	public static final String MODULE_NAME = "person";
 	public static final String MODULE_MENU_ITEM_TEXT = "Feedback";
 	public static final String MODULE_URL = "#person";
-	public final String linkInMenuItem = "ui-element-2 dWidget-uid-person";
-	public final String menuItemId = "ui-link-person";
-	public final String menuIconClass = "mod-ctrl-anchor";
+	public static final String linkInMenuItem = "ui-element-2 dWidget-uid-person";
+	public static final String menuItemId = "ui-link-person";
+	public static final String menuIconClass = "mod-ctrl-anchor";
 
 	@Override
 	public String getModuleName() {

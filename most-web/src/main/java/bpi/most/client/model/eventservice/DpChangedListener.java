@@ -32,5 +32,5 @@ public abstract class DpChangedListener implements RemoteEventListener {
 	 * This Method gets called when the incomming Event is from the type DpChangedEvent
 	 * @param event {@link bpi.most.client.model.eventservice.DpChangedEvent}
 	 */
-	abstract public void onDpChangedEvent(DpChangedEvent event);
+	public abstract void onDpChangedEvent(DpChangedEvent event);
 }

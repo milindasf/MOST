@@ -14,12 +14,12 @@ import bpi.most.client.modules.ModuleWidget;
  */
 
 public class DesktopModule implements ModuleInterface {
-	public final String MODULE_NAME = "desktop";
-	public final String MODULE_MENU_ITEM_TEXT = "Desktop";
-	public final String MODULE_URL = "#desktop";
-	public final String linkInMenuItem = "ui-element-0 dWidget-uid-desktop";
-	public final String menuItemId = "ui-link-desktop";
-	public final String menuIconClass = "mod-ctrl-anchor";
+	public static final String MODULE_NAME = "desktop";
+	public static final String MODULE_MENU_ITEM_TEXT = "Desktop";
+	public static final String MODULE_URL = "#desktop";
+	public static final String linkInMenuItem = "ui-element-0 dWidget-uid-desktop";
+	public static final String menuItemId = "ui-link-desktop";
+	public static final String menuIconClass = "mod-ctrl-anchor";
 
 	public DesktopModule() {
 

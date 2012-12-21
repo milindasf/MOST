@@ -223,7 +223,7 @@ public class ComputedStyle {
          *            be used
          * @return the parsed value
          */
-        public native static Integer parseInt(String str, int radix)
+        public static native Integer parseInt(String str, int radix)
         /*-{
                 var number = parseInt(str, radix);
                 if (isNaN(number))

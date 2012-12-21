@@ -40,11 +40,11 @@ public class D3Module implements ModuleInterface {
 	 */
 	public static D3ModuleWidget ref;
 
-	public final String linkInMenuItem = "ui-element-4 dWidget-uid-3d";
+	public static final String linkInMenuItem = "ui-element-4 dWidget-uid-3d";
 
-	public final String menuItemId = "ui-link-3d";
+	public static final String menuItemId = "ui-link-3d";
 
-	public final String menuIconClass = "mod-ctrl-anchor";
+	public static final String menuIconClass = "mod-ctrl-anchor";
 
 	public AbsolutePanel prepareSubMenuPanel = new AbsolutePanel();
 

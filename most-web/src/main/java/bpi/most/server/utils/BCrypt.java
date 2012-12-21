@@ -243,17 +243,17 @@ public class BCrypt {
       0xa65cdea0, 0x3f09252d, 0xc208e69f, 0xb74e6132, 0xce77e25b, 0x578fdfe3,
       0x3ac372e6 };
   // bcrypt IV: "OrpheanBeholderScryDoubt"
-  static private final int bf_crypt_ciphertext[] = { 0x4f727068, 0x65616e42,
+  private static final int bf_crypt_ciphertext[] = { 0x4f727068, 0x65616e42,
       0x65686f6c, 0x64657253, 0x63727944, 0x6f756274 };
   // Table for Base64 encoding
-  static private final char base64_code[] = { '.', '/', 'A', 'B', 'C', 'D',
+  private static final char base64_code[] = { '.', '/', 'A', 'B', 'C', 'D',
       'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
       'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
       'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
       'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7',
       '8', '9' };
   // Table for Base64 decoding
-  static private final byte index_64[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  private static final byte index_64[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1,
       -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
       -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
       -1, 0, 1, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, -1, -1, -1, -1, -1, -1,
