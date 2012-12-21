@@ -260,13 +260,11 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 			public void onDrop(DropEvent event) {
 				event.preventDefault();
 				DNDController.setDragoverNull();
-				if (DNDController.getDragwindow() == null){
+				if (DNDController.getDragwindow() == null && (DNDController.getDragitem() instanceof DpWidget)){
 					// handle the drop of anything else, maybe check
 					// DNDController.getDragwidget and maybe pass-through to the
 					// widget in the SimplePanel
-					if (DNDController.getDragitem() instanceof DpWidget) {
-						dropEventHandler();
-					}
+					dropEventHandler();
 				}
 				DNDController.setDragoverNull();
 				try {

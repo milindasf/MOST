@@ -89,17 +89,12 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 		List<Object> result = new ArrayList<Object>();
 		
 		//distinguish which class we want to fetch children from
-		if (className != null){
-			if (ZONE_NODE.equals(className)){
-				int parentZoneId = Integer.parseInt(parentId);
-				ZoneDTO parentZone = new ZoneDTO(parentZoneId);
-				//zones have subzones and datapoints as children
-				result.addAll(getSubZones(parentZone));
-				result.addAll(getDatapoints(parentZone));
-			}
-//            else if (DP_NODE.equals(className)){
-//
-//			}
+		if (className != null && ZONE_NODE.equals(className)){
+			int parentZoneId = Integer.parseInt(parentId);
+			ZoneDTO parentZone = new ZoneDTO(parentZoneId);
+			//zones have subzones and datapoints as children
+			result.addAll(getSubZones(parentZone));
+			result.addAll(getDatapoints(parentZone));
 		}
 		
 		return result;
