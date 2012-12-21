@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.GwtEvent;
 public class MostDragEndEvent extends GwtEvent<MostDragEndEventHandler> {
 
 	/** The TYPE. */
-	public static Type<MostDragEndEventHandler> TYPE = new Type<MostDragEndEventHandler>();
+	public static final Type<MostDragEndEventHandler> TYPE = new Type<MostDragEndEventHandler>();
 
 	/*
 	 * (non-Javadoc)

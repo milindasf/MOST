@@ -54,7 +54,7 @@ public class RootModule extends Composite implements HasWidgets {
 
     private static final Binder binder = GWT.create(Binder.class);
 	public static Integer windowWidth;
-	public static Integer dropWidgetWidth = 500;
+	public static final Integer dropWidgetWidth = 500;
 
 	interface Binder extends UiBinder<Widget, RootModule> {
 	}

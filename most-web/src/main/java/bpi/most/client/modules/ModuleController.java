@@ -36,8 +36,8 @@ public final class ModuleController {
 
 	public static ModuleController ref = null;
 	// TODO find right place for DpController
-	public static DpController dpcc = DpController.getSingleton();
-	public static ZoneController zoneCtrl = ZoneController.getInstance();
+	public static final DpController dpcc = DpController.getSingleton();
+	public static final ZoneController zoneCtrl = ZoneController.getInstance();
 
 	private ModuleController() {
 		new ModuleRegistrator();

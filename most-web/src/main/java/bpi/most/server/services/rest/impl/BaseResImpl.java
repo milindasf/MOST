@@ -12,7 +12,7 @@ import bpi.most.server.services.User;
 public class BaseResImpl {
 	
 	protected static Logger LOG = Logger.getLogger(BaseResImpl.class);
-	public static int NOT_IMPLEMENTED = 501;
+	public static final int NOT_IMPLEMENTED = 501;
 	
 	@Resource
 	protected MessageContext context;

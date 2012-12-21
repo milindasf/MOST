@@ -14,7 +14,7 @@ public class RegisterHighlightElementEvent extends
 		GwtEvent<RegisterHighlightElementHandler> {
 
 	/** The TYPE. */
-	public static Type<RegisterHighlightElementHandler> TYPE = new Type<RegisterHighlightElementHandler>();
+	public static final Type<RegisterHighlightElementHandler> TYPE = new Type<RegisterHighlightElementHandler>();
 
 	/** The highlight element. */
 	private final Element highlightElement;

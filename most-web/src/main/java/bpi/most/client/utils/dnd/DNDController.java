@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("deprecation")
 public class DNDController {
-	public static EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
+	public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
 	/** x coordinate for firefox workaround */
 	public static int clientX;
 

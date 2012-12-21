@@ -14,7 +14,7 @@ import com.google.gwt.event.shared.GwtEvent;
 public class MostDragStartEvent extends GwtEvent<MostDragStartEventHandler> {
 
 	/** The TYPE. */
-	public static Type<MostDragStartEventHandler> TYPE = new Type<MostDragStartEventHandler>();
+	public static final Type<MostDragStartEventHandler> TYPE = new Type<MostDragStartEventHandler>();
 
 	/** The draggable. */
 	private final Element draggable;

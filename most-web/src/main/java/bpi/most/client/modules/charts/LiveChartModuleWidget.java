@@ -35,7 +35,7 @@ public final class LiveChartModuleWidget extends ModuleWidget {
 	/**
 	 * The default time to start a chart wrapper with.
 	 */
-	public static Date dtpb = new Date(1304589600000L);
+	public static final Date dtpb = new Date(1304589600000L);
 
 	private LiveChartModuleWidget() {
 		super();

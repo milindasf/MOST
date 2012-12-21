@@ -27,12 +27,12 @@ public class GConfig {
   public static final String linkDesktop = "ui-desktop-link";
   public static final String active = "active";
   
-  public static String idDesktop = "desktop";
-  public static String idPerson = "person";
-  public static String idExport = "export";
-  public static String idLiveChart = "livechart";
-  public static String idD3 = "d3";
-  public static String idNewAP = "newAP";
+  public static final String idDesktop = "desktop";
+  public static final String idPerson = "person";
+  public static final String idExport = "export";
+  public static final String idLiveChart = "livechart";
+  public static final String idD3 = "d3";
+  public static final String idNewAP = "newAP";
   
   /**
    * @return the idPerson
