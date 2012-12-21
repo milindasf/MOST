@@ -207,12 +207,13 @@ public class Slider extends Widget {
 	}
 
 	public void setAnimate(String speed) {
-		if (speed.equalsIgnoreCase("slow"))
+		if (speed.equalsIgnoreCase("slow")) {
 			options.put("animate", new JSONString("slow"));
-		else if (speed.equalsIgnoreCase("normal"))
+		} else if (speed.equalsIgnoreCase("normal")) {
 			options.put("animate", new JSONString("normal"));
-		else if (speed.equalsIgnoreCase("fast"))
+		} else if (speed.equalsIgnoreCase("fast")) {
 			options.put("animate", new JSONString("fast"));
+		}
 		if (isRendered()) {
 			setNativeOptions(getId(), options.getJavaScriptObject());
 		}
@@ -262,10 +263,11 @@ public class Slider extends Widget {
 	// }
 
 	public void setRange(String range) {
-		if (range.equalsIgnoreCase("min"))
+		if (range.equalsIgnoreCase("min")) {
 			options.put("range", new JSONString("min"));
-		else if (range.equalsIgnoreCase("max"))
+		} else if (range.equalsIgnoreCase("max")) {
 			options.put("range", new JSONString("max"));
+		}
 		if (isRendered()) {
 			setNativeOptions(getId(), options.getJavaScriptObject());
 		}

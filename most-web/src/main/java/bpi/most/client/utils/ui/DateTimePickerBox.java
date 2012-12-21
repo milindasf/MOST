@@ -134,8 +134,9 @@ public class DateTimePickerBox extends Composite {
 		this.olddate = this.date;
 		this.date = date;
 		upDateBox();
-		if (this.olddate.compareTo(date) != 0)
+		if (this.olddate.compareTo(date) != 0) {
 			onDateChange(this.olddate, this.date);
+		}
 	}
 
 	/**
@@ -152,8 +153,9 @@ public class DateTimePickerBox extends Composite {
 		this.olddate = this.date;
 		this.date = date;
 		upDateBox();
-		if (triggerEvent == true && this.olddate.compareTo(date) != 0)
+		if (triggerEvent == true && this.olddate.compareTo(date) != 0) {
 			onDateChange(this.olddate, this.date);
+		}
 	}
 
 	/**

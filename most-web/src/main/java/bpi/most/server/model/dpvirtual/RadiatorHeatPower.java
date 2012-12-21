@@ -167,10 +167,11 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 				//calc heat power - see documentation
 				power = 0.0062 * java.lang.Math.pow(diffTemp, 1.2998) * standartHeatOutput;
 				//set smaller quality value
-				if (meanTempData.getQuality() < matchingRoomTemp.getQuality())
+				if (meanTempData.getQuality() < matchingRoomTemp.getQuality()) {
 					result.add(new DpDataDTO(meanTempData.getTimestamp(), power, meanTempData.getQuality()));
-				else
+				} else {
 					result.add(new DpDataDTO(meanTempData.getTimestamp(), power, matchingRoomTemp.getQuality()));
+				}
 			}
 			return result;
 		}

@@ -61,12 +61,15 @@ public final class ConnectorController {
 		} finally {
 
 			try {
-				if (rs != null) 
+				if (rs != null) {
 					rs.close();
-				if (cstmt != null) 
+				}
+				if (cstmt != null) { 
 					cstmt.close();
-				if (connection != null)
+				}
+				if (connection != null) {
 					connection.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

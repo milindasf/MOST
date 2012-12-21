@@ -102,8 +102,9 @@ public class DpSearchWidget extends Composite {
 				boolean flag = false;
 				for (int i = 0; i < searcharea.size(); i++) {
 					flag = false;
-					if (searcharea.get(i).getValue() == false)
+					if (searcharea.get(i).getValue() == false) {
 						break;
+					}
 					flag = true;
 				}
 				if (flag) {
