@@ -16,7 +16,7 @@ import java.util.Properties;
  */
 public class Config {
 
-    private static final Logger log = LoggerFactory.getLogger(Config.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Config.class);
 
     private Properties properties;
 
@@ -28,9 +28,9 @@ public class Config {
             properties.load(stream);
             stream.close();
         } catch (FileNotFoundException e) {
-            log.info("Could not find a config file");
+        	LOG.info("Could not find a config file");
         } catch (Exception e) {
-            log.warn("Unexpected Exception while reading config file", e);
+        	LOG.warn("Unexpected Exception while reading config file", e);
         }
     }
 

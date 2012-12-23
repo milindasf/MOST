@@ -20,26 +20,26 @@ public class GConfig {
   public static final String UI_PREFIX = "ui-";
   public static final String DWIDGET_PREFIX = "dWidget-";
   // public static final String splitter = "-";
-  public static final String blankScreen = "dragonsupermaster";
-  public static final String dndHighlightDragged = "zindex";
-  public static final String dndHighlightDropable = "dragonmaster"; 
-  public static final String dndHighlightHelper = "dragonslave";
-  public static final String linkDesktop = "ui-desktop-link";
-  public static final String active = "active";
+  public static final String BLANK_SCREEN = "dragonsupermaster";
+  public static final String DND_HIGHLIGHT_DRAGGED = "zindex";
+  public static final String DND_HIGHLIGHT_DROPABLE = "dragonmaster"; 
+  public static final String DND_HIGHLIGHT_HELPER = "dragonslave";
+  public static final String LINK_DESKTOP = "ui-desktop-link";
+  public static final String ACTIVE = "active";
   
-  public static final String idDesktop = "desktop";
-  public static final String idPerson = "person";
-  public static final String idExport = "export";
-  public static final String idLiveChart = "livechart";
-  public static final String idD3 = "d3";
-  public static final String idNewAP = "newAP";
+  public static final String ID_DESKTOP = "desktop";
+  public static final String ID_PERSON = "person";
+  public static final String ID_EXPORT = "export";
+  public static final String ID_LIVE_CHART = "livechart";
+  public static final String ID_D3 = "d3";
+  public static final String ID_NEW_AP = "newAP";
   
   /**
    * @return the idPerson
    */
   public static String getIdPerson() {
 
-    return idPerson;
+    return ID_PERSON;
   }
   
   /**
@@ -47,7 +47,7 @@ public class GConfig {
    */
   public static String getIdExport() {
 
-    return idExport;
+    return ID_EXPORT;
   }
   
   /**
@@ -55,7 +55,7 @@ public class GConfig {
    */
   public static String getIdLiveChart() {
 
-    return idLiveChart;
+    return ID_LIVE_CHART;
   }
   
   /**
@@ -63,7 +63,7 @@ public class GConfig {
    */
   public static String getIdNewAP() {
 
-    return idNewAP;
+    return ID_NEW_AP;
   }
   
   /**
@@ -71,7 +71,7 @@ public class GConfig {
    */
   public static String getIdDesktop() {
 
-    return idDesktop;
+    return ID_DESKTOP;
     // return DesktopModule.getInstance().getModuleName();
   }
   
@@ -122,20 +122,20 @@ public class GConfig {
    */
   public static String getBlankScreen() {
 
-    return blankScreen;
+    return BLANK_SCREEN;
   }
   
 
 public static String getDndHighlightDragged() {
-	return dndHighlightDragged;
+	return DND_HIGHLIGHT_DRAGGED;
 }
 
 public static String getDndHighlightDropable() {
-	return dndHighlightDropable;
+	return DND_HIGHLIGHT_DROPABLE;
 }
 
 public static String getDndHighlightHelper() {
-	return dndHighlightHelper;
+	return DND_HIGHLIGHT_HELPER;
 }
 
 public static String getDwidgetPrefix() {
@@ -143,6 +143,6 @@ public static String getDwidgetPrefix() {
 }
 
 public static String getIdD3() {
-	return idD3;
+	return ID_D3;
 }
 }

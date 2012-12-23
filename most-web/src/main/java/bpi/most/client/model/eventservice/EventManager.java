@@ -34,7 +34,7 @@ public final class EventManager {
 	/**
 	 * GWT event service
 	 */
-	public static final DpChangedEventServiceAsync changedEventService = GWT.create(DpChangedEventService.class);
+	public static final DpChangedEventServiceAsync CHANGED_EVENT_SERVICE = GWT.create(DpChangedEventService.class);
 	private RemoteEventServiceFactory theEventServiceFactory = RemoteEventServiceFactory.getInstance();;
 	private RemoteEventService remoteEventService = theEventServiceFactory.getRemoteEventService();;
 	
@@ -62,7 +62,7 @@ public final class EventManager {
 		 * @TODO check error handling
 		 */
 		//start live listening on server
-		changedEventService.startListening(dpName, new AsyncCallback<Void>(){
+		CHANGED_EVENT_SERVICE.startListening(dpName, new AsyncCallback<Void>(){
 			public void onFailure(Throwable caught) {}
 			public void onSuccess(Void result) {}
 		});
@@ -90,7 +90,7 @@ public final class EventManager {
 		
 		//stop listening on server
 		//TODO check error handling
-		changedEventService.stopListening(dpName, new AsyncCallback<Void>(){
+		CHANGED_EVENT_SERVICE.stopListening(dpName, new AsyncCallback<Void>(){
 			public void onFailure(Throwable caught) {}
 			public void onSuccess(Void result) {}
 		});

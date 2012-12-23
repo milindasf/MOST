@@ -57,7 +57,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GeneralDropWidget extends DropWidget {
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 
 	/**
 	 * The DropWidget as a panel. Just that it's not necessary to cast it when
@@ -99,7 +99,7 @@ public class GeneralDropWidget extends DropWidget {
 	public GeneralDropWidget(String[] dropWidgetStyleNames,
 			String[] dropWidgetContentStyleNames) {
 
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		if (dropWidgetStyleNames != null) {
 			for (int i = 0; i < dropWidgetStyleNames.length; i++) {
 				getWidget().addStyleName(dropWidgetStyleNames[i]);
@@ -128,7 +128,7 @@ public class GeneralDropWidget extends DropWidget {
 	 */
 	public GeneralDropWidget() {
 
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		setThisDropWidgetAsPanel(((FlowPanel) dropWidgetContent));
 		dropWidgetContent.getElement().setId(Document.get().createUniqueId());
 		DNDController
@@ -140,7 +140,7 @@ public class GeneralDropWidget extends DropWidget {
 
 	public GeneralDropWidget(String dropWidgetStyleNames,
 			String dropWidgetContentStyleNames) {
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		if (dropWidgetStyleNames != null) {
 
 			getWidget().addStyleName(dropWidgetStyleNames);

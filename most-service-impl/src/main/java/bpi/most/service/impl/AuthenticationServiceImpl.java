@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;
@@ -41,7 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 pwHash = pwHashList.get(0);
             }
         } catch (PersistenceException e) {
-            log.warn("PersistenceException while retrieving password for user " + userName, e);
+        	LOG.warn("PersistenceException while retrieving password for user " + userName, e);
             return false;
         }
 

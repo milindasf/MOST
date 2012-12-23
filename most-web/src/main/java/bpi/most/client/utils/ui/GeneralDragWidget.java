@@ -63,7 +63,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GeneralDragWidget extends DragWidget implements DragInterface {
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 
 	/**
 	 * The widget that is actually dragged. all status updates and handlers are
@@ -111,7 +111,7 @@ public class GeneralDragWidget extends DragWidget implements DragInterface {
 	public GeneralDragWidget(Widget w, String[] widgetStyleNames,
 			String[] contentStyleNames, String[] dragElementStyleNames) {
 
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		if (widgetStyleNames != null) {
 			for (int i = 0; i < widgetStyleNames.length; i++) {
 				getWidget().addStyleName(widgetStyleNames[i]);
@@ -138,7 +138,7 @@ public class GeneralDragWidget extends DragWidget implements DragInterface {
 	 */
 	public GeneralDragWidget() {
 		super();
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 
 		getElement().setId(Document.get().createUniqueId());
 		addHandlers();
@@ -151,7 +151,7 @@ public class GeneralDragWidget extends DragWidget implements DragInterface {
 	 */
 	public GeneralDragWidget(Widget w) {
 		super(w);
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 
 		getElement().setId(Document.get().createUniqueId());
 		addHandlers();

@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class DatapointServiceImpl implements DatapointService {
 
-    private static final Logger log = LoggerFactory.getLogger(DatapointServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatapointServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;

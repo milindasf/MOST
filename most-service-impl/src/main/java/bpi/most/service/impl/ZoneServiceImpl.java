@@ -24,7 +24,7 @@ import java.util.Map;
 @Service
 public class ZoneServiceImpl implements ZoneService {
 
-    private static final Logger log = LoggerFactory.getLogger(ZoneServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ZoneServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;

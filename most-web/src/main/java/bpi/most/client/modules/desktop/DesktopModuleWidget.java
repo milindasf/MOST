@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public final class DesktopModuleWidget extends ModuleWidget implements HasWidgets {
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 
 	public static DesktopModuleWidget ref = null;
 
@@ -33,7 +33,7 @@ public final class DesktopModuleWidget extends ModuleWidget implements HasWidget
 
 	private DesktopModuleWidget(ModuleInterface module) {
 		super(module);
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		RootModule.addNewDropWidgetToPanel(mDmPanel, "dropWidget dropWidget-desktopModule dWidget-uid-desktop floatLeft");
 		for(int i = 0; i < mDmPanel.getWidgetCount(); i++) {			
 			RootModule.setDropWidgetWidth(mDmPanel.getWidget(i));		

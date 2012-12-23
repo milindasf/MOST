@@ -52,9 +52,9 @@ public class RootModule extends Composite implements HasWidgets {
 
     private final AuthenticationServiceAsync authenticationService = GWT.create(AuthenticationService.class);
 
-    private static final Binder binder = GWT.create(Binder.class);
+    private static final Binder BINDER = GWT.create(Binder.class);
 	public static Integer windowWidth;
-	public static final Integer dropWidgetWidth = 500;
+	public static final Integer DROP_WIDGET_WIDTH = 500;
 
 	interface Binder extends UiBinder<Widget, RootModule> {
 	}
@@ -90,7 +90,7 @@ public class RootModule extends Composite implements HasWidgets {
 
 		// TODO header and footer module/widget
 		// TODO i18n!!!!!!
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 
 		windowWidth = Window.getClientWidth();
 
@@ -201,7 +201,7 @@ public class RootModule extends Composite implements HasWidgets {
 			String styleNames) {
 		while (newDropWidgetPossible(panel)) {
 			DropWidget drop = new GeneralDropWidget(styleNames, null);
-			drop.setWidth(dropWidgetWidth + "px");
+			drop.setWidth(DROP_WIDGET_WIDTH + "px");
 			panel.add(drop);
 		}
 	}
@@ -220,14 +220,14 @@ public class RootModule extends Composite implements HasWidgets {
 			width += ComputedStyle.getPaddingRight(panel.getWidget(i)
 					.getElement());
 		}
-		if (windowWidth - width - 50 > dropWidgetWidth) {
+		if (windowWidth - width - 50 > DROP_WIDGET_WIDTH) {
 			return true;
 		}
 		return false;
 	}
 
 	public static void setDropWidgetWidth(Widget widget) {
-		widget.setWidth(dropWidgetWidth + "px");
+		widget.setWidth(DROP_WIDGET_WIDTH + "px");
 	}
 
 }

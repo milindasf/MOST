@@ -12,7 +12,7 @@ public class DpController {
 	private ArrayList<Datapoint> datapoints = new ArrayList<Datapoint>();
 	private static DpController ref = null;
 	
-	public static final DatapointServiceAsync dpService = GWT
+	public static final DatapointServiceAsync DP_SERVICE = GWT
 		      .create(DatapointService.class);
 	
 	public DpController() {

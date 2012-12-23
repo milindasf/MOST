@@ -21,11 +21,11 @@ public class LiveChartModule implements ModuleInterface {
 
 	public static final String MODULE_URL = "#liveChart";
 
-	public static final String linkInMenuItem = "ui-element-1 dWidget-uid-livechart ui-link-livechart";
+	public static final String LINK_MENU_ITEM = "ui-element-1 dWidget-uid-livechart ui-link-livechart";
 
-	public static final String menuItemId = "ui-link-livechart";
+	public static final String MENU_ITEM_ID = "ui-link-livechart";
 
-	public static final String menuIconClass = "mod-ctrl-anchor";
+	public static final String MENU_ICON_CLASS = "mod-ctrl-anchor";
 
 	public LiveChartModule() {
 
@@ -72,7 +72,7 @@ public class LiveChartModule implements ModuleInterface {
 	@Override
 	public String getMenuItemCssClass() {
 		// TODO Auto-generated method stub
-		return linkInMenuItem;
+		return LINK_MENU_ITEM;
 	}
 
 	/*
@@ -105,7 +105,7 @@ public class LiveChartModule implements ModuleInterface {
 	 */
 	@Override
 	public String getMenuItemId() {
-		return menuItemId;
+		return MENU_ITEM_ID;
 	}
 
 	/*
@@ -115,7 +115,7 @@ public class LiveChartModule implements ModuleInterface {
 	 */
 	@Override
 	public String getMenuIconClass() {
-		return menuIconClass;
+		return MENU_ICON_CLASS;
 	}
 
 }

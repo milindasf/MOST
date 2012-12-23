@@ -20,7 +20,7 @@ import com.google.gwt.dom.client.Element;
 
 public class ComputedStyle {
 
-        private static final ComputedStyleImpl impl = GWT
+        private static final ComputedStyleImpl IMPL = GWT
                         .create(ComputedStyleImpl.class);
 
         private static final String STYLE_FONT_SIZE = "fontSize";
@@ -57,7 +57,7 @@ public class ComputedStyle {
          * @return the computed property value
          */
         public static String getProperty(Element elem, String property) {
-                return impl.getProperty(elem, property);
+                return IMPL.getProperty(elem, property);
         }
 
         public static int getFontSize(Element elem) {

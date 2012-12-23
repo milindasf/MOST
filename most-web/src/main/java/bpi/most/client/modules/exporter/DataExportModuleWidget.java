@@ -46,7 +46,7 @@ public final class DataExportModuleWidget extends ModuleWidget {
 
 	public static String linkInMenuItem = "ui-link-export";
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 
 	/**
 	 * The unique module panel. everything is rendered in this panel. originally
@@ -64,7 +64,7 @@ public final class DataExportModuleWidget extends ModuleWidget {
 
 	private DataExportModuleWidget(ModuleInterface module) {
 		super(module);
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		demPanel.add(new DpSelectWidget());
 		
 //		RootModule

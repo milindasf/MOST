@@ -30,7 +30,7 @@ public class newPMDataset extends Composite {
 	public static String linkInMenuItem = "ui-link-pmdataset";
 	public static newPMDataset ref;
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 	@UiField
 	Button save;
 	@UiField
@@ -59,7 +59,7 @@ public class newPMDataset extends Composite {
 		// "dropWidget-desktopModule",
 		// "red", "floatLeft" }, new String[] { "dropWidget-content" });
 
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 
 		// DragWidget drag = new DragWidget(pmLufttemperatur, null, null, null);
 		// drag.addDragWidgetType(GConfig.getUiDragPrefix() + getModuleName());

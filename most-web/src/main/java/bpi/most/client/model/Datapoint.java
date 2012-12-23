@@ -23,7 +23,7 @@ public class Datapoint extends Observable {
 	 */
 	private String datapointName;
 	
-	public static final DpChangedEventServiceAsync eventService = GWT.create(DpChangedEventService.class);
+	public static final DpChangedEventServiceAsync EVENT_SERVICE = GWT.create(DpChangedEventService.class);
 	
 	/**
 	 * constructors
@@ -115,7 +115,7 @@ public class Datapoint extends Observable {
 		// set corresponding dp reference in dpHandler
 		dpHandler.setDatapoint(this);
 		// start RPC
-		DpController.dpService.getData(getDatapointName(), starttime, endtime,
+		DpController.DP_SERVICE.getData(getDatapointName(), starttime, endtime,
 				new AsyncCallback<DpDatasetDTO>() {
 
 					@Override
@@ -156,7 +156,7 @@ public class Datapoint extends Observable {
 		// set corresponding dp reference in dpHandler
 		dpHandler.setDatapoint(this);
 		// start RPC
-		DpController.dpService.getDataPeriodic(getDatapointName(), starttime,
+		DpController.DP_SERVICE.getDataPeriodic(getDatapointName(), starttime,
 				endtime, period, new AsyncCallback<DpDatasetDTO>() {
 
 					@Override
@@ -203,7 +203,7 @@ public class Datapoint extends Observable {
 		// set corresponding dp reference in dpHandler
 		dpHandler.setDatapoint(this);
 		// start RPC
-		DpController.dpService.getNumberOfValues(getDatapointName(), starttime,
+		DpController.DP_SERVICE.getNumberOfValues(getDatapointName(), starttime,
 				endtime, new AsyncCallback<Integer>() {
 
 					@Override

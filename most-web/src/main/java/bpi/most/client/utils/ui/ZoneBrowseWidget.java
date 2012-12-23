@@ -52,7 +52,7 @@ public class ZoneBrowseWidget extends Composite {
 
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				ModuleController.zoneCtrl.getDatapoints(
+				ModuleController.ZONE_CTRL.getDatapoints(
 						mySelectionModel.getSelectedObject(),
 						1,
 						new ZoneHandler(mySelectionModel
@@ -83,7 +83,7 @@ public class ZoneBrowseWidget extends Composite {
 		@Override
 		protected void onRangeChanged(HasData<ZoneDTO> display) {
 			updateRowCount(0, true);
-			ModuleController.zoneCtrl.getHeadZones(new ZoneHandler(zone) {
+			ModuleController.ZONE_CTRL.getHeadZones(new ZoneHandler(zone) {
 
 				@SuppressWarnings("unchecked")
 				@Override
@@ -106,7 +106,7 @@ public class ZoneBrowseWidget extends Composite {
 		@Override
 		protected void onRangeChanged(HasData<ZoneDTO> display) {
 			updateRowCount(0, true);
-			ModuleController.zoneCtrl.getSubzones(zone, 1,
+			ModuleController.ZONE_CTRL.getSubzones(zone, 1,
 					new ZoneHandler(zone) {
 
 						@SuppressWarnings("unchecked")

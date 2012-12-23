@@ -16,9 +16,9 @@ public class FeedbackModule implements ModuleInterface {
 	public static final String MODULE_NAME = "person";
 	public static final String MODULE_MENU_ITEM_TEXT = "Feedback";
 	public static final String MODULE_URL = "#person";
-	public static final String linkInMenuItem = "ui-element-2 dWidget-uid-person";
-	public static final String menuItemId = "ui-link-person";
-	public static final String menuIconClass = "mod-ctrl-anchor";
+	public static final String LINK_IN_MENU_ITEM = "ui-element-2 dWidget-uid-person";
+	public static final String MENU_ITEM_ID = "ui-link-person";
+	public static final String MENU_ICON_CLASS = "mod-ctrl-anchor";
 
 	@Override
 	public String getModuleName() {
@@ -37,7 +37,7 @@ public class FeedbackModule implements ModuleInterface {
 
 	@Override
 	public String getMenuItemCssClass() {
-		return linkInMenuItem;
+		return LINK_IN_MENU_ITEM;
 	}
 
 	@Override
@@ -52,11 +52,11 @@ public class FeedbackModule implements ModuleInterface {
 
 	@Override
 	public String getMenuItemId() {
-		return menuItemId;
+		return MENU_ITEM_ID;
 	}
 
 	@Override
 	public String getMenuIconClass() {
-		return menuIconClass;
+		return MENU_ICON_CLASS;
 	}
 }

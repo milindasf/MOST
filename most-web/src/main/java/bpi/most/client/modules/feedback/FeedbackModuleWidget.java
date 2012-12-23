@@ -39,7 +39,7 @@ public final class FeedbackModuleWidget extends ModuleWidget {
 	// public static VerticalPanel panel = new VerticalPanel();
 	public static AbsolutePanel panel = new AbsolutePanel();
 	public static FeedbackModuleWidget ref;
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 	public final PersonModuleServiceAsync personModuleService = GWT
 			.create(PersonModuleService.class);
 	@UiField
@@ -67,7 +67,7 @@ public final class FeedbackModuleWidget extends ModuleWidget {
 
 	private FeedbackModuleWidget(ModuleInterface module) {
 		super(module);
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		RootModule.addNewDropWidgetToPanel(mPMmPanel, "dropWidget dropWidget-desktopModule dWidget-uid-desktop floatLeft");
 		for(int i = 0; i < mPMmPanel.getWidgetCount(); i++) {			
 			RootModule.setDropWidgetWidth(mPMmPanel.getWidget(i));		

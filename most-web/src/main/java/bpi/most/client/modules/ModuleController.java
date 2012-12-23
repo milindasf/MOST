@@ -31,13 +31,13 @@ import com.google.gwt.core.client.GWT;
  */
 public final class ModuleController {
 
-	public static final ModuleControllerServiceAsync moduleCtrlService = GWT
+	public static final ModuleControllerServiceAsync MODULE_CTRL_SERVICE = GWT
 			.create(ModuleControllerService.class);
 
 	public static ModuleController ref = null;
 	// TODO find right place for DpController
-	public static final DpController dpcc = DpController.getSingleton();
-	public static final ZoneController zoneCtrl = ZoneController.getInstance();
+	public static final DpController DPCC = DpController.getSingleton();
+	public static final ZoneController ZONE_CTRL = ZoneController.getInstance();
 
 	private ModuleController() {
 		new ModuleRegistrator();

@@ -64,7 +64,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DeleteableDragWidget extends DragWidget implements DragInterface {
 
-	private static final Binder binder = GWT.create(Binder.class);
+	private static final Binder BINDER = GWT.create(Binder.class);
 
 	/**
 	 * The widget that is actually dragged. all status updates and handlers are
@@ -115,7 +115,7 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 	public DeleteableDragWidget(Widget w, String[] widgetStyleNames,
 			String[] contentStyleNames, String[] dragElementStyleNames) {
 
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 		if (widgetStyleNames != null) {
 			for (int i = 0; i < widgetStyleNames.length; i++) {
 				getWidget().addStyleName(widgetStyleNames[i]);
@@ -142,7 +142,7 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 	 */
 	public DeleteableDragWidget() {
 		super();
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 
 		getElement().setId(Document.get().createUniqueId());
 		addHandlers();
@@ -155,7 +155,7 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 	 */
 	public DeleteableDragWidget(Widget w) {
 		super(w);
-		initWidget(binder.createAndBindUi(this));
+		initWidget(BINDER.createAndBindUi(this));
 
 		getElement().setId(Document.get().createUniqueId());
 		addHandlers();

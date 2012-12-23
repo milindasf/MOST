@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class ConnectorServiceImpl implements ConnectorService {
 
-    private static final Logger log = LoggerFactory.getLogger(ConnectorServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectorServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;

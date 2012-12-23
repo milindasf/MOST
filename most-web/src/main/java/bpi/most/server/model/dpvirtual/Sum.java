@@ -43,7 +43,7 @@ public class Sum extends DpVirtualFactory {
 	 */
 	public class SumImplementation extends Datapoint {
 		//Custom Attributes
-		private static final String IDdpType = "dpType";
+		private static final String ID_DP_TYPE = "dpType";
 		//requested type
 		String requestedType = null;
 		ZoneController zoneCtrl = null;
@@ -56,7 +56,7 @@ public class Sum extends DpVirtualFactory {
 		public SumImplementation(String dpName) {
 			super(dpName);
 			//get requested type
-			requestedType = getCustomAttr(IDdpType);
+			requestedType = getCustomAttr(ID_DP_TYPE);
 			//get required DPs
 			zoneCtrl = ZoneController.getInstance();
 			myZone = getZone();

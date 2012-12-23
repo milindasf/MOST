@@ -718,7 +718,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	@SuppressWarnings("deprecation")
 	public void dropEventHandler() {
 		if (DNDController.getDragitem() instanceof DpWidget) {
-			final Datapoint dptemp = ModuleController.dpcc
+			final Datapoint dptemp = ModuleController.DPCC
 					.getDatapoint(((DpWidget) DNDController.getDragitem())
 							.getText());
 			dplist.add(dptemp);

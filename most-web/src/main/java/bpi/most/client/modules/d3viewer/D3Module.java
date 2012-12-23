@@ -40,11 +40,11 @@ public class D3Module implements ModuleInterface {
 	 */
 	public static D3ModuleWidget ref;
 
-	public static final String linkInMenuItem = "ui-element-4 dWidget-uid-3d";
+	public static final String LINK_IN_MENU_ITEM = "ui-element-4 dWidget-uid-3d";
 
-	public static final String menuItemId = "ui-link-3d";
+	public static final String MENU_ITEM_ID = "ui-link-3d";
 
-	public static final String menuIconClass = "mod-ctrl-anchor";
+	public static final String MENU_ICON_CLASS = "mod-ctrl-anchor";
 
 	public AbsolutePanel prepareSubMenuPanel = new AbsolutePanel();
 
@@ -96,7 +96,7 @@ public class D3Module implements ModuleInterface {
 	@Override
 	public String getMenuItemCssClass() {
 		// TODO Auto-generated method stub
-		return linkInMenuItem;
+		return LINK_IN_MENU_ITEM;
 	}
 
 	/*
@@ -129,7 +129,7 @@ public class D3Module implements ModuleInterface {
 	 */
 	@Override
 	public String getMenuItemId() {
-		return menuItemId;
+		return MENU_ITEM_ID;
 	}
 
 	/*
@@ -139,6 +139,6 @@ public class D3Module implements ModuleInterface {
 	 */
 	@Override
 	public String getMenuIconClass() {
-		return menuIconClass;
+		return MENU_ICON_CLASS;
 	}
 }

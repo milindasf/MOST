@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ConnectorFinder {
 
-    private static final Logger log = LoggerFactory.getLogger(ConnectorFinder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectorFinder.class);
 
     private final EntityManager em;
 
@@ -77,7 +77,7 @@ public class ConnectorFinder {
             });
         }
         catch (HibernateException e) {
-            log.error("An exception occurred while calling stored procedure 'getConnection'", e);
+        	LOG.error("An exception occurred while calling stored procedure 'getConnection'", e);
         }
         return result;
     }

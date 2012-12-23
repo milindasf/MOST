@@ -426,7 +426,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 		DeleteableDragWidget drag = new DeleteableDragWidget(cwtemp,
 				new String[] { "dWidget-uid-livechart", "dWidget-uid-desktop",
 						"dWidget-uid-3d" }, null, null);
-		Datapoint dptemp = ModuleController.dpcc.getDatapoint(dp);
+		Datapoint dptemp = ModuleController.DPCC.getDatapoint(dp);
 		dptemp.getData(new Date(1304589600000L), new Date(
 				1304589600000L + 86400000L), new DatapointHandler(
 				getInstance(), dptemp) {

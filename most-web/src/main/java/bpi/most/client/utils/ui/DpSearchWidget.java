@@ -71,7 +71,7 @@ public class DpSearchWidget extends Composite {
 		searcharea.add(chkboxpower);
 		searcharea.add(chkboxstate);
 		searcharea.add(chkboxtemp);
-		DpController.dpService
+		DpController.DP_SERVICE
 				.getDatapoints(new AsyncCallback<ArrayList<DpDTO>>() {
 
 					@Override
@@ -130,7 +130,7 @@ public class DpSearchWidget extends Composite {
 					}
 				}
 				if (checked) {
-					DpController.dpService.getDatapoints(sugbox.getText().trim()
+					DpController.DP_SERVICE.getDatapoints(sugbox.getText().trim()
 							.toLowerCase(),
 							new AsyncCallback<ArrayList<DpDTO>>() {
 

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ZoneFinder {
 
-    private static final Logger log = LoggerFactory.getLogger(ZoneFinder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ZoneFinder.class);
 
     private final EntityManager em;
 
@@ -33,7 +33,7 @@ public class ZoneFinder {
     public Zone getZone(int zoneId) {
         //get zone info from db
 
-        log.debug("Fetching zones with id {}", zoneId);
+    	LOG.debug("Fetching zones with id {}", zoneId);
         try{
             // noinspection unchecked
             List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParameters(:zoneId)}")
@@ -48,7 +48,7 @@ public class ZoneFinder {
                 return zoneList.get(0);
             }
         }catch(HibernateException e){
-            log.debug(e.getStackTrace().toString());
+        	LOG.debug(e.getStackTrace().toString());
             return null;
         }
     }
@@ -60,7 +60,7 @@ public class ZoneFinder {
      */
     public List<Zone> getZone(String searchPattern) {
         //get zone info from db
-        log.debug("Fetching zones with searchPattern {}", searchPattern);
+    	LOG.debug("Fetching zones with searchPattern {}", searchPattern);
         try{
             // noinspection unchecked
             List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParametersSearch(:p,:searchPattern)}")
@@ -76,7 +76,7 @@ public class ZoneFinder {
                 return zoneList;
             }
         }catch(HibernateException e){
-            log.debug(e.getStackTrace().toString());
+        	LOG.debug(e.getStackTrace().toString());
             return null;
         }
     }
@@ -93,7 +93,7 @@ public class ZoneFinder {
         }
 
         //get zone info from db
-        log.debug("Fetching zones with user {}", username);
+        LOG.debug("Fetching zones with user {}", username);
         try{
             // If user is null the stored procedure returns a list of all zones ids that have no superzones
             // otherwise the stored procedure returns the highest zones for that the given user (a list of Integers).
@@ -106,7 +106,7 @@ public class ZoneFinder {
             return zoneIDs;
 
         }catch(HibernateException e){
-            log.debug(e.getStackTrace().toString());
+        	LOG.debug(e.getStackTrace().toString());
             return new ArrayList<Integer>();
         }
     }

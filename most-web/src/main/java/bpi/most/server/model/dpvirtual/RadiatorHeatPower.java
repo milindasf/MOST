@@ -43,9 +43,9 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 	 */
 	public class RadiatorHeatPowerImplementation extends Datapoint {
 		//Custom Attributes
-		private static final String IDdpMeanTemp = "dpMeanTemp";
-		private static final String IDstandartHeatOutput = "standartHeatOutput";
-		private static final String IDdpRoomTemp = "dpRoomTemp";
+		private static final String ID_DP_MEAN_TEMP = "dpMeanTemp";
+		private static final String ID_STANDART_HEAT_OUTPUT = "standartHeatOutput";
+		private static final String ID_DP_ROOM_TEMP = "dpRoomTemp";
 		DpController dpct = null;
 		private DpDatasetDTO defaultRoomTemp; 
 		
@@ -84,9 +84,9 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 		@Override
 		public DpDataDTO getData() {
 			//get required DPs
-			Datapoint dpMeanTemp = dpct.getDatapoint(getCustomAttr(IDdpMeanTemp));
+			Datapoint dpMeanTemp = dpct.getDatapoint(getCustomAttr(ID_DP_MEAN_TEMP));
 			//dpRoomTemp is null if not defined
-			Datapoint dpRoomTemp = dpct.getDatapoint(getCustomAttr(IDdpRoomTemp));
+			Datapoint dpRoomTemp = dpct.getDatapoint(getCustomAttr(ID_DP_ROOM_TEMP));
 			
 			//put last value in Dataset
 			DpDatasetDTO meanRadiatorTemp = new DpDatasetDTO();
@@ -104,9 +104,9 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 		@Override
 		public DpDatasetDTO getData(Date starttime, Date endtime) {
 			//get required DPs
-			Datapoint dpMeanTemp = dpct.getDatapoint(getCustomAttr(IDdpMeanTemp));
+			Datapoint dpMeanTemp = dpct.getDatapoint(getCustomAttr(ID_DP_MEAN_TEMP));
 			//dpRoomTemp is null if not defined
-			Datapoint dpRoomTemp = dpct.getDatapoint(getCustomAttr(IDdpRoomTemp));
+			Datapoint dpRoomTemp = dpct.getDatapoint(getCustomAttr(ID_DP_ROOM_TEMP));
 			
 			if (dpRoomTemp == null) {
 				return calculateHeatPower(dpMeanTemp.getData(starttime, endtime), defaultRoomTemp);
@@ -118,9 +118,9 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 		@Override
 		public DpDatasetDTO getDataPeriodic(Date starttime, Date endtime, Float period, int mode) {
 			//get required DPs
-			Datapoint dpMeanTemp = dpct.getDatapoint(getCustomAttr(IDdpMeanTemp));
+			Datapoint dpMeanTemp = dpct.getDatapoint(getCustomAttr(ID_DP_MEAN_TEMP));
 			//dpRoomTemp is null if not defined
-			Datapoint dpRoomTemp = dpct.getDatapoint(getCustomAttr(IDdpRoomTemp));
+			Datapoint dpRoomTemp = dpct.getDatapoint(getCustomAttr(ID_DP_ROOM_TEMP));
 			
 			if (dpRoomTemp == null) {
 				return calculateHeatPower(dpMeanTemp.getDataPeriodic(starttime, endtime, period, mode), defaultRoomTemp);
@@ -139,7 +139,7 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 			DpDataDTO matchingRoomTemp;
 			//set dp name in Resultset
 			result.setDatapointName(getDatapointName());
-			int standartHeatOutput = Integer.valueOf(getCustomAttr(IDstandartHeatOutput));
+			int standartHeatOutput = Integer.valueOf(getCustomAttr(ID_STANDART_HEAT_OUTPUT));
 			
 			//return empty Dataset if not all arguments are valid
 			if (meanRadiatorTemp.isEmpty() || roomTemp.isEmpty()) {
@@ -182,7 +182,7 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 		 * @see bpi.most.server.model.Datapoint#getNumberOfValues(java.util.Date, java.util.Date)
 		 */
 		public int getNumberOfValues(Date starttime, Date endtime) {
-			return dpct.getDatapoint(getCustomAttr(IDdpMeanTemp)).getNumberOfValues(starttime, endtime);
+			return dpct.getDatapoint(getCustomAttr(ID_DP_MEAN_TEMP)).getNumberOfValues(starttime, endtime);
 		}
 		
 		

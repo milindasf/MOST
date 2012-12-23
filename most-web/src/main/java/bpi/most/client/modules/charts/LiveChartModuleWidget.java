@@ -35,7 +35,7 @@ public final class LiveChartModuleWidget extends ModuleWidget {
 	/**
 	 * The default time to start a chart wrapper with.
 	 */
-	public static final Date dtpb = new Date(1304589600000L);
+	public static final Date DTPB = new Date(1304589600000L);
 
 	private LiveChartModuleWidget() {
 		super();
@@ -53,7 +53,7 @@ public final class LiveChartModuleWidget extends ModuleWidget {
 				private DropWidget relatedDropWidget = (DropWidget) temp;  
 				@Override
 				public void onDpWidgetDropEvent(DpWidgetDropEvent event) {
-					ChartWrapper cwtemp = new ChartWrapper(dtpb);
+					ChartWrapper cwtemp = new ChartWrapper(DTPB);
 					DeleteableDragWidget drag = new DeleteableDragWidget(
 							cwtemp, new String[] { "dWidget-uid-livechart",
 									"dWidget-uid-desktop" }, null, null);	

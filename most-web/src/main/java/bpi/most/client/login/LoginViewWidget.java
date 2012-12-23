@@ -28,7 +28,7 @@ public class LoginViewWidget extends Composite implements LoginView {
     /**
      * The Constant binder.
      */
-    private static final Binder binder = GWT.create(Binder.class);
+    private static final Binder BINDER = GWT.create(Binder.class);
 
     /**
      * The Interface Binder.
@@ -62,7 +62,7 @@ public class LoginViewWidget extends Composite implements LoginView {
         this.rootModuleCreator = rootModuleCreator;
         this.loginPresenter = new LoginPresenter(this, new LoginUserVerifierImpl());
 
-        initWidget(binder.createAndBindUi(this));
+        initWidget(BINDER.createAndBindUi(this));
 
         user.getElement().setAttribute("placeholder", "Username");
         pw.getElement().setAttribute("placeholder", "Password");

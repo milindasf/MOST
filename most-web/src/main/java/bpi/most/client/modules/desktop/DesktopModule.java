@@ -17,9 +17,9 @@ public class DesktopModule implements ModuleInterface {
 	public static final String MODULE_NAME = "desktop";
 	public static final String MODULE_MENU_ITEM_TEXT = "Desktop";
 	public static final String MODULE_URL = "#desktop";
-	public static final String linkInMenuItem = "ui-element-0 dWidget-uid-desktop";
-	public static final String menuItemId = "ui-link-desktop";
-	public static final String menuIconClass = "mod-ctrl-anchor";
+	public static final String LINK_IN_MENU_ITEM = "ui-element-0 dWidget-uid-desktop";
+	public static final String MENU_ITEM_ID = "ui-link-desktop";
+	public static final String MENU_ICON_CLASS = "mod-ctrl-anchor";
 
 	public DesktopModule() {
 
@@ -42,7 +42,7 @@ public class DesktopModule implements ModuleInterface {
 
 	@Override
 	public String getMenuItemCssClass() {
-		return linkInMenuItem;
+		return LINK_IN_MENU_ITEM;
 	}
 
 	@Override
@@ -57,11 +57,11 @@ public class DesktopModule implements ModuleInterface {
 
 	@Override
 	public String getMenuItemId() {
-		return menuItemId;
+		return MENU_ITEM_ID;
 	}
 
 	@Override
 	public String getMenuIconClass() {
-		return menuIconClass;
+		return MENU_ICON_CLASS;
 	}
 }

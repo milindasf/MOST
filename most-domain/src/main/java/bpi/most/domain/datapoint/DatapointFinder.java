@@ -19,7 +19,7 @@ import static bpi.most.infra.db.DbUtils.prepareSearchParameter;
  */
 public class DatapointFinder {
 
-    private static final Logger log = LoggerFactory.getLogger(DatapointFinder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatapointFinder.class);
 
     private final EntityManager em;
 
@@ -28,7 +28,7 @@ public class DatapointFinder {
     }
 
     public List<DatapointVO> getDatapoints(String searchstring) {
-        log.debug("Fetching datapoints with searchstring {}", searchstring);
+        LOG.debug("Fetching datapoints with searchstring {}", searchstring);
         // noinspection unchecked
         return ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:searchstring)}")
                 .setParameter("searchstring", prepareSearchParameter(searchstring))
@@ -38,7 +38,7 @@ public class DatapointFinder {
     }
 
     public List<DatapointVO> getDatapoints(String searchstring, String zone) {
-        log.debug("Fetching datapoints with searchstring {} for zone {}", searchstring, zone);
+    	LOG.debug("Fetching datapoints with searchstring {} for zone {}", searchstring, zone);
         // noinspection unchecked
         return ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:searchstring)}")
                 .setParameter("searchstring", prepareSearchParameter(searchstring))

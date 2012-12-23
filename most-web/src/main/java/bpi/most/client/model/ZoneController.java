@@ -22,7 +22,7 @@ public final class ZoneController {
 
 	private static ZoneController ref = null;
 
-	public static final ZoneServiceAsync zoneService = GWT
+	public static final ZoneServiceAsync ZONE_SERVICE = GWT
 			.create(ZoneService.class);
 
 	// Singleton
@@ -38,7 +38,7 @@ public final class ZoneController {
 	}
 
 	public List<ZoneDTO> getHeadZones(final ZoneHandler zoneHandler) {
-		zoneService.getHeadZones(new AsyncCallback<List<ZoneDTO>>() {
+		ZONE_SERVICE.getHeadZones(new AsyncCallback<List<ZoneDTO>>() {
 
 			@Override
 			public void onSuccess(List<ZoneDTO> result) {
@@ -56,7 +56,7 @@ public final class ZoneController {
 
 	public List<ZoneDTO> getSubzones(ZoneDTO zoneEntity, int sublevels,
 			final ZoneHandler zoneHandler) {
-		zoneService.getSubzones(zoneEntity, sublevels,
+		ZONE_SERVICE.getSubzones(zoneEntity, sublevels,
 				new AsyncCallback<List<ZoneDTO>>() {
 
 					@Override
@@ -74,7 +74,7 @@ public final class ZoneController {
 	}
 
 	public ZoneDTO getZone(ZoneDTO zoneDto, final ZoneHandler zoneHandler) {
-		zoneService.getZone(zoneDto, new AsyncCallback<ZoneDTO>() {
+		ZONE_SERVICE.getZone(zoneDto, new AsyncCallback<ZoneDTO>() {
 
 			@Override
 			public void onSuccess(ZoneDTO result) {
@@ -92,7 +92,7 @@ public final class ZoneController {
 
 	public List<DpDTO> getDatapoints(ZoneDTO zoneEntity, int sublevels,
 			final ZoneHandler zoneHandler) {
-		zoneService.getDatapoints(zoneEntity, sublevels,
+		ZONE_SERVICE.getDatapoints(zoneEntity, sublevels,
 				new AsyncCallback<List<DpDTO>>() {
 
 					@Override
