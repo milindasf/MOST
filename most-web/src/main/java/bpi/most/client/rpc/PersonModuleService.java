@@ -8,5 +8,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("services/gwtrpc/person")
 public interface PersonModuleService extends RemoteService {
   
-  public boolean setPersonValues(HashMap<String, String> personForm);
+  boolean setPersonValues(HashMap<String, String> personForm);
 }

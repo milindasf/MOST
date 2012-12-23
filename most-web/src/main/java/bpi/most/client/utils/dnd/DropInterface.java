@@ -4,9 +4,9 @@ import com.google.gwt.dom.client.Element;
 
 public interface DropInterface {
 
-	public void registerHighlightElement(Element element);
+	void registerHighlightElement(Element element);
 	
-	public void fireMostDragEndEvent();
+	void fireMostDragEndEvent();
 	
 //	public void dropProcedure(DropWidget widget);
 

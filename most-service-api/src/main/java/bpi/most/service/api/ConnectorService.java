@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface ConnectorService {
 
-    public List<ConnectorVO> getConnection(User user);
+    List<ConnectorVO> getConnection(User user);
 }

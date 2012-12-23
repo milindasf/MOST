@@ -17,49 +17,49 @@ public interface ModuleInterface {
 	 * 
 	 * @return String
 	 */
-	public String getModuleName();
+	String getModuleName();
 
 	/**
 	 * The text displayed in the Anchor defining the Menu Item.
 	 * 
 	 * @return String
 	 */
-	public String getMenuItemText();
+	String getMenuItemText();
 
 	/**
 	 * Url displayed when clicking a module.
 	 * 
 	 * @return String
 	 */
-	public String getModuleUrl();
+	String getModuleUrl();
 
 	/**
 	 * the CSS class of the header item. needed for DND
 	 * 
 	 * @return String
 	 */
-	public String getMenuItemCssClass();
+	String getMenuItemCssClass();
 
 	/**
 	 * Gets the main menu entry.
 	 * 
 	 * @return the main menu entry
 	 */
-	public MainMenuEntry getMainMenuEntry();
+	MainMenuEntry getMainMenuEntry();
 
 	/**
 	 * Gets the module widget. the actual menu entry widget ( anchor )
 	 * 
 	 * @return the module widget
 	 */
-	public ModuleWidget getModuleWidget();
+	ModuleWidget getModuleWidget();
 
 	/**
 	 * Gets the menu item id. This id is applied to the DOM element
 	 * 
 	 * @return the menu item id
 	 */
-	public String getMenuItemId();
+	String getMenuItemId();
 
 	/**
 	 * Gets the menu icon class. A css class linking to the ICON of the menu
@@ -67,5 +67,5 @@ public interface ModuleInterface {
 	 * 
 	 * @return the menu icon class
 	 */
-	public String getMenuIconClass();
+	String getMenuIconClass();
 }

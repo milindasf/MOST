@@ -24,7 +24,7 @@ public interface ChartInterface {
 	 * @param name
 	 *            The name of the empty series you want to add.
 	 */
-	public void addCurve(String name);
+	void addCurve(String name);
 
 	/**
 	 * Add a new series to the chart with the data provided by the data set.
@@ -33,7 +33,7 @@ public interface ChartInterface {
 	 *            The {@link DpDatasetDTO} with name of the series and all data
 	 *            points you want do add to the new series.
 	 */
-	public void addCurve(DpDatasetDTO dpdataset);
+	void addCurve(DpDatasetDTO dpdataset);
 
 	/**
 	 * Add a new series to the chart with the data provided by the data set.
@@ -45,7 +45,7 @@ public interface ChartInterface {
 	 *            If the data in the data set is generated periodic this should
 	 *            be set to true, otherwise false.
 	 */
-	public void addCurve(DpDatasetDTO dpdataset, boolean periodicFlag);
+	void addCurve(DpDatasetDTO dpdataset, boolean periodicFlag);
 
 	/**
 	 * Get an array list with all the {@link Curve} elements that are currently
@@ -55,7 +55,7 @@ public interface ChartInterface {
 	 * @return Returns an array list with all the {@link Curve} elements that
 	 *         are currently in the chart.
 	 */
-	public ArrayList<Curve> getCurveList();
+	ArrayList<Curve> getCurveList();
 
 	/**
 	 * Method for adding a single data point value to the series with the given name.
@@ -69,7 +69,7 @@ public interface ChartInterface {
 	 * @param value
 	 *            The value of the data you want to add to the series.
 	 */
-	public void addValue(String name, Date date, Double value);
+	void addValue(String name, Date date, Double value);
 
 	/**
 	 * Method to remove the series with the given name from the chart. If no
@@ -78,7 +78,7 @@ public interface ChartInterface {
 	 * @param name
 	 *            The name of the series you want to remove from the chart.
 	 */
-	public void removeSeries(String name);
+	void removeSeries(String name);
 
 	/**
 	 * Method to remove the series with the given name from the chart and
@@ -93,12 +93,12 @@ public interface ChartInterface {
 	 *            If you want to redraw the chart after removing the series,
 	 *            this must be true.
 	 */
-	public void removeSeries(String name, boolean redraw);
+	void removeSeries(String name, boolean redraw);
 
 	/**
 	 * Removes all series from the chart.
 	 */
-	public void removeAllSeries();
+	void removeAllSeries();
 
 	/**
 	 * Removes all series from the chart and choose if you want to redraw it
@@ -108,12 +108,12 @@ public interface ChartInterface {
 	 *            True if you want to redraw the chart afterwards, false if you
 	 *            don't.
 	 */
-	public void removeAllSeries(boolean redraw);
+	void removeAllSeries(boolean redraw);
 
 	/**
 	 * Redraw the chart.
 	 */
-	public void redraw();
+	void redraw();
 
 	/**
 	 * Get the date of the first value from the series with the given name.
@@ -123,7 +123,7 @@ public interface ChartInterface {
 	 * @return Return the date of the first value from the series with the given
 	 *         name.
 	 */
-	public Date getStartDate(String name);
+	Date getStartDate(String name);
 
 	/**
 	 * Get the date of the last value from the series with the given name.
@@ -133,7 +133,7 @@ public interface ChartInterface {
 	 * @return Return the date of the last value from the series with the given
 	 *         name.
 	 */
-	public Date getEndDate(String name);
+	Date getEndDate(String name);
 
 	/**
 	 * Append the data from the data set to the series it belongs to. If the
@@ -142,7 +142,7 @@ public interface ChartInterface {
 	 * @param dpdataset
 	 *            The {@link DpDatasetDTO} you want to append.
 	 */
-	public void appendDataset(DpDatasetDTO dpdataset);
+	void appendDataset(DpDatasetDTO dpdataset);
 
 	/**
 	 * Prepend the data from the data set to the series it belongs to. If the
@@ -151,7 +151,7 @@ public interface ChartInterface {
 	 * @param dpdataset
 	 *            The {@link DpDatasetDTO} you want to prepend.
 	 */
-	public void prependDataset(DpDatasetDTO dpdataset);
+	void prependDataset(DpDatasetDTO dpdataset);
 
 	/**
 	 * Append a single {@link DpDataDTO} to the series with the given name if it
@@ -162,7 +162,7 @@ public interface ChartInterface {
 	 * @param dpdata
 	 *            The {@link DpDataDTO} you want to append.
 	 */
-	public void appendData(String name, DpDataDTO dpdata);
+	void appendData(String name, DpDataDTO dpdata);
 
 	/**
 	 * Prepend a single {@link DpDataDTO} to the series with the given name if
@@ -173,7 +173,7 @@ public interface ChartInterface {
 	 * @param dpdata
 	 *            The {@link DpDataDTO} you want to prepend.
 	 */
-	public void prependData(String name, DpDataDTO dpdata);
+	void prependData(String name, DpDataDTO dpdata);
 
 	/**
 	 * Delete the data set from the series with the given name between the two
@@ -186,7 +186,7 @@ public interface ChartInterface {
 	 * @param to
 	 *            The end date up to which you want to delete the data.
 	 */
-	public void delDataset(String name, Date from, Date to);
+	void delDataset(String name, Date from, Date to);
 
 	/**
 	 * A method to delete a data point from the array list in the
@@ -197,7 +197,7 @@ public interface ChartInterface {
 	 * @param name
 	 *            The name of the data point you want to delete from the list.
 	 */
-	public void delDp(String name);
+	void delDp(String name);
 
 	/**
 	 * Method to set a complete new data set to a series.
@@ -208,7 +208,7 @@ public interface ChartInterface {
 	 *            Set to true if the new data is periodic and set to false if
 	 *            the new data is real time data.
 	 */
-	public void setDataset(DpDatasetDTO dpdataset, boolean periodicFlag);
+	void setDataset(DpDatasetDTO dpdataset, boolean periodicFlag);
 
 	/**
 	 * Method to get the Number of points of a specific series in the chart,
@@ -219,7 +219,7 @@ public interface ChartInterface {
 	 * @return Returns the number of points the series have. Zero when the
 	 *         series is not in the chart.
 	 */
-	public int getPointCount(String name);
+	int getPointCount(String name);
 
 	/**
 	 * Method to set the periodic flag of a series. The periodic flag indicate
@@ -229,7 +229,7 @@ public interface ChartInterface {
 	 *            Name of the series you want to set the flag.
 	 * @param flag
 	 */
-	public void setPeriodicFlag(String name, boolean flag);
+	void setPeriodicFlag(String name, boolean flag);
 
 	/**
 	 * Method to get the state of the periodic flag of a series. The periodic
@@ -241,7 +241,7 @@ public interface ChartInterface {
 	 * @return Returns if the data of the series is real time or periodic
 	 *         generated. True = periodic generated data, false = real time data
 	 */
-	public boolean getPeriodicFlag(String name);
+	boolean getPeriodicFlag(String name);
 
 	/**
 	 * Method to check if series with given name already exist in the chart.
@@ -251,7 +251,7 @@ public interface ChartInterface {
 	 * @return Returns if the series with the given name is already in chart.
 	 *         True = is in chart, false = is not in chart
 	 */
-	public boolean isInChart(String name);
+	boolean isInChart(String name);
 
 	/**
 	 * Method to figure out if there is periodic data used in any series.
@@ -259,7 +259,7 @@ public interface ChartInterface {
 	 * @return Return true if any series contains periodic Values and false if
 	 *         all series contains only real time data.
 	 */
-	public boolean isPeriodic();
+	boolean isPeriodic();
 
 	/**
 	 * Method to figure out if a specific series is generated with periodic
@@ -270,7 +270,7 @@ public interface ChartInterface {
 	 * @return Return true if the series is generated with periodic data, false
 	 *         otherwise.
 	 */
-	public boolean isPeriodic(String name);
+	boolean isPeriodic(String name);
 
 	/**
 	 * If the chart has a zoom feature you can get the start date and time of
@@ -278,7 +278,7 @@ public interface ChartInterface {
 	 * 
 	 * @return The start date and time of the zoom frame.
 	 */
-	public Date getZoomStart();
+	Date getZoomStart();
 
 	/**
 	 * If the chart has a zoom feature you can get the end date and time of the
@@ -286,7 +286,7 @@ public interface ChartInterface {
 	 * 
 	 * @return The end date and time of the zoom frame.
 	 */
-	public Date getZoomEnd();
+	Date getZoomEnd();
 
 	/**
 	 * Shows a loading icon on the chart until it's removed with
@@ -296,13 +296,13 @@ public interface ChartInterface {
 	 * @param text
 	 *            The text to be shown while loading.
 	 */
-	public void showLoading(String text);
+	void showLoading(String text);
 
 	/**
 	 * Hides the loading icon that is shown with {@link #showLoading(String)}.
 	 * (Maybe not every chart implementation offers this feature.)
 	 */
-	public void hideLoading();
+	void hideLoading();
 
 	/**
 	 * Remove values at the start of a series.
@@ -313,8 +313,7 @@ public interface ChartInterface {
 	 *            The number of values that should be removed.
 	 * @return Returns the number of removed values.
 	 */
-
-	public int removeValuesAtStart(String name, int number);
+	int removeValuesAtStart(String name, int number);
 
 	/**
 	 * Remove values at the end of a series.
@@ -325,7 +324,7 @@ public interface ChartInterface {
 	 *            The number of values that should be removed.
 	 * @return Returns the number of removed values.
 	 */
-	public int removeValuesAtEnd(String name, int number);
+	int removeValuesAtEnd(String name, int number);
 
 	/**
 	 * Get a {@link DpDatasetDTO} from a series.
@@ -334,5 +333,5 @@ public interface ChartInterface {
 	 *            The name of the series.
 	 * @return The DatapointDatasetVO of the series.
 	 */
-	public DpDatasetDTO getDataset(String name);
+	DpDatasetDTO getDataset(String name);
 }

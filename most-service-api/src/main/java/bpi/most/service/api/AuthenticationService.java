@@ -7,6 +7,6 @@ package bpi.most.service.api;
  */
 public interface AuthenticationService {
     
-    public boolean isValidPassword(String userName, String plainPassword);
+    boolean isValidPassword(String userName, String plainPassword);
 
 }

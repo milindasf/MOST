@@ -13,6 +13,6 @@ public interface DpWidgetDropEventHandler extends EventHandler{
 	 *
 	 * @param event the event
 	 */
-	public void onDpWidgetDropEvent(DpWidgetDropEvent event);
+	void onDpWidgetDropEvent(DpWidgetDropEvent event);
 
 }

@@ -6,9 +6,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("services/gwtrpc/authentication")
 public interface AuthenticationService extends RemoteService {
   
-  public boolean login(String userId, String plainPassword);
-  public boolean logout();
-  public boolean isValidSession(String sessionID);
-  public boolean hasModulePermissions(String userId, String moduleId);
+  boolean login(String userId, String plainPassword);
+  boolean logout();
+  boolean isValidSession(String sessionID);
+  boolean hasModulePermissions(String userId, String moduleId);
   
 }

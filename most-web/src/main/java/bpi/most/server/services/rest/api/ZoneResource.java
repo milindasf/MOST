@@ -47,7 +47,7 @@ public interface ZoneResource {
 	 */
 	@GET
 	@Path("/{id}/")
-	public ZoneDTO getZone(@PathParam("id") int id);
+	ZoneDTO getZone(@PathParam("id") int id);
 
 	/**
 	 * returns all headzones. so this resource acts as a starting point for all information
@@ -56,7 +56,7 @@ public interface ZoneResource {
 	 */
 	@GET
 //	@Path("/")
-	public List<ZoneDTO> getHeadZones();
+	List<ZoneDTO> getHeadZones();
 	
 	/**
 	 * creates the given zone as new subzone of the identified one
@@ -65,7 +65,7 @@ public interface ZoneResource {
 	 */
 	@POST
 	@Path("/{id}/subzones/")
-	public void addZone(@PathParam("id") int id, ZoneDTO zone);
+	void addZone(@PathParam("id") int id, ZoneDTO zone);
 	
 	/**
 	 * returns all subzones for the given zone id if there exists some.
@@ -77,7 +77,7 @@ public interface ZoneResource {
 	 */
 	@GET
 	@Path("/{id}/subzones/")
-	public List<ZoneDTO> getSubZones(@PathParam("id") int id, @QueryParam("level") int level);
+	List<ZoneDTO> getSubZones(@PathParam("id") int id, @QueryParam("level") int level);
 
 	/**
 	 * creates the given zone as new headzone
@@ -86,7 +86,7 @@ public interface ZoneResource {
 	 */
 	@POST
 	// @Path("/")
-	public void addHeadZone(ZoneDTO zone);
+	void addHeadZone(ZoneDTO zone);
 
 	/**
 	 * updates the zone identified by the given id with the values of the given
@@ -97,7 +97,7 @@ public interface ZoneResource {
 	 */
 	@PUT
 	@Path("/{id}/")
-	public void updateZone(@PathParam("id") int id, ZoneDTO zone);
+	void updateZone(@PathParam("id") int id, ZoneDTO zone);
 
 	/**
 	 * deletes the zone identified by the given id
@@ -106,7 +106,7 @@ public interface ZoneResource {
 	 */
 	@DELETE
 	@Path("/{id}/")
-	public void deleteZone(@PathParam("id") int id);
+	void deleteZone(@PathParam("id") int id);
 
 	/**
 	 * returns all datapoints for the given zone
@@ -116,5 +116,5 @@ public interface ZoneResource {
 	 */
 	@GET
 	@Path("/{id}/dps/")
-	public List<DpDTO> getDatapoints(@PathParam("id") int id, @QueryParam("level") int level);
+	List<DpDTO> getDatapoints(@PathParam("id") int id, @QueryParam("level") int level);
 }

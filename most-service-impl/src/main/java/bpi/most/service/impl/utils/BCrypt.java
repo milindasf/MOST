@@ -393,7 +393,7 @@ public class BCrypt
    * @param off
    *          the position in the array of the blocks
    */
-  private final void encipher(int lr[], int off) {
+  private void encipher(int lr[], int off) {
 
     int i, n, l = lr[off], r = lr[off + 1];
     l ^= P[0];

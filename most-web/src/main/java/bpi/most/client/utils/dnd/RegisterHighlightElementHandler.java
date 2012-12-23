@@ -13,6 +13,6 @@ public interface RegisterHighlightElementHandler extends EventHandler{
 	 *
 	 * @param event the event
 	 */
-	public void registerHighlightElement(RegisterHighlightElementEvent event);
+	void registerHighlightElement(RegisterHighlightElementEvent event);
 
 }

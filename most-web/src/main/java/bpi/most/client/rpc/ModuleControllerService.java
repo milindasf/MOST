@@ -16,7 +16,7 @@ public interface ModuleControllerService extends RemoteService {
    * @param moduleName the MODULE_NAME
    * @return true, if successful
    */
-  public boolean hasPermission(String moduleName);
+  boolean hasPermission(String moduleName);
   
   /**
    * Does file exist.
@@ -24,5 +24,5 @@ public interface ModuleControllerService extends RemoteService {
    * @param path the path
    * @return true, if successful
    */
-  public boolean doesFileExist(String path);
+  boolean doesFileExist(String path);
 }

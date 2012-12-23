@@ -14,7 +14,7 @@ public interface ModuleControllerServiceAsync {
    * @param moduleName the MODULE_NAME
    * @param callback the callback to return true, if successful
    */
-  public void hasPermission(String moduleName, AsyncCallback<Boolean> callback);
+  void hasPermission(String moduleName, AsyncCallback<Boolean> callback);
   
   /**
    * Does file exist.
@@ -22,5 +22,5 @@ public interface ModuleControllerServiceAsync {
    * @param path the path
    * @param callback the callback to return true, if successful
    */
-  public void doesFileExist(String path, AsyncCallback<Boolean> callback);
+  void doesFileExist(String path, AsyncCallback<Boolean> callback);
 }

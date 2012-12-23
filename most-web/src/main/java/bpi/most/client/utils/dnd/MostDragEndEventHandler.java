@@ -13,6 +13,6 @@ public interface MostDragEndEventHandler extends EventHandler{
 	 *
 	 * @param event the event
 	 */
-	public void onDragEndEvent(MostDragEndEvent event);
+	void onDragEndEvent(MostDragEndEvent event);
 
 }

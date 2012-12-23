@@ -11,13 +11,13 @@ import java.util.List;
  * @author Lukas Weichselbaum
  */
 public interface ZoneService {
-    public Zone getZone(Zone zone);
+    Zone getZone(Zone zone);
 
-    public Zone getZone(int zoneId);
+    Zone getZone(int zoneId);
 
-    public List<Zone> getZone(String searchPattern);
+    List<Zone> getZone(String searchPattern);
 
-    public List<Zone> getHeadZones();
+    List<Zone> getHeadZones();
 
-    public List<Zone> getHeadZones(User user);
+    List<Zone> getHeadZones(User user);
 }

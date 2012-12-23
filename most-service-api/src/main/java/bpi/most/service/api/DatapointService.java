@@ -34,7 +34,7 @@ public interface DatapointService {
      * @return Returns true if a data point with the given name exists, false
      *         otherwise.
      */
-    public boolean isValidDp(String dpName);
+    boolean isValidDp(String dpName);
 
     /**
      * Get a list of {@link DatapointVO} of all data points in the database.
@@ -42,7 +42,7 @@ public interface DatapointService {
      * @return Returns a list of {@link DatapointVO} of all data points in the
      *         database.
      */
-    public List<DatapointVO> getDatapoints();
+    List<DatapointVO> getDatapoints();
 
     /**
      * Get a list of {@link DatapointVO} of all data points in the database that
@@ -53,7 +53,7 @@ public interface DatapointService {
      * @return Returns a list of {@link DatapointVO} of all data points in the
      *         database that contains the search string.
      */
-    public List<DatapointVO> getDatapoints(String searchstring);
+    List<DatapointVO> getDatapoints(String searchstring);
 
     /**
      * Get a list of {@link DatapointVO} of all data points in the database that
@@ -67,6 +67,6 @@ public interface DatapointService {
      *         database that contains the search string and are in the given
      *         zone.
      */
-    public List<DatapointVO> getDatapoints(String searchstring, String zone);
+    List<DatapointVO> getDatapoints(String searchstring, String zone);
 
 }

@@ -27,11 +27,11 @@ public interface DpResource {
 	 */
 	@GET
 	@Path("/{name}/")
-	public DpDTO getDp(@PathParam("name") String dpName);
+	DpDTO getDp(@PathParam("name") String dpName);
 	
 	@POST
 	@Path("/")
-	public void addDp(DpDTO dp);
+	void addDp(DpDTO dp);
 	
 	/**
 	 * updates the datapoint
@@ -40,7 +40,7 @@ public interface DpResource {
 	 */
 	@PUT
 	@Path("/{name}/")
-	public void updateDp(@PathParam("name") String dpName, DpDTO dp);
+	void updateDp(@PathParam("name") String dpName, DpDTO dp);
 	
 	/**
 	 * deletes the datapoint
@@ -48,7 +48,7 @@ public interface DpResource {
 	 */
 	@DELETE
 	@Path("/{name}/")
-	public void deleteDp(@PathParam("name") String dpName);
+	void deleteDp(@PathParam("name") String dpName);
 	
 	/**
 	 * adds a new measurement to the datapoint identified by the given name
@@ -57,7 +57,7 @@ public interface DpResource {
 	 */
 	@POST
 	@Path("/{name}/data")
-	public void addDpData(@PathParam("name") String dpName, DpDataDTO data);
+	void addDpData(@PathParam("name") String dpName, DpDataDTO data);
 	
 	/**
 	 * returns all measurements for a datapoint in a certain timerange. if the from and to parameters are not given, only
@@ -69,11 +69,11 @@ public interface DpResource {
 	 */
 	@GET
 	@Path("/{name}/data")
-	public  List<DpDataDTO> getDpData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to);
+	List<DpDataDTO> getDpData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to);
 	
 	@GET
 	@Path("/{name}/periodicdata")
-	public List<DpDataDTO> getDpPeriodicData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("period") int period, @QueryParam("mode") int mode, @QueryParam("type") int type);
+	List<DpDataDTO> getDpPeriodicData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("period") int period, @QueryParam("mode") int mode, @QueryParam("type") int type);
 
 	
 }

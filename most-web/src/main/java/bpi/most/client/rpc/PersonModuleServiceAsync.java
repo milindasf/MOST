@@ -6,5 +6,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface PersonModuleServiceAsync {
   
-  public void setPersonValues(HashMap<String, String> personForm, AsyncCallback<Boolean> callback);
+  void setPersonValues(HashMap<String, String> personForm, AsyncCallback<Boolean> callback);
 }

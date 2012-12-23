@@ -11,12 +11,12 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("services/gwtrpc/zone")
 public interface ZoneService extends RemoteService {
 	
-	public List<ZoneDTO> getHeadZones();
+	List<ZoneDTO> getHeadZones();
 	
-	public List<ZoneDTO> getSubzones(ZoneDTO zoneEntity, int sublevels);
+	List<ZoneDTO> getSubzones(ZoneDTO zoneEntity, int sublevels);
 	
-	public ZoneDTO getZone(ZoneDTO zoneDto);
+	ZoneDTO getZone(ZoneDTO zoneDto);
 	
-	public List<DpDTO> getDatapoints(ZoneDTO zoneEntity, int sublevels);
+	List<DpDTO> getDatapoints(ZoneDTO zoneEntity, int sublevels);
 
 }

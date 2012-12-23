@@ -24,7 +24,7 @@ public interface DatapointService extends RemoteService {
 	 *            End time of the period you want the data.
 	 * @return Returns a DatapointDatasetVO with the values between start and end time.
 	 */
-	public DpDatasetDTO getData(String datapointName, Date starttime,
+	DpDatasetDTO getData(String datapointName, Date starttime,
 			Date endtime);
 
 	/**
@@ -32,7 +32,7 @@ public interface DatapointService extends RemoteService {
 	 * 
 	 * @return Returns a list of all data points as {@link DpDTO}.
 	 */
-	public ArrayList<DpDTO> getDatapoints();
+	ArrayList<DpDTO> getDatapoints();
 
 	/**
 	 * A method used to get all data points that contains the search string as a
@@ -43,7 +43,7 @@ public interface DatapointService extends RemoteService {
 	 * @return Returns a list of all data points that contains the search string
 	 *         as {@link DpDTO}.
 	 */
-	public ArrayList<DpDTO> getDatapoints(String searchstring);
+	ArrayList<DpDTO> getDatapoints(String searchstring);
 
 	/**
 	 * A method used to get all data points that contains the search string and
@@ -58,7 +58,7 @@ public interface DatapointService extends RemoteService {
 	 * @deprecated Maybe replaced in the future with a {@link ZoneDTO} instead
 	 *             of a string.
 	 */
-	public ArrayList<DpDTO> getDatapoints(String searchstring, String zone);
+	ArrayList<DpDTO> getDatapoints(String searchstring, String zone);
 
 	/**
 	 * A method used to get data between a start and end time with a specific
@@ -76,7 +76,7 @@ public interface DatapointService extends RemoteService {
 	 * @return Returns a DatapointDatasetVO with the values between start and end time
 	 *         with the selected period.
 	 */
-	public DpDatasetDTO getDataPeriodic(String datapointName, Date starttime,
+	DpDatasetDTO getDataPeriodic(String datapointName, Date starttime,
 			Date endtime, Float period);
 
 	/**
@@ -93,7 +93,7 @@ public interface DatapointService extends RemoteService {
 	 * @return Number of values in the specific time frame between start and end
 	 *         time.
 	 */
-	public int getNumberOfValues(String datapointName, Date starttime,
+	int getNumberOfValues(String datapointName, Date starttime,
 			Date endtime);
 
 }

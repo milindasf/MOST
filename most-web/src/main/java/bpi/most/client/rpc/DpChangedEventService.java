@@ -5,6 +5,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("services/gwtrpc/dp-event-service")
 public interface DpChangedEventService extends RemoteService {
-	public void startListening(String dpName);
-	public void stopListening(String dpName);
+	void startListening(String dpName);
+	void stopListening(String dpName);
 }
