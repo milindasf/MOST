@@ -13,10 +13,10 @@ public interface ModuleControllerService extends RemoteService {
   /**
    * Checks for permission.
    *
-   * @param MODULE_NAME the MODULE_NAME
+   * @param moduleName the MODULE_NAME
    * @return true, if successful
    */
-  public boolean hasPermission(String MODULE_NAME);
+  public boolean hasPermission(String moduleName);
   
   /**
    * Does file exist.

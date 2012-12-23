@@ -11,10 +11,10 @@ public interface ModuleControllerServiceAsync {
   /**
    * Checks for permission.
    *
-   * @param MODULE_NAME the MODULE_NAME
+   * @param moduleName the MODULE_NAME
    * @param callback the callback to return true, if successful
    */
-  public void hasPermission(String MODULE_NAME, AsyncCallback<Boolean> callback);
+  public void hasPermission(String moduleName, AsyncCallback<Boolean> callback);
   
   /**
    * Does file exist.

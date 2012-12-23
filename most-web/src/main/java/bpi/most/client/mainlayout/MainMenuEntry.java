@@ -40,20 +40,20 @@ public class MainMenuEntry {
 
 	}
 
-	public String getMODULE_MENU_ITEM_TEXT() {
+	public String getModuleMenuItemText() {
 		return MODULE_MENU_ITEM_TEXT;
 	}
 
-	public void setMODULE_MENU_ITEM_TEXT(String mODULE_MENU_ITEM_TEXT) {
-		MODULE_MENU_ITEM_TEXT = mODULE_MENU_ITEM_TEXT;
+	public void setModuleMenuItemText(String moduleMenuItemText) {
+		MODULE_MENU_ITEM_TEXT = moduleMenuItemText;
 	}
 
-	public String getMODULE_URL() {
+	public String getModuleURL() {
 		return MODULE_URL;
 	}
 
-	public void setMODULE_URL(String mODULE_URL) {
-		MODULE_URL = mODULE_URL;
+	public void setModuleURL(String moduleURL) {
+		MODULE_URL = moduleURL;
 	}
 
 	public String getLinkInMenuItem() {

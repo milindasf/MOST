@@ -13,13 +13,13 @@ public class GwtRpcModuleControllerService extends RemoteServiceServlet implemen
   private static final long serialVersionUID = 1L;
   
   @Override
-  public boolean hasPermission(String MODULE_NAME) {
+  public boolean hasPermission(String moduleName) {
 
     
     
     
     
-    System.out.println(MODULE_NAME);
+    System.out.println(moduleName);
 //    HttpSession session = this.getThreadLocalRequest().getSession();
 //    ArrayList<String> t = new ArrayList<String>();
 //    HashMap<String, ArrayList<String>> h = new HashMap<String, ArrayList<String>>();

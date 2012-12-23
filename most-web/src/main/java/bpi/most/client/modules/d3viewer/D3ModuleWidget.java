@@ -599,7 +599,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	 * @param X
 	 * @param Y
 	 */
-	public static void callbackAddDpWidget(String dpName, int X, int Y) {
+	public static void callbackAddDpWidget(String dpName, int x, int y) {
 		String dp = dpName.trim().substring(3);
 		int win = dp.indexOf("(");
 		if (win > 0) {
@@ -607,11 +607,11 @@ public final class D3ModuleWidget extends ModuleWidget {
 		}
 		removeActiveDpWidgets();
 		DpWidget dpWidget = new DpWidget(dp);
-		getInstance().demPanel.add(dpWidget, X, Y);
+		getInstance().demPanel.add(dpWidget, x, y);
 		// dpWidget.getElement().setAttribute("style", "");
 		dpWidget.getElement().setAttribute(
 				"style",
-				"position:absolute;left:" + X + "px;top:" + Y
+				"position:absolute;left:" + x + "px;top:" + y
 						+ "px;z-index:600;background-color:#fff;");
 		activeDpWidgets.add(dpWidget);
 

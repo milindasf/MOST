@@ -278,7 +278,7 @@ public class BCrypt {
    * @exception IllegalArgumentException
    *              if the length is invalid
    */
-  private static String encode_base64(byte d[], int len)
+  private static String encodeBase64(byte d[], int len)
       throws IllegalArgumentException {
 
     int off = 0;
@@ -339,7 +339,7 @@ public class BCrypt {
    * @throws IllegalArgumentException
    *           if maxolen is invalid
    */
-  private static byte[] decode_base64(String s, int maxolen)
+  private static byte[] decodeBase64(String s, int maxolen)
       throws IllegalArgumentException {
 
     StringBuffer rs = new StringBuffer();
@@ -439,7 +439,7 @@ public class BCrypt {
   /**
    * Initialise the Blowfish key schedule
    */
-  private void init_key() {
+  private void initKey() {
 
     P = (int[]) P_orig.clone();
     S = (int[]) S_orig.clone();
@@ -514,24 +514,24 @@ public class BCrypt {
    *          the password to hash
    * @param salt
    *          the binary salt to hash with the password
-   * @param log_rounds
+   * @param logRounds
    *          the binary logarithm of the number of rounds of hashing to apply
    * @return an array containing the binary hashed password
    */
-  private byte[] crypt_raw(byte password[], byte salt[], int log_rounds) {
+  private byte[] cryptRaw(byte password[], byte salt[], int logRounds) {
 
     int rounds, i, j;
     int cdata[] = (int[]) bf_crypt_ciphertext.clone();
     int clen = cdata.length;
     byte ret[];
-    if (log_rounds < 4 || log_rounds > 31) {
+    if (logRounds < 4 || logRounds > 31) {
       throw new IllegalArgumentException("Bad number of rounds");
     }
-    rounds = 1 << log_rounds;
+    rounds = 1 << logRounds;
     if (salt.length != BCRYPT_SALT_LEN) {
       throw new IllegalArgumentException("Bad salt length");
     }
-    init_key();
+    initKey();
     ekskey(salt, password);
     for (i = 0; i < rounds; i++) {
       key(password);
@@ -592,9 +592,9 @@ public class BCrypt {
     } catch (UnsupportedEncodingException uee) {
       throw new AssertionError("UTF-8 is not supported");
     }
-    saltb = decode_base64(real_salt, BCRYPT_SALT_LEN);
+    saltb = decodeBase64(real_salt, BCRYPT_SALT_LEN);
     B = new BCrypt();
-    hashed = B.crypt_raw(passwordb, saltb, rounds);
+    hashed = B.cryptRaw(passwordb, saltb, rounds);
     rs.append("$2");
     if (minor >= 'a') {
       rs.append(minor);
@@ -605,47 +605,47 @@ public class BCrypt {
     }
     rs.append(Integer.toString(rounds));
     rs.append("$");
-    rs.append(encode_base64(saltb, saltb.length));
-    rs.append(encode_base64(hashed, bf_crypt_ciphertext.length * 4 - 1));
+    rs.append(encodeBase64(saltb, saltb.length));
+    rs.append(encodeBase64(hashed, bf_crypt_ciphertext.length * 4 - 1));
     return rs.toString();
   }
   
   /**
    * Generate a salt for use with the BCrypt.hashpw() method
    * 
-   * @param log_rounds
+   * @param logRounds
    *          the log2 of the number of rounds of hashing to apply - the work
    *          factor therefore increases as 2**log_rounds.
    * @param random
    *          an instance of SecureRandom to use
    * @return an encoded salt value
    */
-  public static String gensalt(int log_rounds, SecureRandom random) {
+  public static String gensalt(int logRounds, SecureRandom random) {
 
     StringBuffer rs = new StringBuffer();
     byte rnd[] = new byte[BCRYPT_SALT_LEN];
     random.nextBytes(rnd);
     rs.append("$2a$");
-    if (log_rounds < 10) {
+    if (logRounds < 10) {
       rs.append("0");
     }
-    rs.append(Integer.toString(log_rounds));
+    rs.append(Integer.toString(logRounds));
     rs.append("$");
-    rs.append(encode_base64(rnd, rnd.length));
+    rs.append(encodeBase64(rnd, rnd.length));
     return rs.toString();
   }
   
   /**
    * Generate a salt for use with the BCrypt.hashpw() method
    * 
-   * @param log_rounds
+   * @param logRounds
    *          the log2 of the number of rounds of hashing to apply - the work
    *          factor therefore increases as 2**log_rounds.
    * @return an encoded salt value
    */
-  public static String gensalt(int log_rounds) {
+  public static String gensalt(int logRounds) {
 
-    return gensalt(log_rounds, new SecureRandom());
+    return gensalt(logRounds, new SecureRandom());
   }
   
   /**

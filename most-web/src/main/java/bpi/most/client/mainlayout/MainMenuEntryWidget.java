@@ -45,9 +45,9 @@ public class MainMenuEntryWidget extends Composite {
 	public MainMenuEntryWidget(MainMenuEntry entry) {
 		initWidget(uiBinder.createAndBindUi(this));
 		// anchor attributes
-		anchor.setText(entry.getMODULE_MENU_ITEM_TEXT());
-		anchor.setHref(entry.getMODULE_URL());
-		anchor.setTitle(entry.getMODULE_URL());
+		anchor.setText(entry.getModuleMenuItemText());
+		anchor.setHref(entry.getModuleURL());
+		anchor.setTitle(entry.getModuleURL());
 		anchor.addStyleName(entry.getMenuIconClass());
 		anchor.addStyleName(entry.getMenuItemId());
 		vertical.addStyleName(entry.getLinkInMenuItem());

@@ -62,8 +62,8 @@ public final class ModuleController {
 		// TODO Permission Check / true - false
 
 		MainMenuEntry entry = new MainMenuEntry();
-		entry.setMODULE_URL(module.getModuleUrl());
-		entry.setMODULE_MENU_ITEM_TEXT(module.getMenuItemText());
+		entry.setModuleURL(module.getModuleUrl());
+		entry.setModuleMenuItemText(module.getMenuItemText());
 		entry.setLinkInMenuItem(module.getMenuItemCssClass());
 		entry.setModuleWidget(module.getModuleWidget());
 		entry.setMenuItemId(module.getMenuItemId());

@@ -46,7 +46,7 @@ public interface BimSurferInjection extends ClientBundle {
 	 * @return the text resource
 	 */
 	@Source("bimsurfer/ff_touch.js")
-	TextResource ff_touch();
+	TextResource ffTouch();
 	
 	// BimSurfer
 	/**
