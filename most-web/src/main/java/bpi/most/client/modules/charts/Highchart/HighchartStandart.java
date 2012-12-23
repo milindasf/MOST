@@ -599,7 +599,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	@Override
 	public boolean isPeriodic() {
 		for (int i = 0; i < curveList.size(); i++) {
-			if (curveList.get(i).getPeriodicFlag() == true) {
+			if (curveList.get(i).getPeriodicFlag()) {
 				return true;
 			}
 		}

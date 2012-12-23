@@ -64,7 +64,7 @@ implements DpChangedEventService {
 		
 		//TODO don't access model here!!! Only use generic service classes!!! --> remember something else...
 		Datapoint dataPoint = DpController.getInstance().getDatapoint(dpName);
-		if(false == activeEventListeners.contains(dataPoint))
+		if(!activeEventListeners.contains(dataPoint))
 		{
 			//create DpChangedEventListener
 			DpChangedEventListener eventListener = new DpChangedEventListener() {

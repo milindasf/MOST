@@ -102,7 +102,7 @@ public class DpSearchWidget extends Composite {
 				boolean flag = false;
 				for (int i = 0; i < searcharea.size(); i++) {
 					flag = false;
-					if (searcharea.get(i).getValue() == false) {
+					if (!searcharea.get(i).getValue()) {
 						break;
 					}
 					flag = true;
@@ -125,11 +125,11 @@ public class DpSearchWidget extends Composite {
 			public void onClick(ClickEvent event) {
 				boolean checked = false;
 				for (int i = 0; i < searcharea.size(); i++) {
-					if (searcharea.get(i).getValue() == true) {
+					if (searcharea.get(i).getValue()) {
 						checked = true;
 					}
 				}
-				if (checked == true) {
+				if (checked) {
 					DpController.dpService.getDatapoints(sugbox.getText().trim()
 							.toLowerCase(),
 							new AsyncCallback<ArrayList<DpDTO>>() {
@@ -142,7 +142,7 @@ public class DpSearchWidget extends Composite {
 										for (DpDTO entity : result) {
 											// absolutely bad solution
 											boolean add = false;
-											if (chkboxtemp.getValue() == true
+											if (chkboxtemp.getValue()
 													&& (entity.getType()
 															.equalsIgnoreCase(
 																	"tcon") || entity
@@ -150,12 +150,12 @@ public class DpSearchWidget extends Composite {
 															.equalsIgnoreCase(
 																	"tem"))) {
 												add = true;
-											} else if (chkboxhum.getValue() == true
+											} else if (chkboxhum.getValue()
 													&& entity.getType()
 															.equalsIgnoreCase(
 																	"rhu")) {
 												add = true;
-											} else if (chkboxair.getValue() == true
+											} else if (chkboxair.getValue()
 													&& (entity.getType()
 															.equalsIgnoreCase(
 																	"cdi") || entity
@@ -163,27 +163,27 @@ public class DpSearchWidget extends Composite {
 															.equalsIgnoreCase(
 																	"voc"))) {
 												add = true;
-											} else if (chkboxstate.getValue() == true
+											} else if (chkboxstate.getValue()
 													&& entity.getType()
 															.equalsIgnoreCase(
 																	"con")) {
 												add = true;
-											} else if (chkboxmeter.getValue() == true
+											} else if (chkboxmeter.getValue()
 													&& entity.getType()
 															.equalsIgnoreCase(
 																	"ele-met")) {
 												add = true;
-											} else if (chkboxpower.getValue() == true
+											} else if (chkboxpower.getValue()
 													&& entity.getType()
 															.equalsIgnoreCase(
 																	"ele-pow")) {
 												add = true;
-											} else if (chkboxocc.getValue() == true
+											} else if (chkboxocc.getValue()
 													&& entity.getType()
 															.equalsIgnoreCase(
 																	"occ")) {
 												add = true;
-											} else if (chkboxbright.getValue() == true
+											} else if (chkboxbright.getValue()
 													&& (entity.getType()
 															.equalsIgnoreCase(
 																	"illum") || entity
@@ -191,7 +191,7 @@ public class DpSearchWidget extends Composite {
 															.equalsIgnoreCase(
 																	"ele-light"))) {
 												add = true;
-											} else if (chkboxother.getValue() == true
+											} else if (chkboxother.getValue()
 													&& !(entity.getType()
 															.equalsIgnoreCase(
 																	"tcon")
@@ -236,7 +236,7 @@ public class DpSearchWidget extends Composite {
 																	"ele-light"))) {
 												add = true;
 											}
-											if (add == true) {
+											if (add) {
 												sl = new DpWidget(entity
 														.getName(), entity.getType());
 												

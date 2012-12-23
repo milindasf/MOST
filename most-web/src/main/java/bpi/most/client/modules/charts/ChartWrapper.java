@@ -329,7 +329,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	// feature.
 	@UiHandler("listBox")
 	void changeHandler(ChangeEvent e) {
-		if (chkBox.getValue() == true) {
+		if (chkBox.getValue()) {
 			setLiveTimeFrame(Long.valueOf(listBox.getValue(listBox
 					.getSelectedIndex())));
 		}
@@ -338,7 +338,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	// The change handler for the chkBox that toggles the live function.
 	@UiHandler("chkBox")
 	void valueChangeHandler(ValueChangeEvent<Boolean> e) {
-		if (e.getValue() == true) {
+		if (e.getValue()) {
 			// is true
 			startLiveFeature(Long.valueOf(listBox.getValue(listBox
 					.getSelectedIndex())));
@@ -355,7 +355,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 *            The value of the live data time frame in milliseconds.
 	 */
 	private void startLiveFeature(Long value) {
-		if (chkBox.getValue() == true) {
+		if (chkBox.getValue()) {
 			startTime.setEnabled(false);
 			endTime.setEnabled(false);
 			estimatedButton.setVisible(false);
@@ -370,7 +370,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 * values in the selected time frame.
 	 */
 	private void endLiveFeature() {
-		if (chkBox.getValue() == false) {
+		if (!chkBox.getValue()) {
 			// TODO remove dp's from observer
 			startTime.setEnabled(true);
 			endTime.setEnabled(true);
@@ -443,7 +443,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 		@SuppressWarnings("deprecation")
 		final Date liveFrameEndtime = new Date(System.currentTimeMillis() + (new Date().getTimezoneOffset()*60000));
 
-		if (chkBox.getValue() == true) {
+		if (chkBox.getValue()) {
 			if (LIVEDATA) {
 				removeAllSeries();
 				for (int i = 0; i < dplist.size(); i++) {
@@ -619,7 +619,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 		endDate = zoomEndDate;
 		startTime.upDateBox();
 		endTime.upDateBox();
-		if (chkBox.getValue() == true) {
+		if (chkBox.getValue()) {
 			chkBox.setValue(false, false);
 			startTime.setEnabled(true);
 			endTime.setEnabled(true);
@@ -723,11 +723,11 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 							.getText());
 			dplist.add(dptemp);
 			if (((ChartInterface) chosenChart).isInChart(dptemp
-					.getDatapointName()) == true) {
+					.getDatapointName())) {
 				Window.alert(dptemp.getDatapointName()
 						+ " is already in chart!");
 			} else {
-				if (chkBox.getValue() == false) {
+				if (!chkBox.getValue()) {
 					showLoading("get data");
 					((Datapoint) dptemp).getNumberOfValues(startDate, endDate,
 							new DatapointHandler((Object) getThis(),
@@ -836,7 +836,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
                 for (int i = 0; i < dplist.size(); i++) {
                     showLoading("get new data");
                     if (((ChartInterface) chosenChart).getPeriodicFlag(dplist
-                            .get(i).getDatapointName()) == true) {
+                            .get(i).getDatapointName())) {
                         final Datapoint dptemp = dplist.get(i);
                         dptemp.getNumberOfValues(startDate, endDate,
                                 new DatapointHandler((Object) getThis(), dptemp) {
@@ -939,7 +939,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
                 for (int i = 0; i < dplist.size(); i++) {
                     showLoading("get new data");
                     if (((ChartInterface) chosenChart).getPeriodicFlag(dplist
-                            .get(i).getDatapointName()) == true) {
+                            .get(i).getDatapointName())) {
                         final Datapoint dptemp = dplist.get(i);
                         dptemp.getNumberOfValues(startDate, endDate,
                                 new DatapointHandler((Object) getThis(), dptemp) {
@@ -1121,7 +1121,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	public void delDataset(Date from, Date to) {
 		for (int i = 0; i < dplist.size(); i++) {
 			if (((ChartInterface) chosenChart).getPeriodicFlag(dplist.get(i)
-					.getDatapointName()) == true) {
+					.getDatapointName())) {
 				showLoading("get new data");
 				final Datapoint dptemp = dplist.get(i);
 				dptemp.getNumberOfValues(startDate, endDate,
@@ -1549,7 +1549,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 */
 	public Datapoint getDPFromList(String name) {
 		for (int i = 0; i < dplist.size(); i++) {
-			if (dplist.get(i).getDatapointName().equalsIgnoreCase(name) == true) {
+			if (dplist.get(i).getDatapointName().equalsIgnoreCase(name)) {
 				return dplist.get(i);
 			}
 		}
@@ -1567,7 +1567,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 *            The {@link DpDataDTO} with the data.
 	 */
 	public void push(String name, DpDataDTO data) {
-		if (chkBox.getValue() == true) {
+		if (chkBox.getValue()) {
 			if (isPeriodic(name)) {
 				Datapoint dptemp = getDPFromList(name);
 				if (dptemp != null) {
