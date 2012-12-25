@@ -100,7 +100,8 @@ public class DpVirtualExample extends DpVirtualFactory {
 		@Override
 		public int getNumberOfValues(Date starttime, Date endtime) {
 			// TODO Auto-generated method stub
-			return 10;
+			int values = 10;
+			return values;
 		}
 
 
