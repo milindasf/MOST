@@ -5,7 +5,6 @@ import java.util.Date;
 
 import bpi.most.shared.DpDatasetDTO;
 import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

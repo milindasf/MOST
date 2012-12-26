@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
 
 /**
  * Handles instantiation of requested data points. Caches data points for

@@ -8,7 +8,6 @@ import bpi.most.server.services.User;
 
 import bpi.most.service.api.AuthenticationService;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * Handles session and permission management. HttpSession is used for login/logout. 

@@ -9,7 +9,6 @@ import javax.ws.rs.WebApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.model.Datapoint;
 import bpi.most.server.services.DatapointService;
 import bpi.most.server.services.rest.api.DpResource;
 import bpi.most.server.utils.DateUtils;

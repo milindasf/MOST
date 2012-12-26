@@ -7,8 +7,6 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.model.ZoneController;
-
 /**
  * 
  * Provides a pool of db connections using the tomcat jdbc pool implementation

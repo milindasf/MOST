@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bpi.most.client.rpc.ModuleControllerService;
-import bpi.most.server.services.rest.impl.DpResImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

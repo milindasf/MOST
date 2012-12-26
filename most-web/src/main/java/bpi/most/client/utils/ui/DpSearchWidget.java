@@ -3,7 +3,6 @@ package bpi.most.client.utils.ui;
 import java.util.ArrayList;
 
 import bpi.most.client.model.DpController;
-import bpi.most.server.model.ZoneController;
 import bpi.most.shared.DpDTO;
 
 import com.google.gwt.core.client.GWT;

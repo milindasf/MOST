@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bpi.most.server.services.User;
-import bpi.most.server.services.rest.impl.DpResImpl;
 
 /**
  * Servlet Filter implementation class AuthFilter

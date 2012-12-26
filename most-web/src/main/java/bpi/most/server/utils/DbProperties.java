@@ -7,7 +7,6 @@ import javax.naming.NamingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.services.rest.impl.DpResImpl;
 import bpi.most.server.utils.Config;
 
 /**

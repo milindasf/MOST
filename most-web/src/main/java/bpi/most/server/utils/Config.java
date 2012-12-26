@@ -7,8 +7,6 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.model.ZoneController;
-
 /**
  * Provides access to local config file.
  * Workaround to support non web application usage 

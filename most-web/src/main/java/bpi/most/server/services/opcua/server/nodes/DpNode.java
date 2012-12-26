@@ -9,7 +9,6 @@ import bpi.most.opc.uaserver.annotation.ID;
 import bpi.most.opc.uaserver.annotation.Property;
 import bpi.most.opc.uaserver.annotation.Reference;
 import bpi.most.opc.uaserver.annotation.UaNode;
-import bpi.most.server.model.Datapoint;
 
 /**
  * UA-Node representation of a {@link Datapoint}
