@@ -61,7 +61,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	private static final int ZOOM_LEVEL_ABSOLUTE = 15;
 	private static final int TRIM_BEGIN_INDEX = 3;
 	private static final long START_TIME_DATE = 1304589600000L;			
-	private static final long END_TIME_DATE = START_TIME_DATE + 86400000L;
+	private static final long END_TIME_DATE = 86400000L;
 	
 	private static ArrayList<DpWidget> activeDpWidgets = new ArrayList<DpWidget>();
 	private static int zoomLevel = 0;
@@ -440,7 +440,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 						"dWidget-uid-3d" }, null, null);
 		Datapoint dptemp = ModuleController.DPCC.getDatapoint(dp);
 		dptemp.getData(new Date(START_TIME_DATE), new Date(
-				END_TIME_DATE), new DatapointHandler(
+				START_TIME_DATE + END_TIME_DATE), new DatapointHandler(
 				getInstance(), dptemp) {
 
 			@Override

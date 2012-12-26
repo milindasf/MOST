@@ -4,6 +4,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * database properties which are read from JNDI.
  * for now, the values are configured in web.xml
@@ -13,9 +16,12 @@ import javax.naming.NamingException;
  */
 public final class DbProperties {
 
-	private static DbProperties INSTANCE = new DbProperties();
+	private static final Logger LOG = LoggerFactory.getLogger(DbProperties.class);
+	
 	private static final int CONNECTION_POOL_MIN = 10;
 	private static final int CONNECTION_POOL_MAX = 100;
+	
+	private static DbProperties INSTANCE = new DbProperties();
 
 	/**
 	 * for testing purposes;
@@ -59,11 +65,11 @@ public final class DbProperties {
 			conPoolMax = (Integer) dbCtx.lookup("conPoolMax");
 			
 		} catch (NamingException e) {
-			System.out.println("no context supported!");
+			LOG.info("no context supported!");
 			//e.printStackTrace();
 		}
-		System.out.println("using the following db config:");
-		System.out.println("hostname: " + hostname + " username: " + username + " database: " + database);
+		LOG.info("using the following db config:");
+		LOG.info("hostname: " + hostname + " username: " + username + " database: " + database);
 	}
 
 	public static String getHostname() {

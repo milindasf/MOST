@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.User;
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.ConnectorDTO;
@@ -16,6 +19,9 @@ import bpi.most.shared.ConnectorDTO;
  * @author robert.zach@tuwien.ac.at
  */
 public final class ConnectorController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ConnectorController.class);
+	
 	private static ConnectorController ref = null;
 	
 
@@ -57,7 +63,7 @@ public final class ConnectorController {
 						rs.getString("type"), min, max, deadband, sampleInterval, minSampleInterval ));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An SQL exception occured", e);
 		} finally {
 
 			try {
@@ -71,7 +77,7 @@ public final class ConnectorController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return result;

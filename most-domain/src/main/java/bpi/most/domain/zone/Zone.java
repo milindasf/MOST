@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "zone",
         uniqueConstraints = @UniqueConstraint(name = "name_UNIQUE", columnNames = {"name"}))
 public class Zone {
-
+	
     public Zone() {
     }
 

@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bpi.most.server.model.ZoneController;
 
 /**
  * 
@@ -12,6 +16,8 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
  *
  */
 public final class DbPool {
+
+	private static final Logger LOG = LoggerFactory.getLogger(DbPool.class);
 
 	private static DbPool ref;
 	//JDBC pool
@@ -56,7 +62,7 @@ public final class DbPool {
             datasource = new DataSource();
             datasource.setPoolProperties(p); 
 	    } catch (ClassNotFoundException e) {
-	        e.printStackTrace();
+	       LOG.error("An exception occured: class not found", e);
 	    }  
 	}
 
@@ -72,7 +78,7 @@ public final class DbPool {
 		try {
 			return 	datasource.getConnection();
 		} catch (SQLException e) {
-			e.printStackTrace();
+		       LOG.error("An exception occured while calling 'getConnection'", e);
 		}
 		return null;
 	}

@@ -3,6 +3,10 @@ package bpi.most.server;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bpi.most.server.services.rest.impl.DpResImpl;
 import bpi.most.server.utils.PollService;
 
 /**
@@ -10,6 +14,8 @@ import bpi.most.server.utils.PollService;
  * @author robert.zach@tuwien.ac.at
  */
 public class Most implements ServletContextListener{
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Most.class);
 	
 	public static final int POLL_INTERVAL = 10000;
 	public static final int POLL_INTERVAL_WARNING = 10000;
@@ -21,7 +27,7 @@ public class Most implements ServletContextListener{
 	
 	//ServletContext context;
 	public void contextInitialized(ServletContextEvent contextEvent) {
-		System.out.println("Context Created");
+		LOG.info("Context Created");
 		pollService.start();
 		
 		//context = contextEvent.getServletContext();
@@ -31,7 +37,7 @@ public class Most implements ServletContextListener{
 	
 	public void contextDestroyed(ServletContextEvent contextEvent) {
 		//context = contextEvent.getServletContext();
-		System.out.println("Context Destroyed");
+		LOG.info("Context Destroyed");
 		pollService.stop();
 	}
 

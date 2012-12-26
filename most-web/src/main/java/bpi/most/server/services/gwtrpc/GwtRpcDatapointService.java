@@ -5,7 +5,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.User;
+import bpi.most.server.services.rest.impl.DpResImpl;
 import bpi.most.shared.DpDatasetDTO;
 import bpi.most.shared.DpDTO;
 
@@ -18,6 +22,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class GwtRpcDatapointService extends RemoteServiceServlet implements
 		bpi.most.client.rpc.DatapointService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(GwtRpcDatapointService.class);
+	
 	bpi.most.server.services.DatapointService dpService = bpi.most.server.services.DatapointService
 			.getInstance();
 
@@ -25,7 +32,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 
 	// Debug
 	public GwtRpcDatapointService() {
-		System.out.println("GwtRpcDatapointService");
+		LOG.info("GwtRpcDatapointService");
 	}
 
 	/*

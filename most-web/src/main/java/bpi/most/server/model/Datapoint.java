@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Observable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.DpDTO;
 import bpi.most.shared.DpDataDTO;
@@ -19,6 +22,9 @@ import bpi.most.shared.DpDatasetDTO;
  * @author robert.zach@tuwien.ac.at FIXME: use exceptions for error processing
  */
 public abstract class Datapoint extends Observable {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Datapoint.class);
+	
 	// identifier of the datapoint
 	private String datapointName;
 	//
@@ -250,7 +256,7 @@ public abstract class Datapoint extends Observable {
 				columnContent = rs.getString(requestedColumn);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -265,7 +271,7 @@ public abstract class Datapoint extends Observable {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return columnContent;
@@ -290,7 +296,7 @@ public abstract class Datapoint extends Observable {
 				columnContent = rs.getDouble(requestedColumn);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -303,7 +309,7 @@ public abstract class Datapoint extends Observable {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return columnContent;
@@ -331,7 +337,7 @@ public abstract class Datapoint extends Observable {
 				result = new DpDTO(getDatapointName(), rs.getString("type"), "description not defined yet in the db");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -346,7 +352,7 @@ public abstract class Datapoint extends Observable {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return result;

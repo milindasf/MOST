@@ -2,6 +2,8 @@ package bpi.most.service.impl.db;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 
@@ -12,6 +14,8 @@ import javax.annotation.PostConstruct;
  * @author Jakob Korherr
  */
 public class DbPool {
+
+	private static final Logger LOG = LoggerFactory.getLogger(DbPool.class);
 
 	//JDBC pool
 	private DataSource datasource;
@@ -54,7 +58,7 @@ public class DbPool {
             datasource = new DataSource();
             datasource.setPoolProperties(p);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            LOG.error("An exception occured: class not found", e);
         }
     }
 

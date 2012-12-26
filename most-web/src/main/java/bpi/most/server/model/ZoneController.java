@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.User;
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.ZoneDTO;
@@ -20,6 +23,8 @@ import bpi.most.shared.ZoneDTO;
  */
 public final class ZoneController {
 
+	private static final Logger LOG = LoggerFactory.getLogger(ZoneController.class);
+	
 	private static ZoneController ref;
 	List<Zone> cachedZones = new ArrayList<Zone>();
 
@@ -75,7 +80,7 @@ public final class ZoneController {
 					return result;
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling stored procedure 'getZoneParameters'", e);
 			} finally {
 				try {
 					if (rs != null) {
@@ -90,7 +95,7 @@ public final class ZoneController {
 						connection.close();
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					LOG.error("An exception occured while calling 'close'", e);
 				}
 			}
 
@@ -134,7 +139,7 @@ public final class ZoneController {
 				
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getZoneParameterSearch'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -149,7 +154,7 @@ public final class ZoneController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		
@@ -187,7 +192,7 @@ public final class ZoneController {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getHeadzones'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -202,7 +207,7 @@ public final class ZoneController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return result;
@@ -225,7 +230,7 @@ public final class ZoneController {
 			cstmt = connection.prepareCall("{CALL getHeadzones(?)}");
 			cstmt.setString(1, user.getUserName());
 			cstmt.execute();
-			System.out.println(cstmt.toString());
+			LOG.info(cstmt.toString());
 			rs = cstmt.getResultSet();
 			//add all zones to resultset
 			while (rs.next()) {
@@ -241,7 +246,7 @@ public final class ZoneController {
 				}
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getHeadzones'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -256,7 +261,7 @@ public final class ZoneController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return result;

@@ -8,6 +8,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.ZoneService;
 import bpi.most.server.services.rest.api.ZoneResource;
 import bpi.most.shared.DpDTO;
@@ -15,11 +18,13 @@ import bpi.most.shared.ZoneDTO;
 
 public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 
+	private static final Logger LOG = LoggerFactory.getLogger(ZoneResImpl.class);
+	
 	ZoneService service;
 	
 	public ZoneResImpl(){
 		service = ZoneService.getInstance();
-		System.out.println("-->> created zone resource impl");
+		LOG.info("-->> created zone resource impl");
 	}
 	
 	@Override
@@ -41,13 +46,13 @@ public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 
 	@Override
 	public void updateZone(int id, ZoneDTO zone) {
-		System.out.println("should update zone " + id + "\n" + zone.toString() + "\n but is not implemented yet");
+		LOG.warn("should update zone " + id + "\n" + zone.toString() + "\n but is not implemented yet");
 		throw new WebApplicationException(NOT_IMPLEMENTED);
 	}
 
 	@Override
 	public void deleteZone(int id) {
-		System.out.println("should delete zone " + id + "\n but is not implemented yet");
+		LOG.warn("should delete zone " + id + "\n but is not implemented yet");
 	}
 
 	@Override
@@ -65,12 +70,12 @@ public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 	@Path("/{id}/subzones/")
 	public void addZone(@PathParam("id") int id, ZoneDTO zone) {
 		// TODO Auto-generated method stub
-		System.out.println("should add new subzone for zone " + id + "\n" + zone.toString() + "\n but is not implemented yet");
+		LOG.warn("should add new subzone for zone " + id + "\n" + zone.toString() + "\n but is not implemented yet");
 	}
 
 	@Override
 	@POST
 	public void addHeadZone(ZoneDTO zone) {
-		System.out.println("should add new headzone\n" + zone.toString() + "\n but is not implemented yet");
+		LOG.warn("should add new headzone\n" + zone.toString() + "\n but is not implemented yet");
 	}
 }

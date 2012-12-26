@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.User;
 import bpi.most.server.utils.BCrypt;
 import bpi.most.server.utils.DbPool;
@@ -16,6 +19,9 @@ import bpi.most.server.utils.DbPool;
  * @author robert.zach@tuwien.ac.at
  */
 public final class AuthenticationController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
+	
 	private static AuthenticationController ref;
 	
 	// Singleton
@@ -65,7 +71,7 @@ public final class AuthenticationController {
 		  String pwHash;
 		  
 		  //use this hash for new user passwords
-		  System.out.println(BCrypt.hashpw(plainPassword, BCrypt.gensalt()));
+		  LOG.info(BCrypt.hashpw(plainPassword, BCrypt.gensalt()));
 		  
 		  pwHash = getPwHashFromDb(user.getUserName());
 		  if (pwHash != null) {
@@ -95,7 +101,7 @@ public final class AuthenticationController {
 		    select.close();
 		    con.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An SQL exception occured", e);
 		}
 	    return hash;
 	  }

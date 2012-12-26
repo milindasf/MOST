@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ServiceLoader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.DpDTO;
 import bpi.most.shared.ZoneDTO;
@@ -19,6 +22,8 @@ import bpi.most.shared.ZoneDTO;
  */
 public final class DpController {
 
+	private static final Logger LOG = LoggerFactory.getLogger(DpController.class);
+	
 	private static DpController ref = null;
 	ArrayList<Datapoint> datapoints = new ArrayList<Datapoint>();
 
@@ -144,7 +149,7 @@ public final class DpController {
 				result = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 
 			try {
@@ -158,7 +163,7 @@ public final class DpController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 
@@ -179,7 +184,7 @@ public final class DpController {
 		ResultSet rs = null;
 
 		try {
-			System.out.println("Try getSensors");
+			LOG.info("Try getSensors");
 			connection = DbPool.getInstance().getConnection();
 			cstmt = connection.prepareCall("{CALL getDatapoint(?)}");
 			cstmt.setString(1, null);
@@ -189,10 +194,10 @@ public final class DpController {
 				liste.add(new DpDTO(rs.getString("datapoint_name"), rs
 						.getString("type"), rs.getString("datapoint_name")));
 			}
-			System.out.println("Success getSensors");
+			LOG.info("Success getSensors");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 
 			try {
@@ -208,7 +213,7 @@ public final class DpController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 
@@ -233,7 +238,7 @@ public final class DpController {
 		ResultSet rs = null;
 
 		try {
-			System.out.println("Try getSensors");
+			LOG.info("Try getSensors");
 			connection = DbPool.getInstance().getConnection();
 			cstmt = connection.prepareCall("{CALL getDatapoint(?)}");
 			cstmt.setString(1, "%" + searchstring + "%");
@@ -243,10 +248,10 @@ public final class DpController {
 				liste.add(new DpDTO(rs.getString("datapoint_name"), rs
 						.getString("type"), rs.getString("datapoint_name")));
 			}
-			System.out.println("Success getSensors");
+			LOG.info("Success getSensors");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 
 			try {
@@ -262,7 +267,7 @@ public final class DpController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 
@@ -291,7 +296,7 @@ public final class DpController {
 		ResultSet rs = null;
 
 		try {
-			System.out.println("Try getSensors");
+			LOG.info("Try getSensors");
 			connection = DbPool.getInstance().getConnection();
 			cstmt = connection.prepareCall("{CALL getDatapoint(?)}");
 			cstmt.setString(1, "%" + searchstring + "%");
@@ -306,10 +311,10 @@ public final class DpController {
 							.getString("type"), rs.getString("datapoint_name")));
 				}
 			}
-			System.out.println("Success getSensors");
+			LOG.info("Success getSensors");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapoint'", e);
 		} finally {
 
 			try {
@@ -325,7 +330,7 @@ public final class DpController {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return liste;

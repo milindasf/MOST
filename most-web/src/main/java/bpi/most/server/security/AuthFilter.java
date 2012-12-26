@@ -10,7 +10,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.User;
+import bpi.most.server.services.rest.impl.DpResImpl;
 
 /**
  * Servlet Filter implementation class AuthFilter
@@ -20,14 +24,16 @@ import bpi.most.server.services.User;
  */
 public class AuthFilter implements Filter {
 
-	 private boolean mockAuth = false;
-	
-    /**
-     * Default constructor. 
-     */
-    public AuthFilter() {
-        // TODO Auto-generated constructor stub
-    }
+	private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
+
+	private boolean mockAuth = false;
+
+	/**
+	 * Default constructor. 
+	 */
+	public AuthFilter() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Filter#destroy()
@@ -40,19 +46,19 @@ public class AuthFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
+
 		User mostUser = null;
-		
+
 		if (mockAuth){
-			System.out.println("mocking user authentication!");
+			LOG.info("mocking user authentication!");
 			mostUser = new User("mostsoc");
 		}else{
 			if (((HttpServletRequest)request).getUserPrincipal() instanceof MostUserPrincipal){
-			MostUserPrincipal userPrincipal = (MostUserPrincipal) ((HttpServletRequest)request).getUserPrincipal();
+				MostUserPrincipal userPrincipal = (MostUserPrincipal) ((HttpServletRequest)request).getUserPrincipal();
 				mostUser = userPrincipal.getUser();
 			}
 		}
-		
+
 		request.setAttribute("user", mostUser);
 
 		// pass the request along the filter chain

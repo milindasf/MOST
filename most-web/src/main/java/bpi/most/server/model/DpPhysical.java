@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.DpDataDTO;
 import bpi.most.shared.DpDatasetDTO;
@@ -22,6 +25,9 @@ import bpi.most.shared.DpDatasetDTO;
  * @author robert.zach@tuwien.ac.at FIXME: Use prepared calls!!
  */
 public class DpPhysical extends Datapoint {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ZoneController.class);
+	
 	/**
 	 * constructors
 	 */
@@ -136,7 +142,7 @@ public class DpPhysical extends Datapoint {
 	 */
 	public int getNumberOfValues(Date starttime, Date endtime) {
 		int result = 0;
-		System.out.println("CALL 	getNumberOfValues('"
+		LOG.debug("CALL 	getNumberOfValues('"
 				+ getDatapointName() + "', '"
 				+ new java.sql.Timestamp(starttime.getTime()) + "', '"
 				+ new java.sql.Timestamp(endtime.getTime()) + "');");
@@ -182,8 +188,7 @@ public class DpPhysical extends Datapoint {
 				result = localResultSet.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("Exception in " + getDatapointName());
-			e.printStackTrace();
+			LOG.error("An exception occured in " + getDatapointName(), e);
 		} finally {
 			// close statement and resultset
 			try {
@@ -199,7 +204,7 @@ public class DpPhysical extends Datapoint {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return result;
@@ -248,8 +253,7 @@ public class DpPhysical extends Datapoint {
 				} while (localResultSet.next());
 			}
 		} catch (SQLException e) {
-			System.out.println("Exception in " + getDatapointName());
-			e.printStackTrace();
+			LOG.error("An exception occured in " + getDatapointName(), e);
 		} finally {
 			// close statement and resultset
 			try {
@@ -265,7 +269,7 @@ public class DpPhysical extends Datapoint {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return resDataset;

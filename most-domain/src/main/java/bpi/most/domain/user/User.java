@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "user",
         uniqueConstraints = @UniqueConstraint(name = "name_UNIQUE", columnNames = {"name"}))
 public class User {
-
+	
     @Id
     @GeneratedValue
     private Integer id;

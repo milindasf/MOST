@@ -12,8 +12,12 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.services.AuthenticationService;
 import bpi.most.server.services.User;
+import bpi.most.server.services.rest.impl.DpResImpl;
  
 /**
  * 
@@ -24,6 +28,8 @@ import bpi.most.server.services.User;
  */
 public class MostLoginModule implements LoginModule {
  
+	private static final Logger LOG = LoggerFactory.getLogger(MostLoginModule.class);
+	
 	public static final String ROLE = "mostuser";
 	
     /** Callback handler to store between initialization and authentication. */
@@ -114,7 +120,7 @@ public class MostLoginModule implements LoginModule {
  
             user = new User(name);
             
-            System.out.println("--> authenticated user " + user.getUserName());
+            LOG.info("--> authenticated user " + user.getUserName());
  
             return true;
  

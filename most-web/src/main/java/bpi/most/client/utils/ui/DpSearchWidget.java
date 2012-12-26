@@ -1,7 +1,12 @@
 package bpi.most.client.utils.ui;
 
 import java.util.ArrayList;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.client.model.DpController;
+import bpi.most.server.model.ZoneController;
 import bpi.most.shared.DpDTO;
 
 import com.google.gwt.core.client.GWT;
@@ -21,6 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DpSearchWidget extends Composite {
 
+	private static final Logger LOG = LoggerFactory.getLogger(DpSearchWidget.class);
+	
 	private static DpSearchWidgetUiBinder uiBinder = GWT
 			.create(DpSearchWidgetUiBinder.class);
 
@@ -91,7 +98,7 @@ public class DpSearchWidget extends Composite {
 					@Override
 					public void onFailure(Throwable caught) {
 						// Window.alert("Failure on get Entities!");
-						caught.printStackTrace();
+						LOG.error("An exception occured on getting entities", caught);
 					}
 				});
 
@@ -250,7 +257,7 @@ public class DpSearchWidget extends Composite {
 								@Override
 								public void onFailure(Throwable caught) {
 									// Window.alert("Failure on get Entities!");
-									caught.printStackTrace();
+									LOG.error("An exception occured on getting entities", caught);
 								}
 							});
 				}

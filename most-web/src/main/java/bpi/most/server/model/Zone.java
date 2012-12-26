@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bpi.most.domain.connector.ConnectorFinder;
 import bpi.most.server.utils.DbPool;
 import bpi.most.shared.ZoneDTO;
 
@@ -21,6 +25,9 @@ import bpi.most.shared.ZoneDTO;
  * @author robert.zach@tuwien.ac.at
  */
 public class Zone {
+	
+    private static final Logger LOG = LoggerFactory.getLogger(Zone.class);
+	
 	int zoneId; // unique - pk
 
 	/**
@@ -58,6 +65,7 @@ public class Zone {
 						rs.getDouble("area"), rs.getDouble("volume"));
 			}
 		} catch (SQLException e) {
+			LOG.error("An exception occured while calling stored procedure 'getZoneParameters'", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -73,7 +81,7 @@ public class Zone {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return null;
@@ -105,7 +113,7 @@ public class Zone {
 			cstmt.setInt(1, getZoneId());
 			cstmt.setInt(2, sublevels);
 			cstmt.execute();
-			System.out.println(cstmt.toString());
+			LOG.info(cstmt.toString());
 			rs = cstmt.getResultSet();
 			// add all subzones to resultset
 			while (rs.next()) {
@@ -127,7 +135,7 @@ public class Zone {
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getSubzones'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -142,7 +150,7 @@ public class Zone {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 
@@ -186,7 +194,7 @@ public class Zone {
 			cstmt.setInt(1, getZoneId());
 			cstmt.setInt(2, sublevel);
 			cstmt.execute();
-			System.out.println(cstmt.toString());
+			LOG.info(cstmt.toString());
 			rs = cstmt.getResultSet();
 			// add all datapoints to resultset
 			while (rs.next()) {
@@ -200,7 +208,7 @@ public class Zone {
 
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getDatapointsInSubzones'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -215,7 +223,7 @@ public class Zone {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 
@@ -257,7 +265,7 @@ public class Zone {
 				columnContent = rs.getDouble(requestedColumn);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getZoneParameters'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -272,7 +280,7 @@ public class Zone {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 
@@ -298,7 +306,7 @@ public class Zone {
 				columnContent = rs.getString(requestedColumn);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getZoneParameters'", e);
 		} finally {
 			try {
 				if (rs != null) {
@@ -313,7 +321,7 @@ public class Zone {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 

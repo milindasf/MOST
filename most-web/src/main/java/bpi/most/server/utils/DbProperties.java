@@ -3,6 +3,11 @@ package bpi.most.server.utils;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bpi.most.server.services.rest.impl.DpResImpl;
 import bpi.most.server.utils.Config;
 
 /**
@@ -13,10 +18,13 @@ import bpi.most.server.utils.Config;
  *
  */
 public final class DbProperties {
-	private static DbProperties INSTANCE = new DbProperties();
 	
-	private static Integer CON_POOL_MIN = 10;
-	private static Integer CON_POOL_MAX = 100;
+	private static final Logger LOG = LoggerFactory.getLogger(DbProperties.class);
+	
+	private static final Integer CON_POOL_MIN = 10;
+	private static final Integer CON_POOL_MAX = 100;
+	
+	private static DbProperties INSTANCE = new DbProperties();
 
 	/**
 	 * for testing purposes;
@@ -61,11 +69,11 @@ public final class DbProperties {
 			conPoolMax = (Integer) dbCtx.lookup("conPoolMax");
 			
 		} catch (NamingException e) {
-			System.out.println("no context supported!");
+			LOG.warn("no context supported!");
 			//e.printStackTrace();
 		}
-		System.out.println("using the following db config:");
-		System.out.println("hostname: " + hostname + " username: " + username + " database: " + database);
+		LOG.info("using the following db config:");
+		LOG.info("hostname: " + hostname + " username: " + username + " database: " + database);
 	}
 
 	public static String getHostname() {

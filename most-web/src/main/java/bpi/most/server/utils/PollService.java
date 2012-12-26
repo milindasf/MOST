@@ -9,8 +9,12 @@ import java.sql.Timestamp;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bpi.most.server.model.Datapoint;
 import bpi.most.server.model.DpController;
+import bpi.most.server.model.ZoneController;
 import bpi.most.shared.DpDataDTO;
 
 /**
@@ -28,6 +32,8 @@ import bpi.most.shared.DpDataDTO;
  * @author robert.zach@tuwien.ac.at
  */
 public final class PollService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(PollService.class);
 	
 	private static PollService ref = null;
 	private static final int POLL_INTERVAL = 60000;
@@ -125,7 +131,7 @@ public final class PollService {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An exception occured while calling stored procedure 'getValues'", e);
 		} finally {
 
 			try {
@@ -139,7 +145,7 @@ public final class PollService {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 	}
@@ -231,7 +237,7 @@ public final class PollService {
 				return rs.getTimestamp(1);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error("An SQL exception occured", e);
 		} finally {
 
 			try {
@@ -245,7 +251,7 @@ public final class PollService {
 					connection.close();
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOG.error("An exception occured while calling 'close'", e);
 			}
 		}
 		return null;
