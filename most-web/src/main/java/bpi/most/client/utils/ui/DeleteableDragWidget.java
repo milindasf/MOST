@@ -66,6 +66,9 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 
 	private static final Binder BINDER = GWT.create(Binder.class);
 
+	private static final int HORIZONTAL_OFFSET = 10;
+	private static final int VERTICAL_OFFSET = 10;
+	
 	/**
 	 * The widget that is actually dragged. all status updates and handlers are
 	 * based on this one.
@@ -217,7 +220,7 @@ public class DeleteableDragWidget extends DragWidget implements DragInterface {
 			public void onDragStart(DragStartEvent event) {
 
 				event.setData("dragId", "drag");
-				event.getDataTransfer().setDragImage(getElement(), 10, 10);
+				event.getDataTransfer().setDragImage(getElement(), HORIZONTAL_OFFSET, VERTICAL_OFFSET);
 				registerDragWidget(ref);
 				fireMostDragStartEvent(event);
 

@@ -25,6 +25,9 @@ import java.util.Map;
 public class ZoneServiceImpl implements ZoneService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ZoneServiceImpl.class);
+    
+    private static final int CACHE_SIZE = 100;
+    private static final float LOAD_FACTOR = 0.7f;
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;
@@ -36,8 +39,8 @@ public class ZoneServiceImpl implements ZoneService {
         zoneFinder = new ZoneFinder(em);
     }
 
-    private int cacheSize = 100;
-    private LinkedHashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, 0.7f, true) {
+    private int cacheSize = CACHE_SIZE;
+    private LinkedHashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, LOAD_FACTOR, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Integer, Zone> eldest) {
             return size() > cacheSize;

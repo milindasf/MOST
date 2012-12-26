@@ -14,6 +14,9 @@ import bpi.most.server.utils.Config;
  */
 public final class DbProperties {
 	private static DbProperties INSTANCE = new DbProperties();
+	
+	private static Integer CON_POOL_MIN = 10;
+	private static Integer CON_POOL_MAX = 100;
 
 	/**
 	 * for testing purposes;
@@ -27,8 +30,8 @@ public final class DbProperties {
 	private String username = "mostsoc";
 	private String password = "demo12";
 	private String database = "mon_development";
-	private Integer conPoolMin = 10;
-	private Integer conPoolMax = 100;
+	private Integer conPoolMin = CON_POOL_MIN;
+	private Integer conPoolMax = CON_POOL_MAX;
 	
 	/**
 	 * initializes the values from JNDI

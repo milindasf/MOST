@@ -51,13 +51,25 @@ public final class D3ModuleWidget extends ModuleWidget {
 	private static D3ModuleWidget ref = null;
 
 	private static final Binder BINDER = GWT.create(Binder.class);
+	
+	private static final int ZOOM_BAR_MAX_VALUE = 20;
+	private static final int ZOOM_BAR_VALUE = 15;
+	private static final int TRANSPARANCY_BAR_MAX_VALUE = 100;
+	private static final int TRANSPARANCY_BAR_VALUE = 100;
+	private static final int EXPOSE_BAR_MAX_VALUE = 150;
+	private static final int VIEW_TOP_LEVEL = 3;
+	private static final int ZOOM_LEVEL_ABSOLUTE = 15;
+	private static final int TRIM_BEGIN_INDEX = 3;
+	private static final long START_TIME_DATE = 1304589600000L;			
+	private static final long END_TIME_DATE = START_TIME_DATE + 86400000L;
+	
 	private static ArrayList<DpWidget> activeDpWidgets = new ArrayList<DpWidget>();
 	private static int zoomLevel = 0;
 	private static int transparencyLevel = 0;
-	private static Slider zoomBar = new Slider("zoomBar", 0, 20);
+	private static Slider zoomBar = new Slider("zoomBar", 0, ZOOM_BAR_MAX_VALUE);
 	private static Slider transparencyBar = new Slider("transparencyBar", 0,
-			100);
-	private static Slider exposeBar = new Slider("exposeBar", 0, 150);
+			TRANSPARANCY_BAR_MAX_VALUE);
+	private static Slider exposeBar = new Slider("exposeBar", 0, EXPOSE_BAR_MAX_VALUE);
 	private boolean injected = false;
 
 	/**
@@ -139,12 +151,12 @@ public final class D3ModuleWidget extends ModuleWidget {
 		zoomBar.setWidth("400px");
 		zoomBar.setHorizontal();
 		zoomBar.setRange("min");
-		zoomBar.setValue(15);
+		zoomBar.setValue(ZOOM_BAR_VALUE);
 
 		transparencyBar.setWidth("400px");
 		transparencyBar.setHorizontal();
 		transparencyBar.setRange("min");
-		transparencyBar.setValue(100);
+		transparencyBar.setValue(TRANSPARANCY_BAR_VALUE);
 		exposeBar.setWidth("400px");
 		exposeBar.setHorizontal();
 		exposeBar.setRange("max");
@@ -229,7 +241,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				setView(3);
+				setView(VIEW_TOP_LEVEL);
 			}
 		});
 
@@ -344,7 +356,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 			JavaScriptInjector.inject(js.scenejs().getText());
 			JavaScriptInjector.inject(js.bimSurfer().getText());
 			injected = true;
-			setZoomLevelAbsolute(15);
+			setZoomLevelAbsolute(ZOOM_LEVEL_ABSOLUTE);
 		}
 		removeActiveDpWidgets();
 	}
@@ -416,19 +428,19 @@ public final class D3ModuleWidget extends ModuleWidget {
 	 */
 	public static void callbackClickEventDatapointMarked(String dpName) {
 		Window.alert(dpName);
-		String dp = dpName.trim().substring(3);
+		String dp = dpName.trim().substring(TRIM_BEGIN_INDEX);
 		int win = dp.indexOf("(");
 		if (win > 0) {
 			dp = dp.substring(0, win);
 		}
 		final ChartWrapper cwtemp = new ChartWrapper(new DateTimePickerBox(
-				new Date(1304589600000L)).date);
+				new Date(START_TIME_DATE)).date);
 		DeleteableDragWidget drag = new DeleteableDragWidget(cwtemp,
 				new String[] { "dWidget-uid-livechart", "dWidget-uid-desktop",
 						"dWidget-uid-3d" }, null, null);
 		Datapoint dptemp = ModuleController.DPCC.getDatapoint(dp);
-		dptemp.getData(new Date(1304589600000L), new Date(
-				1304589600000L + 86400000L), new DatapointHandler(
+		dptemp.getData(new Date(START_TIME_DATE), new Date(
+				END_TIME_DATE), new DatapointHandler(
 				getInstance(), dptemp) {
 
 			@Override
@@ -600,7 +612,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	 * @param Y
 	 */
 	public static void callbackAddDpWidget(String dpName, int x, int y) {
-		String dp = dpName.trim().substring(3);
+		String dp = dpName.trim().substring(TRIM_BEGIN_INDEX);
 		int win = dp.indexOf("(");
 		if (win > 0) {
 			dp = dp.substring(0, win);

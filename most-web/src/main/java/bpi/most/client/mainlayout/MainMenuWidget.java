@@ -37,6 +37,8 @@ public class MainMenuWidget extends Composite {
 	private static MainMenuWidgetUiBinder uiBinder = GWT
 			.create(MainMenuWidgetUiBinder.class);
 	private static MainMenuWidget ref = null;
+	
+	private static final double HEADER_SIZE = 6;
 
 	interface MainMenuWidgetUiBinder extends UiBinder<Widget, MainMenuWidget> {
 	}
@@ -96,7 +98,7 @@ public class MainMenuWidget extends Composite {
 		AbsolutePanel panel = new AbsolutePanel();
 
 		// add new item to menu
-		menu.add(panel, mainMenuEntryWidget, 6);
+		menu.add(panel, mainMenuEntryWidget, HEADER_SIZE);
 
 		// trigger click when first module loaded to initialize application
 		if (menu.getWidgetIndex(panel) == 0) {

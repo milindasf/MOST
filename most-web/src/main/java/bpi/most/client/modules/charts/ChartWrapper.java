@@ -57,6 +57,8 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 * (false; generates random data).
 	 */
 	private static final boolean LIVEDATA = true;
+	
+	private static final int MILLISECONDS_TWO_DAYS = 172800000;
 
 	/**
 	 * The date that is used as start date in this chart wrapper.
@@ -83,7 +85,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 */
 	private static ChartWrapperUiBinder uiBinder = GWT
 			.create(ChartWrapperUiBinder.class);
-
+	
 	interface ChartWrapperUiBinder extends UiBinder<Widget, ChartWrapper> {
 	}
 
@@ -144,10 +146,10 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 		initChartWrapper();
 		setStartDate(startTime);
 		Date enddate;
-		if ((startTime.getTime() + 172800000) > (new Date().getTime())) {
+		if ((startTime.getTime() + MILLISECONDS_TWO_DAYS) > (new Date().getTime())) {
 			enddate = new Date();
 		} else {
-			enddate = new Date(startTime.getTime() + 172800000);
+			enddate = new Date(startTime.getTime() + MILLISECONDS_TWO_DAYS);
 		}
 		setEndDate(enddate);
 	}

@@ -55,6 +55,7 @@ public class RootModule extends Composite implements HasWidgets {
     private static final Binder BINDER = GWT.create(Binder.class);
 	public static Integer windowWidth;
 	public static final Integer DROP_WIDGET_WIDTH = 500;
+	public static final int WIDTH_OFFSET = 50;
 
 	interface Binder extends UiBinder<Widget, RootModule> {
 	}
@@ -220,7 +221,7 @@ public class RootModule extends Composite implements HasWidgets {
 			width += ComputedStyle.getPaddingRight(panel.getWidget(i)
 					.getElement());
 		}
-		if (windowWidth - width - 50 > DROP_WIDGET_WIDTH) {
+		if (windowWidth - width - WIDTH_OFFSET > DROP_WIDGET_WIDTH) {
 			return true;
 		}
 		return false;

@@ -47,6 +47,10 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	private static HighchartStandartUiBinder uiBinder = GWT
 			.create(HighchartStandartUiBinder.class);
 
+	private static final int Z_INDEX = 500;
+	private static final int LOADING_TIMER_SCHEDULE = 10000;
+	private static final int PARENT_WIDGETS = 10;
+	
 	interface HighchartStandartUiBinder extends
 			UiBinder<Widget, HighchartStandart> {
 	}
@@ -74,7 +78,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 		initWidget(uiBinder.createAndBindUi(this));
 		chart = new Chart()
 				.setType(Series.Type.SPLINE)
-				.setLinePlotOptions(new LinePlotOptions().setZIndex(500))
+				.setLinePlotOptions(new LinePlotOptions().setZIndex(Z_INDEX))
 				.setHeight100()
 				.setWidth100()
 				.setZoomType(Chart.ZoomType.X)
@@ -525,7 +529,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 		// enough, but the new method is more flexible when the Highchart is
 		// wrapped with more widgets (but less than ten)
 		Widget parent = getThis().getParent();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < PARENT_WIDGETS; i++) {
 			if (parent instanceof ChartWrapper) {
 				((ChartWrapper) parent).delDp(name);
 				break;
@@ -654,7 +658,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	public void showLoading(String text) {
 		if (isLoadingCounter >= 0) {
 			isLoadingTimer.cancel();
-			isLoadingTimer.schedule(10000);
+			isLoadingTimer.schedule(LOADING_TIMER_SCHEDULE);
 		}
 		isLoadingCounter++;
 		chart.showLoading(text);

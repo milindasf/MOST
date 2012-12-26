@@ -15,6 +15,13 @@ public class DbPool {
 
 	//JDBC pool
 	private DataSource datasource;
+	
+	private static final int VALIDATION_INTERVAL = 30000;
+	private static final int TIME_BETWEEN_EVICTION_RUNS_MILLIS = 30000;
+	private static final int MAX_WAIT = 10000;
+	private static final int REMOVE_ABONDONED_TIMEOUT = 60;
+	private static final int MIN_IDLE = 10;
+	private static final int MIN_EVICTABLE_IDLE_TIME_MILLIS = 30000;
 
     @PostConstruct
     protected void init() {
@@ -32,14 +39,14 @@ public class DbPool {
             p.setTestOnBorrow(true);
             p.setValidationQuery("SELECT 1");
             p.setTestOnReturn(false);
-            p.setValidationInterval(30000);
-            p.setTimeBetweenEvictionRunsMillis(30000);
+            p.setValidationInterval(VALIDATION_INTERVAL);
+            p.setTimeBetweenEvictionRunsMillis(TIME_BETWEEN_EVICTION_RUNS_MILLIS);
             p.setMaxActive(DbProperties.getConPoolMax());
             p.setInitialSize(DbProperties.getConPoolMin());
-            p.setMaxWait(10000);
-            p.setRemoveAbandonedTimeout(60);
-            p.setMinEvictableIdleTimeMillis(30000);
-            p.setMinIdle(10);
+            p.setMaxWait(MAX_WAIT);
+            p.setRemoveAbandonedTimeout(REMOVE_ABONDONED_TIMEOUT);
+            p.setMinEvictableIdleTimeMillis(MIN_EVICTABLE_IDLE_TIME_MILLIS);
+            p.setMinIdle(MIN_IDLE);
             p.setLogAbandoned(true);
             p.setRemoveAbandoned(true);
             p.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+

@@ -28,7 +28,10 @@ import bpi.most.shared.DpDataDTO;
  * @author robert.zach@tuwien.ac.at
  */
 public final class PollService {
+	
 	private static PollService ref = null;
+	private static final int POLL_INTERVAL = 60000;
+	
 	Timer dpPolltimer = new Timer();
 	Timer warningPolltimer = new Timer();
 	//timestamp of last measurement, set current UTC time on startup
@@ -37,8 +40,8 @@ public final class PollService {
 
 	
 	//poll interval in ms, default 60s
-	private int pollIntervalDp = 60000;
-	private int pollIntervalWarining = 60000;
+	private int pollIntervalDp = POLL_INTERVAL;
+	private int pollIntervalWarining = POLL_INTERVAL;
 
 	/**
 	 * start poll service

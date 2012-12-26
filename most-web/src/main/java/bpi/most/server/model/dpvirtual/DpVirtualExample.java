@@ -20,6 +20,8 @@ import bpi.most.shared.DpDatasetDTO;
  */
 public class DpVirtualExample extends DpVirtualFactory {
 
+	private static final int NUMBER_OF_VALUES = 10;
+	
 	@Override
 	public Datapoint getVirtualDp(String virtualDpId, String dpName) {
 		// if virtualDpId is yours --> return a Datapoint instance
@@ -100,8 +102,7 @@ public class DpVirtualExample extends DpVirtualFactory {
 		@Override
 		public int getNumberOfValues(Date starttime, Date endtime) {
 			// TODO Auto-generated method stub
-			int values = 10;
-			return values;
+			return NUMBER_OF_VALUES;
 		}
 
 

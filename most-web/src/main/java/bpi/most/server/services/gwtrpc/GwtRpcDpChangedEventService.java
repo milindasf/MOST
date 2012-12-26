@@ -36,6 +36,9 @@ implements DpChangedEventService {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private static final double MIN = 0.1;
+	private static final double MAX = 100.0;
+	
 	/**
 	 * The event generator timer
 	 */
@@ -136,9 +139,7 @@ implements DpChangedEventService {
         	for(Datapoint dataPoint : activeEventListeners)
         	{
         		Date timestamp = new Date();
-            	Double min = 0.1;
-            	Double max = 100.0;
-            	Double randValue = min + (int)(Math.random() * ((max - min) + 1));
+            	Double randValue = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
             	DpDataDTO measurement = new DpDataDTO(timestamp, randValue);
             	
             	dataPoint.setChanged();

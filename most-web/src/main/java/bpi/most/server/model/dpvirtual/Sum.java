@@ -27,7 +27,9 @@ import bpi.most.shared.DpDatasetDTO;
  * @return A Datapoint Instance or null if the requested type (string id) is not support 
  */
 public class Sum extends DpVirtualFactory {
-
+	
+	private static final int NUMBER_OF_DATAPOINTS = 10000;
+	
 	@Override
 	public Datapoint getVirtualDp(String virtualDpId, String dpName) {
 		// if virtualDpId is yours --> return a Datapoint instance
@@ -211,14 +213,14 @@ public class Sum extends DpVirtualFactory {
 			//get all DPs within requested zone
 			//TODO replace 10000
 			if (requestedType == null) {
-				for (Datapoint childDatapoint : myZone.getDatapoints(10000)) {
+				for (Datapoint childDatapoint : myZone.getDatapoints(NUMBER_OF_DATAPOINTS)) {
 					//exclude all virtual DPs
 					if (! childDatapoint.isVirtual()) {
 						sourceDatapoints.add(childDatapoint);
 					}
 				}
 			}else{
-				for (Datapoint childDatapoint : myZone.getDatapoints(10000, requestedType)) {
+				for (Datapoint childDatapoint : myZone.getDatapoints(NUMBER_OF_DATAPOINTS, requestedType)) {
 					//exclude all virtual DPs
 					if (! childDatapoint.isVirtual()) {
 						sourceDatapoints.add(childDatapoint);

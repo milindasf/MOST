@@ -28,6 +28,10 @@ import bpi.most.shared.DpDatasetDTO;
  */
 public class RadiatorHeatPower extends DpVirtualFactory {
 
+	private static final double ROOM_TEMP_CELSIUS = 20.0;
+	private static final double HEAT_POWER_COEFF1 = 0.0062;
+	private static final double HEAT_POWER_COEFF2 = 1.2998;
+	
 	@Override
 	public Datapoint getVirtualDp(String virtualDpId, String dpName) {
 		// if virtualDpId is yours --> return a Datapoint instance
@@ -55,7 +59,7 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 			dpct = DpController.getInstance();
 			//create default room temp Dataset - set to 20C
 			defaultRoomTemp = new  DpDatasetDTO();
-			defaultRoomTemp.add(new DpDataDTO(new Date(), 20.0));
+			defaultRoomTemp.add(new DpDataDTO(new Date(), ROOM_TEMP_CELSIUS));
 		}
 
 		
@@ -165,7 +169,7 @@ public class RadiatorHeatPower extends DpVirtualFactory {
 					diffTemp = 0.0;
 				}
 				//calc heat power - see documentation
-				power = 0.0062 * java.lang.Math.pow(diffTemp, 1.2998) * standartHeatOutput;
+				power = HEAT_POWER_COEFF1 * java.lang.Math.pow(diffTemp, HEAT_POWER_COEFF2) * standartHeatOutput;
 				//set smaller quality value
 				if (meanTempData.getQuality() < matchingRoomTemp.getQuality()) {
 					result.add(new DpDataDTO(meanTempData.getTimestamp(), power, meanTempData.getQuality()));

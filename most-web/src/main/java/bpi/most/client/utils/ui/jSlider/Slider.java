@@ -25,6 +25,8 @@ public class Slider extends Widget {
 	private String id = null;
 	private boolean rendered = false;
 	private JSONObject options = new JSONObject();
+	
+	private static final int OPTIONS_MAX_VALUE = 100;
 
 	/**
 	 * Create a new slider with default options.
@@ -402,7 +404,7 @@ public class Slider extends Widget {
 	private void setDefaultOptions() {
 		options.put("disabled", JSONBoolean.getInstance(false));
 		options.put("animate", JSONBoolean.getInstance(false));
-		options.put("max", new JSONNumber(100));
+		options.put("max", new JSONNumber(OPTIONS_MAX_VALUE));
 		options.put("min", new JSONNumber(0));
 		options.put("value", new JSONNumber(0));
 		options.put("orientation", new JSONString("horizontal"));

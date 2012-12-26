@@ -14,6 +14,8 @@ import javax.naming.NamingException;
 public final class DbProperties {
 
 	private static DbProperties INSTANCE = new DbProperties();
+	private static final int CONNECTION_POOL_MIN = 10;
+	private static final int CONNECTION_POOL_MAX = 100;
 
 	/**
 	 * for testing purposes;
@@ -27,8 +29,8 @@ public final class DbProperties {
 	private String username = "mostsoc";
 	private String password = "demo12";
 	private String database = "mon_development";
-	private Integer conPoolMin = 10;
-	private Integer conPoolMax = 100;
+	private Integer conPoolMin = CONNECTION_POOL_MIN;
+	private Integer conPoolMax = CONNECTION_POOL_MAX;
 	
 	/**
 	 * initializes the values from JNDI

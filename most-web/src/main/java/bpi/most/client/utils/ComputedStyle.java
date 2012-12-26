@@ -46,6 +46,8 @@ public class ComputedStyle {
         private static final String STYLE_HEIGHT = "height";
 
         private static final String STYLE_LINE_HEIGHT = "lineHeight";
+        
+        private static final int RADIX = 10;
 
         /**
          * Returns the final computed value of a CSS property for the given element.
@@ -61,7 +63,7 @@ public class ComputedStyle {
         }
 
         public static int getFontSize(Element elem) {
-                return parseInt(getProperty(elem, STYLE_FONT_SIZE), 10, 0);
+                return parseInt(getProperty(elem, STYLE_FONT_SIZE), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
@@ -75,91 +77,91 @@ public class ComputedStyle {
         }
 
         public static int getMarginTop(Element elem) {
-                return parseInt(getProperty(elem, STYLE_MARGIN_TOP), 10, 0);
+                return parseInt(getProperty(elem, STYLE_MARGIN_TOP), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getMarginLeft(Element elem) {
-                return parseInt(getProperty(elem, STYLE_MARGIN_LEFT), 10, 0);
+                return parseInt(getProperty(elem, STYLE_MARGIN_LEFT), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getMarginRight(Element elem) {
-                return parseInt(getProperty(elem, STYLE_MARGIN_RIGHT), 10, 0);
+                return parseInt(getProperty(elem, STYLE_MARGIN_RIGHT), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getMarginBottom(Element elem) {
-                return parseInt(getProperty(elem, STYLE_MARGIN_BOTTOM), 10, 0);
+                return parseInt(getProperty(elem, STYLE_MARGIN_BOTTOM), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getBorderTopWidth(Element elem) {
-                return parseInt(getProperty(elem, STYLE_BORDER_TOP_WIDTH), 10, 0);
+                return parseInt(getProperty(elem, STYLE_BORDER_TOP_WIDTH), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getBorderLeftWidth(Element elem) {
-                return parseInt(getProperty(elem, STYLE_BORDER_LEFT_WIDTH), 10, 0);
+                return parseInt(getProperty(elem, STYLE_BORDER_LEFT_WIDTH), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getBorderRightWidth(Element elem) {
-                return parseInt(getProperty(elem, STYLE_BORDER_RIGHT_WIDTH), 10, 0);
+                return parseInt(getProperty(elem, STYLE_BORDER_RIGHT_WIDTH), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getBorderBottomWidth(Element elem) {
-                return parseInt(getProperty(elem, STYLE_BORDER_BOTTOM_WIDTH), 10, 0);
+                return parseInt(getProperty(elem, STYLE_BORDER_BOTTOM_WIDTH), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getPaddingTop(Element elem) {
-                return parseInt(getProperty(elem, STYLE_PADDING_TOP), 10, 0);
+                return parseInt(getProperty(elem, STYLE_PADDING_TOP), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getPaddingLeft(Element elem) {
-                return parseInt(getProperty(elem, STYLE_PADDING_LEFT), 10, 0);
+                return parseInt(getProperty(elem, STYLE_PADDING_LEFT), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getPaddingRight(Element elem) {
-                return parseInt(getProperty(elem, STYLE_PADDING_RIGHT), 10, 0);
+                return parseInt(getProperty(elem, STYLE_PADDING_RIGHT), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getPaddingBottom(Element elem) {
-                return parseInt(getProperty(elem, STYLE_PADDING_BOTTOM), 10, 0);
+                return parseInt(getProperty(elem, STYLE_PADDING_BOTTOM), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getWidth(Element elem) {
-                return parseInt(getProperty(elem, STYLE_WIDTH), 10, 0);
+                return parseInt(getProperty(elem, STYLE_WIDTH), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getHeight(Element elem) {
-                return parseInt(getProperty(elem, STYLE_HEIGHT), 10, 0);
+                return parseInt(getProperty(elem, STYLE_HEIGHT), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
 
         public static int getLineHeight(Element elem) {
-                return parseInt(getProperty(elem, STYLE_LINE_HEIGHT), 10, 0);
+                return parseInt(getProperty(elem, STYLE_LINE_HEIGHT), RADIX, 0);
                 // IE will return NaN if the property value is set to 'auto', well set
                 // it to 0.
         }
@@ -179,7 +181,7 @@ public class ComputedStyle {
          * @return the parsed value
          */
         protected static Integer parseInt(String str) {
-                return parseInt(str, 10);
+                return parseInt(str, RADIX);
         }
 
         /**

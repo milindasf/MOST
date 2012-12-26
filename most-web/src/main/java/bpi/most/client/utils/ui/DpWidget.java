@@ -25,6 +25,9 @@ public class DpWidget extends HTML implements DragInterface {
 	private String name;
 	private String description;
 	
+	private static final int HORIZONTAL_OFFSET = 10;
+	private static final int VERTICAL_OFFSET = 10;
+	
 	public DpWidget(final String name, String type) {
 		this(name);
 		this.type = type;
@@ -51,7 +54,7 @@ public class DpWidget extends HTML implements DragInterface {
 			@Override
 			public void onDragStart(DragStartEvent event) {
 				event.setData("mytext", name);		//setting "text" here causes url redirects on drops. use "mytext" or something else
-				event.getDataTransfer().setDragImage(getElement(), 10, 10);
+				event.getDataTransfer().setDragImage(getElement(), HORIZONTAL_OFFSET, VERTICAL_OFFSET);
 				registerDragWidget(getThis());
 				fireMostDragStartEvent(event);
 				DNDController.setDragitem(getThis());
