@@ -1,0 +1,251 @@
+/*
+ * This code licensed to public domain
+ */
+package bpi.most.obix.io;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import bpi.most.obix.Abstime;
+import bpi.most.obix.Bool;
+import bpi.most.obix.Contract;
+import bpi.most.obix.Enum;
+import bpi.most.obix.Feed;
+import bpi.most.obix.Int;
+import bpi.most.obix.List;
+import bpi.most.obix.Obj;
+import bpi.most.obix.Op;
+import bpi.most.obix.Real;
+import bpi.most.obix.Reltime;
+import bpi.most.obix.Status;
+import bpi.most.obix.Str;
+import bpi.most.obix.Uri;
+import bpi.most.obix.Val;
+import bpi.most.obix.xml.XWriter;
+
+/**
+ * ObixEncoder is used to serialize an Obj 
+ * tree to an XML stream.
+ *
+ * @author    Brian Frank
+ * @creation  27 Apr 05
+ * @version   $Revision$ $Date$
+ */
+public class ObixEncoder
+  extends XWriter
+{ 
+
+////////////////////////////////////////////////////////////////
+// Factory
+////////////////////////////////////////////////////////////////
+  
+  /**
+   * Dump an obj tree to stdout using an ObixEncoder.
+   */
+  public static void dump(Obj obj)
+  {                     
+    try
+    {                 
+      ObixEncoder encoder = new ObixEncoder(System.out);
+      encoder.encodeDocument(obj);
+      encoder.flush();
+    }
+    catch(IOException e)
+    {
+      throw new RuntimeException(e.toString());
+    }
+  }              
+  
+  /**
+   * Encode the specified obj to an internal String.
+   */
+  public static String toString(Obj obj)
+  {                 
+    try
+    {
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+      ObixEncoder encoder = new ObixEncoder(out);
+      encoder.encode(obj);      
+      encoder.flush();
+      return new String(out.toByteArray());
+    }
+    catch(IOException e)
+    {
+      throw new RuntimeException(e.toString());
+    }
+  }
+
+////////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////////
+
+  /**
+   * Construct encoder for specified file.
+   */
+  public ObixEncoder(File file)
+    throws IOException
+  {
+    super(file);
+  }
+
+  /**
+   * Construct encoder for specified output stream.
+   */
+  public ObixEncoder(OutputStream out)
+    throws IOException     
+  {             
+    super(out);
+  }
+  
+////////////////////////////////////////////////////////////////
+// Document
+////////////////////////////////////////////////////////////////
+  
+  /**
+   * Encode a full obix XML document including 
+   * prolog and header information.
+   */
+  public void encodeDocument(Obj obj)
+    throws IOException
+  {                       
+    prolog();
+    encode(obj);   
+    flush();
+  }             
+  
+  /**
+   * Encode an object and it's children.
+   */
+  public void encode(Obj obj)
+    throws IOException
+  { 
+    // open start tag         
+    String elemName = obj.getElement();
+    indent(indent*2).w('<').w(elemName);
+    
+    // name attribute
+    String name = obj.getName();
+    if (name != null) attr(" name", name);
+
+    // href attribute
+    Uri href = obj.getHref();
+    if (href != null) attr(" href", href.encodeVal());
+    
+    // val attribute
+    if (obj instanceof Val)
+    {
+      Val val = (Val)obj;
+      attr(" val", val.encodeVal());
+    }              
+    // of attribute
+    else if (obj instanceof List)
+    {
+      List list = (List)obj;
+      Contract of = list.getOf();
+      if (!of.containsOnlyObj()) attr(" of",  of.toString());                    
+    }
+    // in/out attributes
+    else if (obj instanceof Op)
+    {
+      Op op = (Op)obj;
+      attr(" in",  op.getIn().toString());                    
+      attr(" out", op.getOut().toString());                    
+    }
+    // in/of attributes
+    else if (obj instanceof Feed)
+    {
+      Feed feed = (Feed)obj;
+      attr(" in",  feed.getIn().toString());                    
+      attr(" of",  feed.getOf().toString());                    
+    }
+
+    // is attribute
+    Contract is = obj.getIs();
+    if (is != null) attr(" is", is.toString());
+    
+    // facets
+    if (obj.getDisplay() != null) attr(" display", obj.getDisplay().toString());
+    if (obj.getDisplayName() != null) attr(" displayName", obj.getDisplayName().toString());
+    if (obj.getIcon() != null) attr(" icon", obj.getIcon().toString());
+    if (obj.getStatus() != Status.ok) attr(" status", obj.getStatus().toString());
+    if (obj.isNull()) attr(" null", "true");
+    if (obj.isWritable()) attr(" writable", "true");
+    if (obj instanceof Bool)
+    {     
+      Bool b = (Bool)obj;
+      if (b.getRange() != null) attr(" range", b.getRange().toString());
+    }
+    else if (obj instanceof Int)
+    {
+      Int i = (Int)obj;
+      if (i.getMin() != Int.MIN_DEFAULT) attr(" min", String.valueOf(i.getMin()));
+      if (i.getMax() != Int.MAX_DEFAULT) attr(" max", String.valueOf(i.getMax()));
+      if (i.getUnit() != null) attr(" unit", i.getUnit().toString());
+    }                      
+    else if (obj instanceof Str)
+    {     
+      Str s = (Str)obj;
+      if (s.getMin() != Str.MIN_DEFAULT) attr(" min", String.valueOf(s.getMin()));
+      if (s.getMax() != Str.MAX_DEFAULT) attr(" max", String.valueOf(s.getMax()));
+    }
+    else if (obj instanceof Enum)
+    {     
+      Enum e = (Enum)obj;
+      if (e.getRange() != null) attr(" range", e.getRange().toString());
+    }
+    else if (obj instanceof Real)
+    {
+      Real r = (Real)obj;
+      if (r.getMin() != Real.MIN_DEFAULT) attr(" min", String.valueOf(r.getMin()));
+      if (r.getMax() != Real.MAX_DEFAULT) attr(" max", String.valueOf(r.getMax()));
+      if (r.getUnit() != null) attr(" unit", r.getUnit().toString());
+      if (r.getPrecision() != Real.PRECISION_DEFAULT) attr(" precision", String.valueOf(r.getPrecision()));
+    }
+    else if (obj instanceof Reltime)
+    {
+      Reltime r = (Reltime)obj;
+      if (r.getMin() != null) attr(" min", r.getMin().encodeVal());
+      if (r.getMax() != null) attr(" max", r.getMax().encodeVal());
+    }
+    else if (obj instanceof Abstime)
+    {
+      Abstime a = (Abstime)obj;
+      if (a.getMin() != null) attr(" min", a.getMin().encodeVal());
+      if (a.getMax() != null) attr(" max", a.getMax().encodeVal());
+    }
+    else if (obj instanceof List)
+    {     
+      List l = (List)obj;
+      if (l.getMin() != List.MIN_DEFAULT) attr(" min", String.valueOf(l.getMin()));
+      if (l.getMax() != List.MAX_DEFAULT) attr(" max", String.valueOf(l.getMax()));
+    }
+    
+    // if no children, close tag and be done
+    if (obj.size() == 0)
+    {     
+      w("/>\n");
+      return;
+    }                 
+    
+    // close start tag
+    w(">\n");
+    indent++;
+    
+    // write children
+    Obj[] kids = obj.list();
+    for(int i=0; i<kids.length; ++i)
+      encode(kids[i]);
+    
+    // end tag  
+    indent--; 
+    indent(indent*2).w("</").w(elemName).w(">\n");
+  }
+    
+////////////////////////////////////////////////////////////////
+// Fields
+////////////////////////////////////////////////////////////////
+  
+  private int indent;
+}
