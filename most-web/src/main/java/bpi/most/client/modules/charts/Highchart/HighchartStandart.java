@@ -16,8 +16,8 @@ import org.moxieapps.gwt.highcharts.client.plotOptions.SeriesPlotOptions;
 import bpi.most.client.modules.charts.ChartInterface;
 import bpi.most.client.modules.charts.ChartWrapper;
 import bpi.most.client.modules.charts.Curve;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;

@@ -1,7 +1,7 @@
 package bpi.most.client.model;
 
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 /*
  * provides async handlers for some Datapoint methods 

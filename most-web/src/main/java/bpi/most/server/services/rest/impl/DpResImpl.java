@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import bpi.most.server.services.DatapointService;
 import bpi.most.server.services.rest.api.DpResource;
 import bpi.most.server.utils.DateUtils;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.DpDataDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
 
 public class DpResImpl extends BaseResImpl implements DpResource {
 

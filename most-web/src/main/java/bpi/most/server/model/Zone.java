@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bpi.most.server.utils.DbPool;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.ZoneDTO;
 
 /**
  * DAO of a zone used for grouping datapoints.

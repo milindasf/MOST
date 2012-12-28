@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.WarningDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.WarningDTO;
 
 /**
  * Handles warnings of datapoints

@@ -5,8 +5,8 @@ import java.util.Date;
 import bpi.most.server.model.Datapoint;
 import bpi.most.server.model.DpController;
 import bpi.most.server.model.DpVirtualFactory;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 /**
  * ID = "RadiatorHeatPower"

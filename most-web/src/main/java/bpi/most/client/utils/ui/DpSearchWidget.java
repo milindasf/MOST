@@ -3,7 +3,7 @@ package bpi.most.client.utils.ui;
 import java.util.ArrayList;
 
 import bpi.most.client.model.DpController;
-import bpi.most.shared.DpDTO;
+import bpi.most.dto.DpDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

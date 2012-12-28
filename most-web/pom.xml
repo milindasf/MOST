@@ -29,6 +29,13 @@
         </dependency>
         <dependency>
             <groupId>bpi.most</groupId>
+            <artifactId>most-domain</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>  <!-- also include sources of domain layer for GWT -->
+        </dependency>
+
+        <dependency>
+            <groupId>bpi.most</groupId>
             <artifactId>most-service-api</artifactId>
         </dependency>
         <dependency>

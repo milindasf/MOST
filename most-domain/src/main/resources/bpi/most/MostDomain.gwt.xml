@@ -1,0 +1,4 @@
+<module>
+    <!-- include DTOs for GWT -->
+	<source path="dto" />
+</module>

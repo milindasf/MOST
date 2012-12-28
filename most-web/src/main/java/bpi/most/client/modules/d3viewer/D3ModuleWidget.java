@@ -18,7 +18,7 @@ import bpi.most.client.utils.ui.DeleteableDragWidget;
 import bpi.most.client.utils.ui.DpWidget;
 import bpi.most.client.utils.ui.jSlider.Slider;
 import bpi.most.client.utils.ui.jSlider.SliderSlideHandler;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDatasetDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.Element;

@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import bpi.most.client.rpc.ZoneService;
 import bpi.most.server.services.User;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

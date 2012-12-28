@@ -7,8 +7,8 @@ import bpi.most.client.rpc.DpChangedEventService;
 import bpi.most.client.rpc.DpChangedEventServiceAsync;
 import bpi.most.client.utils.Observable;
 import bpi.most.client.utils.Observer;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

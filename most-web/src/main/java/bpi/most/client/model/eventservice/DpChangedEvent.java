@@ -1,6 +1,6 @@
 package bpi.most.client.model.eventservice;
 
-import bpi.most.shared.DpDataDTO;
+import bpi.most.dto.DpDataDTO;
 import de.novanic.eventservice.client.event.Event;
 
 /**

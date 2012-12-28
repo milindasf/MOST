@@ -6,7 +6,10 @@
 	<inherits name="com.summatech.gwt.GwtTimepicker" />
 	<inherits name='de.novanic.eventservice.GWTEventService' />
 	<inherits name="com.kiouri.sliderbar.SliderBarMVP" />
+
+    <!-- DTOs -->
+    <inherits name="bpi.most.MostDomain" />
+
 	<entry-point class="bpi.most.client.Most"></entry-point>
 	<source path="client" />
-	<source path="shared" />
 </module>

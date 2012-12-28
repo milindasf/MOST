@@ -3,7 +3,7 @@ package bpi.most.server.services.opcua.server;
 import java.util.Observable;
 import java.util.Observer;
 
-import bpi.most.shared.DpDataDTO;
+import bpi.most.dto.DpDataDTO;
 
 public class DpObserver implements Observer {
 
