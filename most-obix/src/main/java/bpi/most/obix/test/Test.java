@@ -186,6 +186,8 @@ public abstract class Test
     ObixEncoder out = new ObixEncoder(bout);
     out.encodeDocument(orig);
     out.flush();
+    out.close();
+    
     byte[] buf = bout.toByteArray();
 
     // decode from byte array

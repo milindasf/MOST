@@ -13,6 +13,11 @@ package bpi.most.obix.test;
 public class TestException extends RuntimeException
 { 
 
-  public TestException(String msg) { super(msg); }  
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4506901230947020508L;
+
+public TestException(String msg) { super(msg); }  
   
 }

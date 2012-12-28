@@ -96,7 +96,6 @@ public class Base64
       index += 3;
     }
     
-    int group = 0;
     if (bytesRemaining > 0)
     {
       byte[] remainder = new byte[3];

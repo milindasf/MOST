@@ -80,7 +80,6 @@ public class TreeTest
     Obj b0 = new Obj("b");
     Obj b1 = new Obj("b");
     Obj c0 = new Obj("c");
-    Obj c1 = new Obj("c");
     p = new Obj();
     p.add(a0); verify(p, new Obj[] {a0});
     p.replace(a0, a1); verify(p, new Obj[] {a1}); 

@@ -3,8 +3,6 @@
  */
 package bpi.most.obix;      
 
-import java.net.*;
-import java.util.*;
 
 /**
  * Ref models a reference object.

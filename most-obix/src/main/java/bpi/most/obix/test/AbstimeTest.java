@@ -3,9 +3,6 @@
  */
 package bpi.most.obix.test;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
@@ -351,8 +348,6 @@ public class AbstimeTest
   
   public void verifyNextPrevWeekdays()
   {
-    Abstime t = new Abstime(2003, july, 17);
-    
     verify(new Abstime(2003, july, 17).nextWeekday(thursday).equals(
            new Abstime(2003, july, 24)));
     verify(new Abstime(2003, july, 17).nextWeekday(friday).equals(
@@ -426,21 +421,21 @@ public class AbstimeTest
 // Debug
 ////////////////////////////////////////////////////////////////
 
-  private static String str(Abstime t)
-  {
-    Calendar cal = new GregorianCalendar();
-    cal.setTimeZone(t.getTimeZone());
-    cal.setTime(new Date(t.getMillis()));
-    return str(cal);
-  }
-
-  private static String str(Calendar calendar)
-  {
-    java.text.SimpleDateFormat f 
-      = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSz");
-    f.setTimeZone( calendar.getTimeZone() );
-    return f.format(calendar.getTime());
-  }
+//  private static String str(Abstime t)
+//  {
+//    Calendar cal = new GregorianCalendar();
+//    cal.setTimeZone(t.getTimeZone());
+//    cal.setTime(new Date(t.getMillis()));
+//    return str(cal);
+//  }
+//
+//  private static String str(Calendar calendar)
+//  {
+//    java.text.SimpleDateFormat f 
+//      = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSz");
+//    f.setTimeZone( calendar.getTimeZone() );
+//    return f.format(calendar.getTime());
+//  }
 
   public static void dump(TimeZone tz)
   {

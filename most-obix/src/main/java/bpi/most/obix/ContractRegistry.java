@@ -99,7 +99,7 @@ public class ContractRegistry
   { 
     // try to map each URI in the contract list to an interface
     Uri[] list = contract.list();
-    ArrayList acc = new ArrayList();
+    ArrayList<Class> acc = new ArrayList<Class>();
     for (int i=0; i<list.length; ++i)
     {                       
       // check for Java interface
@@ -153,11 +153,11 @@ public class ContractRegistry
 // Fields
 ////////////////////////////////////////////////////////////////
 
-  static HashMap map = new HashMap();   // URI -> className
-  static HashMap cache = new HashMap(); // Contract.toString -> Class
+  static HashMap<String, String> map = new HashMap<String, String>();   // URI -> className
+  static HashMap<String, Class> cache = new HashMap<String, Class>(); // Contract.toString -> Class
   static Class NotFound = ContractRegistry.class;
   
-  static HashMap baseContracts = new HashMap();
+  static HashMap<String, String> baseContracts = new HashMap<String, String>();
   static 
   { 
     baseContracts.put("obix:obj",     "obix.Obj");

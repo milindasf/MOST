@@ -3,8 +3,8 @@
  */
 package bpi.most.obix.asm;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Method;
+import java.util.Hashtable;
 
 /**
  * @author    Brian Frank
@@ -246,12 +246,12 @@ public class ConstantPool
   Buffer buf = new Buffer();
   int count = 0;
   
-  Hashtable utfTable     = new Hashtable();
-  Hashtable classTable   = new Hashtable();
-  Hashtable stringTable  = new Hashtable();
-  Hashtable floatTable  = new Hashtable();
-  Hashtable doubleTable  = new Hashtable();
-  Hashtable longTable  = new Hashtable();
+  Hashtable<String, Integer> utfTable     = new Hashtable<String, Integer>();
+  Hashtable<String, Integer> classTable   = new Hashtable<String, Integer>();
+  Hashtable<String, Integer> stringTable  = new Hashtable<String, Integer>();
+  Hashtable<Float, Integer> floatTable  = new Hashtable<Float, Integer>();
+  Hashtable<Double, Integer> doubleTable  = new Hashtable<Double, Integer>();
+  Hashtable<Long, Integer> longTable  = new Hashtable<Long, Integer>();
   IntHashMap integerTable = new IntHashMap();
   IntHashMap ntTable      = new IntHashMap();
   IntHashMap fieldTable   = new IntHashMap();

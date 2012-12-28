@@ -53,7 +53,7 @@ public class ObixAssembler
     
     // walk thru each interface and add code 
     // to ctor and accessor methods
-    HashMap done = new HashMap();
+    HashMap<String, Method> done = new HashMap<String, Method>();
     for (int i=0; i<interfaces.length; ++i)
       asm.compileInterface(interfaces[i], done, ctor);
     
@@ -76,7 +76,7 @@ public class ObixAssembler
    *  2) add child init in constructor
    *  3) add accessor method
    */
-  private void compileInterface(Class iface, HashMap done, Code ctor)
+  private void compileInterface(Class iface, HashMap<String, Method> done, Code ctor)
   {                       
     // sanity checks
     if (!iface.isInterface() || !IObj.class.isAssignableFrom(iface))
@@ -295,7 +295,7 @@ public class ObixAssembler
   static AsmClassLoader classLoader = new AsmClassLoader();
   static final Object nameLock = new Object();
   static final Object loadLock = new Object();
-  static HashMap loadClassFiles = new HashMap(); // className -> byte[]
+  static HashMap<String, Buffer> loadClassFiles = new HashMap<String, Buffer>(); // className -> byte[]
   static int nextName = 0;
   
   private int objAdd, objAddWithName, objGet, decoderFromString;

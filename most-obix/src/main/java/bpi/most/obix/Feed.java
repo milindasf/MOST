@@ -3,8 +3,6 @@
  */
 package bpi.most.obix;      
 
-import java.net.*;
-import java.util.*;
 
 /**
  * Feed models a event feed topic.

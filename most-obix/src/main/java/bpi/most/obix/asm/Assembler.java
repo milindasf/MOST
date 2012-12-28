@@ -74,8 +74,8 @@ public class Assembler
   public final int accessFlags;
   public final ConstantPool cp = new ConstantPool();
   
-  private ArrayList fields = new ArrayList();
-  private ArrayList methods = new ArrayList();
-  private ArrayList attributes = new ArrayList();
+  private ArrayList<FieldInfo> fields = new ArrayList<FieldInfo>();
+  private ArrayList<MethodInfo> methods = new ArrayList<MethodInfo>();
+  private ArrayList<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
   
 }

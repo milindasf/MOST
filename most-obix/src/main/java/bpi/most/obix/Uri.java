@@ -3,8 +3,11 @@
  */
 package bpi.most.obix;      
 
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Uri models a Universal Resource Identifier
@@ -274,8 +277,8 @@ public class Uri
       return str; 
     }          
     
-    ArrayList keys = new ArrayList();
-    HashMap map = new HashMap();    
+    ArrayList<String> keys = new ArrayList<String>();
+    HashMap<String, String> map = new HashMap<String, String>();    
     String str;
   }                    
   

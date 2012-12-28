@@ -432,6 +432,6 @@ public class ObixSession
   String username;
   String password;      
   String authHeader;
-  HashMap watches = new HashMap();
+  HashMap<String, SessionWatch> watches = new HashMap<String, SessionWatch>();
 
 } 

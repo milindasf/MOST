@@ -52,7 +52,7 @@ public class Obj
     }
   }
 
-  static HashMap elemNameToClass = new HashMap();
+  static HashMap<String, Class> elemNameToClass = new HashMap<String, Class>();
   static
   {
     elemNameToClass.put("obj",     Obj.class);
@@ -495,7 +495,7 @@ public class Obj
     // if named, add to name map
     if (kid.name != null)             
     {
-      if (kidsByName == null) kidsByName = new HashMap();
+      if (kidsByName == null) kidsByName = new HashMap<String, Obj>();
       kidsByName.put(kid.name, kid);  
     }
     
@@ -622,7 +622,7 @@ public class Obj
   private Uri href;
   private Contract is;         
   private Obj parent;
-  private HashMap kidsByName;
+  private HashMap<String, Obj> kidsByName;
   private Obj kidsHead, kidsTail; 
   private int kidsCount;
   private Obj prev, next;
