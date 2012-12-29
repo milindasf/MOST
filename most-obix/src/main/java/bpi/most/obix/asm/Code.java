@@ -14,13 +14,14 @@ import java.lang.reflect.Modifier;
 public class Code
         extends AttributeInfo {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    public final ConstantPool cp;
+    public int maxStack = 10;
+    public int maxLocals = 10;
+    public Buffer code = new Buffer(512);
 
     public Code(Assembler asm) {
         super(asm, Jvm.ATTR_CODE);
-        this.cp = asm.cp;
+        this.cp = asm.getCp();
     }
 
 ////////////////////////////////////////////////////////////////
@@ -34,7 +35,7 @@ public class Code
     }
 
     public int add(int opcode, int arg) {
-        int ref = code.count;
+        int ref = code.getCount();
 
         // auto widen LDC opcode if necessary
         if (opcode == Jvm.LDC) {
@@ -111,7 +112,7 @@ public class Code
     }
 
     public int invokeInterface(int method, int nargs) {
-        int ref = code.count;
+        int ref = code.getCount();
         code.u1(Jvm.INVOKEINTERFACE);
         code.u2(method);
         code.u1(nargs);
@@ -124,25 +125,15 @@ public class Code
 ////////////////////////////////////////////////////////////////
 
     void compile(Buffer buf) {
-        int len = 8 + code.count + 4;
+        int len = 8 + code.getCount() + 4;
 
-        buf.u2(name);          // attribute name
+        buf.u2(getName());          // attribute name
         buf.u4(len);           // attribute length
         buf.u2(maxStack);      // max stack
         buf.u2(maxLocals);     // max locals
-        buf.u4(code.count);    // code length
+        buf.u4(code.getCount());    // code length
         buf.append(code);      // code
         buf.u2(0);             // exceptions not supported
         buf.u2(0);             // attributes not supported
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    public final ConstantPool cp;
-    public int maxStack = 10;
-    public int maxLocals = 10;
-    public Buffer code = new Buffer(512);
-
 }

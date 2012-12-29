@@ -10,9 +10,8 @@ package bpi.most.obix.asm;
  */
 public class Buffer {
 
-////////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////////
+    private byte[] bytes;
+    private int count;
 
     public Buffer() {
         this(1024);
@@ -150,11 +149,11 @@ public class Buffer {
         bytes = temp;
     }
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+    public byte[] getBytes() {
+        return bytes;
+    }
 
-    public byte[] bytes;
-    public int count;
-
+    public int getCount() {
+        return count;
+    }
 }

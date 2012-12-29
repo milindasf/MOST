@@ -75,8 +75,8 @@ public class Assembler {
         buf.u4(Jvm.MAGIC);          // magic
         buf.u2(Jvm.MINOR_VERSION);  // minor version
         buf.u2(Jvm.MAJOR_VERSION);  // major version
-        buf.u2(cp.count + 1);         // constant pool count
-        buf.append(cp.buf);         // contant pool
+        buf.u2(cp.getCount() + 1);         // constant pool count
+        buf.append(cp.getBuf());         // contant pool
         buf.u2(accessFlags);        // access flags
         buf.u2(thisClass);          // this class
         buf.u2(superClass);         // super class

@@ -10,6 +10,12 @@ package bpi.most.obix.asm;
  */
 public class AttributeInfo {
 
+    private static byte[] EMPTY = new byte[0];
+
+    private final Assembler asm;
+    private final int name;
+    private byte[] info = EMPTY;
+
     public AttributeInfo(Assembler asm, int name, byte[] info) {
         this.asm = asm;
         this.name = name;
@@ -48,9 +54,11 @@ public class AttributeInfo {
         buf.append(info);
     }
 
-    private static byte[] EMPTY = new byte[0];
+    public Assembler getAsm() {
+        return asm;
+    }
 
-    public final Assembler asm;
-    public final int name;
-    public byte[] info = EMPTY;
+    public int getName() {
+        return name;
+    }
 }

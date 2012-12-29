@@ -23,6 +23,15 @@ public class ObixAssembler
         extends Assembler
         implements OpCodes {
 
+
+    private static AsmClassLoader classLoader = new AsmClassLoader();
+    private static final Object nameLock = new Object();
+    private static final Object loadLock = new Object();
+    private static HashMap<String, Buffer> loadClassFiles = new HashMap<String, Buffer>(); // className -> byte[]
+    private static int nextName = 0;
+
+    private int objAdd, objAddWithName, objGet, decoderFromString;
+
     /**
      * Compile a class which extends from superClass, and implements
      * all the interfaces.  Each interface must contain only obix
@@ -46,7 +55,7 @@ public class ObixAssembler
         // init contructor
         Code ctor = new Code(asm);
         ctor.add(ALOAD_0);
-        ctor.add(INVOKESPECIAL, asm.cp.method(asm.superClass, "<init>", "()V"));
+        ctor.add(INVOKESPECIAL, asm.getCp().method(asm.getSuperClass(), "<init>", "()V"));
 
         // walk thru each interface and add code
         // to ctor and accessor methods
@@ -132,8 +141,8 @@ public class ObixAssembler
         }
 
         // add some items to constant pool
-        int cpType = cp.cls(type);
-        int cpName = cp.string(name);
+        int cpType = getCp().cls(type);
+        int cpName = getCp().string(name);
 
         // add as child to the ctor
         if (contract == null) {
@@ -145,7 +154,7 @@ public class ObixAssembler
             ctor.add(LDC, cpName);
             ctor.add(NEW, cpType);
             ctor.add(DUP);
-            ctor.add(INVOKESPECIAL, cp.method(cpType, "<init>", "()V"));
+            ctor.add(INVOKESPECIAL, getCp().method(cpType, "<init>", "()V"));
             ctor.add(INVOKEVIRTUAL, objAddWithName());
             ctor.add(POP); // add returns this
         } else {
@@ -155,7 +164,7 @@ public class ObixAssembler
             // as series of setVal, setMin, etc calls; but I'll leave
             // that to some future aspiring  hacker
             ctor.add(ALOAD_0);
-            ctor.add(LDC, cp.string(contract));
+            ctor.add(LDC, getCp().string(contract));
             ctor.add(INVOKESTATIC, decoderFromString());
             ctor.add(INVOKEVIRTUAL, objAdd());
             ctor.add(POP); // add returns this
@@ -185,25 +194,25 @@ public class ObixAssembler
 
     private int objAdd() {
         if (objAdd == 0)
-            objAdd = cp.method("obix/Obj", "add", "(Lobix/Obj;)Lobix/Obj;");
+            objAdd = getCp().method("obix/Obj", "add", "(Lobix/Obj;)Lobix/Obj;");
         return objAdd;
     }
 
     private int objAddWithName() {
         if (objAddWithName == 0)
-            objAddWithName = cp.method("obix/Obj", "add", "(Ljava/lang/String;Lobix/Obj;)Lobix/Obj;");
+            objAddWithName = getCp().method("obix/Obj", "add", "(Ljava/lang/String;Lobix/Obj;)Lobix/Obj;");
         return objAddWithName;
     }
 
     private int objGet() {
         if (objGet == 0)
-            objGet = cp.method("obix/Obj", "get", "(Ljava/lang/String;)Lobix/Obj;");
+            objGet = getCp().method("obix/Obj", "get", "(Ljava/lang/String;)Lobix/Obj;");
         return objGet;
     }
 
     private int decoderFromString() {
         if (decoderFromString == 0)
-            decoderFromString = cp.method("obix/io/ObixDecoder", "fromString", "(Ljava/lang/String;)Lobix/Obj;");
+            decoderFromString = getCp().method("obix/io/ObixDecoder", "fromString", "(Ljava/lang/String;)Lobix/Obj;");
         return decoderFromString;
     }
 
@@ -229,7 +238,7 @@ public class ObixAssembler
 
             // if predefined, then use it
             if (classFile != null)
-                return defineClass(name, classFile.bytes, 0, classFile.count);
+                return defineClass(name, classFile.getBytes(), 0, classFile.getCount());
 
             // otherwise, my parent class loader should have found it
             throw new ClassNotFoundException(name);
@@ -268,18 +277,5 @@ public class ObixAssembler
     System.out.println(" foo:     " + b.foo());
   }     
   */
-
-////////////////////////////////////////////////////////////////
-// Fields 
-////////////////////////////////////////////////////////////////
-
-    static AsmClassLoader classLoader = new AsmClassLoader();
-    static final Object nameLock = new Object();
-    static final Object loadLock = new Object();
-    static HashMap<String, Buffer> loadClassFiles = new HashMap<String, Buffer>(); // className -> byte[]
-    static int nextName = 0;
-
-    private int objAdd, objAddWithName, objGet, decoderFromString;
-
 }
 

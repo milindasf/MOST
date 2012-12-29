@@ -13,6 +13,21 @@ import java.util.Hashtable;
  */
 public class ConstantPool {
 
+    private Buffer buf = new Buffer();
+    private int count = 0;
+
+    private Hashtable<String, Integer> utfTable = new Hashtable<String, Integer>();
+    private Hashtable<String, Integer> classTable = new Hashtable<String, Integer>();
+    private Hashtable<String, Integer> stringTable = new Hashtable<String, Integer>();
+    private Hashtable<Float, Integer> floatTable = new Hashtable<Float, Integer>();
+    private Hashtable<Double, Integer> doubleTable = new Hashtable<Double, Integer>();
+    private Hashtable<Long, Integer> longTable = new Hashtable<Long, Integer>();
+    private IntHashMap integerTable = new IntHashMap();
+    private IntHashMap ntTable = new IntHashMap();
+    private IntHashMap fieldTable = new IntHashMap();
+    private IntHashMap methodTable = new IntHashMap();
+    private IntHashMap ifaceTable = new IntHashMap();
+
 ////////////////////////////////////////////////////////////////
 // Index Access
 ////////////////////////////////////////////////////////////////
@@ -213,25 +228,14 @@ public class ConstantPool {
     }
 
     public int field(FieldInfo fi) {
-        return field(fi.asm.thisClass, nt(fi.name, fi.type));
+        return field(fi.getAsm().getThisClass(), nt(fi.getName(), fi.getType()));
     }
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+    public Buffer getBuf() {
+        return buf;
+    }
 
-    Buffer buf = new Buffer();
-    int count = 0;
-
-    Hashtable<String, Integer> utfTable = new Hashtable<String, Integer>();
-    Hashtable<String, Integer> classTable = new Hashtable<String, Integer>();
-    Hashtable<String, Integer> stringTable = new Hashtable<String, Integer>();
-    Hashtable<Float, Integer> floatTable = new Hashtable<Float, Integer>();
-    Hashtable<Double, Integer> doubleTable = new Hashtable<Double, Integer>();
-    Hashtable<Long, Integer> longTable = new Hashtable<Long, Integer>();
-    IntHashMap integerTable = new IntHashMap();
-    IntHashMap ntTable = new IntHashMap();
-    IntHashMap fieldTable = new IntHashMap();
-    IntHashMap methodTable = new IntHashMap();
-    IntHashMap ifaceTable = new IntHashMap();
+    public int getCount() {
+        return count;
+    }
 }

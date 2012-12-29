@@ -14,6 +14,11 @@ package bpi.most.obix.asm;
  */
 public class IntHashMap {
 
+    private Entry table[];
+    private int count;
+    private int threshold;
+    private float loadFactor;
+
     /**
      * Default constructor.
      */
@@ -282,14 +287,4 @@ public class IntHashMap {
         Object value;
         Entry next;
     }
-
-//////////////////////////////////////////////////////////////
-// Fields
-//////////////////////////////////////////////////////////////
-
-    private Entry table[];
-    private int count;
-    private int threshold;
-    private float loadFactor;
-
 }

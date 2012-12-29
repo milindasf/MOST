@@ -12,13 +12,16 @@ import java.util.ArrayList;
  */
 public abstract class MemberInfo {
 
-////////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////////
+    private final Assembler asm;
+    private final ConstantPool cp;
+    private final int name;
+    private final int type;
+    private final int accessFlags;
+    private ArrayList<AttributeInfo> attributes;
 
     MemberInfo(Assembler asm, int name, int type, int accessFlags) {
         this.asm = asm;
-        this.cp = asm.cp;
+        this.cp = asm.getCp();
         this.name = name;
         this.type = type;
         this.accessFlags = accessFlags;
@@ -26,7 +29,7 @@ public abstract class MemberInfo {
 
     MemberInfo(Assembler asm, String name, String type, int accessFlags) {
         this.asm = asm;
-        this.cp = asm.cp;
+        this.cp = asm.getCp();
         this.name = cp.utf(name);
         this.type = cp.utf(type);
         this.accessFlags = accessFlags;
@@ -34,7 +37,7 @@ public abstract class MemberInfo {
 
     MemberInfo(Assembler asm, int name, String type, int accessFlags) {
         this.asm = asm;
-        this.cp = asm.cp;
+        this.cp = asm.getCp();
         this.name = name;
         this.type = cp.utf(type);
         this.accessFlags = accessFlags;
@@ -64,14 +67,23 @@ public abstract class MemberInfo {
             ((AttributeInfo) attributes.get(i)).compile(buf);
     }
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+    public Assembler getAsm() {
+        return asm;
+    }
 
-    public final Assembler asm;
-    public final ConstantPool cp;
-    public final int name;
-    public final int type;
-    public final int accessFlags;
-    ArrayList<AttributeInfo> attributes;
+    public ConstantPool getCp() {
+        return cp;
+    }
+
+    public int getName() {
+        return name;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getAccessFlags() {
+        return accessFlags;
+    }
 }
