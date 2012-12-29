@@ -16,4 +16,15 @@
   <packaging>jar</packaging>
   <name>MOST oBIX</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-service-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-domain</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
