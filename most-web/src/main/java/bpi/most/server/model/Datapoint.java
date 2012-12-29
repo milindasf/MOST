@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bpi.most.server.utils.DbPool;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 /**
  * Abstract representation of a datapoint. Use this interface if you access

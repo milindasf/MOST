@@ -6,8 +6,8 @@ import java.util.List;
 import bpi.most.server.model.Datapoint;
 import bpi.most.server.model.Zone;
 import bpi.most.server.model.ZoneController;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 
 
 /**

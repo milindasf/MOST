@@ -7,9 +7,9 @@ import java.util.Observer;
 import bpi.most.server.model.Datapoint;
 import bpi.most.server.model.DpController;
 import bpi.most.server.model.WarningController;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 /**
  * Common Service interface. Handles permissions, etc. Everything returned here

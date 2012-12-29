@@ -12,8 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.DpDataDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
 
 //@Path("/dp/")
 @Produces("application/xml")

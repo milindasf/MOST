@@ -1,4 +1,4 @@
-package bpi.most.shared;
+package bpi.most.dto;
 
 import java.io.Serializable;
 import java.util.Date;

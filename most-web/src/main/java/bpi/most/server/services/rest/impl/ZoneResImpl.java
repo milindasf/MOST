@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 
 import bpi.most.server.services.ZoneService;
 import bpi.most.server.services.rest.api.ZoneResource;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 
 public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 

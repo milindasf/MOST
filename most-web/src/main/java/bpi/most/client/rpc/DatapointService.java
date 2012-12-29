@@ -3,8 +3,8 @@ package bpi.most.client.rpc;
 import java.util.ArrayList;
 import java.util.Date;
 
-import bpi.most.shared.DpDatasetDTO;
-import bpi.most.shared.DpDTO;
+import bpi.most.dto.DpDatasetDTO;
+import bpi.most.dto.DpDTO;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

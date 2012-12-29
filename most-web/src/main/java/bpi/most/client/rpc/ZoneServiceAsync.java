@@ -2,8 +2,8 @@ package bpi.most.client.rpc;
 
 import java.util.List;
 
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -11,9 +11,9 @@ import bpi.most.server.services.ZoneService;
 import bpi.most.server.services.opcua.server.nodes.DpDataNode;
 import bpi.most.server.services.opcua.server.nodes.DpNode;
 import bpi.most.server.services.opcua.server.nodes.ZoneNode;
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.ZoneDTO;
 
 /**
  * manages all nodes of the most-namespace which includes

@@ -13,8 +13,8 @@ import bpi.most.client.utils.dnd.DNDController;
 import bpi.most.client.utils.dnd.MostDragEndEvent;
 import bpi.most.client.utils.ui.DateTimePickerBox;
 import bpi.most.client.utils.ui.DpWidget;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;

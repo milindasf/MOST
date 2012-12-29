@@ -2,7 +2,7 @@ package bpi.most.client.model;
 
 import java.util.List;
 
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.ZoneDTO;
 
 
 /*

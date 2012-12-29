@@ -12,8 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-import bpi.most.shared.DpDTO;
-import bpi.most.shared.ZoneDTO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 
 /**
  * further information:

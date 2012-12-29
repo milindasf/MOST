@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bpi.most.server.services.User;
-import bpi.most.shared.DpDatasetDTO;
-import bpi.most.shared.DpDTO;
+import bpi.most.dto.DpDatasetDTO;
+import bpi.most.dto.DpDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

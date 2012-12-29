@@ -8,8 +8,8 @@ import bpi.most.server.model.Datapoint;
 import bpi.most.server.model.DpVirtualFactory;
 import bpi.most.server.model.Zone;
 import bpi.most.server.model.ZoneController;
-import bpi.most.shared.DpDataDTO;
-import bpi.most.shared.DpDatasetDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 
 /**
  * ID = "Sum"
