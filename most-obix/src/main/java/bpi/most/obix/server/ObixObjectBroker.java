@@ -13,8 +13,8 @@ import bpi.most.service.api.ZoneService;
 
 public class ObixObjectBroker implements IObjectBroker {
 
-    private static final OBIX_DP_PREFIX = "/obix/dp/";
-    private static final OBIX_ZONE_PREFIX = "/obix/zones/";
+    private static final String OBIX_DP_PREFIX = "/obix/dp/";
+    private static final String OBIX_ZONE_PREFIX = "/obix/zones/";
 
     //@Inject
     private ZoneService zoneService;
@@ -40,7 +40,6 @@ public class ObixObjectBroker implements IObjectBroker {
         for (DatapointVO point : datapointService.getDatapoints()) {
             String name = point.getName();
             Uri uri = new Uri(OBIX_DP_PREFIX + name);
-            datapointService.
             dpCache.put(uri, new Dp(name, point.getType(), point.getDescription()));
             // TODO extend service, to get DpData somehow!
         }

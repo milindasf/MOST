@@ -47,9 +47,9 @@ public class UriTest
     verifyRel("?q#f",   "",    "q",   "f");
 
     verifyRel(".",       ".",       null,  null);
-    verifyRel("..",      "..",      null,  null);
+    verifyRel("src/main",      "..",      null,  null);
     verifyRel("../x",    "../x",    null,  null);
-    verifyRel("../..",   "../..",   null,  null);
+    verifyRel("src",   "../..",   null,  null);
     verifyRel("../../x", "../../x", null,  null);      
     
     verifyNorm("http://foo/",     "/",       "http://foo/");
@@ -65,12 +65,12 @@ public class UriTest
     verifyNorm("http://foo/x",    "/y#f",    "http://foo/y#f");
     verifyNorm("http://foo/x",    "y#f",     "http://foo/y#f");
     verifyNorm("http://foo/x/",   "y#f",     "http://foo/x/y#f");
-    verifyNorm("http://foo/x/",   "..",      "http://foo/");
-    verifyNorm("http://foo/x/y",  "..",      "http://foo/");
-    verifyNorm("http://foo/x/y/", "..",      "http://foo/x/");
+    verifyNorm("http://foo/x/", "src/main",      "http://foo/");
+    verifyNorm("http://foo/x/y", "src/main",      "http://foo/");
+    verifyNorm("http://foo/x/y/", "src/main",      "http://foo/x/");
     verifyNorm("http://foo/x/y",  "../z",    "http://foo/z");
     verifyNorm("http://foo/x/y/", "../z",    "http://foo/x/z");
-    verifyNorm("http://foo/x/y/", "../..",   "http://foo/");
+    verifyNorm("http://foo/x/y/", "src",   "http://foo/");
     verifyNorm("http://foo/x/y/", "../../z", "http://foo/z");      
     verifyNorm("http://foo/",     "obix:obj","obix:obj");
     
@@ -94,7 +94,7 @@ public class UriTest
     verify(!contains("http://foo/",     "http://foox/x"));
     verify(!contains("http://foo/",     "http://foo:81/x"));
     verify(contains("http://foo/",      ""));
-    verify(contains("http://foo/",      ".."));
+    verify(contains("http://foo/", "src/main"));
     verify(contains("http://foo/",      "/"));
     verify(contains("http://foo/",      "/x"));
     verify(contains("http://foo/",      "x"));
