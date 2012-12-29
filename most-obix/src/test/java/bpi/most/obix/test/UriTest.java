@@ -45,9 +45,9 @@ public class UriTest
         verifyRel("?q#f", "", "q", "f");
 
         verifyRel(".", ".", null, null);
-        verifyRel("src/main", "..", null, null);
+        verifyRel("src/main", "src/main", null, null);
         verifyRel("../x", "../x", null, null);
-        verifyRel("src", "../..", null, null);
+        verifyRel("src", "src", null, null);
         verifyRel("../../x", "../../x", null, null);
 
         verifyNorm("http://foo/", "/", "http://foo/");
