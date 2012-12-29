@@ -19,9 +19,17 @@ import java.util.StringTokenizer;
 public class Uri
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Construction
-////////////////////////////////////////////////////////////////
+    private String val;
+    private boolean parsed;
+    private boolean abs;
+    private String auth;
+    private String scheme;
+    private String addr;
+    private String host;
+    private int port = -1;
+    private String path;
+    private Query query;
+    private String frag;
 
     /**
      * Construct named Uri with specified value.
@@ -441,21 +449,5 @@ public class Uri
     public String encodeJava() {
         return '"' + val + '"';
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private String val;
-    private boolean parsed;
-    private boolean abs;
-    private String auth;
-    private String scheme;
-    private String addr;
-    private String host;
-    private int port = -1;
-    private String path;
-    private Query query;
-    private String frag;
 
 }

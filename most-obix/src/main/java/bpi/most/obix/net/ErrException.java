@@ -16,11 +16,14 @@ import bpi.most.obix.Err;
 public class ErrException
         extends RuntimeException {
 
+    private final Err err;
+
     public ErrException(Err err) {
         super(err.format());
         this.err = err;
     }
 
-    public final Err err;
-
-} 
+    public Err getErr() {
+        return err;
+    }
+}

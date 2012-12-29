@@ -26,9 +26,16 @@ import java.util.HashMap;
  */
 public class ObixSession {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////\
+    private Uri authority;
+    private Uri lobbyUri;
+    private Uri batchUri;
+    private Obj lobby;
+    private Obj about;
+    private Obj watchService;
+    private String username;
+    private String password;
+    private String authHeader;
+    private HashMap<String, SessionWatch> watches = new HashMap<String, SessionWatch>();
 
     /**
      * Construct a session where uri specifies the lobby
@@ -363,6 +370,10 @@ public class ObixSession {
         }
     }
 
+    public void removeWatch(String name) {
+        watches.remove(name);
+    }
+
     static void dumpContent(ObixSession session, Uri uri)
             throws Exception {
         InputStream in = session.open(uri);
@@ -384,19 +395,11 @@ public class ObixSession {
         return obj;
     }
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+    public Obj getWatchService() {
+        return watchService;
+    }
 
-    Uri authority;
-    Uri lobbyUri;
-    Uri batchUri;
-    Obj lobby;
-    Obj about;
-    Obj watchService;
-    String username;
-    String password;
-    String authHeader;
-    HashMap<String, SessionWatch> watches = new HashMap<String, SessionWatch>();
-
-} 
+    public Uri getBatchUri() {
+        return batchUri;
+    }
+}

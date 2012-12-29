@@ -16,9 +16,9 @@ package bpi.most.obix;
 public class Reltime
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    private long val;   // milliseconds
+    private Reltime min;
+    private Reltime max;
 
     /**
      * Construct named Reltime with specified value.
@@ -312,14 +312,4 @@ public class Reltime
     public void setMax(Reltime max) {
         this.max = max;
     }
-
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private long val;   // milliseconds
-    private Reltime min;
-    private Reltime max;
-
 }

@@ -13,9 +13,8 @@ package bpi.most.obix;
 public class Enum
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    private String val;
+    private Uri range;
 
     /**
      * Construct named Enum with specified value.
@@ -127,12 +126,4 @@ public class Enum
     public void setRange(Uri range) {
         this.range = range;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private String val;
-    private Uri range;
-
 }

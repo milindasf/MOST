@@ -20,9 +20,17 @@ import java.util.*;
 public class Abstime
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    private static final int[] daysInMonth =
+            {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    static final TimeZone defaultTimeZone = TimeZone.getDefault();
+    static final TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
+
+    private long millis;
+    private int bits0, bits1;
+    private TimeZone timeZone;
+    private Abstime min;
+    private Abstime max;
 
     /**
      * Construct named Abstime with specified value using default time zone.
@@ -861,21 +869,5 @@ public class Abstime
         if (timeZone.inDaylightTime(date))
             bits1 |= (0x01 << 29);
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private static final int[] daysInMonth =
-            {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-    static final TimeZone defaultTimeZone = TimeZone.getDefault();
-    static final TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
-
-    private long millis;
-    private int bits0, bits1;
-    private TimeZone timeZone;
-    private Abstime min;
-    private Abstime max;
 
 }

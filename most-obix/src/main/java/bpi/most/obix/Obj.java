@@ -19,6 +19,21 @@ import java.util.HashMap;
 public class Obj
         implements IObj {
 
+    private String name;
+    private Uri href;
+    private Contract is;
+    private Obj parent;
+    private HashMap<String, Obj> kidsByName;
+    private Obj kidsHead, kidsTail;
+    private int kidsCount;
+    private Obj prev, next;
+    private Status status = Status.ok;
+    private String display;
+    private String displayName;
+    private Uri icon;
+    private boolean writable;
+    private boolean isNull;
+
 ////////////////////////////////////////////////////////////////
 // Factory
 ////////////////////////////////////////////////////////////////
@@ -681,23 +696,4 @@ public class Obj
     public void dump() {
         ObixEncoder.dump(this);
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private String name;
-    private Uri href;
-    private Contract is;
-    private Obj parent;
-    private HashMap<String, Obj> kidsByName;
-    private Obj kidsHead, kidsTail;
-    private int kidsCount;
-    private Obj prev, next;
-    private Status status = Status.ok;
-    private String display;
-    private String displayName;
-    private Uri icon;
-    private boolean writable;
-    private boolean isNull;
 }

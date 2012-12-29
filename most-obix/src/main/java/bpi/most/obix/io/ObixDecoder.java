@@ -23,6 +23,8 @@ import java.io.InputStream;
 public class ObixDecoder
         extends XParser {
 
+    private boolean useContracts = true;
+
 ////////////////////////////////////////////////////////////////
 // Factory
 ////////////////////////////////////////////////////////////////
@@ -332,11 +334,4 @@ public class ObixDecoder
         if (elem != null) line = " [line " + elem.line() + "]";
         System.out.println("WARNING: " + msg + line);
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private boolean useContracts = true;
-
 } 

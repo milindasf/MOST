@@ -32,7 +32,7 @@ public class Assembler {
         this.accessFlags = accessFlags;
         this.interfaces = new int[interfaces == null ? 0 : interfaces.length];
 
-        for (int i = 0; i < this.interfaces.length; ++i)      {
+        for (int i = 0; i < this.interfaces.length; ++i) {
             this.interfaces[i] = cp.cls(interfaces[i]);
         }
     }

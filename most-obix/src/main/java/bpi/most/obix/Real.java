@@ -13,9 +13,26 @@ package bpi.most.obix;
 public class Real
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    /**
+     * Default min facet is Double.NEGATIVE_INFINITY
+     */
+    public static final double MIN_DEFAULT = Double.NEGATIVE_INFINITY;
+
+    /**
+     * Default max facet is Double.POSITIVE_INFINITY
+     */
+    public static final double MAX_DEFAULT = Double.POSITIVE_INFINITY;
+
+    /**
+     * Default precision facet is 1
+     */
+    public static final int PRECISION_DEFAULT = 1;
+
+    private double val;
+    private double min = MIN_DEFAULT;
+    private double max = MAX_DEFAULT;
+    private Uri unit = null;
+    private int precision = PRECISION_DEFAULT;
 
     /**
      * Construct named Real with specified value.
@@ -173,30 +190,5 @@ public class Real
     public void setPrecision(int precision) {
         this.precision = precision;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    /**
-     * Default min facet is Double.NEGATIVE_INFINITY
-     */
-    public static final double MIN_DEFAULT = Double.NEGATIVE_INFINITY;
-
-    /**
-     * Default max facet is Double.POSITIVE_INFINITY
-     */
-    public static final double MAX_DEFAULT = Double.POSITIVE_INFINITY;
-
-    /**
-     * Default precision facet is 1
-     */
-    public static final int PRECISION_DEFAULT = 1;
-
-    private double val;
-    private double min = MIN_DEFAULT;
-    private double max = MAX_DEFAULT;
-    private Uri unit = null;
-    private int precision = PRECISION_DEFAULT;
 
 }

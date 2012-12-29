@@ -13,9 +13,20 @@ package bpi.most.obix;
 public class Str
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+
+    /**
+     * Min facet default is zero
+     */
+    public static final int MIN_DEFAULT = 0;
+
+    /**
+     * Max facet default is Integer.MAX_VALUE
+     */
+    public static final int MAX_DEFAULT = Integer.MAX_VALUE;
+
+    private String val;
+    private int min = MIN_DEFAULT;
+    private int max = MAX_DEFAULT;
 
     /**
      * Construct named Str with specified value.
@@ -143,23 +154,5 @@ public class Str
         if (max < 0) throw new IllegalArgumentException("max < 0");
         this.max = max;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    /**
-     * Min facet default is zero
-     */
-    public static final int MIN_DEFAULT = 0;
-
-    /**
-     * Max facet default is Integer.MAX_VALUE
-     */
-    public static final int MAX_DEFAULT = Integer.MAX_VALUE;
-
-    private String val;
-    private int min = MIN_DEFAULT;
-    private int max = MAX_DEFAULT;
 
 }

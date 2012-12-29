@@ -15,10 +15,13 @@ import bpi.most.obix.*;
 public class BatchIn
         extends List {
 
+    public static final Contract uriContract = new Contract("obix:uri");
+    public static final Contract batchInContract = new Contract("obix:BatchIn");
+    public static final Contract readContract = new Contract("obix:Read");
+    public static final Contract writeContract = new Contract("obix:Write");
+    public static final Contract invokeContract = new Contract("obix:Invoke");
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    private ObixSession session;
 
     /**
      * Package private constructor - see ObixSession.makeBatch()
@@ -99,19 +102,6 @@ public class BatchIn
     dump();        
     System.out.println("<====== BATCH.commit========");                       
     */
-        return (List) session.invoke(session.batchUri, this);
+        return (List) session.invoke(session.getBatchUri(), this);
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    public static final Contract uriContract = new Contract("obix:uri");
-    public static final Contract batchInContract = new Contract("obix:BatchIn");
-    public static final Contract readContract = new Contract("obix:Read");
-    public static final Contract writeContract = new Contract("obix:Write");
-    public static final Contract invokeContract = new Contract("obix:Invoke");
-
-    ObixSession session;
-
 } 

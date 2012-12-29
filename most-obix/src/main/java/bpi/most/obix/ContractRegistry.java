@@ -18,6 +18,30 @@ import java.util.HashMap;
  */
 public class ContractRegistry {
 
+    private static HashMap<String, String> map = new HashMap<String, String>();   // URI -> className
+    private static HashMap<String, Class> cache = new HashMap<String, Class>(); // Contract.toString -> Class
+    private static Class NotFound = ContractRegistry.class;
+
+    private static HashMap<String, String> baseContracts = new HashMap<String, String>();
+
+    static {
+        baseContracts.put("obix:obj", "obix.Obj");
+        baseContracts.put("obix:bool", "obix.Bool");
+        baseContracts.put("obix:int", "obix.Int");
+        baseContracts.put("obix:real", "obix.Real");
+        baseContracts.put("obix:str", "obix.Str");
+        baseContracts.put("obix:enum", "obix.Enum");
+        baseContracts.put("obix:abstime", "obix.Abstime");
+        baseContracts.put("obix:reltime", "obix.Reltime");
+        baseContracts.put("obix:uri", "obix.Uri");
+        baseContracts.put("obix:list", "obix.List");
+        baseContracts.put("obix:op", "obix.Op");
+        baseContracts.put("obix:event", "obix.Event");
+        baseContracts.put("obix:ref", "obix.Ref");
+        baseContracts.put("obix:err", "obix.Err");
+        bpi.most.obix.contracts.ContractInit.init();
+    }
+
 ////////////////////////////////////////////////////////////////
 // Access
 ////////////////////////////////////////////////////////////////
@@ -131,33 +155,5 @@ public class ContractRegistry {
             throw new IllegalStateException("The specified href is already mapped: " + href);
         map.put(href.get(), className);
         cache.clear(); // clear cache
-    }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    static HashMap<String, String> map = new HashMap<String, String>();   // URI -> className
-    static HashMap<String, Class> cache = new HashMap<String, Class>(); // Contract.toString -> Class
-    static Class NotFound = ContractRegistry.class;
-
-    static HashMap<String, String> baseContracts = new HashMap<String, String>();
-
-    static {
-        baseContracts.put("obix:obj", "obix.Obj");
-        baseContracts.put("obix:bool", "obix.Bool");
-        baseContracts.put("obix:int", "obix.Int");
-        baseContracts.put("obix:real", "obix.Real");
-        baseContracts.put("obix:str", "obix.Str");
-        baseContracts.put("obix:enum", "obix.Enum");
-        baseContracts.put("obix:abstime", "obix.Abstime");
-        baseContracts.put("obix:reltime", "obix.Reltime");
-        baseContracts.put("obix:uri", "obix.Uri");
-        baseContracts.put("obix:list", "obix.List");
-        baseContracts.put("obix:op", "obix.Op");
-        baseContracts.put("obix:event", "obix.Event");
-        baseContracts.put("obix:ref", "obix.Ref");
-        baseContracts.put("obix:err", "obix.Err");
-        bpi.most.obix.contracts.ContractInit.init();
     }
 }

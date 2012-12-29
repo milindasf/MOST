@@ -13,9 +13,8 @@ package bpi.most.obix;
 public class Bool
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    private boolean val;
+    private Uri range;
 
     /**
      * Construct named Bool with specified value.
@@ -130,12 +129,4 @@ public class Bool
     public void setRange(Uri range) {
         this.range = range;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private boolean val;
-    private Uri range;
-
 }

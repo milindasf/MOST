@@ -18,6 +18,27 @@ import java.util.HashMap;
  */
 public class SessionWatch {
 
+    public boolean debug = false;
+
+    private ObixSession session;
+    private String name;
+    private Obj watchObj;
+    private long lease;
+    private Uri leaseHref;
+    private Uri addHref;
+    private Uri removeHref;
+    private Uri pollChangesHref;
+    private Uri pollRefreshHref;
+    private Uri deleteHref;
+    private ArrayList<Item> items = new ArrayList<Item>();
+    private HashMap<String, Item> hrefToItem = new HashMap<String, Item>();
+    private long pollPeriod;
+    private long lastPollAttempt;
+    private long lastPollSuccess;
+    private Thread poller;
+    private boolean alive;
+    private ArrayList<WatchListener> listeners = new ArrayList<WatchListener>();
+
 ////////////////////////////////////////////////////////////////
 // Factory
 ////////////////////////////////////////////////////////////////
@@ -28,11 +49,11 @@ public class SessionWatch {
     static SessionWatch make(ObixSession session, String name, long pollPeriod)
             throws Exception {
         // get watch service from lobby
-        if (session.watchService == null)
+        if (session.getWatchService() == null)
             throw new Exception("Lobby missing watchService with valid href");
 
         // get make operation
-        Op makeOp = (Op) session.watchService.get("make");
+        Op makeOp = (Op) session.getWatchService().get("make");
         if (makeOp == null || makeOp.getNormalizedHref() == null)
             throw new Exception("watchService missing op with valid href");
 
@@ -425,7 +446,7 @@ public class SessionWatch {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        session.watches.remove(name);
+        session.removeWatch(name);
         session = null;
     }
 
@@ -474,30 +495,4 @@ public class SessionWatch {
         Obj obj;
         long lastUpdate;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    public boolean debug = false;
-
-    ObixSession session;
-    String name;
-    Obj watchObj;
-    long lease;
-    Uri leaseHref;
-    Uri addHref;
-    Uri removeHref;
-    Uri pollChangesHref;
-    Uri pollRefreshHref;
-    Uri deleteHref;
-    ArrayList<Item> items = new ArrayList<Item>();
-    HashMap<String, Item> hrefToItem = new HashMap<String, Item>();
-    long pollPeriod;
-    long lastPollAttempt;
-    long lastPollSuccess;
-    Thread poller;
-    boolean alive;
-    ArrayList<WatchListener> listeners = new ArrayList<WatchListener>();
-
 } 

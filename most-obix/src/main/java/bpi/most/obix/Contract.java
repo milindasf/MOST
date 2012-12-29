@@ -15,9 +15,10 @@ import java.util.StringTokenizer;
  */
 public class Contract {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    static final Contract Obj = new Contract("obix:obj");
+
+    private Uri[] list;
+    private String string;
 
     /**
      * Construct from a space separated list.
@@ -129,14 +130,4 @@ public class Contract {
         }
         return string;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    static final Contract Obj = new Contract("obix:obj");
-
-    Uri[] list;
-    String string;
-
 }

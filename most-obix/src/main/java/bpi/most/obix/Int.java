@@ -13,9 +13,20 @@ package bpi.most.obix;
 public class Int
         extends Val {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    /**
+     * Default min facet is Long.MIN_VALUE
+     */
+    public static final long MIN_DEFAULT = Long.MIN_VALUE;
+
+    /**
+     * Default max facet is Long.MAX_VALUE
+     */
+    public static final long MAX_DEFAULT = Long.MAX_VALUE;
+
+    private long val;
+    private long min = MIN_DEFAULT;
+    private long max = MAX_DEFAULT;
+    private Uri unit = null;
 
     /**
      * Construct named Int with specified value.
@@ -166,24 +177,5 @@ public class Int
     public void setUnit(Uri unit) {
         this.unit = unit;
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    /**
-     * Default min facet is Long.MIN_VALUE
-     */
-    public static final long MIN_DEFAULT = Long.MIN_VALUE;
-
-    /**
-     * Default max facet is Long.MAX_VALUE
-     */
-    public static final long MAX_DEFAULT = Long.MAX_VALUE;
-
-    private long val;
-    private long min = MIN_DEFAULT;
-    private long max = MAX_DEFAULT;
-    private Uri unit = null;
 
 }
