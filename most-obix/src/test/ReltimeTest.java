@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.test;
 
-import bpi.most.obix.Reltime;
+import bpi.most.obix.objects.Reltime;
 
 /**
  * ReltimeTest ensures reltime follows XML Schema lexical rules

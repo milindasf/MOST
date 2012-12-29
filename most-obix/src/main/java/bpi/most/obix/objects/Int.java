@@ -1,71 +1,78 @@
 /*
  * This code licensed to public domain
  */
-package bpi.most.obix;
+package bpi.most.obix.objects;
 
 /**
- * Str models a unicode character string.
+ * Int models a 64-bit integer number
  *
  * @author Brian Frank
  * @version $Revision$ $Date$
  * @creation 27 Apr 05
  */
-public class Str
+public class Int
         extends Val {
 
+    /**
+     * Default min facet is Long.MIN_VALUE
+     */
+    public static final long MIN_DEFAULT = Long.MIN_VALUE;
 
     /**
-     * Min facet default is zero
+     * Default max facet is Long.MAX_VALUE
      */
-    public static final int MIN_DEFAULT = 0;
+    public static final long MAX_DEFAULT = Long.MAX_VALUE;
+
+    private long val;
+    private long min = MIN_DEFAULT;
+    private long max = MAX_DEFAULT;
+    private Uri unit = null;
 
     /**
-     * Max facet default is Integer.MAX_VALUE
+     * Construct named Int with specified value.
      */
-    public static final int MAX_DEFAULT = Integer.MAX_VALUE;
-
-    private String val;
-    private int min = MIN_DEFAULT;
-    private int max = MAX_DEFAULT;
-
-    /**
-     * Construct named Str with specified value.
-     */
-    public Str(String name, String val) {
+    public Int(String name, long val) {
         super(name);
         set(val);
     }
 
     /**
-     * Construct unnamed Str with specified value.
+     * Construct named Int with value of 0.
      */
-    public Str(String val) {
+    public Int(String name) {
+        super(name);
+        set(0);
+    }
+
+    /**
+     * Construct unnamed Int with specified value.
+     */
+    public Int(long val) {
         set(val);
     }
 
     /**
-     * Construct unnamed Str with value of "".
+     * Construct unnamed Int with value of 0.
      */
-    public Str() {
-        set("");
+    public Int() {
+        set(0);
     }
 
 ////////////////////////////////////////////////////////////////
-// Str
+// Int
 ////////////////////////////////////////////////////////////////
 
     /**
-     * Get value as a string.
+     * Get value as a long.
      */
-    public String get() {
+    public long get() {
         return val;
     }
 
     /**
      * Set value.
      */
-    public void set(String val) {
-        if (val == null) throw new IllegalArgumentException("val cannot be null");
+    public void set(long val) {
         this.val = val;
     }
 
@@ -74,18 +81,18 @@ public class Str
 ////////////////////////////////////////////////////////////////
 
     /**
-     * Return "str".
+     * Return "int".
      */
     public String getElement() {
-        return "str";
+        return "int";
     }
 
     /**
-     * Return if specified Val has equivalent string value.
+     * Return if specified Val has equivalent int value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Str)
-            return ((Str) that).val.equals(val);
+        if (that instanceof Int)
+            return ((Int) that).val == val;
         return false;
     }
 
@@ -96,7 +103,11 @@ public class Str
      * than the specified object.
      */
     public int compareTo(Object that) {
-        return val.compareTo(((Str) that).val);
+        long a = val;
+        long b = ((Int) that).val;
+        if (a == b) return 0;
+        if (a < b) return -1;
+        else return 1;
     }
 
     /**
@@ -111,14 +122,14 @@ public class Str
      */
     public void decodeVal(String val)
             throws Exception {
-        set(val);
+        this.val = Long.parseLong(val);
     }
 
     /**
      * Encode the value as a Java code literal to pass to the constructor.
      */
     public String encodeJava() {
-        return '"' + val + '"';
+        return String.valueOf(val) + "L";
     }
 
 ////////////////////////////////////////////////////////////////
@@ -128,31 +139,43 @@ public class Str
     /**
      * Get the min facet or MIN_DEFAULT if unspecified.
      */
-    public int getMin() {
+    public long getMin() {
         return min;
     }
 
     /**
      * Set the min facet.
      */
-    public void setMin(int min) {
-        if (min < 0) throw new IllegalArgumentException("min < 0");
+    public void setMin(long min) {
         this.min = min;
     }
 
     /**
      * Get the max facet or MAX_DEFAULT if unspecified.
      */
-    public int getMax() {
+    public long getMax() {
         return max;
     }
 
     /**
      * Set the max facet.
      */
-    public void setMax(int max) {
-        if (max < 0) throw new IllegalArgumentException("max < 0");
+    public void setMax(long max) {
         this.max = max;
+    }
+
+    /**
+     * Get the unit facet or null if unspecified.
+     */
+    public Uri getUnit() {
+        return unit;
+    }
+
+    /**
+     * Set the unit facet.
+     */
+    public void setUnit(Uri unit) {
+        this.unit = unit;
     }
 
 }

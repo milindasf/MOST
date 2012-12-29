@@ -1,9 +1,9 @@
 package bpi.most.obix.server;
 
-import bpi.most.obix.Dp;
-import bpi.most.obix.DpData;
-import bpi.most.obix.List;
-import bpi.most.obix.Uri;
+import bpi.most.obix.objects.Dp;
+import bpi.most.obix.objects.DpData;
+import bpi.most.obix.objects.List;
+import bpi.most.obix.objects.Uri;
 
 import java.util.HashMap;
 

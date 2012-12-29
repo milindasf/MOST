@@ -1,7 +1,7 @@
 /*
  * This code licensed to public domain
  */
-package bpi.most.obix;
+package bpi.most.obix.objects;
 
 /**
  * Val is base class for value types: Bool, Int,

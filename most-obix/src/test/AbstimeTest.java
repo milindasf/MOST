@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.test;
 
-import bpi.most.obix.Abstime;
+import bpi.most.obix.objects.Abstime;
 
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;

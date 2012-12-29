@@ -1,7 +1,7 @@
 /*
  * This code licensed to public domain
  */
-package bpi.most.obix;
+package bpi.most.obix.objects;
 
 /**
  * List is the core type used to managed unnamed collections of objects.

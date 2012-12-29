@@ -1,4 +1,4 @@
-package bpi.most.obix;
+package bpi.most.obix.objects;
 
 import bpi.most.obix.contracts.Datapoint;
 

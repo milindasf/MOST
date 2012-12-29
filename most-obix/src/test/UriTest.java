@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.test;
 
-import bpi.most.obix.Uri;
+import bpi.most.obix.objects.Uri;
 
 /**
  * UriTest ensures Uri follows URI RFC 2396 and Obix rules

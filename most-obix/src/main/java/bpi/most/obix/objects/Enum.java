@@ -1,7 +1,7 @@
 /*
  * This code licensed to public domain
  */
-package bpi.most.obix;
+package bpi.most.obix.objects;
 
 /**
  * Enum models a discrete value within a value set range.

@@ -1,10 +1,11 @@
 /*
  * This code licensed to public domain
  */
-package bpi.most.obix;
+package bpi.most.obix.objects;
 
 import bpi.most.obix.io.ObixEncoder;
 
+import java.lang.*;
 import java.lang.reflect.Array;
 import java.util.HashMap;
 

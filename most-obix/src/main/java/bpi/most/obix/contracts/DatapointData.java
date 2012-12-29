@@ -1,7 +1,7 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.Abstime;
-import bpi.most.obix.Real;
+import bpi.most.obix.objects.Abstime;
+import bpi.most.obix.objects.Real;
 
 /**
  * Equivalent to DpDataDTO.

@@ -1,9 +1,9 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.Abstime;
-import bpi.most.obix.IObj;
-import bpi.most.obix.Op;
-import bpi.most.obix.Str;
+import bpi.most.obix.objects.Abstime;
+import bpi.most.obix.objects.IObj;
+import bpi.most.obix.objects.Op;
+import bpi.most.obix.objects.Str;
 
 /**
  * AckAlarm

@@ -1,7 +1,7 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.IObj;
-import bpi.most.obix.Reltime;
+import bpi.most.obix.objects.IObj;
+import bpi.most.obix.objects.Reltime;
 
 /**
  * HistoryRollupIn

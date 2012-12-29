@@ -3,8 +3,8 @@
  */
 package bpi.most.obix.test;
 
-import bpi.most.obix.*;
 import bpi.most.obix.io.ObixDecoder;
+import bpi.most.obix.objects.*;
 
 import java.io.ByteArrayInputStream;
 

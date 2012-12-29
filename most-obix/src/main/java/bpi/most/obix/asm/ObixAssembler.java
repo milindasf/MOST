@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.asm;
 
-import bpi.most.obix.IObj;
+import bpi.most.obix.objects.IObj;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

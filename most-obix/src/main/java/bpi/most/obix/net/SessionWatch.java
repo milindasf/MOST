@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.net;
 
-import bpi.most.obix.*;
+import bpi.most.obix.objects.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

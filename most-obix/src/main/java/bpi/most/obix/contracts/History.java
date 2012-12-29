@@ -1,6 +1,6 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.*;
+import bpi.most.obix.objects.*;
 
 /**
  * History

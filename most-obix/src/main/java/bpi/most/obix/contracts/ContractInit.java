@@ -1,6 +1,6 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.ContractRegistry;
+import bpi.most.obix.objects.ContractRegistry;
 
 /**
  * ContractInit

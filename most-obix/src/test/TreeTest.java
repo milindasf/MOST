@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.test;
 
-import bpi.most.obix.Obj;
+import bpi.most.obix.objects.Obj;
 
 /**
  * TreeTest tests child/parent Obj tree integrity.

@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.net;
 
-import bpi.most.obix.Obj;
+import bpi.most.obix.objects.Obj;
 
 /**
  * WatchListener provides callbacks when watch objects are updated.

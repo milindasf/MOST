@@ -1,9 +1,9 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.Abstime;
-import bpi.most.obix.IObj;
-import bpi.most.obix.Int;
-import bpi.most.obix.Real;
+import bpi.most.obix.objects.Abstime;
+import bpi.most.obix.objects.IObj;
+import bpi.most.obix.objects.Int;
+import bpi.most.obix.objects.Real;
 
 /**
  * HistoryRollupRecord

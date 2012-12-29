@@ -3,10 +3,10 @@
  */
 package bpi.most.obix.net;
 
-import bpi.most.obix.Err;
-import bpi.most.obix.Obj;
-import bpi.most.obix.Op;
-import bpi.most.obix.Uri;
+import bpi.most.obix.objects.Err;
+import bpi.most.obix.objects.Obj;
+import bpi.most.obix.objects.Op;
+import bpi.most.obix.objects.Uri;
 import bpi.most.obix.io.Base64;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;

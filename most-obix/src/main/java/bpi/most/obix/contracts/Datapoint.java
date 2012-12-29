@@ -1,8 +1,8 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.DpData;
-import bpi.most.obix.List;
-import bpi.most.obix.Str;
+import bpi.most.obix.objects.DpData;
+import bpi.most.obix.objects.List;
+import bpi.most.obix.objects.Str;
 
 /**
  * Equivalent to DpDTO.

@@ -3,7 +3,7 @@
  */
 package bpi.most.obix.net;
 
-import bpi.most.obix.Err;
+import bpi.most.obix.objects.Err;
 
 /**
  * ErrException is thrown by ObixSession when a request

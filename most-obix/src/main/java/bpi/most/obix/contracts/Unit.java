@@ -1,8 +1,8 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.IObj;
-import bpi.most.obix.Real;
-import bpi.most.obix.Str;
+import bpi.most.obix.objects.IObj;
+import bpi.most.obix.objects.Real;
+import bpi.most.obix.objects.Str;
 
 /**
  * Unit

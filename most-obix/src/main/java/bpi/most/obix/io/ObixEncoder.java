@@ -3,8 +3,8 @@
  */
 package bpi.most.obix.io;
 
-import bpi.most.obix.*;
-import bpi.most.obix.Enum;
+import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.Enum;
 import bpi.most.obix.xml.XWriter;
 
 import java.io.ByteArrayOutputStream;

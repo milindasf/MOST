@@ -1,9 +1,9 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.Feed;
-import bpi.most.obix.IObj;
-import bpi.most.obix.Int;
-import bpi.most.obix.Op;
+import bpi.most.obix.objects.Feed;
+import bpi.most.obix.objects.IObj;
+import bpi.most.obix.objects.Int;
+import bpi.most.obix.objects.Op;
 
 /**
  * AlarmSubject

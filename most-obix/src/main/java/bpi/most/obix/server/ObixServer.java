@@ -1,7 +1,7 @@
 package bpi.most.obix.server;
 
-import bpi.most.obix.Err;
-import bpi.most.obix.Obj;
+import bpi.most.obix.objects.Err;
+import bpi.most.obix.objects.Obj;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
 

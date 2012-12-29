@@ -1,6 +1,6 @@
 package bpi.most.obix.contracts;
 
-import bpi.most.obix.IObj;
+import bpi.most.obix.objects.IObj;
 
 /**
  * UnsupportedErr
