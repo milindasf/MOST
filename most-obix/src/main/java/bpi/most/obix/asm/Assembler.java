@@ -12,11 +12,11 @@ import java.util.ArrayList;
  */
 public class Assembler {
 
-    public final int thisClass;
-    public final int superClass;
-    public final int[] interfaces;
-    public final int accessFlags;
-    public final ConstantPool cp = new ConstantPool();
+    private final int thisClass;
+    private final int superClass;
+    private final int[] interfaces;
+    private final int accessFlags;
+    private final ConstantPool cp = new ConstantPool();
 
     private ArrayList<FieldInfo> fields = new ArrayList<FieldInfo>();
     private ArrayList<MethodInfo> methods = new ArrayList<MethodInfo>();
@@ -25,15 +25,16 @@ public class Assembler {
     public Assembler(String thisClass, Class superClass,
                      int accessFlags, Class[] interfaces) {
         this.thisClass = cp.cls(thisClass);
-
         this.superClass = (superClass == null) ?
                 0 :                 // java.lang.Object
                 cp.cls(superClass); // anything else
 
         this.accessFlags = accessFlags;
         this.interfaces = new int[interfaces == null ? 0 : interfaces.length];
-        for (int i = 0; i < this.interfaces.length; ++i)
+
+        for (int i = 0; i < this.interfaces.length; ++i)      {
             this.interfaces[i] = cp.cls(interfaces[i]);
+        }
     }
 
     public void addField(FieldInfo f) {
@@ -46,6 +47,26 @@ public class Assembler {
 
     public void addAttribute(AttributeInfo a) {
         attributes.add(a);
+    }
+
+    public int getThisClass() {
+        return thisClass;
+    }
+
+    public int getSuperClass() {
+        return superClass;
+    }
+
+    public int[] getInterfaces() {
+        return interfaces;
+    }
+
+    public int getAccessFlags() {
+        return accessFlags;
+    }
+
+    public ConstantPool getCp() {
+        return cp;
     }
 
     public Buffer compile() {
@@ -62,23 +83,27 @@ public class Assembler {
 
         // interfaces
         buf.u2(interfaces.length);
-        for (int i = 0; i < interfaces.length; ++i)
+        for (int i = 0; i < interfaces.length; ++i) {
             buf.u2(interfaces[i]);
+        }
 
         // fields
         buf.u2(fields.size());
-        for (int i = 0; i < fields.size(); ++i)
+        for (int i = 0; i < fields.size(); ++i) {
             ((FieldInfo) fields.get(i)).compile(buf);
+        }
 
         // methods
         buf.u2(methods.size());
-        for (int i = 0; i < methods.size(); ++i)
+        for (int i = 0; i < methods.size(); ++i) {
             ((MethodInfo) methods.get(i)).compile(buf);
+        }
 
         // attributes
         buf.u2(attributes.size());
-        for (int i = 0; i < attributes.size(); ++i)
+        for (int i = 0; i < attributes.size(); ++i) {
             ((AttributeInfo) attributes.get(i)).compile(buf);
+        }
 
         return buf;
     }

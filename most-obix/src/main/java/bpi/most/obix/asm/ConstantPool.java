@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 import java.util.Hashtable;
 
 /**
- * @author Brian Frank
- * @version $Revision$ $Date: 9/9/2003 9:35:50 AM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 15 Mar 00
  */
 public class ConstantPool {

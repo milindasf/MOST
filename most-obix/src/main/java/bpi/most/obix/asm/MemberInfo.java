@@ -6,8 +6,8 @@ package bpi.most.obix.asm;
 import java.util.ArrayList;
 
 /**
- * @author Brian Frank
- * @version $Revision: 2$ $Date: 3/28/2005 9:22:41 AM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 15 Mar 00
  */
 public abstract class MemberInfo {

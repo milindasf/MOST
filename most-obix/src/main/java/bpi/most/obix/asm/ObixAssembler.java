@@ -15,8 +15,8 @@ import java.util.HashMap;
  * of the core base types (Obj, Bool, Real, etc) and also
  * implement a list of interfaces to model a contract.
  *
- * @author Brian Frank
- * @version $Revision$ $Date: 9/9/2003 3:39:17 PM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 24 May 06
  */
 public class ObixAssembler

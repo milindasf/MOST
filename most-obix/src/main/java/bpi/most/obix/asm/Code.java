@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * @author Brian Frank
- * @version $Revision: 1$ $Date: 6/21/00 2:32:06 PM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 15 Mar 00
  */
 public class Code

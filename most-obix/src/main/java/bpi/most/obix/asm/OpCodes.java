@@ -6,8 +6,8 @@ package bpi.most.obix.asm;
 /**
  * The OpCodes interface defines the opcode constants.
  *
- * @author Brian Frank
- * @version $Revision: 1$ $Date: 6/21/00 2:32:08 PM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 29 Jun 97
  */
 public interface OpCodes {

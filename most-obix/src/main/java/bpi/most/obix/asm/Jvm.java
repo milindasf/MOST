@@ -6,8 +6,8 @@ package bpi.most.obix.asm;
 /**
  * Jvm contains constants for VM classfiles.
  *
- * @author Brian Frank
- * @version $Revision$ $Date: 10/14/2003 11:05:39 AM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 25 Jun 97
  */
 public final class Jvm

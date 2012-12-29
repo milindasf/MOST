@@ -8,8 +8,8 @@ package bpi.most.obix.asm;
  * by an integer keys.  It removes the need to use wrapper
  * Integers as with the standard collection classes.
  *
- * @author Brian Frank
- * @version $Revision$ $Date: 1/23/2003 11:21:54 AM$
+ * @author Brian Frank, Alexej Strelzow
+ * @version $Revision$ $Date: 29/12/2012
  * @creation 2 Oct 97
  */
 public class IntHashMap {
