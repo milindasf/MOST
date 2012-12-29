@@ -5,12 +5,14 @@ import bpi.most.obix.Real;
 
 /**
  * Equivalent to DpDataDTO.
- * 
+ *
  * @author Alexej Strelzow
  */
 public interface DatapointData extends Point {
 
-	Abstime getTimestamp();
-	Real getValue();	// double
-	Real getQuality();	// double
+    Abstime getTimestamp();
+
+    Real getValue();    // double
+
+    Real getQuality();    // double
 }

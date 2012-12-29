@@ -6,14 +6,13 @@ import bpi.most.obix.List;
 /**
  * WatchOut
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface WatchOut
-  extends IObj
-{
+        extends IObj {
 
-  public List values();
+    public List values();
 
 }

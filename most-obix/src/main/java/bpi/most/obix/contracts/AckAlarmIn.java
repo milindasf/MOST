@@ -6,15 +6,15 @@ import bpi.most.obix.Str;
 /**
  * AckAlarmIn
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface AckAlarmIn
-  extends IObj
-{
+        extends IObj {
 
-  public static final String ackUserContract = "<str name='ackUser' val='' null='true'/>";
-  public Str ackUser();
+    public static final String ackUserContract = "<str name='ackUser' val='' null='true'/>";
+
+    public Str ackUser();
 
 }

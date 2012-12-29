@@ -6,14 +6,13 @@ import bpi.most.obix.Obj;
 /**
  * WatchInItem
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface WatchInItem
-  extends IObj
-{
+        extends IObj {
 
-  public Obj in();
+    public Obj in();
 
 }

@@ -1,15 +1,14 @@
 package bpi.most.obix.server;
 
-import java.util.HashMap;
-
 import bpi.most.domain.datapoint.DatapointVO;
-import bpi.most.domain.zone.Zone;
 import bpi.most.obix.Dp;
 import bpi.most.obix.DpData;
 import bpi.most.obix.List;
 import bpi.most.obix.Uri;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
+
+import java.util.HashMap;
 
 public class ObixObjectBroker implements IObjectBroker {
 
@@ -22,16 +21,16 @@ public class ObixObjectBroker implements IObjectBroker {
     //@Inject
     private DatapointService datapointService;
 
-	private HashMap<Uri, Dp> dpCache;
-	private HashMap<Uri, List> zoneCache;
-	
-	ObixObjectBroker() {
-		this.dpCache = new HashMap<Uri, Dp>();
-		this.zoneCache = new HashMap<Uri, List>();
-	}
-	
-	@Override
-	public void loadDatapoints() {
+    private HashMap<Uri, Dp> dpCache;
+    private HashMap<Uri, List> zoneCache;
+
+    ObixObjectBroker() {
+        this.dpCache = new HashMap<Uri, Dp>();
+        this.zoneCache = new HashMap<Uri, List>();
+    }
+
+    @Override
+    public void loadDatapoints() {
         //final java.util.List<Zone> headZones = zoneService.getHeadZones();
         //for (Zone zone : headZones) {
 
@@ -46,46 +45,46 @@ public class ObixObjectBroker implements IObjectBroker {
 
     }
 
-	@Override
-	public Dp getDatapoint(String uri) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Dp getDatapoint(String uri) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public DpData getDatapointData(String uri) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public DpData getDatapointData(String uri) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List getAllDatapoints() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List getAllDatapoints() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List getDatapointsForZone(String zone) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List getDatapointsForZone(String zone) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List getDatapointsForAllZones() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List getDatapointsForAllZones() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List getDatapoints(String from, String to) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List getDatapoints(String from, String to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public void updateDatapoint(String uri) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+    @Override
+    public void updateDatapoint(String uri) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

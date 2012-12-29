@@ -6,16 +6,16 @@ import bpi.most.obix.Str;
 
 /**
  * Equivalent to DpDTO.
- * 
+ *
  * @author Alexej Strelzow
  */
 public interface Datapoint extends Point {
 
-	/**
-	 * @return The name of the data point as {@link Str}
-	 */
-	Str getDatapointName();
-	
+    /**
+     * @return The name of the data point as {@link Str}
+     */
+    Str getDatapointName();
+
 //	/**
 //	 * Sets the name of the data point.
 //	 * @param datapointName The name of the data point as {@link Str} 
@@ -27,12 +27,12 @@ public interface Datapoint extends Point {
 //	 * @param datapointName The name a string
 //	 */
 //	void setDatapointName(String datapointName);
-	
-	/**
-	 * @return The type of the data point as {@link Str}
-	 */
-	Str getType();
-	
+
+    /**
+     * @return The type of the data point as {@link Str}
+     */
+    Str getType();
+
 //	/**
 //	 * Sets the type of the data point.
 //	 * @param type The type of the data point as {@link Str} 
@@ -44,12 +44,12 @@ public interface Datapoint extends Point {
 //	 * @param datapointName The type a string
 //	 */
 //	void setType(String type);
-	
-	/**
-	 * @return The description of the data point as {@link Str}
-	 */
-	Str getDescription();
-	
+
+    /**
+     * @return The description of the data point as {@link Str}
+     */
+    Str getDescription();
+
 //	/**
 //	 * Sets the description of the data point.
 //	 * @param type The description of the data point as {@link Str} 
@@ -61,10 +61,10 @@ public interface Datapoint extends Point {
 //	 * @param type The description of the data point as string 
 //	 */
 //	void setDescription(String description);
-	
-	/**
-	 * @return A {@link List} of {@link DpData}, or <code>null</code>
-	 */
-	List getDpData();
-	
+
+    /**
+     * @return A {@link List} of {@link DpData}, or <code>null</code>
+     */
+    List getDpData();
+
 }

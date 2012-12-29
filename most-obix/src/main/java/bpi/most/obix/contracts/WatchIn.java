@@ -6,15 +6,15 @@ import bpi.most.obix.List;
 /**
  * WatchIn
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface WatchIn
-  extends IObj
-{
+        extends IObj {
 
-  public static final String hrefsContract = "<list name='hrefs' of='obix:WatchInItem'/>";
-  public List hrefs();
+    public static final String hrefsContract = "<list name='hrefs' of='obix:WatchInItem'/>";
+
+    public List hrefs();
 
 }

@@ -6,14 +6,13 @@ import bpi.most.obix.Reltime;
 /**
  * HistoryRollupIn
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface HistoryRollupIn
-  extends IObj, HistoryFilter
-{
+        extends IObj, HistoryFilter {
 
-  public Reltime interval();
+    public Reltime interval();
 
 }

@@ -8,26 +8,25 @@ import bpi.most.obix.Real;
 /**
  * HistoryRollupRecord
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface HistoryRollupRecord
-  extends IObj
-{
+        extends IObj {
 
-  public Abstime start();
+    public Abstime start();
 
-  public Abstime end();
+    public Abstime end();
 
-  public Int count();
+    public Int count();
 
-  public Real min();
+    public Real min();
 
-  public Real max();
+    public Real max();
 
-  public Real avg();
+    public Real avg();
 
-  public Real sum();
+    public Real sum();
 
 }

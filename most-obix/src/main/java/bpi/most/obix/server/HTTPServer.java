@@ -1,516 +1,461 @@
 package bpi.most.obix.server;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
+import java.util.*;
 
 
-public class HTTPServer
-{
-	
-	private IObixServer _obixServer;
-	
-	// ==================================================
-	// API parts
-	// ==================================================
+public class HTTPServer {
 
-	/**
-	 * Override this to customize the server.<p>
-	 *
-	 * @parm uri	Percent-decoded URI without parameters, for example "/index.cgi"
-	 * @parm method	"GET", "POST" etc.
-	 * @parm parms	Parsed, percent decoded parameters from URI and, in case of POST, data.
-	 * @parm header	Header entries, percent decoded
-	 * @return HTTP response, see class Response for details
-	 */
-	public Response serve(String uri, String method, Properties header, Properties parms, String data)
-	{
-		Response r = new Response(HTTP_OK, MIME_XML, "foo");
-		
-		try
-		{
-			if (method.equals("GET"))
-				r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.readObj(new URI(uri), "guest"));
-			if (method.equals("PUT"))
-				r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.writeObj(new URI(uri), stripXMLHeader(data)));
-			if (method.equals("POST"))
-				r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.invokeOp(new URI(uri), stripXMLHeader(data)));
-		}
-		catch (URISyntaxException usex)
-		{
-			r = new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "URI Syntax Exception");
-		}
-		
-		return r;
-	}
+    private IObixServer _obixServer;
 
-	private String stripXMLHeader(String data)
-	{
-		return data.substring(39);
-	}
-	
-	/**
-	 * HTTP response.
-	 * Return one of these from serve().
-	 */
-	public class Response
-	{
-		/**
-		 * Default constructor: response = HTTP_OK, data = mime = 'null'
-		 */
-		public Response()
-		{
-			this.status = HTTP_OK;
-		}
+    // ==================================================
+    // API parts
+    // ==================================================
 
-		/**
-		 * Basic constructor.
-		 */
-		public Response( String status, String mimeType, InputStream data )
-		{
-			this.status = status;
-			this.mimeType = mimeType;
-			this.data = data;
-		}
+    /**
+     * Override this to customize the server.<p>
+     *
+     * @return HTTP response, see class Response for details
+     * @parm uri    Percent-decoded URI without parameters, for example "/index.cgi"
+     * @parm method    "GET", "POST" etc.
+     * @parm parms    Parsed, percent decoded parameters from URI and, in case of POST, data.
+     * @parm header    Header entries, percent decoded
+     */
+    public Response serve(String uri, String method, Properties header, Properties parms, String data) {
+        Response r = new Response(HTTP_OK, MIME_XML, "foo");
 
-		/**
-		 * Convenience method that makes an InputStream out of
-		 * given text.
-		 */
-		public Response( String status, String mimeType, String txt )
-		{
-			this.status = status;
-			this.mimeType = mimeType;
-			this.data = new ByteArrayInputStream( txt.getBytes());
-		}
+        try {
+            if (method.equals("GET"))
+                r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.readObj(new URI(uri), "guest"));
+            if (method.equals("PUT"))
+                r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.writeObj(new URI(uri), stripXMLHeader(data)));
+            if (method.equals("POST"))
+                r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.invokeOp(new URI(uri), stripXMLHeader(data)));
+        } catch (URISyntaxException usex) {
+            r = new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "URI Syntax Exception");
+        }
 
-		/**
-		 * Adds given line to the header.
-		 */
-		public void addHeader( String name, String value )
-		{
-			header.put( name, value );
-		}
+        return r;
+    }
 
-		/**
-		 * HTTP status code after processing, e.g. "200 OK", HTTP_OK
-		 */
-		public String status;
+    private String stripXMLHeader(String data) {
+        return data.substring(39);
+    }
 
-		/**
-		 * MIME type of content, e.g. "text/html"
-		 */
-		public String mimeType;
+    /**
+     * HTTP response.
+     * Return one of these from serve().
+     */
+    public class Response {
+        /**
+         * Default constructor: response = HTTP_OK, data = mime = 'null'
+         */
+        public Response() {
+            this.status = HTTP_OK;
+        }
 
-		/**
-		 * Data of the response, may be null.
-		 */
-		public InputStream data;
+        /**
+         * Basic constructor.
+         */
+        public Response(String status, String mimeType, InputStream data) {
+            this.status = status;
+            this.mimeType = mimeType;
+            this.data = data;
+        }
 
-		/**
-		 * Headers for the HTTP response. Use addHeader()
-		 * to add lines.
-		 */
-		public Properties header = new Properties();
-	}
+        /**
+         * Convenience method that makes an InputStream out of
+         * given text.
+         */
+        public Response(String status, String mimeType, String txt) {
+            this.status = status;
+            this.mimeType = mimeType;
+            this.data = new ByteArrayInputStream(txt.getBytes());
+        }
 
-	/**
-	 * Some HTTP response status codes
-	 */
-	public static final String
-		HTTP_OK = "200 OK",
-		HTTP_REDIRECT = "301 Moved Permanently",
-		HTTP_FORBIDDEN = "403 Forbidden",
-		HTTP_NOTFOUND = "404 Not Found",
-		HTTP_BADREQUEST = "400 Bad Request",
-		HTTP_INTERNALERROR = "500 Internal Server Error",
-		HTTP_NOTIMPLEMENTED = "501 Not Implemented";
+        /**
+         * Adds given line to the header.
+         */
+        public void addHeader(String name, String value) {
+            header.put(name, value);
+        }
 
-	/**
-	 * Common mime types for dynamic content
-	 */
-	public static final String
-		MIME_PLAINTEXT = "text/plain",
-		MIME_HTML = "text/html",
-		MIME_XML = "text/xml",
-		MIME_DEFAULT_BINARY = "application/octet-stream";
+        /**
+         * HTTP status code after processing, e.g. "200 OK", HTTP_OK
+         */
+        public String status;
 
-	/**
-	 * Standard XML header
-	 */
-	public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"; //<?xml-stylesheet type='text/xsl' href='/obix/xsl'?>\n<obj xmlns:knx='http://localhost/def/'/>\n";
-	
-	// ==================================================
-	// Socket & server code
-	// ==================================================
+        /**
+         * MIME type of content, e.g. "text/html"
+         */
+        public String mimeType;
 
-	/**
-	 * Starts a HTTP server to given port.<p>
-	 * Throws an IOException if the socket is already in use
-	 */
-	public HTTPServer(int port, IObixServer obixServer) throws IOException
-	{
-		myTcpPort = port;
+        /**
+         * Data of the response, may be null.
+         */
+        public InputStream data;
 
-		_obixServer = obixServer;
-		
-		final ServerSocket ss = new ServerSocket( myTcpPort );
-		Thread t = new Thread( new Runnable()
-			{
-				public void run()
-				{
-					try
-					{
-						while( true )
-							new HTTPSession( ss.accept());
-					}
-					catch ( IOException ioe )
-					{}
-				}
-			});
-		t.setDaemon( true );
-		t.start();
-	}
+        /**
+         * Headers for the HTTP response. Use addHeader()
+         * to add lines.
+         */
+        public Properties header = new Properties();
+    }
 
-	/**
-	 * Handles one session, i.e. parses the HTTP request
-	 * and returns the response.
-	 */
-	private class HTTPSession implements Runnable
-	{
-		public HTTPSession( Socket s )
-		{
-			mySocket = s;
-			Thread t = new Thread( this );
-			t.setDaemon( true );
-			t.start();
-		}
+    /**
+     * Some HTTP response status codes
+     */
+    public static final String
+            HTTP_OK = "200 OK",
+            HTTP_REDIRECT = "301 Moved Permanently",
+            HTTP_FORBIDDEN = "403 Forbidden",
+            HTTP_NOTFOUND = "404 Not Found",
+            HTTP_BADREQUEST = "400 Bad Request",
+            HTTP_INTERNALERROR = "500 Internal Server Error",
+            HTTP_NOTIMPLEMENTED = "501 Not Implemented";
 
-		public void run()
-		{
-			try
-			{
-				InputStream is = mySocket.getInputStream();
-				if ( is == null) return;
-				BufferedReader in = new BufferedReader( new InputStreamReader( is ));
+    /**
+     * Common mime types for dynamic content
+     */
+    public static final String
+            MIME_PLAINTEXT = "text/plain",
+            MIME_HTML = "text/html",
+            MIME_XML = "text/xml",
+            MIME_DEFAULT_BINARY = "application/octet-stream";
 
-				// Read the request line
-				StringTokenizer st = new StringTokenizer( in.readLine());
-				if ( !st.hasMoreTokens())
-					sendError( HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html" );
+    /**
+     * Standard XML header
+     */
+    public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"; //<?xml-stylesheet type='text/xsl' href='/obix/xsl'?>\n<obj xmlns:knx='http://localhost/def/'/>\n";
 
-				String method = st.nextToken();
+    // ==================================================
+    // Socket & server code
+    // ==================================================
 
-				if ( !st.hasMoreTokens())
-					sendError( HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html" );
+    /**
+     * Starts a HTTP server to given port.<p>
+     * Throws an IOException if the socket is already in use
+     */
+    public HTTPServer(int port, IObixServer obixServer) throws IOException {
+        myTcpPort = port;
 
-				String uri = decodePercent( st.nextToken());
+        _obixServer = obixServer;
 
-				// Decode parameters from the URI
-				Properties parms = new Properties();
-				int qmi = uri.indexOf( '?' );
-				if ( qmi >= 0 )
-				{
-					decodeParms( uri.substring( qmi+1 ), parms );
-					uri = decodePercent( uri.substring( 0, qmi ));
-				}
+        final ServerSocket ss = new ServerSocket(myTcpPort);
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    while (true)
+                        new HTTPSession(ss.accept());
+                } catch (IOException ioe) {
+                }
+            }
+        });
+        t.setDaemon(true);
+        t.start();
+    }
 
-				// If there's another token, it's protocol version,
-				// followed by HTTP headers. Ignore version but parse headers.
-				Properties header = new Properties();
-				if ( st.hasMoreTokens())
-				{
-					String line = in.readLine();
-					while ( line.trim().length() > 0 )
-					{
-						int p = line.indexOf( ':' );
-						header.put( line.substring(0,p).trim(), line.substring(p+1).trim());
-						line = in.readLine();
-					}
-				}
+    /**
+     * Handles one session, i.e. parses the HTTP request
+     * and returns the response.
+     */
+    private class HTTPSession implements Runnable {
+        public HTTPSession(Socket s) {
+            mySocket = s;
+            Thread t = new Thread(this);
+            t.setDaemon(true);
+            t.start();
+        }
 
-				// If the method is POST, there may be parameters
-				// in data section, too, read it:
-				String data = "";
-				if ( method.equalsIgnoreCase( "POST" ))
-				{
-					long size = 0x7FFFFFFFFFFFFFFFl;
-					String contentLength = header.getProperty("Content-Length");
-					if (contentLength != null)
-					{
-						try { size = Integer.parseInt(contentLength); }
-						catch (NumberFormatException ex) {}
-					}
-					String postLine = "";
-					char buf[] = new char[512];
-					int read = in.read(buf);
-					while ( read >= 0 && size > 0 && !postLine.endsWith("\r\n") )
-					{
-						size -= read;
-						// postLine += String.valueOf(buf);
-						data += String.valueOf(buf);
-						if ( size > 0 )
-							read = in.read(buf);
-					}
+        public void run() {
+            try {
+                InputStream is = mySocket.getInputStream();
+                if (is == null) return;
+                BufferedReader in = new BufferedReader(new InputStreamReader(is));
+
+                // Read the request line
+                StringTokenizer st = new StringTokenizer(in.readLine());
+                if (!st.hasMoreTokens())
+                    sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
+
+                String method = st.nextToken();
+
+                if (!st.hasMoreTokens())
+                    sendError(HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html");
+
+                String uri = decodePercent(st.nextToken());
+
+                // Decode parameters from the URI
+                Properties parms = new Properties();
+                int qmi = uri.indexOf('?');
+                if (qmi >= 0) {
+                    decodeParms(uri.substring(qmi + 1), parms);
+                    uri = decodePercent(uri.substring(0, qmi));
+                }
+
+                // If there's another token, it's protocol version,
+                // followed by HTTP headers. Ignore version but parse headers.
+                Properties header = new Properties();
+                if (st.hasMoreTokens()) {
+                    String line = in.readLine();
+                    while (line.trim().length() > 0) {
+                        int p = line.indexOf(':');
+                        header.put(line.substring(0, p).trim(), line.substring(p + 1).trim());
+                        line = in.readLine();
+                    }
+                }
+
+                // If the method is POST, there may be parameters
+                // in data section, too, read it:
+                String data = "";
+                if (method.equalsIgnoreCase("POST")) {
+                    long size = 0x7FFFFFFFFFFFFFFFl;
+                    String contentLength = header.getProperty("Content-Length");
+                    if (contentLength != null) {
+                        try {
+                            size = Integer.parseInt(contentLength);
+                        } catch (NumberFormatException ex) {
+                        }
+                    }
+                    String postLine = "";
+                    char buf[] = new char[512];
+                    int read = in.read(buf);
+                    while (read >= 0 && size > 0 && !postLine.endsWith("\r\n")) {
+                        size -= read;
+                        // postLine += String.valueOf(buf);
+                        data += String.valueOf(buf);
+                        if (size > 0)
+                            read = in.read(buf);
+                    }
 //					postLine = postLine.trim();
 //					decodeParms( postLine, parms );
-				}
+                }
 
-				// If the method is PUT, there is data 
-				// in data section, read it:
-				if ( method.equalsIgnoreCase("PUT"))
-				{
-					long size = 0x7FFFFFFFFFFFFFFFl;
-					String contentLength = header.getProperty("Content-Length");
-					if (contentLength != null)
-					{
-						try { size = Integer.parseInt(contentLength); }
-						catch (NumberFormatException ex) {}
-					}
-					char buf[] = new char[512];
-					int read = in.read(buf);
-					while ( read >= 0 && size > 0 && !data.endsWith("\r\n") )
-					{
-						size -= read;
-						data += String.valueOf(buf);
-						if ( size > 0 )
-							read = in.read(buf);
-					}
-				}
+                // If the method is PUT, there is data
+                // in data section, read it:
+                if (method.equalsIgnoreCase("PUT")) {
+                    long size = 0x7FFFFFFFFFFFFFFFl;
+                    String contentLength = header.getProperty("Content-Length");
+                    if (contentLength != null) {
+                        try {
+                            size = Integer.parseInt(contentLength);
+                        } catch (NumberFormatException ex) {
+                        }
+                    }
+                    char buf[] = new char[512];
+                    int read = in.read(buf);
+                    while (read >= 0 && size > 0 && !data.endsWith("\r\n")) {
+                        size -= read;
+                        data += String.valueOf(buf);
+                        if (size > 0)
+                            read = in.read(buf);
+                    }
+                }
 
-				
-				// Ok, now do the serve()
-				Response r = serve(uri, method, header, parms, data);
-				if ( r == null )
-					sendError( HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response." );
-				else
-					sendResponse( r.status, r.mimeType, r.header, r.data );
 
-				in.close();
-			}
-			catch ( IOException ioe )
-			{
-				try
-				{
-					sendError( HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
-				}
-				catch ( Throwable t ) {}
-			}
-			catch ( InterruptedException ie )
-			{
-				// Thrown by sendError, ignore and exit the thread.
-			}
-		}
+                // Ok, now do the serve()
+                Response r = serve(uri, method, header, parms, data);
+                if (r == null)
+                    sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
+                else
+                    sendResponse(r.status, r.mimeType, r.header, r.data);
 
-		/**
-		 * Decodes the percent encoding scheme. <br/>
-		 * For example: "an+example%20string" -> "an example string"
-		 */
-		private String decodePercent( String str ) throws InterruptedException
-		{
-			try
-			{
-				StringBuffer sb = new StringBuffer();
-				for( int i=0; i<str.length(); i++ )
-				{
-				    char c = str.charAt( i );
-				    switch ( c )
-					{
-				        case '+':
-				            sb.append( ' ' );
-				            break;
-				        case '%':
-			                sb.append((char)Integer.parseInt( str.substring(i+1,i+3), 16 ));
-				            i += 2;
-				            break;
-				        default:
-				            sb.append( c );
-				            break;
-				    }
-				}
-				return new String( sb.toString().getBytes());
-			}
-			catch( Exception e )
-			{
-				sendError( HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding." );
-				return null;
-			}
-		}
+                in.close();
+            } catch (IOException ioe) {
+                try {
+                    sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
+                } catch (Throwable t) {
+                }
+            } catch (InterruptedException ie) {
+                // Thrown by sendError, ignore and exit the thread.
+            }
+        }
 
-		/**
-		 * Decodes parameters in percent-encoded URI-format
-		 * ( e.g. "name=Jack%20Daniels&pass=Single%20Malt" ) and
-		 * adds them to given Properties.
-		 */
-		private void decodeParms( String parms, Properties p )
-			throws InterruptedException
-		{
-			if ( parms == null )
-				return;
+        /**
+         * Decodes the percent encoding scheme. <br/>
+         * For example: "an+example%20string" -> "an example string"
+         */
+        private String decodePercent(String str) throws InterruptedException {
+            try {
+                StringBuffer sb = new StringBuffer();
+                for (int i = 0; i < str.length(); i++) {
+                    char c = str.charAt(i);
+                    switch (c) {
+                        case '+':
+                            sb.append(' ');
+                            break;
+                        case '%':
+                            sb.append((char) Integer.parseInt(str.substring(i + 1, i + 3), 16));
+                            i += 2;
+                            break;
+                        default:
+                            sb.append(c);
+                            break;
+                    }
+                }
+                return new String(sb.toString().getBytes());
+            } catch (Exception e) {
+                sendError(HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding.");
+                return null;
+            }
+        }
 
-			StringTokenizer st = new StringTokenizer( parms, "&" );
-			while ( st.hasMoreTokens())
-			{
-				String e = st.nextToken();
-				int sep = e.indexOf( '=' );
-				if ( sep >= 0 )
-					p.put( decodePercent( e.substring( 0, sep )).trim(),
-						   decodePercent( e.substring( sep+1 )));
-			}
-		}
+        /**
+         * Decodes parameters in percent-encoded URI-format
+         * ( e.g. "name=Jack%20Daniels&pass=Single%20Malt" ) and
+         * adds them to given Properties.
+         */
+        private void decodeParms(String parms, Properties p)
+                throws InterruptedException {
+            if (parms == null)
+                return;
 
-		/**
-		 * Returns an error message as a HTTP response and
-		 * throws InterruptedException to stop furhter request processing.
-		 */
-		private void sendError( String status, String msg ) throws InterruptedException
-		{
-			sendResponse( status, MIME_PLAINTEXT, null, new ByteArrayInputStream( msg.getBytes()));
-			throw new InterruptedException();
-		}
+            StringTokenizer st = new StringTokenizer(parms, "&");
+            while (st.hasMoreTokens()) {
+                String e = st.nextToken();
+                int sep = e.indexOf('=');
+                if (sep >= 0)
+                    p.put(decodePercent(e.substring(0, sep)).trim(),
+                            decodePercent(e.substring(sep + 1)));
+            }
+        }
 
-		/**
-		 * Sends given response to the socket.
-		 */
-		private void sendResponse( String status, String mime, Properties header, InputStream data )
-		{
-			try
-			{
-				if ( status == null )
-					throw new Error( "sendResponse(): Status can't be null." );
+        /**
+         * Returns an error message as a HTTP response and
+         * throws InterruptedException to stop furhter request processing.
+         */
+        private void sendError(String status, String msg) throws InterruptedException {
+            sendResponse(status, MIME_PLAINTEXT, null, new ByteArrayInputStream(msg.getBytes()));
+            throw new InterruptedException();
+        }
 
-				OutputStream out = mySocket.getOutputStream();
-				PrintWriter pw = new PrintWriter( out );
-				pw.print("HTTP/1.0 " + status + " \r\n");
+        /**
+         * Sends given response to the socket.
+         */
+        private void sendResponse(String status, String mime, Properties header, InputStream data) {
+            try {
+                if (status == null)
+                    throw new Error("sendResponse(): Status can't be null.");
 
-				if ( mime != null )
-					pw.print("Content-Type: " + mime + "\r\n");
+                OutputStream out = mySocket.getOutputStream();
+                PrintWriter pw = new PrintWriter(out);
+                pw.print("HTTP/1.0 " + status + " \r\n");
 
-				if ( header == null || header.getProperty( "Date" ) == null )
-					pw.print( "Date: " + gmtFrmt.format( new Date()) + "\r\n");
+                if (mime != null)
+                    pw.print("Content-Type: " + mime + "\r\n");
 
-				if ( header != null )
-				{
-					Enumeration e = header.keys();
-					while ( e.hasMoreElements())
-					{
-						String key = (String)e.nextElement();
-						String value = header.getProperty( key );
-						pw.print( key + ": " + value + "\r\n");
-					}
-				}
+                if (header == null || header.getProperty("Date") == null)
+                    pw.print("Date: " + gmtFrmt.format(new Date()) + "\r\n");
 
-				pw.print("\r\n");
-				pw.flush();
+                if (header != null) {
+                    Enumeration e = header.keys();
+                    while (e.hasMoreElements()) {
+                        String key = (String) e.nextElement();
+                        String value = header.getProperty(key);
+                        pw.print(key + ": " + value + "\r\n");
+                    }
+                }
 
-				if ( data != null )
-				{
-					byte[] buff = new byte[2048];
-					while (true)
-					{
-						int read = data.read( buff, 0, 2048 );
-						if (read <= 0)
-							break;
-						out.write( buff, 0, read );
-					}
-				}
-				out.flush();
-				out.close();
-				if ( data != null )
-					data.close();
-			}
-			catch( IOException ioe )
-			{
-				// Couldn't write? No can do.
-				try { mySocket.close(); } catch( Throwable t ) {}
-			}
-		}
+                pw.print("\r\n");
+                pw.flush();
 
-		private Socket mySocket;
-	};
+                if (data != null) {
+                    byte[] buff = new byte[2048];
+                    while (true) {
+                        int read = data.read(buff, 0, 2048);
+                        if (read <= 0)
+                            break;
+                        out.write(buff, 0, read);
+                    }
+                }
+                out.flush();
+                out.close();
+                if (data != null)
+                    data.close();
+            } catch (IOException ioe) {
+                // Couldn't write? No can do.
+                try {
+                    mySocket.close();
+                } catch (Throwable t) {
+                }
+            }
+        }
 
-	private int myTcpPort;
-	File myFileDir;
+        private Socket mySocket;
+    }
 
-	/**
-	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
-	 */
-	private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
-	static
-	{
-		StringTokenizer st = new StringTokenizer(
-			"htm		text/html "+
-			"html		text/html "+
-			"txt		text/plain "+
-			"asc		text/plain "+
-			"gif		image/gif "+
-			"jpg		image/jpeg "+
-			"jpeg		image/jpeg "+
-			"png		image/png "+
-			"mp3		audio/mpeg "+
-			"m3u		audio/mpeg-url " +
-			"pdf		application/pdf "+
-			"doc		application/msword "+
-			"ogg		application/x-ogg "+
-			"zip		application/octet-stream "+
-			"exe		application/octet-stream "+
-			"class		application/octet-stream " );
-		while ( st.hasMoreTokens())
-			theMimeTypes.put( st.nextToken(), st.nextToken());
-	}
+    ;
 
-	/**
-	 * GMT date formatter
-	 */
+    private int myTcpPort;
+    File myFileDir;
+
+    /**
+     * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
+     */
+    private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
+
+    static {
+        StringTokenizer st = new StringTokenizer(
+                "htm		text/html " +
+                        "html		text/html " +
+                        "txt		text/plain " +
+                        "asc		text/plain " +
+                        "gif		image/gif " +
+                        "jpg		image/jpeg " +
+                        "jpeg		image/jpeg " +
+                        "png		image/png " +
+                        "mp3		audio/mpeg " +
+                        "m3u		audio/mpeg-url " +
+                        "pdf		application/pdf " +
+                        "doc		application/msword " +
+                        "ogg		application/x-ogg " +
+                        "zip		application/octet-stream " +
+                        "exe		application/octet-stream " +
+                        "class		application/octet-stream ");
+        while (st.hasMoreTokens())
+            theMimeTypes.put(st.nextToken(), st.nextToken());
+    }
+
+    /**
+     * GMT date formatter
+     */
     private static java.text.SimpleDateFormat gmtFrmt;
-	static
-	{
-		gmtFrmt = new java.text.SimpleDateFormat( "E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
-		gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-	}
 
-	/**
-	 * The distribution licence
-	 */
-	private static final String LICENCE =
-		"Copyright (C) 2001,2005 by Jarno Elonen <elonen@iki.fi>\n"+
-		"\n"+
-		"Redistribution and use in source and binary forms, with or without\n"+
-		"modification, are permitted provided that the following conditions\n"+
-		"are met:\n"+
-		"\n"+
-		"Redistributions of source code must retain the above copyright notice,\n"+
-		"this list of conditions and the following disclaimer. Redistributions in\n"+
-		"binary form must reproduce the above copyright notice, this list of\n"+
-		"conditions and the following disclaimer in the documentation and/or other\n"+
-		"materials provided with the distribution. The name of the author may not\n"+
-		"be used to endorse or promote products derived from this software without\n"+
-		"specific prior written permission. \n"+
-		" \n"+
-		"THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"+
-		"IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"+
-		"OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"+
-		"IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n"+
-		"INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n"+
-		"NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n"+
-		"DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n"+
-		"THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n"+
-		"(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"+
-		"OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+    static {
+        gmtFrmt = new java.text.SimpleDateFormat("E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
+        gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+    }
+
+    /**
+     * The distribution licence
+     */
+    private static final String LICENCE =
+            "Copyright (C) 2001,2005 by Jarno Elonen <elonen@iki.fi>\n" +
+                    "\n" +
+                    "Redistribution and use in source and binary forms, with or without\n" +
+                    "modification, are permitted provided that the following conditions\n" +
+                    "are met:\n" +
+                    "\n" +
+                    "Redistributions of source code must retain the above copyright notice,\n" +
+                    "this list of conditions and the following disclaimer. Redistributions in\n" +
+                    "binary form must reproduce the above copyright notice, this list of\n" +
+                    "conditions and the following disclaimer in the documentation and/or other\n" +
+                    "materials provided with the distribution. The name of the author may not\n" +
+                    "be used to endorse or promote products derived from this software without\n" +
+                    "specific prior written permission. \n" +
+                    " \n" +
+                    "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n" +
+                    "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n" +
+                    "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n" +
+                    "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n" +
+                    "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n" +
+                    "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n" +
+                    "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n" +
+                    "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n" +
+                    "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" +
+                    "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
 }

@@ -6,150 +6,136 @@ package bpi.most.obix;
 /**
  * Bool models a boolean true/false value.
  *
- * @author    Brian Frank
- * @creation  27 Apr 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @version $Revision$ $Date$
+ * @creation 27 Apr 05
  */
 public class Bool
-  extends Val
-{ 
+        extends Val {
 
 ////////////////////////////////////////////////////////////////
 // Constructor
 ////////////////////////////////////////////////////////////////
-  
-  /**
-   * Construct named Bool with specified value.
-   */
-  public Bool(String name, boolean val) 
-  { 
-    super(name); 
-    set(val);
-  }                 
 
-  /**
-   * Construct named Bool with value of false.
-   */
-  public Bool(String name) 
-  { 
-    super(name); 
-    set(false);
-  }                 
-    
-  /**
-   * Construct unnamed Bool with specified value.
-   */
-  public Bool(boolean val) 
-  { 
-    set(val);
-  }
-  
-  /**
-   * Construct unnamed Bool with value of false.
-   */
-  public Bool() 
-  { 
-    set(false);
-  }
+    /**
+     * Construct named Bool with specified value.
+     */
+    public Bool(String name, boolean val) {
+        super(name);
+        set(val);
+    }
+
+    /**
+     * Construct named Bool with value of false.
+     */
+    public Bool(String name) {
+        super(name);
+        set(false);
+    }
+
+    /**
+     * Construct unnamed Bool with specified value.
+     */
+    public Bool(boolean val) {
+        set(val);
+    }
+
+    /**
+     * Construct unnamed Bool with value of false.
+     */
+    public Bool() {
+        set(false);
+    }
 
 ////////////////////////////////////////////////////////////////
 // Bool
 ////////////////////////////////////////////////////////////////
 
-  /**
-   * Get value as a boolean. 
-   */
-  public boolean get()
-  {
-    return val;
-  }
+    /**
+     * Get value as a boolean.
+     */
+    public boolean get() {
+        return val;
+    }
 
-  /**
-   * Set value. 
-   */
-  public void set(boolean val)
-  {
-    this.val = val;
-  }
+    /**
+     * Set value.
+     */
+    public void set(boolean val) {
+        this.val = val;
+    }
 
 ////////////////////////////////////////////////////////////////
 // Val
 ////////////////////////////////////////////////////////////////
 
-  /**
-   * Return "bool".
-   */
-  public String getElement()
-  {
-    return "bool";
-  }
+    /**
+     * Return "bool".
+     */
+    public String getElement() {
+        return "bool";
+    }
 
-  /**
-   * Return if specified Val has equivalent boolean value.
-   */
-  public boolean valEquals(Val that)
-  {
-    if (that  instanceof Bool)
-      return ((Bool)that).val == val;
-    return false;
-  }
+    /**
+     * Return if specified Val has equivalent boolean value.
+     */
+    public boolean valEquals(Val that) {
+        if (that instanceof Bool)
+            return ((Bool) that).val == val;
+        return false;
+    }
 
-  /**
-   * Compares this object with the specified object for 
-   * order. Returns a negative integer, zero, or a positive 
-   * integer as this object is less than, equal to, or greater 
-   * than the specified object.
-   */
-  public int compareTo(Object that)
-  {           
-    boolean a = val;
-    boolean b = ((Bool)that).val;
-    if (a == b) return 0;
-    return a ? 1 : -1;
-  }
+    /**
+     * Compares this object with the specified object for
+     * order. Returns a negative integer, zero, or a positive
+     * integer as this object is less than, equal to, or greater
+     * than the specified object.
+     */
+    public int compareTo(Object that) {
+        boolean a = val;
+        boolean b = ((Bool) that).val;
+        if (a == b) return 0;
+        return a ? 1 : -1;
+    }
 
-  /**
-   * Encode the value as a string
-   */
-  public String encodeVal()
-  {
-    return String.valueOf(val);
-  }
+    /**
+     * Encode the value as a string
+     */
+    public String encodeVal() {
+        return String.valueOf(val);
+    }
 
-  /**
-   * Decode the value from a string.
-   */
-  public void decodeVal(String val)
-    throws Exception
-  {             
-    this.val = val.equals("true");
-  }
+    /**
+     * Decode the value from a string.
+     */
+    public void decodeVal(String val)
+            throws Exception {
+        this.val = val.equals("true");
+    }
 
 ////////////////////////////////////////////////////////////////
 // Facets
 ////////////////////////////////////////////////////////////////
-  
-  /**
-   * Get the range facet or null if unspecified.
-   */
-  public Uri getRange()
-  {
-    return range;
-  }
 
-  /**
-   * Set the range facet.
-   */
-  public void setRange(Uri range)
-  {
-    this.range = range;
-  }
-    
+    /**
+     * Get the range facet or null if unspecified.
+     */
+    public Uri getRange() {
+        return range;
+    }
+
+    /**
+     * Set the range facet.
+     */
+    public void setRange(Uri range) {
+        this.range = range;
+    }
+
 ////////////////////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////////////////////
-  
-  private boolean val;
-  private Uri range;
-  
+
+    private boolean val;
+    private Uri range;
+
 }

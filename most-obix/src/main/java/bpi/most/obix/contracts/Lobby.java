@@ -7,21 +7,23 @@ import bpi.most.obix.Ref;
 /**
  * Lobby
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface Lobby
-  extends IObj
-{
+        extends IObj {
 
-  public static final String aboutContract = "<ref name='about' is='obix:About'/>";
-  public Ref about();
+    public static final String aboutContract = "<ref name='about' is='obix:About'/>";
 
-  public static final String batchContract = "<op name='batch' in='obix:BatchIn' out='obix:BatchOut'/>";
-  public Op batch();
+    public Ref about();
 
-  public static final String watchServiceContract = "<ref name='watchService' is='obix:WatchService'/>";
-  public Ref watchService();
+    public static final String batchContract = "<op name='batch' in='obix:BatchIn' out='obix:BatchOut'/>";
+
+    public Op batch();
+
+    public static final String watchServiceContract = "<ref name='watchService' is='obix:WatchService'/>";
+
+    public Ref watchService();
 
 }

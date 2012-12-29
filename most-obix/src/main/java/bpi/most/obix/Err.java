@@ -1,67 +1,62 @@
 /*
  * This code licensed to public domain
  */
-package bpi.most.obix;      
+package bpi.most.obix;
 
 
 /**
  * Err models an error object.
  *
- * @author    Brian Frank
- * @creation  30 Mar 06
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @version $Revision$ $Date$
+ * @creation 30 Mar 06
  */
 public class Err
-  extends Obj
-{ 
+        extends Obj {
 
 ////////////////////////////////////////////////////////////////
 // Construction
 ////////////////////////////////////////////////////////////////
-  
-  /**
-   * Construct named Err.
-   */
-  public Err(String name) 
-  {                
-    super(name);
-  }                 
-    
-  /**
-   * Construct unnamed Err.
-   */
-  public Err() 
-  { 
-  }
+
+    /**
+     * Construct named Err.
+     */
+    public Err(String name) {
+        super(name);
+    }
+
+    /**
+     * Construct unnamed Err.
+     */
+    public Err() {
+    }
 
 ////////////////////////////////////////////////////////////////
 // Obj
 ////////////////////////////////////////////////////////////////
 
-  /**
-   * Return "err".
-   */
-  public String getElement()
-  {
-    return "err";
-  }
+    /**
+     * Return "err".
+     */
+    public String getElement() {
+        return "err";
+    }
 
 ////////////////////////////////////////////////////////////////
 // Format
 ////////////////////////////////////////////////////////////////
-  
-  /**
-   * Format the error for human display.
-   */
-  public String format()
-  {                               
-    // TODO - displayName, is, etc
-dump();  
-    return this.toString();
-  }
-    
+
+    /**
+     * Format the error for human display.
+     */
+    public String format() {
+        // TODO - displayName, is, etc
+        dump();
+        return this.toString();
+    }
+
 ////////////////////////////////////////////////////////////////
 // Fields
 ////////////////////////////////////////////////////////////////
-    
+
 }

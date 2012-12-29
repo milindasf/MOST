@@ -7,16 +7,15 @@ import bpi.most.obix.Ref;
 /**
  * Alarm
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface Alarm
-  extends IObj
-{
+        extends IObj {
 
-  public Ref source();
+    public Ref source();
 
-  public Abstime timestamp();
+    public Abstime timestamp();
 
 }

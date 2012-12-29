@@ -8,21 +8,23 @@ import bpi.most.obix.Op;
 /**
  * AlarmSubject
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @version $Revision$ $Date$
+ * @creation 24 May 06
  */
 public interface AlarmSubject
-  extends IObj
-{
+        extends IObj {
 
-  public static final String countContract = "<int name='count' val='0' min='0'/>";
-  public Int count();
+    public static final String countContract = "<int name='count' val='0' min='0'/>";
 
-  public static final String queryContract = "<op name='query' in='obix:AlarmFilter' out='obix:AlarmQueryOut'/>";
-  public Op query();
+    public Int count();
 
-  public static final String feedContract = "<feed name='feed' in='obix:AlarmFilter' of='obix:Alarm'/>";
-  public Feed feed();
+    public static final String queryContract = "<op name='query' in='obix:AlarmFilter' out='obix:AlarmQueryOut'/>";
+
+    public Op query();
+
+    public static final String feedContract = "<feed name='feed' in='obix:AlarmFilter' of='obix:Alarm'/>";
+
+    public Feed feed();
 
 }
