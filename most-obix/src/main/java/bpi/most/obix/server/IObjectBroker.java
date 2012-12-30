@@ -1,7 +1,6 @@
 package bpi.most.obix.server;
 
 import bpi.most.obix.objects.Dp;
-import bpi.most.obix.objects.DpData;
 import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
 
@@ -34,7 +33,7 @@ public interface IObjectBroker {
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      */
-    List getDatapointData(URI href); // = datapointName = {name}
+    Dp getDatapointData(URI href); // = datapointName = {name}
 
     /**
      * GET /obix/dp
@@ -50,8 +49,8 @@ public interface IObjectBroker {
      * @param href The id of the zone
      * @return The zone, which contains data points
      */
-    List getDatapointsForZone(URI href); // = {id}
-    // return list with zones
+    bpi.most.obix.objects.Zone getDatapointsForZone(URI href); // = {id}
+    // return zone with dp inside
 
     /**
      * GET /obix/zones

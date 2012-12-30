@@ -14,9 +14,6 @@ import java.util.HashMap;
 
 public class ObixObjectBroker implements IObjectBroker {
 
-    public static final String OBIX_DP_PREFIX = "/obix/dp/";
-    public static final String OBIX_ZONE_PREFIX = "/obix/zones/";
-
     @Inject
     private ZoneService zoneService;
 
@@ -38,12 +35,12 @@ public class ObixObjectBroker implements IObjectBroker {
 
             int id = zone.getZoneId();
             String name = zone.getName();
-            Uri zoneUri = new Uri(OBIX_ZONE_PREFIX + id);
+            Uri zoneUri = new Uri(bpi.most.obix.objects.Zone.OBIX_ZONE_PREFIX + id);
             bpi.most.obix.objects.Zone oBixZone = new bpi.most.obix.objects.Zone(id, name);
 
             for (DatapointVO point : datapointService.getDatapoints(null, String.valueOf(id))) {
                 String pointName = point.getName();
-                Uri uri = new Uri(OBIX_DP_PREFIX + pointName);
+                Uri uri = new Uri(Dp.OBIX_DP_PREFIX + pointName);
                 dpCache.put(uri, new Dp(pointName, point.getType(), point.getDescription()));
                 oBixZone.addURI(uri);
             }
@@ -58,11 +55,12 @@ public class ObixObjectBroker implements IObjectBroker {
     }
 
     @Override
-    public List getDatapointData(URI href) {
+    public Dp getDatapointData(URI href) {
         Uri uri = new Uri(href.toASCIIString());
         Dp dp = dpCache.get(uri);
         if (dp != null) {
-            dp.getDpData();
+            dp.setShowData(true);
+            return dp;
         }
         return null;
     }
@@ -76,20 +74,24 @@ public class ObixObjectBroker implements IObjectBroker {
     }
 
     @Override
-    public List getDatapointsForZone(URI href) {
+    public bpi.most.obix.objects.Zone getDatapointsForZone(URI href) {
         Uri uri = new Uri(href.toASCIIString());
         if (zoneCache.containsKey(uri)) {
             java.util.List<Dp> dpList = new ArrayList<Dp>();
+            bpi.most.obix.objects.Zone oBixZone = zoneCache.get(uri);
 
-            for (Uri u : (Uri[]) zoneCache.get(uri).getDatapointURIs().list()) {
-                if (dpCache.containsKey(u)) {
-                    dpList.add(dpCache.get(u));
+            if (oBixZone != null) {
+                oBixZone.setShowData(true);
+                for (Uri u : (Uri[]) oBixZone.getDatapointURIs().list()) {
+                    Dp dp = dpCache.get(u);
+                    if (dp != null) {
+                        dp.setShowData(true);
+                        oBixZone.addDp(dp);
+                    }
                 }
             }
 
-            List list = new List("datapoints", new Contract("obix:Datapoint"));
-            list.addAll(dpList.toArray(new Dp[dpList.size()]));
-            return list;
+           return oBixZone;
         }
         return null;
     }

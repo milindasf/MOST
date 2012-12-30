@@ -3,7 +3,6 @@ package bpi.most.obix.test;
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.obix.objects.Uri;
-import bpi.most.obix.server.ObixObjectBroker;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 import org.junit.After;
@@ -45,7 +44,7 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
         Zone zone = zones.get(0);
         int id = zone.getZoneId();
         String name = zone.getName();
-        Uri zoneUri = new Uri(ObixObjectBroker.OBIX_ZONE_PREFIX + id);
+        Uri zoneUri = new Uri(bpi.most.obix.objects.Zone.OBIX_ZONE_PREFIX + id);
         bpi.most.obix.objects.Zone oBixZone = new bpi.most.obix.objects.Zone(id, name);
 
         junit.framework.Assert.assertEquals(zone.getZoneId(), (int)oBixZone.getZone().get());
