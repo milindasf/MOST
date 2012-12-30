@@ -156,16 +156,18 @@ public class UriTest
         verify(uri.getScheme().equals(scheme));
         verify(uri.getHost().equals(host));
         verify(uri.getPort() == port);
-        if (port == -1)
-            verify(uri.getAddress().equals(host));
-        else
-            verify(uri.getAddress().equals(host + ":" + port));
+        if (port == -1) {
+			verify(uri.getAddress().equals(host));
+		} else {
+			verify(uri.getAddress().equals(host + ":" + port));
+		}
         verify(uri.getPath().equals(path));
         Uri.Query q = uri.getQuery();
-        if (q == null)
-            verify(query == null);
-        else
-            verify(q.toString(), query);
+        if (q == null) {
+			verify(query == null);
+		} else {
+			verify(q.toString(), query);
+		}
         verify(uri.getFragment(), frag);
     }
 
@@ -189,10 +191,11 @@ public class UriTest
         verify(uri.getAuthority() == null);
         verify(uri.getPath().equals(path));
         Uri.Query q = uri.getQuery();
-        if (q == null)
-            verify(query == null);
-        else
-            verify(q.toString(), query);
+        if (q == null) {
+			verify(query == null);
+		} else {
+			verify(q.toString(), query);
+		}
         verify(uri.getFragment(), frag);
     }
 
@@ -225,8 +228,11 @@ public class UriTest
     /*
     System.out.println(uri + " -> " + parent + "  ?=  " + parentStr);    
     */
-        if (parent == null) verify(parentStr == null);
-        else verify(parent.toString().equals(parentStr));
+        if (parent == null) {
+			verify(parentStr == null);
+		} else {
+			verify(parent.toString().equals(parentStr));
+		}
     }
 
     public void verifyQuery(String qstr, String[] pairs) {

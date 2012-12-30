@@ -37,8 +37,9 @@ public class IntHashMap {
      * Constructor with capacity and load factor.
      */
     public IntHashMap(int initialCapacity, float loadFactor) {
-        if (initialCapacity <= 0 || loadFactor <= 0.0)
-            throw new IllegalArgumentException();
+        if (initialCapacity <= 0 || loadFactor <= 0.0) {
+			throw new IllegalArgumentException();
+		}
 
         this.loadFactor = loadFactor;
         this.table = new Entry[initialCapacity];
@@ -76,8 +77,9 @@ public class IntHashMap {
         int index = (key & 0x7FFFFFFF) % tab.length;
 
         for (Entry e = tab[index]; e != null; e = e.next) {
-            if (e.hash == key)
-                return e.value;
+            if (e.hash == key) {
+				return e.value;
+			}
         }
 
         return null;
@@ -116,8 +118,9 @@ public class IntHashMap {
      *         if it did not have one.
      */
     public Object put(int key, Object value) {
-        if (value == null)
-            throw new NullPointerException();
+        if (value == null) {
+			throw new NullPointerException();
+		}
 
         // Insure the key is not already in the hashtable
         Entry tab[] = table;
@@ -158,10 +161,11 @@ public class IntHashMap {
 
         for (Entry e = tab[index], prev = null; e != null; prev = e, e = e.next) {
             if (e.hash == key) {
-                if (prev != null)
-                    prev.next = e.next;
-                else
-                    tab[index] = e.next;
+                if (prev != null) {
+					prev.next = e.next;
+				} else {
+					tab[index] = e.next;
+				}
 
                 count--;
                 return e.value;
@@ -176,8 +180,9 @@ public class IntHashMap {
      */
     public void clear() {
         Entry tab[] = table;
-        for (int index = tab.length; --index >= 0; )
-            tab[index] = null;
+        for (int index = tab.length; --index >= 0; ) {
+			tab[index] = null;
+		}
         count = 0;
     }
 
@@ -186,17 +191,24 @@ public class IntHashMap {
      * with the exact same key-value pairs.
      */
     public boolean equals(Object obj) {
-        if (!(obj instanceof IntHashMap)) return false;
-        if (this == obj) return true;
+        if (!(obj instanceof IntHashMap)) {
+			return false;
+		}
+        if (this == obj) {
+			return true;
+		}
         IntHashMap o = (IntHashMap) obj;
-        if (size() != o.size()) return false;
+        if (size() != o.size()) {
+			return false;
+		}
         for (int i = 0; i < table.length; ++i) {
             Entry entry = table[i];
             while (entry != null) {
                 Object tv = entry.value;
                 Object ov = o.get(entry.hash);
-                if (ov == null || !tv.equals(ov))
-                    return false;
+                if (ov == null || !tv.equals(ov)) {
+					return false;
+				}
                 entry = entry.next;
             }
         }
@@ -242,10 +254,14 @@ public class IntHashMap {
             implements java.util.Iterator {
 
         public boolean hasNext() {
-            if (entry != null) return true;
+            if (entry != null) {
+				return true;
+			}
             while (index-- > 0) {
                 entry = table[index];
-                if (entry != null) return true;
+                if (entry != null) {
+					return true;
+				}
             }
             return false;
         }
@@ -256,7 +272,9 @@ public class IntHashMap {
 
         public Object next() {
             if (entry == null) {
-                while ((index-- > 0) && ((entry = table[index]) == null)) ;
+                while ((index-- > 0) && ((entry = table[index]) == null)) {
+					;
+				}
             }
 
             if (entry != null) {

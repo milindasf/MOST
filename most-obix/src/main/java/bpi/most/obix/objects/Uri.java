@@ -63,8 +63,9 @@ public class Uri
      */
     public Uri normalize(Uri base) {
         try {
-            if (val.startsWith("obix:"))
-                return this;
+            if (val.startsWith("obix:")) {
+				return this;
+			}
 
             base.checkAbsolute();
             URL url = new URL(new URL(base.val), val);
@@ -96,8 +97,9 @@ public class Uri
      */
     public void checkAbsolute() {
         parse();
-        if (!abs)
-            throw new IllegalStateException("Uri is not absolute: " + val);
+        if (!abs) {
+			throw new IllegalStateException("Uri is not absolute: " + val);
+		}
     }
 
     /**
@@ -144,7 +146,9 @@ public class Uri
      */
     public boolean contains(Uri uri) {
         checkAbsolute();
-        if (uri.isRelative()) return true;
+        if (uri.isRelative()) {
+			return true;
+		}
         return uri.val.toLowerCase().startsWith(val.toLowerCase());
     }
 
@@ -220,13 +224,18 @@ public class Uri
      */
     public Uri parent() {
         parse();
-        if (path.length() <= 1) return null;
+        if (path.length() <= 1) {
+			return null;
+		}
         int lastSlash = path.lastIndexOf('/', path.length() - 2);
-        if (lastSlash < 0) return null;
-        if (lastSlash == 0)
-            return new Uri(auth);
-        else
-            return new Uri(auth + path.substring(1, lastSlash));
+        if (lastSlash < 0) {
+			return null;
+		}
+        if (lastSlash == 0) {
+			return new Uri(auth);
+		} else {
+			return new Uri(auth + path.substring(1, lastSlash));
+		}
     }
 
 ////////////////////////////////////////////////////////////////
@@ -248,7 +257,9 @@ public class Uri
 
         public String get(String key, String def) {
             String val = (String) map.get(key);
-            if (val == null) return def;
+            if (val == null) {
+				return def;
+			}
             return val;
         }
 
@@ -266,7 +277,9 @@ public class Uri
      * If null is passed, return null.
      */
     public static Query parseQuery(String str) {
-        if (str == null) return null;
+        if (str == null) {
+			return null;
+		}
         Query q = new Query(str);
         try {
             StringTokenizer st = new StringTokenizer(str, "&");
@@ -311,24 +324,32 @@ public class Uri
             for (int i = 0; i < keys.length; ++i) {
                 if (keys[i].equals(key)) {
                     if (value != null) {
-                        if (newq.length() > 0) newq.append('&');
+                        if (newq.length() > 0) {
+							newq.append('&');
+						}
                         newq.append(key).append('=').append(value);
                     }
                     found = true;
                 } else {
-                    if (newq.length() > 0) newq.append('&');
+                    if (newq.length() > 0) {
+						newq.append('&');
+					}
                     newq.append(keys[i]).append('=').append(q.get(keys[i], null));
                 }
             }
         }
 
         if (!found && value != null) {
-            if (newq.length() > 0) newq.append('&');
+            if (newq.length() > 0) {
+				newq.append('&');
+			}
             newq.append(key).append('=').append(value);
         }
 
         String result = auth + path.substring(1);
-        if (newq.length() > 0) result += "?" + newq;
+        if (newq.length() > 0) {
+			result += "?" + newq;
+		}
         return new Uri(result);
     }
 
@@ -341,7 +362,9 @@ public class Uri
      */
     private void parse() {
         try {
-            if (parsed) return;
+            if (parsed) {
+				return;
+			}
 
             // be nice to work with URI which I believe supports
             // relative URIs, but not available until 1.5
@@ -393,7 +416,9 @@ public class Uri
      * Set value.
      */
     public void set(String val) {
-        if (val == null) throw new IllegalArgumentException("val cannot be null");
+        if (val == null) {
+			throw new IllegalArgumentException("val cannot be null");
+		}
         this.parsed = false;
         this.val = val;
     }
@@ -413,8 +438,9 @@ public class Uri
      * Return if specified Val has equivalent uri string value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Uri)
-            return ((Uri) that).val.equals(val);
+        if (that instanceof Uri) {
+			return ((Uri) that).val.equals(val);
+		}
         return false;
     }
 

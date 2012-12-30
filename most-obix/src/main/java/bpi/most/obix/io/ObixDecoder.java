@@ -101,7 +101,9 @@ public class ObixDecoder
             // decode root recursively
             return decode(null, root, null);
         } finally {
-            if (close) close();
+            if (close) {
+				close();
+			}
         }
     }
 
@@ -139,24 +141,43 @@ public class ObixDecoder
         for (int i = 0; i < attrSize; ++i) {
             String attrName = x.attrName(i);
             String attrVal = x.attrValue(i);
-            if (attrName.equals("name")) name = attrVal;
-            else if (attrName.equals("val")) val = attrVal;
-            else if (attrName.equals("href")) href = attrVal;
-            else if (attrName.equals("is")) is = attrVal;
-            else if (attrName.equals("of")) of = attrVal;
-            else if (attrName.equals("in")) in = attrVal;
-            else if (attrName.equals("out")) out = attrVal;
-            else if (attrName.equals("display")) display = attrVal;
-            else if (attrName.equals("displayName")) displayName = attrVal;
-            else if (attrName.equals("null")) isNull = attrVal;
-            else if (attrName.equals("icon")) icon = attrVal;
-            else if (attrName.equals("writable")) writable = attrVal;
-            else if (attrName.equals("status")) status = attrVal;
-            else if (attrName.equals("range")) range = attrVal;
-            else if (attrName.equals("min")) min = attrVal;
-            else if (attrName.equals("max")) max = attrVal;
-            else if (attrName.equals("unit")) unit = attrVal;
-            else if (attrName.equals("precision")) precision = attrVal;
+            if (attrName.equals("name")) {
+				name = attrVal;
+			} else if (attrName.equals("val")) {
+				val = attrVal;
+			} else if (attrName.equals("href")) {
+				href = attrVal;
+			} else if (attrName.equals("is")) {
+				is = attrVal;
+			} else if (attrName.equals("of")) {
+				of = attrVal;
+			} else if (attrName.equals("in")) {
+				in = attrVal;
+			} else if (attrName.equals("out")) {
+				out = attrVal;
+			} else if (attrName.equals("display")) {
+				display = attrVal;
+			} else if (attrName.equals("displayName")) {
+				displayName = attrVal;
+			} else if (attrName.equals("null")) {
+				isNull = attrVal;
+			} else if (attrName.equals("icon")) {
+				icon = attrVal;
+			} else if (attrName.equals("writable")) {
+				writable = attrVal;
+			} else if (attrName.equals("status")) {
+				status = attrVal;
+			} else if (attrName.equals("range")) {
+				range = attrVal;
+			} else if (attrName.equals("min")) {
+				min = attrVal;
+			} else if (attrName.equals("max")) {
+				max = attrVal;
+			} else if (attrName.equals("unit")) {
+				unit = attrVal;
+			} else if (attrName.equals("precision")) {
+				precision = attrVal;
+			}
         }
 
         // map element name to an Obj Class (Obj, Bool, Int, etc)
@@ -169,15 +190,17 @@ public class ObixDecoder
 
         // if we have a contract specified, then parse it
         Contract contract = null;
-        if (is != null)
-            contract = new Contract(is);
+        if (is != null) {
+			contract = new Contract(is);
+		}
 
         // if a name was specified, check the parent for
         // an existing default object to use (this happens if
         // the parent was created from a contract list)
         Obj obj = null;
-        if (parent != null && name != null)
-            obj = parent.get(name);
+        if (parent != null && name != null) {
+			obj = parent.get(name);
+		}
 
         // if obj wasn't found in parent then we need do
         // go thru a process to figure out how to create it
@@ -187,10 +210,11 @@ public class ObixDecoder
             // the contract to a class (otherwise we fallback
             // to the class we looked up for the elem name)
             if (useContracts) {
-                if (contract != null)
-                    cls = ContractRegistry.toClass(cls, contract);
-                else if (defaultContract != null)
-                    cls = ContractRegistry.toClass(cls, defaultContract);
+                if (contract != null) {
+					cls = ContractRegistry.toClass(cls, contract);
+				} else if (defaultContract != null) {
+					cls = ContractRegistry.toClass(cls, defaultContract);
+				}
             }
 
             // instaniate an object from the class
@@ -216,7 +240,9 @@ public class ObixDecoder
                 Obj newObj = Obj.toObj(elemName);
                 if (newObj != null) {
                     newObj.setName(name);
-                    if (obj.getParent() != null) obj.getParent().replace(obj, newObj);
+                    if (obj.getParent() != null) {
+						obj.getParent().replace(obj, newObj);
+					}
                     obj = newObj;
                 }
             } else {
@@ -225,20 +251,25 @@ public class ObixDecoder
         }
 
         // name
-        if (name != null && obj.getName() == null)
-            obj.setName(name);
+        if (name != null && obj.getName() == null) {
+			obj.setName(name);
+		}
 
         // href
-        if (href != null)
-            obj.setHref(new Uri(null, href));
+        if (href != null) {
+			obj.setHref(new Uri(null, href));
+		}
 
         // is
-        if (contract != null)
-            obj.setIs(contract);
+        if (contract != null) {
+			obj.setIs(contract);
+		}
 
         // parse value
         if (val != null) {
-            if (isNull == null) obj.setNull(false);
+            if (isNull == null) {
+				obj.setNull(false);
+			}
             try {
                 ((Val) obj).decodeVal(val);
             } catch (Exception e) {
@@ -247,57 +278,113 @@ public class ObixDecoder
         }
 
         // facets
-        if (display != null) obj.setDisplay(display);
-        if (displayName != null) obj.setDisplayName(displayName);
-        if (icon != null) obj.setIcon(new Uri(icon));
-        if (status != null) obj.setStatus(Status.parse(status));
-        if (isNull != null) obj.setNull(isNull.equals("true"));
-        if (writable != null) obj.setWritable(writable.equals("true"));
+        if (display != null) {
+			obj.setDisplay(display);
+		}
+        if (displayName != null) {
+			obj.setDisplayName(displayName);
+		}
+        if (icon != null) {
+			obj.setIcon(new Uri(icon));
+		}
+        if (status != null) {
+			obj.setStatus(Status.parse(status));
+		}
+        if (isNull != null) {
+			obj.setNull(isNull.equals("true"));
+		}
+        if (writable != null) {
+			obj.setWritable(writable.equals("true"));
+		}
 
         // meta-data & Type specific facets
         Contract childrenDefaultContract = null;
         if (obj instanceof List) {
             List list = (List) obj;
-            if (of != null) list.setOf(childrenDefaultContract = new Contract(of));
-            if (min != null) list.setMin(Integer.parseInt(min));
-            if (max != null) list.setMax(Integer.parseInt(max));
+            if (of != null) {
+				list.setOf(childrenDefaultContract = new Contract(of));
+			}
+            if (min != null) {
+				list.setMin(Integer.parseInt(min));
+			}
+            if (max != null) {
+				list.setMax(Integer.parseInt(max));
+			}
         } else if (obj instanceof Op) {
             Op op = (Op) obj;
-            if (in != null) op.setIn(new Contract(in));
-            if (out != null) op.setOut(new Contract(out));
+            if (in != null) {
+				op.setIn(new Contract(in));
+			}
+            if (out != null) {
+				op.setOut(new Contract(out));
+			}
         } else if (obj instanceof Bool) {
             Bool b = (Bool) obj;
-            if (range != null) b.setRange(new Uri(range));
+            if (range != null) {
+				b.setRange(new Uri(range));
+			}
         } else if (obj instanceof Int) {
             Int i = (Int) obj;
-            if (min != null) i.setMin(Long.parseLong(min));
-            if (max != null) i.setMax(Long.parseLong(max));
-            if (unit != null) i.setUnit(new Uri(unit));
+            if (min != null) {
+				i.setMin(Long.parseLong(min));
+			}
+            if (max != null) {
+				i.setMax(Long.parseLong(max));
+			}
+            if (unit != null) {
+				i.setUnit(new Uri(unit));
+			}
         } else if (obj instanceof Str) {
             Str s = (Str) obj;
-            if (min != null) s.setMin(Integer.parseInt(min));
-            if (max != null) s.setMax(Integer.parseInt(max));
+            if (min != null) {
+				s.setMin(Integer.parseInt(min));
+			}
+            if (max != null) {
+				s.setMax(Integer.parseInt(max));
+			}
         } else if (obj instanceof Real) {
             Real r = (Real) obj;
-            if (min != null) r.setMin(Double.parseDouble(min));
-            if (max != null) r.setMax(Double.parseDouble(max));
-            if (unit != null) r.setUnit(new Uri(unit));
-            if (precision != null) r.setPrecision(Integer.parseInt(precision));
+            if (min != null) {
+				r.setMin(Double.parseDouble(min));
+			}
+            if (max != null) {
+				r.setMax(Double.parseDouble(max));
+			}
+            if (unit != null) {
+				r.setUnit(new Uri(unit));
+			}
+            if (precision != null) {
+				r.setPrecision(Integer.parseInt(precision));
+			}
         } else if (obj instanceof Enum) {
             Enum e = (Enum) obj;
-            if (range != null) e.setRange(new Uri(range));
+            if (range != null) {
+				e.setRange(new Uri(range));
+			}
         } else if (obj instanceof Reltime) {
             Reltime r = (Reltime) obj;
-            if (min != null) r.setMin(Reltime.parse(min));
-            if (max != null) r.setMax(Reltime.parse(max));
+            if (min != null) {
+				r.setMin(Reltime.parse(min));
+			}
+            if (max != null) {
+				r.setMax(Reltime.parse(max));
+			}
         } else if (obj instanceof Abstime) {
             Abstime a = (Abstime) obj;
-            if (min != null) a.setMin(Abstime.parse(min));
-            if (max != null) a.setMax(Abstime.parse(max));
+            if (min != null) {
+				a.setMin(Abstime.parse(min));
+			}
+            if (max != null) {
+				a.setMax(Abstime.parse(max));
+			}
         } else if (obj instanceof Feed) {
             Feed feed = (Feed) obj;
-            if (in != null) feed.setIn(new Contract(in));
-            if (of != null) feed.setOf(new Contract(of));
+            if (in != null) {
+				feed.setIn(new Contract(in));
+			}
+            if (of != null) {
+				feed.setOf(new Contract(of));
+			}
         }
 
         // recurse
@@ -331,7 +418,9 @@ public class ObixDecoder
 
     void warning(String msg, XElem elem) {
         String line = "";
-        if (elem != null) line = " [line " + elem.line() + "]";
+        if (elem != null) {
+			line = " [line " + elem.line() + "]";
+		}
         System.out.println("WARNING: " + msg + line);
     }
 } 

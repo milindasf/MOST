@@ -54,7 +54,9 @@ public class XInputStreamReader
      */
     public String getEncoding()
             throws IOException {
-        if (!autoDetected) autoDetect();
+        if (!autoDetected) {
+			autoDetect();
+		}
         return ENCODINGS[encoding];
     }
 
@@ -63,7 +65,9 @@ public class XInputStreamReader
      */
     public boolean isZipped()
             throws IOException {
-        if (!autoDetected) autoDetect();
+        if (!autoDetected) {
+			autoDetect();
+		}
         return zipped;
     }
 
@@ -72,7 +76,9 @@ public class XInputStreamReader
      */
     public int read()
             throws IOException {
-        if (!autoDetected) autoDetect();
+        if (!autoDetected) {
+			autoDetect();
+		}
 
         // do our own UTF decoding, since java.io.InputStreamReader
         // is deathly slow (tests indicate it can more than double
@@ -81,8 +87,12 @@ public class XInputStreamReader
             case UTF_8:
                 // handle ASCII 99% case inline for performance
                 int c = in.read();
-                if (c < 0) return -1;
-                if ((c & 0x80) == 0) return c;
+                if (c < 0) {
+					return -1;
+				}
+                if ((c & 0x80) == 0) {
+					return c;
+				}
                 return readUtf8(c);
             case UTF_16_BE:
                 return readUtf16be();
@@ -98,11 +108,15 @@ public class XInputStreamReader
      */
     public int read(char[] buf, int off, int len)
             throws IOException {
-        if (!autoDetected) autoDetect();
+        if (!autoDetected) {
+			autoDetect();
+		}
         int last = off + len;
         for (int i = 0; i < len; ++i) {
             int c = read();
-            if (c < 0) return i == 0 ? -1 : i;
+            if (c < 0) {
+				return i == 0 ? -1 : i;
+			}
             buf[off + i] = (char) c;
         }
         return len;
@@ -208,15 +222,17 @@ public class XInputStreamReader
             case 13:
                 // 110x xxxx   10xx xxxx
                 c1 = in.read();
-                if ((c1 & 0xC0) != 0x80)
-                    throw new UTFDataFormatException();
+                if ((c1 & 0xC0) != 0x80) {
+					throw new UTFDataFormatException();
+				}
                 return ((c0 & 0x1F) << 6) | ((c1 & 0x3F) << 0);
             case 14:
                 // 1110 xxxx  10xx xxxx  10xx xxxx
                 c1 = in.read();
                 c2 = in.read();
-                if (((c1 & 0xC0) != 0x80) || ((c2 & 0xC0) != 0x80))
-                    throw new UTFDataFormatException();
+                if (((c1 & 0xC0) != 0x80) || ((c2 & 0xC0) != 0x80)) {
+					throw new UTFDataFormatException();
+				}
                 return ((c0 & 0x0F) << 12) | ((c1 & 0x3F) << 6) | ((c2 & 0x3F) << 0);
             case 15:
                 // 1111 0xxx  10xx xxxx  10xx xxxx  10xx xxxx
@@ -239,7 +255,9 @@ public class XInputStreamReader
             throws IOException {
         int c0 = in.read();
         int c1 = in.read();
-        if (c0 < 0) return -1;
+        if (c0 < 0) {
+			return -1;
+		}
         return ((c0 & 0xFF) << 8) | ((c1 & 0xFF) << 0);
     }
 
@@ -247,7 +265,9 @@ public class XInputStreamReader
             throws IOException {
         int c0 = in.read();
         int c1 = in.read();
-        if (c0 < 0) return -1;
+        if (c0 < 0) {
+			return -1;
+		}
         return ((c1 & 0xFF) << 8) | ((c0 & 0xFF) << 0);
     }
 

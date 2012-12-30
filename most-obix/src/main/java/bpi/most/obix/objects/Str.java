@@ -65,7 +65,9 @@ public class Str
      * Set value.
      */
     public void set(String val) {
-        if (val == null) throw new IllegalArgumentException("val cannot be null");
+        if (val == null) {
+			throw new IllegalArgumentException("val cannot be null");
+		}
         this.val = val;
     }
 
@@ -84,8 +86,9 @@ public class Str
      * Return if specified Val has equivalent string value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Str)
-            return ((Str) that).val.equals(val);
+        if (that instanceof Str) {
+			return ((Str) that).val.equals(val);
+		}
         return false;
     }
 
@@ -136,7 +139,9 @@ public class Str
      * Set the min facet.
      */
     public void setMin(int min) {
-        if (min < 0) throw new IllegalArgumentException("min < 0");
+        if (min < 0) {
+			throw new IllegalArgumentException("min < 0");
+		}
         this.min = min;
     }
 
@@ -151,7 +156,9 @@ public class Str
      * Set the max facet.
      */
     public void setMax(int max) {
-        if (max < 0) throw new IllegalArgumentException("max < 0");
+        if (max < 0) {
+			throw new IllegalArgumentException("max < 0");
+		}
         this.max = max;
     }
 

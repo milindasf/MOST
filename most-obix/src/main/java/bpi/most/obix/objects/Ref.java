@@ -51,7 +51,9 @@ public class Ref
      */
     public final String toString() {
         Uri href = getHref();
-        if (href == null) return "null";
+        if (href == null) {
+			return "null";
+		}
         return href.toString();
     }
 

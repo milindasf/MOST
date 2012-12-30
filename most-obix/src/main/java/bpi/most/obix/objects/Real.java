@@ -97,8 +97,9 @@ public class Real
      * Return if specified Val has equivalent real value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Real)
-            return ((Real) that).val == val;
+        if (that instanceof Real) {
+			return ((Real) that).val == val;
+		}
         return false;
     }
 
@@ -111,9 +112,14 @@ public class Real
     public int compareTo(Object that) {
         double a = val;
         double b = ((Real) that).val;
-        if (a == b) return 0;
-        if (a < b) return -1;
-        else return 1;
+        if (a == b) {
+			return 0;
+		}
+        if (a < b) {
+			return -1;
+		} else {
+			return 1;
+		}
     }
 
     /**

@@ -80,11 +80,16 @@ public class Op
      * attribute is unspecified.
      */
     public String toDisplayString() {
-        if (getDisplay() != null) return getDisplay();
+        if (getDisplay() != null) {
+			return getDisplay();
+		}
 
         String base;
-        if (getIs() != null && getIs().size() > 0) base = getIs().toString();
-        else base = "obix:" + getElement();
+        if (getIs() != null && getIs().size() > 0) {
+			base = getIs().toString();
+		} else {
+			base = "obix:" + getElement();
+		}
 
         return base + "(in=\"" + in + "\" out=\"" + out + "\")";
     }

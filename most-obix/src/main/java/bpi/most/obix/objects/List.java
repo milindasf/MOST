@@ -89,7 +89,9 @@ public class List
      * Set the min facet.
      */
     public void setMin(int min) {
-        if (min < 0) throw new IllegalArgumentException("min < 0");
+        if (min < 0) {
+			throw new IllegalArgumentException("min < 0");
+		}
         this.min = min;
     }
 
@@ -104,7 +106,9 @@ public class List
      * Set the max facet.
      */
     public void setMax(int max) {
-        if (max < 0) throw new IllegalArgumentException("max < 0");
+        if (max < 0) {
+			throw new IllegalArgumentException("max < 0");
+		}
         this.max = max;
     }
 

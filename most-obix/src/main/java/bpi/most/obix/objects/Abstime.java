@@ -127,7 +127,9 @@ public class Abstime
      * The year as a four digit integer (ie 2001).
      */
     public final int getYear() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return (bits0 >> 16) & 0xFFFF;
     }
 
@@ -135,7 +137,9 @@ public class Abstime
      * The month: 1-12
      */
     public final int getMonth() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return (bits1 >> 25) & 0x0F;
     }
 
@@ -143,7 +147,9 @@ public class Abstime
      * The day: 1-31.
      */
     public final int getDay() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return (bits1 >> 20) & 0x1F;
     }
 
@@ -151,7 +157,9 @@ public class Abstime
      * The hour: 0-23.
      */
     public final int getHour() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return (bits1 >> 15) & 0x1F;
     }
 
@@ -159,7 +167,9 @@ public class Abstime
      * The minute: 0-59.
      */
     public final int getMinute() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return (bits1 >> 9) & 0x3F;
     }
 
@@ -167,7 +177,9 @@ public class Abstime
      * The seconds: 0-59.
      */
     public final int getSecond() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return (bits1 >> 3) & 0x3F;
     }
 
@@ -175,7 +187,9 @@ public class Abstime
      * The milliseconds: 0-999.
      */
     public final int getMillisecond() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return bits0 & 0xFFFF;
     }
 
@@ -183,7 +197,9 @@ public class Abstime
      * The weekday: 0-6
      */
     public final int getWeekday() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return bits1 & 0x07;
     }
 
@@ -203,7 +219,9 @@ public class Abstime
      * Return a nice human formatted String.
      */
     public String format() {
-        if (isNull() || millis == 0) return "null";
+        if (isNull() || millis == 0) {
+			return "null";
+		}
         return format.format(new Date(millis));
     }
 
@@ -227,10 +245,11 @@ public class Abstime
      * savings time into account if appropriate.
      */
     public int getTimeZoneOffset() {
-        if (!inDaylightTime())
-            return timeZone.getRawOffset();
-        else
-            return timeZone.getRawOffset() + timeZone.getDSTSavings();
+        if (!inDaylightTime()) {
+			return timeZone.getRawOffset();
+		} else {
+			return timeZone.getRawOffset() + timeZone.getDSTSavings();
+		}
     }
 
     /**
@@ -238,7 +257,9 @@ public class Abstime
      * based on the current TimeZone.
      */
     public boolean inDaylightTime() {
-        if (bits0 == 0) millisToFields();
+        if (bits0 == 0) {
+			millisToFields();
+		}
         return ((bits1 >> 29) & 0x01) != 0;
     }
 
@@ -247,20 +268,22 @@ public class Abstime
      * current VM's local time zone.
      */
     public Abstime toLocalTime() {
-        if (timeZone.equals(defaultTimeZone))
-            return this;
-        else
-            return new Abstime(this, defaultTimeZone);
+        if (timeZone.equals(defaultTimeZone)) {
+			return this;
+		} else {
+			return new Abstime(this, defaultTimeZone);
+		}
     }
 
     /**
      * Convert this instance to an equivalent instance in UTC.
      */
     public Abstime toUtcTime() {
-        if (timeZone.equals(utcTimeZone))
-            return this;
-        else
-            return new Abstime(this, utcTimeZone);
+        if (timeZone.equals(utcTimeZone)) {
+			return this;
+		} else {
+			return new Abstime(this, utcTimeZone);
+		}
     }
 
 ////////////////////////////////////////////////////////////////
@@ -277,9 +300,13 @@ public class Abstime
      */
     public int compareTo(Object that) {
         Abstime t = (Abstime) that;
-        if (this.millis < t.millis) return -1;
-        else if (this.millis == t.millis) return 0;
-        else return 1;
+        if (this.millis < t.millis) {
+			return -1;
+		} else if (this.millis == t.millis) {
+			return 0;
+		} else {
+			return 1;
+		}
     }
 
     /**
@@ -308,8 +335,9 @@ public class Abstime
      * Return if millis are equal regardless of timezone.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Abstime)
-            return ((Abstime) that).millis == millis;
+        if (that instanceof Abstime) {
+			return ((Abstime) that).millis == millis;
+		}
         return false;
     }
 
@@ -436,8 +464,9 @@ public class Abstime
                 day = getDaysInMonth(year, month);
             } else {
                 month++;
-                if (day > getDaysInMonth(year, month))
-                    day = getDaysInMonth(year, month);
+                if (day > getDaysInMonth(year, month)) {
+					day = getDaysInMonth(year, month);
+				}
             }
         }
 
@@ -468,8 +497,9 @@ public class Abstime
                 day = getDaysInMonth(year, month);
             } else {
                 month--;
-                if (day > getDaysInMonth(year, month))
-                    day = getDaysInMonth(year, month);
+                if (day > getDaysInMonth(year, month)) {
+					day = getDaysInMonth(year, month);
+				}
             }
         }
 
@@ -482,7 +512,9 @@ public class Abstime
      */
     public Abstime nextYear() {
         int day = getDay();
-        if (isLeapDay()) day = 28;
+        if (isLeapDay()) {
+			day = 28;
+		}
         return new Abstime(getYear() + 1, getMonth(), day, getHour(), getMinute(), getSecond(), getMillisecond(), timeZone);
     }
 
@@ -492,7 +524,9 @@ public class Abstime
      */
     public Abstime prevYear() {
         int day = getDay();
-        if (isLeapDay()) day = 28;
+        if (isLeapDay()) {
+			day = 28;
+		}
         return new Abstime(getYear() - 1, getMonth(), day, getHour(), getMinute(), getSecond(), getMillisecond(), timeZone);
     }
 
@@ -503,8 +537,9 @@ public class Abstime
      */
     public Abstime nextWeekday(int weekday) {
         Abstime t = nextDay();
-        while (t.getWeekday() != weekday)
-            t = t.nextDay();
+        while (t.getWeekday() != weekday) {
+			t = t.nextDay();
+		}
         return t;
     }
 
@@ -515,8 +550,9 @@ public class Abstime
      */
     public Abstime prevWeekday(int weekday) {
         Abstime t = prevDay();
-        while (t.getWeekday() != weekday)
-            t = t.prevDay();
+        while (t.getWeekday() != weekday) {
+			t = t.prevDay();
+		}
         return t;
     }
 
@@ -551,10 +587,11 @@ public class Abstime
      */
     public static int getDaysInMonth(int year, int month) {
         checkMonth(month);
-        if (month == 2)
-            return isLeapYear(year) ? 29 : 28;
-        else
-            return daysInMonth[month - 1];
+        if (month == 2) {
+			return isLeapYear(year) ? 29 : 28;
+		} else {
+			return daysInMonth[month - 1];
+		}
     }
 
     /**
@@ -605,28 +642,42 @@ public class Abstime
         s.append(getYear()).append('-');
 
         int month = getMonth();
-        if (month < 10) s.append('0');
+        if (month < 10) {
+			s.append('0');
+		}
         s.append(month).append('-');
 
         int day = getDay();
-        if (day < 10) s.append('0');
+        if (day < 10) {
+			s.append('0');
+		}
         s.append(day).append('T');
 
         int hour = getHour();
-        if (hour < 10) s.append('0');
+        if (hour < 10) {
+			s.append('0');
+		}
         s.append(hour).append(':');
 
         int min = getMinute();
-        if (min < 10) s.append('0');
+        if (min < 10) {
+			s.append('0');
+		}
         s.append(min).append(':');
 
         int sec = getSecond();
-        if (sec < 10) s.append('0');
+        if (sec < 10) {
+			s.append('0');
+		}
         s.append(sec).append('.');
 
         int millis = getMillisecond();
-        if (millis < 10) s.append('0');
-        if (millis < 100) s.append('0');
+        if (millis < 10) {
+			s.append('0');
+		}
+        if (millis < 100) {
+			s.append('0');
+		}
         s.append(millis);
 
         int offset = getTimeZoneOffset();
@@ -636,14 +687,21 @@ public class Abstime
             int hrOff = Math.abs(offset / (1000 * 60 * 60));
             int minOff = Math.abs((offset % (1000 * 60 * 60)) / (1000 * 60));
 
-            if (offset < 0) s.append('-');
-            else s.append('+');
+            if (offset < 0) {
+				s.append('-');
+			} else {
+				s.append('+');
+			}
 
-            if (hrOff < 10) s.append('0');
+            if (hrOff < 10) {
+				s.append('0');
+			}
             s.append(hrOff);
 
             s.append(':');
-            if (minOff < 10) s.append('0');
+            if (minOff < 10) {
+				s.append('0');
+			}
             s.append(minOff);
         }
 
@@ -674,27 +732,37 @@ public class Abstime
                     (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
 
-            if (c[i++] != '-') throw new Exception();
+            if (c[i++] != '-') {
+				throw new Exception();
+			}
 
             int mon = (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
 
-            if (c[i++] != '-') throw new Exception();
+            if (c[i++] != '-') {
+				throw new Exception();
+			}
 
             int day = (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
 
-            if (c[i++] != 'T') throw new Exception();
+            if (c[i++] != 'T') {
+				throw new Exception();
+			}
 
             int hour = (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
 
-            if (c[i++] != ':') throw new Exception();
+            if (c[i++] != ':') {
+				throw new Exception();
+			}
 
             int min = (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
 
-            if (c[i++] != ':') throw new Exception();
+            if (c[i++] != ':') {
+				throw new Exception();
+			}
 
             int sec = (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
@@ -703,34 +771,46 @@ public class Abstime
             if (c[i] == '.') {
                 i++;
                 ms = (c[i++] - '0') * 100;
-                if ('0' <= c[i] && c[i] <= '9') ms += (c[i++] - '0') * 10;
-                if ('0' <= c[i] && c[i] <= '9') ms += (c[i++] - '0') * 1;
+                if ('0' <= c[i] && c[i] <= '9') {
+					ms += (c[i++] - '0') * 10;
+				}
+                if ('0' <= c[i] && c[i] <= '9') {
+					ms += (c[i++] - '0') * 1;
+				}
 
                 // skip any additional fractional digits
-                while (i < c.length && '0' <= c[i] && c[i] <= '9') i++;
+                while (i < c.length && '0' <= c[i] && c[i] <= '9') {
+					i++;
+				}
             }
 
             // timezone offset sign
             int tzOff = 0;
             char sign = c[i++];
             if (sign != 'Z') {
-                if (sign != '+' && sign != '-')
-                    throw new Exception();
+                if (sign != '+' && sign != '-') {
+					throw new Exception();
+				}
 
                 // timezone hours
                 int hrOff = (int) (c[i++] - '0');
-                if (i < c.length && c[i] != ':')
-                    hrOff = hrOff * 10 + (int) (c[i++] - '0');
+                if (i < c.length && c[i] != ':') {
+					hrOff = hrOff * 10 + (int) (c[i++] - '0');
+				}
 
                 // timezone minutes
                 int minOff = 0;
                 if (i < c.length) {
-                    if (c[i++] != ':') throw new Exception();
+                    if (c[i++] != ':') {
+						throw new Exception();
+					}
                     minOff = 10 * (int) (c[i++] - '0') + (int) (c[i++] - '0');
                 }
 
                 tzOff = hrOff * (60 * 60 * 1000) + minOff * (60 * 1000);
-                if (sign == '-') tzOff *= -1;
+                if (sign == '-') {
+					tzOff *= -1;
+				}
             }
 
             Calendar cal = new GregorianCalendar(year, mon - 1, day, hour, min, sec);
@@ -796,7 +876,9 @@ public class Abstime
     }
 
     private static int checkMonth(int month) {
-        if (month < 1 || month > 12) throw new IllegalArgumentException("Month must be 1 to 12");
+        if (month < 1 || month > 12) {
+			throw new IllegalArgumentException("Month must be 1 to 12");
+		}
         return month;
     }
 
@@ -866,8 +948,9 @@ public class Abstime
         bits1 |= ((x & 0x07) << 0);
 
         // set daylight bit
-        if (timeZone.inDaylightTime(date))
-            bits1 |= (0x01 << 29);
+        if (timeZone.inDaylightTime(date)) {
+			bits1 |= (0x01 << 29);
+		}
     }
 
 }

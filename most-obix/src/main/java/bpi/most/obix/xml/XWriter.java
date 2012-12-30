@@ -183,7 +183,9 @@ public class XWriter
     public static void safe(Writer out, String s, boolean escapeWhitespace)
             throws IOException {
         int len = s.length();
-        for (int i = 0; i < len; ++i) safe(out, s.charAt(i), escapeWhitespace);
+        for (int i = 0; i < len; ++i) {
+			safe(out, s.charAt(i), escapeWhitespace);
+		}
     }
 
     /**
@@ -219,10 +221,15 @@ public class XWriter
             out.write("&#x");
             out.write(Integer.toHexString(c));
             out.write(';');
-        } else if (c == '<') out.write("&lt;");
-        else if (c == '>') out.write("&gt;");
-        else if (c == '&') out.write("&amp;");
-        else out.write((char) c);
+        } else if (c == '<') {
+			out.write("&lt;");
+		} else if (c == '>') {
+			out.write("&gt;");
+		} else if (c == '&') {
+			out.write("&amp;");
+		} else {
+			out.write((char) c);
+		}
     }
 
 ////////////////////////////////////////////////////////////////
@@ -248,8 +255,9 @@ public class XWriter
      */
     public void setZipped(boolean zipped)
             throws IOException {
-        if (numWritten != 0)
-            throw new IllegalStateException("Cannot setZipped after data has been written");
+        if (numWritten != 0) {
+			throw new IllegalStateException("Cannot setZipped after data has been written");
+		}
 
         this.zipped = zipped;
     }
@@ -260,7 +268,9 @@ public class XWriter
 
     public void write(int c) {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             numWritten++;
             xout.write(c);
         } catch (IOException e) {
@@ -270,7 +280,9 @@ public class XWriter
 
     public void write(char[] buf) {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             numWritten += buf.length;
             xout.write(buf);
         } catch (IOException e) {
@@ -280,7 +292,9 @@ public class XWriter
 
     public void write(char[] buf, int off, int len) {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             numWritten += len;
             xout.write(buf, off, len);
         } catch (IOException e) {
@@ -290,7 +304,9 @@ public class XWriter
 
     public void write(String str) {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             numWritten += str.length();
             xout.write(str);
         } catch (IOException e) {
@@ -300,7 +316,9 @@ public class XWriter
 
     public void write(String str, int off, int len) {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             numWritten += len;
             xout.write(str, off, len);
         } catch (IOException e) {
@@ -310,7 +328,9 @@ public class XWriter
 
     public void flush() {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             xout.flush();
         } catch (IOException e) {
             throw error(e);
@@ -319,7 +339,9 @@ public class XWriter
 
     public void close() {
         try {
-            if (xout == null) initOut();
+            if (xout == null) {
+				initOut();
+			}
             xout.close();
         } catch (IOException e) {
             throw error(e);
@@ -351,8 +373,9 @@ public class XWriter
             // smaller than 50, so just try it
             return SPACES[num];
         } catch (ArrayIndexOutOfBoundsException e) {
-            if (num < 0)
-                return "";
+            if (num < 0) {
+				return "";
+			}
 
             // too big!
             int len = SPACES.length;
@@ -377,8 +400,9 @@ public class XWriter
     static {
         SPACES = new String[50];
         SPACES[0] = "";
-        for (int i = 1; i < 50; ++i)
-            SPACES[i] = SPACES[i - 1] + " ";
+        for (int i = 1; i < 50; ++i) {
+			SPACES[i] = SPACES[i - 1] + " ";
+		}
     }
 
 

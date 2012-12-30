@@ -146,8 +146,12 @@ public class XException
      * @param col  0 if unknown
      */
     public static String format(String msg, int line, int col) {
-        if (line == 0 && col == 0) return msg;
-        if (col == 0) return msg + " [line " + line + ']';
+        if (line == 0 && col == 0) {
+			return msg;
+		}
+        if (col == 0) {
+			return msg + " [line " + line + ']';
+		}
         return msg + " [" + line + ':' + col + ']';
     }
 

@@ -143,19 +143,23 @@ public class TreeTest
         verify(p.size() == len);
 
         // verify parent
-        for (int i = 0; i < len; ++i)
-            verify(kids[i].getParent() == p);
+        for (int i = 0; i < len; ++i) {
+			verify(kids[i].getParent() == p);
+		}
 
         // verify list() and order
         Obj[] x = p.list();
         verify(x.length == len);
-        for (int i = 0; i < len; ++i)
-            verify(x[i] == kids[i]);
+        for (int i = 0; i < len; ++i) {
+			verify(x[i] == kids[i]);
+		}
 
         // verify name
-        for (int i = 0; i < len; ++i)
-            if (kids[i].getName() != null)
-                verify(p.get(kids[i].getName()) == kids[i]);
+        for (int i = 0; i < len; ++i) {
+			if (kids[i].getName() != null) {
+				verify(p.get(kids[i].getName()) == kids[i]);
+			}
+		}
     }
 
 }

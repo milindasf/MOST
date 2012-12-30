@@ -90,7 +90,9 @@ public class ObixSession {
      * read on session open().
      */
     public Obj getLobby() {
-        if (lobby == null) throw new IllegalStateException("Session not open");
+        if (lobby == null) {
+			throw new IllegalStateException("Session not open");
+		}
         return lobby;
     }
 
@@ -126,13 +128,15 @@ public class ObixSession {
 
         // read about
         Obj about = lobby.get("about");
-        if (about != null && about.getHref() != null)
-            this.about = read(about.getNormalizedHref());
+        if (about != null && about.getHref() != null) {
+			this.about = read(about.getNormalizedHref());
+		}
 
         // read watch service
         Obj watchService = lobby.get("watchService");
-        if (watchService != null && watchService.getHref() != null)
-            this.watchService = read(watchService.getNormalizedHref());
+        if (watchService != null && watchService.getHref() != null) {
+			this.watchService = read(watchService.getNormalizedHref());
+		}
     }
 
     /**
@@ -171,7 +175,9 @@ public class ObixSession {
     public Obj write(Obj obj)
             throws Exception {
         Uri href = obj.getNormalizedHref();
-        if (href == null) throw new Exception("obj.href is null");
+        if (href == null) {
+			throw new Exception("obj.href is null");
+		}
 
         return send(href, "PUT", obj);
     }
@@ -182,7 +188,9 @@ public class ObixSession {
     public Obj invoke(Op op, Obj in)
             throws Exception {
         Uri href = op.getNormalizedHref();
-        if (href == null) throw new Exception("op.href is null");
+        if (href == null) {
+			throw new Exception("op.href is null");
+		}
 
         return invoke(href, in);
     }
@@ -208,8 +216,9 @@ public class ObixSession {
      */
     public BatchIn makeBatch()
             throws Exception {
-        if (batchUri == null)
-            throw new Exception("Lobby missing batch op");
+        if (batchUri == null) {
+			throw new Exception("Lobby missing batch op");
+		}
         return new BatchIn(this);
     }
 
@@ -223,8 +232,9 @@ public class ObixSession {
         HttpURLConnection conn = setup(uri);
         conn.connect();
         int rc = conn.getResponseCode();
-        if ((rc / 200) != 1)
-            throw new IOException("HTTP connection failed resp code=" + rc);
+        if ((rc / 200) != 1) {
+			throw new IOException("HTTP connection failed resp code=" + rc);
+		}
         return conn.getInputStream();
     }
 
@@ -265,11 +275,14 @@ public class ObixSession {
      */
     public SessionWatch makeWatch(String name, long pollPeriod, WatchListener listener)
             throws Exception {
-        if (watches.get(name) != null)
-            throw new IllegalArgumentException("Duplicate watch name: " + name);
+        if (watches.get(name) != null) {
+			throw new IllegalArgumentException("Duplicate watch name: " + name);
+		}
         SessionWatch watch = SessionWatch.make(this, name, pollPeriod);
         watches.put(name, watch);
-        if (listener != null) watch.addListener(listener);
+        if (listener != null) {
+			watch.addListener(listener);
+		}
         return watch;
     }
 
@@ -284,8 +297,9 @@ public class ObixSession {
             throws Exception {
         Uri abs = uri.normalize(lobbyUri);
 
-        if (!contains(abs))
-            throw new IllegalArgumentException("Uri not contained by this session: " + abs);
+        if (!contains(abs)) {
+			throw new IllegalArgumentException("Uri not contained by this session: " + abs);
+		}
 
         HttpURLConnection conn = (HttpURLConnection) abs.toURL().openConnection();
         conn.setInstanceFollowRedirects(false);
@@ -310,11 +324,14 @@ public class ObixSession {
         }
 
         int rc = conn.getResponseCode();
-        if ((rc / 200) != 1)
-            throw new Exception("Invalid response code " + rc);
+        if ((rc / 200) != 1) {
+			throw new Exception("Invalid response code " + rc);
+		}
         InputStream in = conn.getInputStream();
         Obj result = new ObixDecoder(in).decodeDocument();
-        if (result instanceof Err) throw new ErrException((Err) result);
+        if (result instanceof Err) {
+			throw new ErrException((Err) result);
+		}
         return result;
     }
 
@@ -355,8 +372,11 @@ public class ObixSession {
             String cmd = in.readLine().trim();
 
             // process commands
-            if (cmd.equals("")) continue;
-            else if (cmd.equals("quit") || cmd.equals("bye")) break;
+            if (cmd.equals("")) {
+				continue;
+			} else if (cmd.equals("quit") || cmd.equals("bye")) {
+				break;
+			}
 
             // otherwise assume it is uri to attempt to read
             Uri uri = new Uri(cmd).normalize(cur.getHref());
@@ -378,7 +398,9 @@ public class ObixSession {
             throws Exception {
         InputStream in = session.open(uri);
         int c;
-        while ((c = in.read()) >= 0) System.out.print((char) c);
+        while ((c = in.read()) >= 0) {
+			System.out.print((char) c);
+		}
         System.out.println();
     }
 

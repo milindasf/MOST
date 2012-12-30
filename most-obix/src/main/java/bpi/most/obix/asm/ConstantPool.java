@@ -34,8 +34,9 @@ public class ConstantPool {
 
     public int utf(String str) {
         Integer ref = (Integer) utfTable.get(str);
-        if (ref != null)
-            return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Utf8);
         buf.utf(str);
@@ -47,7 +48,9 @@ public class ConstantPool {
 
     public int cls(String className) {
         Integer ref = (Integer) classTable.get(className);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         int i = utf(className);
         buf.u1(Jvm.CONSTANT_Class);
@@ -60,7 +63,9 @@ public class ConstantPool {
 
     public int string(String str) {
         Integer ref = (Integer) stringTable.get(str);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         int i = utf(str);
         buf.u1(Jvm.CONSTANT_String);
@@ -73,7 +78,9 @@ public class ConstantPool {
 
     public int integer(int i) {
         Integer ref = (Integer) integerTable.get(i);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Integer);
         buf.u4(i);
@@ -86,7 +93,9 @@ public class ConstantPool {
     public int floatConst(float f) {
         Float key = new Float(f);
         Integer ref = (Integer) floatTable.get(key);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Float);
         buf.u4(Float.floatToIntBits(f));
@@ -99,7 +108,9 @@ public class ConstantPool {
     public int doubleConst(double d) {
         Double key = new Double(d);
         Integer ref = (Integer) doubleTable.get(key);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Double);
         buf.u8(Double.doubleToLongBits(d));
@@ -113,7 +124,9 @@ public class ConstantPool {
     public int longConst(long lng) {
         Long key = new Long(lng);
         Integer ref = (Integer) longTable.get(key);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Long);
         buf.u8(lng);
@@ -127,7 +140,9 @@ public class ConstantPool {
     public int nt(int name, int type) {
         int hash = name << 16 | type;
         Integer ref = (Integer) fieldTable.get(hash);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_NameAndType);
         buf.u2(name);
@@ -141,7 +156,9 @@ public class ConstantPool {
     public int field(int cls, int nt) {
         int hash = cls << 16 | nt;
         Integer ref = (Integer) fieldTable.get(hash);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Fieldref);
         buf.u2(cls);
@@ -155,7 +172,9 @@ public class ConstantPool {
     public int method(int cls, int nt) {
         int hash = cls << 16 | nt;
         Integer ref = (Integer) methodTable.get(hash);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_Methodref);
         buf.u2(cls);
@@ -169,7 +188,9 @@ public class ConstantPool {
     public int iface(int cls, int nt) {
         int hash = cls << 16 | nt;
         Integer ref = (Integer) ifaceTable.get(hash);
-        if (ref != null) return ref.intValue();
+        if (ref != null) {
+			return ref.intValue();
+		}
 
         buf.u1(Jvm.CONSTANT_InterfaceMethodref);
         buf.u2(cls);

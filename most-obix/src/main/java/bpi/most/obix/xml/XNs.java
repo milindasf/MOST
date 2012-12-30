@@ -24,8 +24,9 @@ public final class XNs {
      * prefix and uri.
      */
     public XNs(String prefix, String uri) {
-        if (prefix == null || uri == null)
-            throw new NullPointerException();
+        if (prefix == null || uri == null) {
+			throw new NullPointerException();
+		}
 
         this.prefix = prefix;
         this.uri = uri;
@@ -73,7 +74,9 @@ public final class XNs {
      * exact same uri characters.
      */
     public final boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this == obj) {
+			return true;
+		}
         if (obj instanceof XNs) {
             return uri.equals(((XNs) obj).uri);
         }
@@ -85,7 +88,9 @@ public final class XNs {
      * exact same uri characters.
      */
     static boolean equals(Object ns1, Object ns2) {
-        if (ns1 == null) return ns2 == null;
+        if (ns1 == null) {
+			return ns2 == null;
+		}
         return ns1.equals(ns2);
     }
 

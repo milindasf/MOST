@@ -90,8 +90,9 @@ public class Reltime
      * Return if specified Val has equivalent duration value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Reltime)
-            return ((Reltime) that).val == val;
+        if (that instanceof Reltime) {
+			return ((Reltime) that).val == val;
+		}
         return false;
     }
 
@@ -104,9 +105,14 @@ public class Reltime
     public int compareTo(Object that) {
         long a = val;
         long b = ((Reltime) that).val;
-        if (a == b) return 0;
-        if (a < b) return -1;
-        else return 1;
+        if (a == b) {
+			return 0;
+		}
+        if (a < b) {
+			return -1;
+		} else {
+			return 1;
+		}
     }
 
     /**
@@ -114,7 +120,9 @@ public class Reltime
      */
     public String encodeVal() {
         StringBuffer s = new StringBuffer();
-        if (val < 0) s.append('-');
+        if (val < 0) {
+			s.append('-');
+		}
         s.append("PT");
         long abs = Math.abs(val);
         long sec = abs / 1000L;
@@ -122,8 +130,11 @@ public class Reltime
         s.append(sec);
         if (frac != 0) {
             s.append('.');
-            if (frac < 10) s.append("00");
-            else if (frac < 100) s.append("0");
+            if (frac < 10) {
+				s.append("00");
+			} else if (frac < 100) {
+				s.append("0");
+			}
             s.append(frac);
         }
         s.append('S');
@@ -160,7 +171,9 @@ public class Reltime
 
             // next char must be P
             p.consume('P');
-            if (p.cur == -1) throw new Exception();
+            if (p.cur == -1) {
+				throw new Exception();
+			}
 
             // D
             int num = p.num();
@@ -172,7 +185,9 @@ public class Reltime
 
             // H
             if (num >= 0 && p.cur == 'H') {
-                if (!p.time) throw new Exception();
+                if (!p.time) {
+					throw new Exception();
+				}
                 p.consume();
                 millis += num * 60L * 60L * 1000L;
                 num = p.num();
@@ -180,7 +195,9 @@ public class Reltime
 
             // M
             if (num >= 0 && p.cur == 'M') {
-                if (!p.time) throw new Exception();
+                if (!p.time) {
+					throw new Exception();
+				}
                 p.consume();
                 millis += num * 60L * 1000L;
                 num = p.num();
@@ -188,7 +205,9 @@ public class Reltime
 
             // S
             if (num >= 0 && p.cur == 'S' || p.cur == '.') {
-                if (!p.time) throw new Exception();
+                if (!p.time) {
+					throw new Exception();
+				}
                 millis += num * 1000L;
                 if (p.cur == '.') {
                     p.consume();
@@ -198,9 +217,13 @@ public class Reltime
             }
 
             // verify we parsed everything
-            if (p.cur != -1) throw new Exception();
+            if (p.cur != -1) {
+				throw new Exception();
+			}
 
-            if (neg) millis = millis * -1;
+            if (neg) {
+				millis = millis * -1;
+			}
             set(millis);
         } catch (Exception e) {
             throw new Exception("Invalid reltime: " + s);
@@ -225,7 +248,9 @@ public class Reltime
                     if (curIsDigit) {
                         millis += digit();
                         consume();
-                        while (curIsDigit) consume();
+                        while (curIsDigit) {
+							consume();
+						}
                     }
                 }
             }
@@ -252,7 +277,9 @@ public class Reltime
         }
 
         void consume(int ch) {
-            if (cur != ch) throw new IllegalStateException();
+            if (cur != ch) {
+				throw new IllegalStateException();
+			}
             consume();
         }
 

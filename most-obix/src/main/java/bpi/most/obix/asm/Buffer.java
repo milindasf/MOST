@@ -27,14 +27,18 @@ public class Buffer {
 
     public final int u1(int v) {
         int cur = count;
-        if (count + 1 >= bytes.length) grow(count + 1);
+        if (count + 1 >= bytes.length) {
+			grow(count + 1);
+		}
         bytes[count++] = (byte) (v & 0xFF);
         return cur;
     }
 
     public final int u2(int v) {
         int cur = count;
-        if (count + 2 >= bytes.length) grow(count + 2);
+        if (count + 2 >= bytes.length) {
+			grow(count + 2);
+		}
         bytes[count++] = (byte) ((v >>> 8) & 0xFF);
         bytes[count++] = (byte) ((v >>> 0) & 0xFF);
         return cur;
@@ -42,7 +46,9 @@ public class Buffer {
 
     public final int u4(int v) {
         int cur = count;
-        if (count + 4 >= bytes.length) grow(count + 4);
+        if (count + 4 >= bytes.length) {
+			grow(count + 4);
+		}
         bytes[count++] = (byte) ((v >>> 24) & 0xFF);
         bytes[count++] = (byte) ((v >>> 16) & 0xFF);
         bytes[count++] = (byte) ((v >>> 8) & 0xFF);
@@ -52,7 +58,9 @@ public class Buffer {
 
     public final int u8(long v) {
         int cur = count;
-        if (count + 8 >= bytes.length) grow(count + 8);
+        if (count + 8 >= bytes.length) {
+			grow(count + 8);
+		}
 
         bytes[count++] = (byte) ((v >>> 56) & 0xFF);
         bytes[count++] = (byte) ((v >>> 48) & 0xFF);
@@ -82,10 +90,13 @@ public class Buffer {
             }
         }
 
-        if (utflen > 65535)
-            throw new RuntimeException("Illegal UTF exception");
+        if (utflen > 65535) {
+			throw new RuntimeException("Illegal UTF exception");
+		}
 
-        if (count + utflen + 2 >= bytes.length) grow(count + utflen + 2);
+        if (count + utflen + 2 >= bytes.length) {
+			grow(count + utflen + 2);
+		}
 
         bytes[count++] = (byte) ((utflen >>> 8) & 0xFF);
         bytes[count++] = (byte) ((utflen >>> 0) & 0xFF);
@@ -105,15 +116,17 @@ public class Buffer {
     }
 
     public void append(Buffer buffer) {
-        if (count + buffer.count >= bytes.length)
-            grow(count + buffer.count);
+        if (count + buffer.count >= bytes.length) {
+			grow(count + buffer.count);
+		}
         System.arraycopy(buffer.bytes, 0, bytes, count, buffer.count);
         count += buffer.count;
     }
 
     public void append(byte[] b) {
-        if (count + b.length >= bytes.length)
-            grow(count + b.length);
+        if (count + b.length >= bytes.length) {
+			grow(count + b.length);
+		}
         System.arraycopy(b, 0, bytes, count, b.length);
         count += b.length;
     }

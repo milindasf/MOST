@@ -72,7 +72,9 @@ public class BatchIn
     public void invoke(Op op, Obj in)
             throws Exception {
         Uri href = op.getHref();
-        if (href == null) throw new Exception("op.href is null");
+        if (href == null) {
+			throw new Exception("op.href is null");
+		}
         invoke(href, in);
     }
 

@@ -93,10 +93,12 @@ public class Base64 {
 
         if (bytesRemaining > 0) {
             byte[] remainder = new byte[3];
-            for (int i = 0; i < bytesRemaining; i++)
-                remainder[i] = buf[index + i];
-            for (int i = bytesRemaining; i < 3; i++)
-                remainder[i] = 0;
+            for (int i = 0; i < bytesRemaining; i++) {
+				remainder[i] = buf[index + i];
+			}
+            for (int i = bytesRemaining; i < 3; i++) {
+				remainder[i] = 0;
+			}
 
             int lastOut = bytesRemaining == 1 ? 2 : 3;
 
@@ -107,14 +109,17 @@ public class Base64 {
                     ((int) (0xFF & remainder[2]) >> 6);
 
             pos = append(sbuf, encodeTable[i0], linelen, pos);
-            if (lastOut > 1)
-                pos = append(sbuf, encodeTable[i1], linelen, pos);
-            if (lastOut > 2)
-                pos = append(sbuf, encodeTable[i2], linelen, pos);
+            if (lastOut > 1) {
+				pos = append(sbuf, encodeTable[i1], linelen, pos);
+			}
+            if (lastOut > 2) {
+				pos = append(sbuf, encodeTable[i2], linelen, pos);
+			}
 
             int padCount = 4 - lastOut;
-            for (int i = 0; i < padCount; i++)
-                pos = append(sbuf, PAD, linelen, pos);
+            for (int i = 0; i < padCount; i++) {
+				pos = append(sbuf, PAD, linelen, pos);
+			}
         }
 
         return sbuf.toString();
@@ -159,79 +164,93 @@ public class Base64 {
             while ((val0 == -2) && (bytesRemaining > 0)) {
                 index++;
                 bytesRemaining--;
-                if (bytesRemaining > 0)
-                    val0 = getVal(src.charAt(index));
+                if (bytesRemaining > 0) {
+					val0 = getVal(src.charAt(index));
+				}
             }
 
-            if (bytesRemaining == 0)
-                throw new IllegalStateException("Unexpected end of input.");
+            if (bytesRemaining == 0) {
+				throw new IllegalStateException("Unexpected end of input.");
+			}
 
             int val1 = getVal(src.charAt(index + 1));
             while ((val1 == -2) && (bytesRemaining > 0)) {
                 index++;
                 bytesRemaining--;
-                if (bytesRemaining > 0)
-                    val1 = getVal(src.charAt(index + 1));
+                if (bytesRemaining > 0) {
+					val1 = getVal(src.charAt(index + 1));
+				}
             }
 
-            if (bytesRemaining == 0)
-                throw new IllegalStateException("Unexpected end of input.");
+            if (bytesRemaining == 0) {
+				throw new IllegalStateException("Unexpected end of input.");
+			}
 
             int val2 = getVal(src.charAt(index + 2));
             while ((val2 == -2) && (bytesRemaining > 0)) {
                 index++;
                 bytesRemaining--;
-                if (bytesRemaining > 0)
-                    val2 = getVal(src.charAt(index + 2));
+                if (bytesRemaining > 0) {
+					val2 = getVal(src.charAt(index + 2));
+				}
             }
 
-            if (bytesRemaining == 0)
-                throw new IllegalStateException("Unexpected end of input.");
+            if (bytesRemaining == 0) {
+				throw new IllegalStateException("Unexpected end of input.");
+			}
 
             int val3 = getVal(src.charAt(index + 3));
             while ((val3 == -2) && (bytesRemaining > 0)) {
                 index++;
                 bytesRemaining--;
-                if (bytesRemaining > 0)
-                    val3 = getVal(src.charAt(index + 3));
+                if (bytesRemaining > 0) {
+					val3 = getVal(src.charAt(index + 3));
+				}
             }
 
-            if (bytesRemaining == 0)
-                throw new IllegalStateException("Unexpected end of input.");
+            if (bytesRemaining == 0) {
+				throw new IllegalStateException("Unexpected end of input.");
+			}
 
             int group = 0;
             int padCount = 0;
-            if (val0 != -1)
-                group |= val0 << 18;
-            else
-                padCount++;
+            if (val0 != -1) {
+				group |= val0 << 18;
+			} else {
+				padCount++;
+			}
 
-            if (val1 != -1)
-                group |= val1 << 12;
-            else
-                padCount++;
+            if (val1 != -1) {
+				group |= val1 << 12;
+			} else {
+				padCount++;
+			}
 
-            if (val2 != -1)
-                group |= val2 << 6;
-            else
-                padCount++;
+            if (val2 != -1) {
+				group |= val2 << 6;
+			} else {
+				padCount++;
+			}
 
-            if (val3 != -1)
-                group |= val3;
-            else
-                padCount++;
+            if (val3 != -1) {
+				group |= val3;
+			} else {
+				padCount++;
+			}
 
             res.write((group & 0xFF0000) >> 16);
             if (val2 != -1) {
                 res.write((group & 0xFF00) >> 8);
-                if (val3 != -1)
-                    res.write(group & 0xFF);
+                if (val3 != -1) {
+					res.write(group & 0xFF);
+				}
             }
 
-            if (padCount > 0)
-                bytesRemaining = 0;
-            else
-                bytesRemaining -= 4;
+            if (padCount > 0) {
+				bytesRemaining = 0;
+			} else {
+				bytesRemaining -= 4;
+			}
             index += 4;
         }
 
@@ -250,22 +269,24 @@ public class Base64 {
      * the character is the pad character, -1 is returned.
      */
     private static int getVal(char ch) {
-        if (ch == PAD)
-            return -1;
+        if (ch == PAD) {
+			return -1;
+		}
 
         int val = (int) ch;
-        if ((val >= 65) && (val <= 90))
-            return val - 65;
-        else if ((val >= 97) && (val <= 122))
-            return val - 71;
-        else if ((val >= 48) && (val <= 57))
-            return val + 4;
-        else if (val == 43)
-            return 62;
-        else if (val == 47)
-            return 63;
-        else
-            return -2;
+        if ((val >= 65) && (val <= 90)) {
+			return val - 65;
+		} else if ((val >= 97) && (val <= 122)) {
+			return val - 71;
+		} else if ((val >= 48) && (val <= 57)) {
+			return val + 4;
+		} else if (val == 43) {
+			return 62;
+		} else if (val == 47) {
+			return 63;
+		} else {
+			return -2;
+		}
     }
 
 ///////////////////////////////////////////////////////////

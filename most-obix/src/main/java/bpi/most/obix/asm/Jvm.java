@@ -106,20 +106,39 @@ public final class Jvm
     public static String fieldDescriptor(Class cls) {
         // handle base types
         if (cls.isPrimitive()) {
-            if (cls.equals(byte.class)) return "B";
-            if (cls.equals(char.class)) return "C";
-            if (cls.equals(double.class)) return "D";
-            if (cls.equals(float.class)) return "F";
-            if (cls.equals(int.class)) return "I";
-            if (cls.equals(long.class)) return "J";
-            if (cls.equals(short.class)) return "S";
-            if (cls.equals(boolean.class)) return "Z";
-            if (cls.equals(void.class)) return "V";
+            if (cls.equals(byte.class)) {
+				return "B";
+			}
+            if (cls.equals(char.class)) {
+				return "C";
+			}
+            if (cls.equals(double.class)) {
+				return "D";
+			}
+            if (cls.equals(float.class)) {
+				return "F";
+			}
+            if (cls.equals(int.class)) {
+				return "I";
+			}
+            if (cls.equals(long.class)) {
+				return "J";
+			}
+            if (cls.equals(short.class)) {
+				return "S";
+			}
+            if (cls.equals(boolean.class)) {
+				return "Z";
+			}
+            if (cls.equals(void.class)) {
+				return "V";
+			}
             throw new IllegalStateException();
         } else {
             // handle array type
-            if (cls.isArray())
-                return "[" + fieldDescriptor(cls.getComponentType());
+            if (cls.isArray()) {
+				return "[" + fieldDescriptor(cls.getComponentType());
+			}
 
             // must be a object type
             return "L" + cls.getName().replace('.', '/') + ";";
@@ -152,9 +171,11 @@ public final class Jvm
     public static String methodDescriptor(Class[] paramTypes, Class returnType) {
         StringBuffer s = new StringBuffer("(");
 
-        if (paramTypes != null)
-            for (int i = 0; i < paramTypes.length; ++i)
-                s.append(fieldDescriptor(paramTypes[i]));
+        if (paramTypes != null) {
+			for (int i = 0; i < paramTypes.length; ++i) {
+				s.append(fieldDescriptor(paramTypes[i]));
+			}
+		}
 
         s.append(")").append(fieldDescriptor(returnType));
         return s.toString();

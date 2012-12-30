@@ -79,8 +79,9 @@ public class Bool
      * Return if specified Val has equivalent boolean value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Bool)
-            return ((Bool) that).val == val;
+        if (that instanceof Bool) {
+			return ((Bool) that).val == val;
+		}
         return false;
     }
 
@@ -93,7 +94,9 @@ public class Bool
     public int compareTo(Object that) {
         boolean a = val;
         boolean b = ((Bool) that).val;
-        if (a == b) return 0;
+        if (a == b) {
+			return 0;
+		}
         return a ? 1 : -1;
     }
 

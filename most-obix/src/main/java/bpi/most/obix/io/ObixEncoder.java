@@ -103,11 +103,15 @@ public class ObixEncoder
 
         // name attribute
         String name = obj.getName();
-        if (name != null) attr(" name", name);
+        if (name != null) {
+			attr(" name", name);
+		}
 
         // href attribute
         Uri href = obj.getHref();
-        if (href != null) attr(" href", href.encodeVal());
+        if (href != null) {
+			attr(" href", href.encodeVal());
+		}
 
         // val attribute
         if (obj instanceof Val) {
@@ -118,7 +122,9 @@ public class ObixEncoder
         else if (obj instanceof List) {
             List list = (List) obj;
             Contract of = list.getOf();
-            if (!of.containsOnlyObj()) attr(" of", of.toString());
+            if (!of.containsOnlyObj()) {
+				attr(" of", of.toString());
+			}
         }
         // in/out attributes
         else if (obj instanceof Op) {
@@ -135,48 +141,96 @@ public class ObixEncoder
 
         // is attribute
         Contract is = obj.getIs();
-        if (is != null) attr(" is", is.toString());
+        if (is != null) {
+			attr(" is", is.toString());
+		}
 
         // facets
-        if (obj.getDisplay() != null) attr(" display", obj.getDisplay().toString());
-        if (obj.getDisplayName() != null) attr(" displayName", obj.getDisplayName().toString());
-        if (obj.getIcon() != null) attr(" icon", obj.getIcon().toString());
-        if (obj.getStatus() != Status.ok) attr(" status", obj.getStatus().toString());
-        if (obj.isNull()) attr(" null", "true");
-        if (obj.isWritable()) attr(" writable", "true");
+        if (obj.getDisplay() != null) {
+			attr(" display", obj.getDisplay().toString());
+		}
+        if (obj.getDisplayName() != null) {
+			attr(" displayName", obj.getDisplayName().toString());
+		}
+        if (obj.getIcon() != null) {
+			attr(" icon", obj.getIcon().toString());
+		}
+        if (obj.getStatus() != Status.ok) {
+			attr(" status", obj.getStatus().toString());
+		}
+        if (obj.isNull()) {
+			attr(" null", "true");
+		}
+        if (obj.isWritable()) {
+			attr(" writable", "true");
+		}
         if (obj instanceof Bool) {
             Bool b = (Bool) obj;
-            if (b.getRange() != null) attr(" range", b.getRange().toString());
+            if (b.getRange() != null) {
+				attr(" range", b.getRange().toString());
+			}
         } else if (obj instanceof Int) {
             Int i = (Int) obj;
-            if (i.getMin() != Int.MIN_DEFAULT) attr(" min", String.valueOf(i.getMin()));
-            if (i.getMax() != Int.MAX_DEFAULT) attr(" max", String.valueOf(i.getMax()));
-            if (i.getUnit() != null) attr(" unit", i.getUnit().toString());
+            if (i.getMin() != Int.MIN_DEFAULT) {
+				attr(" min", String.valueOf(i.getMin()));
+			}
+            if (i.getMax() != Int.MAX_DEFAULT) {
+				attr(" max", String.valueOf(i.getMax()));
+			}
+            if (i.getUnit() != null) {
+				attr(" unit", i.getUnit().toString());
+			}
         } else if (obj instanceof Str) {
             Str s = (Str) obj;
-            if (s.getMin() != Str.MIN_DEFAULT) attr(" min", String.valueOf(s.getMin()));
-            if (s.getMax() != Str.MAX_DEFAULT) attr(" max", String.valueOf(s.getMax()));
+            if (s.getMin() != Str.MIN_DEFAULT) {
+				attr(" min", String.valueOf(s.getMin()));
+			}
+            if (s.getMax() != Str.MAX_DEFAULT) {
+				attr(" max", String.valueOf(s.getMax()));
+			}
         } else if (obj instanceof Enum) {
             Enum e = (Enum) obj;
-            if (e.getRange() != null) attr(" range", e.getRange().toString());
+            if (e.getRange() != null) {
+				attr(" range", e.getRange().toString());
+			}
         } else if (obj instanceof Real) {
             Real r = (Real) obj;
-            if (r.getMin() != Real.MIN_DEFAULT) attr(" min", String.valueOf(r.getMin()));
-            if (r.getMax() != Real.MAX_DEFAULT) attr(" max", String.valueOf(r.getMax()));
-            if (r.getUnit() != null) attr(" unit", r.getUnit().toString());
-            if (r.getPrecision() != Real.PRECISION_DEFAULT) attr(" precision", String.valueOf(r.getPrecision()));
+            if (r.getMin() != Real.MIN_DEFAULT) {
+				attr(" min", String.valueOf(r.getMin()));
+			}
+            if (r.getMax() != Real.MAX_DEFAULT) {
+				attr(" max", String.valueOf(r.getMax()));
+			}
+            if (r.getUnit() != null) {
+				attr(" unit", r.getUnit().toString());
+			}
+            if (r.getPrecision() != Real.PRECISION_DEFAULT) {
+				attr(" precision", String.valueOf(r.getPrecision()));
+			}
         } else if (obj instanceof Reltime) {
             Reltime r = (Reltime) obj;
-            if (r.getMin() != null) attr(" min", r.getMin().encodeVal());
-            if (r.getMax() != null) attr(" max", r.getMax().encodeVal());
+            if (r.getMin() != null) {
+				attr(" min", r.getMin().encodeVal());
+			}
+            if (r.getMax() != null) {
+				attr(" max", r.getMax().encodeVal());
+			}
         } else if (obj instanceof Abstime) {
             Abstime a = (Abstime) obj;
-            if (a.getMin() != null) attr(" min", a.getMin().encodeVal());
-            if (a.getMax() != null) attr(" max", a.getMax().encodeVal());
+            if (a.getMin() != null) {
+				attr(" min", a.getMin().encodeVal());
+			}
+            if (a.getMax() != null) {
+				attr(" max", a.getMax().encodeVal());
+			}
         } else if (obj instanceof List) {
             List l = (List) obj;
-            if (l.getMin() != List.MIN_DEFAULT) attr(" min", String.valueOf(l.getMin()));
-            if (l.getMax() != List.MAX_DEFAULT) attr(" max", String.valueOf(l.getMax()));
+            if (l.getMin() != List.MIN_DEFAULT) {
+				attr(" min", String.valueOf(l.getMin()));
+			}
+            if (l.getMax() != List.MAX_DEFAULT) {
+				attr(" max", String.valueOf(l.getMax()));
+			}
         }
 
         // if no children, close tag and be done
@@ -191,8 +245,9 @@ public class ObixEncoder
 
         // write children
         Obj[] kids = obj.list();
-        for (int i = 0; i < kids.length; ++i)
-            encode(kids[i]);
+        for (int i = 0; i < kids.length; ++i) {
+			encode(kids[i]);
+		}
 
         // end tag
         indent--;

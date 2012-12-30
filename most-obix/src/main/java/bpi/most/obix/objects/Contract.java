@@ -33,8 +33,9 @@ public class Contract {
      */
     public Contract(String[] list) {
         this.list = new Uri[list.length];
-        for (int i = 0; i < list.length; ++i)
-            this.list[i] = new Uri(list[i]);
+        for (int i = 0; i < list.length; ++i) {
+			this.list[i] = new Uri(list[i]);
+		}
     }
 
     /**
@@ -50,7 +51,9 @@ public class Contract {
     public static Uri[] parse(String list) {
         StringTokenizer st = new StringTokenizer(list, " ");
         ArrayList<Uri> acc = new ArrayList<Uri>();
-        while (st.hasMoreTokens()) acc.add(new Uri(st.nextToken()));
+        while (st.hasMoreTokens()) {
+			acc.add(new Uri(st.nextToken()));
+		}
         return (Uri[]) acc.toArray(new Uri[acc.size()]);
     }
 
@@ -78,9 +81,11 @@ public class Contract {
      * Return true if this contract list contains the specified uri.
      */
     public boolean contains(Uri uri) {
-        for (int i = 0; i < list.length; ++i)
-            if (list[i].equals(uri))
-                return true;
+        for (int i = 0; i < list.length; ++i) {
+			if (list[i].equals(uri)) {
+				return true;
+			}
+		}
         return false;
     }
 
@@ -123,7 +128,9 @@ public class Contract {
         if (string == null) {
             StringBuffer s = new StringBuffer();
             for (int i = 0; i < list.length; ++i) {
-                if (i > 0) s.append(' ');
+                if (i > 0) {
+					s.append(' ');
+				}
                 s.append(list[i].encodeVal());
             }
             string = s.toString();

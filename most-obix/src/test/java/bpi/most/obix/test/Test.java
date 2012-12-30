@@ -50,19 +50,27 @@ public abstract class Test {
 ////////////////////////////////////////////////////////////////
 
     public void verify(boolean condition) {
-        if (!condition) throw new TestException("Failed verify");
+        if (!condition) {
+			throw new TestException("Failed verify");
+		}
         count++;
     }
 
     public void verify(boolean condition, String msg) {
-        if (!condition) throw new TestException("Failed verify: " + msg);
+        if (!condition) {
+			throw new TestException("Failed verify: " + msg);
+		}
         count++;
     }
 
     public void verify(Object a, Object b) {
-        if (a == null) verify(b == null);
-        else if (b == null) verify(a == null);
-        else verify(a.equals(b));
+        if (a == null) {
+			verify(b == null);
+		} else if (b == null) {
+			verify(a == null);
+		} else {
+			verify(a.equals(b));
+		}
     }
 
     public void verify(long a, long b) {
@@ -70,8 +78,9 @@ public abstract class Test {
     }
 
     public void verifyEquivalent(Obj a, Obj b) {
-        if (verbose)
-            System.out.println("  " + a + " ?= " + b);
+        if (verbose) {
+			System.out.println("  " + a + " ?= " + b);
+		}
 
         // identity
         verify(a.getClass() == b.getClass());
@@ -80,8 +89,9 @@ public abstract class Test {
         verify(a.getIs(), b.getIs());
 
         // value
-        if (a instanceof Val)
-            verify(((Val) a).encodeVal(), ((Val) b).encodeVal());
+        if (a instanceof Val) {
+			verify(((Val) a).encodeVal(), ((Val) b).encodeVal());
+		}
 
         // list
         if (a instanceof List) {
@@ -138,8 +148,9 @@ public abstract class Test {
         Obj[] akids = a.list();
         Obj[] bkids = b.list();
         verify(akids.length == bkids.length);
-        for (int i = 0; i < akids.length; ++i)
-            verifyEquivalent(akids[i], bkids[i]);
+        for (int i = 0; i < akids.length; ++i) {
+			verifyEquivalent(akids[i], bkids[i]);
+		}
     }
 
     public Obj roundtrip(Obj orig)
@@ -175,17 +186,23 @@ public abstract class Test {
     public static void main(String args[]) {
         // check args for filter
         String filter = "";
-        if (args.length > 0 && !args[0].startsWith("/"))
-            filter = "obix.test." + args[0];
+        if (args.length > 0 && !args[0].startsWith("/")) {
+			filter = "obix.test." + args[0];
+		}
 
         // check args for options
-        for (int i = 0; i < args.length; ++i)
-            if (args[i].equals("/v")) verbose = true;
+        for (int i = 0; i < args.length; ++i) {
+			if (args[i].equals("/v")) {
+				verbose = true;
+			}
+		}
 
         // run tests
         for (int i = 0; i < tests.length; ++i) {
             Test test = tests[i];
-            if (!test.getName().startsWith(filter)) continue;
+            if (!test.getName().startsWith(filter)) {
+				continue;
+			}
             try {
                 test.run();
                 System.out.println("Success: " + test.getName() + " [" + test.count + "]");

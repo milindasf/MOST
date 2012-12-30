@@ -48,7 +48,9 @@ public abstract class MemberInfo {
 ////////////////////////////////////////////////////////////////  
 
     public void addAttribute(AttributeInfo ai) {
-        if (attributes == null) attributes = new ArrayList<AttributeInfo>(5);
+        if (attributes == null) {
+			attributes = new ArrayList<AttributeInfo>(5);
+		}
         attributes.add(ai);
     }
 
@@ -63,8 +65,9 @@ public abstract class MemberInfo {
         buf.u2(name);
         buf.u2(type);
         buf.u2(attrLen);
-        for (int i = 0; i < attrLen; ++i)
-            ((AttributeInfo) attributes.get(i)).compile(buf);
+        for (int i = 0; i < attrLen; ++i) {
+			((AttributeInfo) attributes.get(i)).compile(buf);
+		}
     }
 
     public Assembler getAsm() {

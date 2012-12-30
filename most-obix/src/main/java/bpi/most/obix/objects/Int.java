@@ -91,8 +91,9 @@ public class Int
      * Return if specified Val has equivalent int value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Int)
-            return ((Int) that).val == val;
+        if (that instanceof Int) {
+			return ((Int) that).val == val;
+		}
         return false;
     }
 
@@ -105,9 +106,14 @@ public class Int
     public int compareTo(Object that) {
         long a = val;
         long b = ((Int) that).val;
-        if (a == b) return 0;
-        if (a < b) return -1;
-        else return 1;
+        if (a == b) {
+			return 0;
+		}
+        if (a < b) {
+			return -1;
+		} else {
+			return 1;
+		}
     }
 
     /**

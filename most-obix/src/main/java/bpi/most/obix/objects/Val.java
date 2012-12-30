@@ -41,8 +41,9 @@ public abstract class Val
      * TODO maybe should implement name, facet equality in Obj.equals()?
      */
     public final boolean equals(Object that) {
-        if (that instanceof Val)
-            return valEquals((Val) that);
+        if (that instanceof Val) {
+			return valEquals((Val) that);
+		}
         return false;
     }
 

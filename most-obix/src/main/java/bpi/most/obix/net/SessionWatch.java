@@ -49,13 +49,15 @@ public class SessionWatch {
     static SessionWatch make(ObixSession session, String name, long pollPeriod)
             throws Exception {
         // get watch service from lobby
-        if (session.getWatchService() == null)
-            throw new Exception("Lobby missing watchService with valid href");
+        if (session.getWatchService() == null) {
+			throw new Exception("Lobby missing watchService with valid href");
+		}
 
         // get make operation
         Op makeOp = (Op) session.getWatchService().get("make");
-        if (makeOp == null || makeOp.getNormalizedHref() == null)
-            throw new Exception("watchService missing op with valid href");
+        if (makeOp == null || makeOp.getNormalizedHref() == null) {
+			throw new Exception("watchService missing op with valid href");
+		}
 
         // invoke make and get back watch obj
         Obj watchObj = session.invoke(makeOp, new Obj());
@@ -87,8 +89,9 @@ public class SessionWatch {
         // read server specified lease time (we assume at this
         // point the server will never change it from under us)
         Reltime lease = (Reltime) watchObj.get("lease");
-        if (lease == null)
-            throw new Exception("Watch missing lease object " + watchObj);
+        if (lease == null) {
+			throw new Exception("Watch missing lease object " + watchObj);
+		}
         this.lease = lease.get();
         this.leaseHref = lease.getNormalizedHref();
 
@@ -160,7 +163,9 @@ public class SessionWatch {
      */
     public Obj[] list() {
         Obj[] list = new Obj[items.size()];
-        for (int i = 0; i < list.length; ++i) list[i] = get(i);
+        for (int i = 0; i < list.length; ++i) {
+			list[i] = get(i);
+		}
         return list;
     }
 
@@ -218,8 +223,9 @@ public class SessionWatch {
     public void remove(Uri[] hrefs)
             throws Exception {
         Item[] items = new Item[hrefs.length];
-        for (int i = 0; i < items.length; ++i)
-            items[i] = (Item) hrefToItem.get(hrefs[i].toString());
+        for (int i = 0; i < items.length; ++i) {
+			items[i] = (Item) hrefToItem.get(hrefs[i].toString());
+		}
         remove(items, hrefs);
     }
 
@@ -283,7 +289,9 @@ public class SessionWatch {
      */
     public long setLease(long desiredLease)
             throws Exception {
-        if (leaseHref == null) throw new Exception("Lease time missing href");
+        if (leaseHref == null) {
+			throw new Exception("Lease time missing href");
+		}
         Reltime x = new Reltime(desiredLease);
         x.setHref(leaseHref);
         x = (Reltime) session.write(x);
@@ -319,14 +327,17 @@ public class SessionWatch {
 
         // if we don't have enough wiggle room with current
         // lease, then attempt to increate the lease time
-        if (desiredLease > lease) setLease(desiredLease);
+        if (desiredLease > lease) {
+			setLease(desiredLease);
+		}
 
         // if server didn't want to shorten lease time,
         // just decrease pollPeriod
         if (desiredLease > lease) {
             pollPeriod = lease - 5000;
-            if (pollPeriod < 100)
-                throw new Exception("Lease time is too short: " + lease);
+            if (pollPeriod < 100) {
+				throw new Exception("Lease time is too short: " + lease);
+			}
         }
 
         return this.pollPeriod = pollPeriod;
@@ -468,7 +479,9 @@ public class SessionWatch {
      */
     void stop() {
         alive = false;
-        if (poller != null) poller.interrupt();
+        if (poller != null) {
+			poller.interrupt();
+		}
         poller = null;
     }
 
@@ -479,9 +492,13 @@ public class SessionWatch {
         while (alive) {
             try {
                 Thread.sleep(pollPeriod);
-                if (alive) pollChanges();
+                if (alive) {
+					pollChanges();
+				}
             } catch (Exception e) {
-                if (!alive) return;
+                if (!alive) {
+					return;
+				}
                 e.printStackTrace();
             }
         }

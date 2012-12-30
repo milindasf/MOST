@@ -53,7 +53,9 @@ public class Enum
      * Set value as string key.
      */
     public void set(String val) {
-        if (val == null) throw new IllegalArgumentException("val cannot be null");
+        if (val == null) {
+			throw new IllegalArgumentException("val cannot be null");
+		}
         this.val = val;
     }
 
@@ -72,8 +74,9 @@ public class Enum
      * Return if specified Val has equivalent enum value.
      */
     public boolean valEquals(Val that) {
-        if (that instanceof Enum)
-            return ((Enum) that).val == val;
+        if (that instanceof Enum) {
+			return ((Enum) that).val == val;
+		}
         return false;
     }
 

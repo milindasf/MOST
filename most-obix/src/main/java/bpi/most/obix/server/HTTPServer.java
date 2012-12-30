@@ -29,12 +29,15 @@ public class HTTPServer {
         Response r = new Response(HTTP_OK, MIME_XML, "foo");
 
         try {
-            if (method.equals("GET"))
-                r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.readObj(new URI(uri), "guest"));
-            if (method.equals("PUT"))
-                r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.writeObj(new URI(uri), stripXMLHeader(data)));
-            if (method.equals("POST"))
-                r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.invokeOp(new URI(uri), stripXMLHeader(data)));
+            if (method.equals("GET")) {
+				r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.readObj(new URI(uri), "guest"));
+			}
+            if (method.equals("PUT")) {
+				r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.writeObj(new URI(uri), stripXMLHeader(data)));
+			}
+            if (method.equals("POST")) {
+				r = new Response(HTTP_OK, MIME_XML, XML_HEADER + _obixServer.invokeOp(new URI(uri), stripXMLHeader(data)));
+			}
         } catch (URISyntaxException usex) {
             r = new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "URI Syntax Exception");
         }
@@ -149,8 +152,9 @@ public class HTTPServer {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
-                    while (true)
-                        new HTTPSession(ss.accept());
+                    while (true) {
+						new HTTPSession(ss.accept());
+					}
                 } catch (IOException ioe) {
                 }
             }
@@ -174,18 +178,22 @@ public class HTTPServer {
         public void run() {
             try {
                 InputStream is = mySocket.getInputStream();
-                if (is == null) return;
+                if (is == null) {
+					return;
+				}
                 BufferedReader in = new BufferedReader(new InputStreamReader(is));
 
                 // Read the request line
                 StringTokenizer st = new StringTokenizer(in.readLine());
-                if (!st.hasMoreTokens())
-                    sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
+                if (!st.hasMoreTokens()) {
+					sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
+				}
 
                 String method = st.nextToken();
 
-                if (!st.hasMoreTokens())
-                    sendError(HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html");
+                if (!st.hasMoreTokens()) {
+					sendError(HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html");
+				}
 
                 String uri = decodePercent(st.nextToken());
 
@@ -228,8 +236,9 @@ public class HTTPServer {
                         size -= read;
                         // postLine += String.valueOf(buf);
                         data += String.valueOf(buf);
-                        if (size > 0)
-                            read = in.read(buf);
+                        if (size > 0) {
+							read = in.read(buf);
+						}
                     }
 //					postLine = postLine.trim();
 //					decodeParms( postLine, parms );
@@ -251,18 +260,20 @@ public class HTTPServer {
                     while (read >= 0 && size > 0 && !data.endsWith("\r\n")) {
                         size -= read;
                         data += String.valueOf(buf);
-                        if (size > 0)
-                            read = in.read(buf);
+                        if (size > 0) {
+							read = in.read(buf);
+						}
                     }
                 }
 
 
                 // Ok, now do the serve()
                 Response r = serve(uri, method, header, parms, data);
-                if (r == null)
-                    sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
-                else
-                    sendResponse(r.status, r.mimeType, r.header, r.data);
+                if (r == null) {
+					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
+				} else {
+					sendResponse(r.status, r.mimeType, r.header, r.data);
+				}
 
                 in.close();
             } catch (IOException ioe) {
@@ -311,16 +322,18 @@ public class HTTPServer {
          */
         private void decodeParms(String parms, Properties p)
                 throws InterruptedException {
-            if (parms == null)
-                return;
+            if (parms == null) {
+				return;
+			}
 
             StringTokenizer st = new StringTokenizer(parms, "&");
             while (st.hasMoreTokens()) {
                 String e = st.nextToken();
                 int sep = e.indexOf('=');
-                if (sep >= 0)
-                    p.put(decodePercent(e.substring(0, sep)).trim(),
+                if (sep >= 0) {
+					p.put(decodePercent(e.substring(0, sep)).trim(),
                             decodePercent(e.substring(sep + 1)));
+				}
             }
         }
 
@@ -338,18 +351,21 @@ public class HTTPServer {
          */
         private void sendResponse(String status, String mime, Properties header, InputStream data) {
             try {
-                if (status == null)
-                    throw new Error("sendResponse(): Status can't be null.");
+                if (status == null) {
+					throw new Error("sendResponse(): Status can't be null.");
+				}
 
                 OutputStream out = mySocket.getOutputStream();
                 PrintWriter pw = new PrintWriter(out);
                 pw.print("HTTP/1.0 " + status + " \r\n");
 
-                if (mime != null)
-                    pw.print("Content-Type: " + mime + "\r\n");
+                if (mime != null) {
+					pw.print("Content-Type: " + mime + "\r\n");
+				}
 
-                if (header == null || header.getProperty("Date") == null)
-                    pw.print("Date: " + gmtFrmt.format(new Date()) + "\r\n");
+                if (header == null || header.getProperty("Date") == null) {
+					pw.print("Date: " + gmtFrmt.format(new Date()) + "\r\n");
+				}
 
                 if (header != null) {
                     Enumeration e = header.keys();
@@ -367,15 +383,17 @@ public class HTTPServer {
                     byte[] buff = new byte[2048];
                     while (true) {
                         int read = data.read(buff, 0, 2048);
-                        if (read <= 0)
-                            break;
+                        if (read <= 0) {
+							break;
+						}
                         out.write(buff, 0, read);
                     }
                 }
                 out.flush();
                 out.close();
-                if (data != null)
-                    data.close();
+                if (data != null) {
+					data.close();
+				}
             } catch (IOException ioe) {
                 // Couldn't write? No can do.
                 try {
@@ -416,8 +434,9 @@ public class HTTPServer {
                         "zip		application/octet-stream " +
                         "exe		application/octet-stream " +
                         "class		application/octet-stream ");
-        while (st.hasMoreTokens())
-            theMimeTypes.put(st.nextToken(), st.nextToken());
+        while (st.hasMoreTokens()) {
+			theMimeTypes.put(st.nextToken(), st.nextToken());
+		}
     }
 
     /**

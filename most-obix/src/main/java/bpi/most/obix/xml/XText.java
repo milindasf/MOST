@@ -77,7 +77,9 @@ public final class XText
      * Get the character data as a string.
      */
     public final String string() {
-        if (string == null) string = new String(data, 0, length);
+        if (string == null) {
+			string = new String(data, 0, length);
+		}
         return string;
     }
 
@@ -85,8 +87,11 @@ public final class XText
      * Get the length of the character data.
      */
     public final int length() {
-        if (data != null) return length;
-        else return string.length();
+        if (data != null) {
+			return length;
+		} else {
+			return string.length();
+		}
     }
 
     /**
@@ -114,7 +119,9 @@ public final class XText
     public final void append(int c) {
         if (length + 1 > data.length) {
             int resize = length * 2;
-            if (resize < 256) resize = 256;
+            if (resize < 256) {
+				resize = 256;
+			}
             char[] temp = new char[resize];
             System.arraycopy(data, 0, temp, 0, length);
             data = temp;
@@ -132,15 +139,18 @@ public final class XText
         int slen = s.length();
         if (length + slen > data.length) {
             int resize = Math.max(length * 2, length + slen);
-            if (resize < 256) resize = 256;
+            if (resize < 256) {
+				resize = 256;
+			}
             char[] temp = new char[resize];
             System.arraycopy(data, 0, temp, 0, length);
             data = temp;
         }
 
         int off = length;
-        for (int i = 0; i < slen; ++i)
-            data[off + i] = s.charAt(i);
+        for (int i = 0; i < slen; ++i) {
+			data[off + i] = s.charAt(i);
+		}
         length += slen;
         string = null;
     }
@@ -152,15 +162,18 @@ public final class XText
     public final void append(char[] buf, int off, int len) {
         if (length + len > data.length) {
             int resize = Math.max(length * 2, length + len);
-            if (resize < 256) resize = 256;
+            if (resize < 256) {
+				resize = 256;
+			}
             char[] temp = new char[resize];
             System.arraycopy(data, 0, temp, 0, length);
             data = temp;
         }
 
         int myoff = length;
-        for (int i = 0; i < len; ++i)
-            data[myoff + i] = buf[off + i];
+        for (int i = 0; i < len; ++i) {
+			data[myoff + i] = buf[off + i];
+		}
         length += len;
         string = null;
     }
@@ -171,7 +184,9 @@ public final class XText
      * @throws ArrayIndexOutOfBoundsException if index >= length().
      */
     public final void set(int index, int c) {
-        if (index >= length) throw new ArrayIndexOutOfBoundsException();
+        if (index >= length) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
         data[index] = (char) c;
         string = null;
     }
@@ -219,16 +234,18 @@ public final class XText
             if (data == null) {
                 out.w(string);
             } else {
-                for (int i = 0; i < length; ++i)
-                    out.w(data[i]);
+                for (int i = 0; i < length; ++i) {
+					out.w(data[i]);
+				}
             }
             out.w("]]>");
         } else {
             if (data == null) {
                 out.safe(string, false);
             } else {
-                for (int i = 0; i < length; ++i)
-                    out.safe(data[i], false);
+                for (int i = 0; i < length; ++i) {
+					out.safe(data[i], false);
+				}
             }
         }
     }

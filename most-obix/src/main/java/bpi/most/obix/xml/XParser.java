@@ -100,7 +100,9 @@ public class XParser {
     public final XElem parse(boolean close)
             throws Exception {
         if (next() != ELEM_START) {
-            if (close) close();
+            if (close) {
+				close();
+			}
             throw error("Expecting element start");
         }
 
@@ -144,7 +146,9 @@ public class XParser {
             }
             return root;
         } finally {
-            if (close) close();
+            if (close) {
+				close();
+			}
         }
     }
 
@@ -187,7 +191,9 @@ public class XParser {
                     c = read();
                     if (c == '-') {
                         c = read();
-                        if (c != '-') throw error("Expecting comment");
+                        if (c != '-') {
+							throw error("Expecting comment");
+						}
                         skipComment();
                         continue;
                     } else if (c == '[') {
@@ -223,7 +229,9 @@ public class XParser {
             }
 
             // char data
-            if (!parseText(c)) continue;
+            if (!parseText(c)) {
+				continue;
+			}
             return type = TEXT;
         }
     }
@@ -245,9 +253,13 @@ public class XParser {
     public void skip(int toDepth)
             throws Exception {
         while (true) {
-            if (type == ELEM_END && depth == toDepth) return;
+            if (type == ELEM_END && depth == toDepth) {
+				return;
+			}
             int type = next();
-            if (type == EOF) throw new EOFException();
+            if (type == EOF) {
+				throw new EOFException();
+			}
         }
     }
 
@@ -277,7 +289,9 @@ public class XParser {
      * processing.  If depth is zero return null.
      */
     public final XElem elem() {
-        if (depth < 1) return null;
+        if (depth < 1) {
+			return null;
+		}
         return stack[depth - 1];
     }
 
@@ -288,7 +302,9 @@ public class XParser {
      * returns the current element.  If depth is invalid, return null.
      */
     public final XElem elem(int depth) {
-        if (depth < 0 || depth >= this.depth) return null;
+        if (depth < 0 || depth >= this.depth) {
+			return null;
+		}
         return stack[depth];
     }
 
@@ -300,7 +316,9 @@ public class XParser {
      * return null.
      */
     public final XText text() {
-        if (type == TEXT) return text;
+        if (type == TEXT) {
+			return text;
+		}
         return null;
     }
 
@@ -356,11 +374,15 @@ public class XParser {
                 break;
             } else if (c == '/') {
                 c = read();
-                if (c != '>') throw error("Expecting /> empty element");
+                if (c != '>') {
+					throw error("Expecting /> empty element");
+				}
                 emptyElem = true;
                 break;
             } else {
-                if (!sp) throw error("Expecting space before attribute");
+                if (!sp) {
+					throw error("Expecting space before attribute");
+				}
                 resolveAttrNs |= parseAttr(c, elem);
             }
         }
@@ -368,17 +390,20 @@ public class XParser {
         // after reading all the attributes, now it is safe to
         // resolve prefixes into their actual XNs instances;
         // first resolve the element itself...
-        if (prefix == null)
-            elem.ns = defaultNs;
-        else
-            elem.ns = prefixToNs(prefix);
+        if (prefix == null) {
+			elem.ns = defaultNs;
+		} else {
+			elem.ns = prefixToNs(prefix);
+		}
 
         // resolve attribute prefixes (optimize to short circuit if
         // no prefixes were specified since that is the common case)...
         if (resolveAttrNs) {
-            for (int i = 0; i < elem.attrSize; ++i)
-                if (elem.attr[i * 3 + 1] != null)
-                    elem.attr[i * 3 + 1] = prefixToNs((String) elem.attr[i * 3 + 1]);
+            for (int i = 0; i < elem.attrSize; ++i) {
+				if (elem.attr[i * 3 + 1] != null) {
+					elem.attr[i * 3 + 1] = prefixToNs((String) elem.attr[i * 3 + 1]);
+				}
+			}
         }
     }
 
@@ -391,22 +416,27 @@ public class XParser {
         // prefix / name
         parseQName(read());
         XNs ns = null;
-        if (prefix == null)
-            ns = defaultNs;
-        else
-            ns = prefixToNs(prefix);
+        if (prefix == null) {
+			ns = defaultNs;
+		} else {
+			ns = prefixToNs(prefix);
+		}
 
         // get end element
-        if (depth == 0) throw error("Element end without start");
+        if (depth == 0) {
+			throw error("Element end without start");
+		}
         XElem elem = stack[depth - 1];
 
         // verify
-        if (!elem.name.equals(name) || elem.ns != ns)
-            throw error("Expecting end of element '" + elem.qname() + "'[" + elem.line + "]");
+        if (!elem.name.equals(name) || elem.ns != ns) {
+			throw error("Expecting end of element '" + elem.qname() + "'[" + elem.line + "]");
+		}
 
         skipSpace();
-        if (read() != '>')
-            throw error("Expecting > end of element");
+        if (read() != '>') {
+			throw error("Expecting > end of element");
+		}
     }
 
     /**
@@ -423,12 +453,16 @@ public class XParser {
 
         // Eq [25] production
         skipSpace();
-        if (read() != '=') throw error("Expecting '='");
+        if (read() != '=') {
+			throw error("Expecting '='");
+		}
         skipSpace();
 
         // String literal
         c = read();
-        if (c != '"' && c != '\'') throw error("Expecting quoted attribute value");
+        if (c != '"' && c != '\'') {
+			throw error("Expecting quoted attribute value");
+		}
         String value = parseString(c);
 
         // check namespace declaration "xmlns" or "xmlns:prefix"
@@ -480,8 +514,9 @@ public class XParser {
         XText buf = this.buf;
         buf.setLength(0);
         int c;
-        while ((c = read()) != quote)
-            buf.append(toCharData(c));
+        while ((c = read()) != quote) {
+			buf.append(toCharData(c));
+		}
         return bufToString();
     }
 
@@ -490,14 +525,16 @@ public class XParser {
      */
     private String parseName(int c)
             throws Exception {
-        if (!isName(c))
-            throw error("Expected XML name");
+        if (!isName(c)) {
+			throw error("Expected XML name");
+		}
 
         XText buf = this.buf;
         buf.setLength(0);
         buf.append(c);
-        while (isName(c = read()))
-            buf.append(c);
+        while (isName(c = read())) {
+			buf.append(c);
+		}
         pushback = c;
 
         return bufToString();
@@ -541,7 +578,9 @@ public class XParser {
             try {
                 c = read();
             } catch (EOFException e) {
-                if (gotText) throw e;
+                if (gotText) {
+					throw e;
+				}
                 return false;
             }
 
@@ -550,7 +589,9 @@ public class XParser {
                 return gotText;
             }
 
-            if (!isSpace(c)) gotText = true;
+            if (!isSpace(c)) {
+				gotText = true;
+			}
             text.append(toCharData(c));
         }
     }
@@ -571,7 +612,9 @@ public class XParser {
             return false;
         }
 
-        while (isSpace(c = read())) ;
+        while (isSpace(c = read())) {
+			;
+		}
         pushback = c;
         return true;
     }
@@ -587,7 +630,9 @@ public class XParser {
             c1 = c0;
             c0 = read();
             if (c2 == '-' && c1 == '-') {
-                if (c0 != '>') throw error("Cannot have -- in middle of comment");
+                if (c0 != '>') {
+					throw error("Cannot have -- in middle of comment");
+				}
                 return;
             }
         }
@@ -602,7 +647,9 @@ public class XParser {
         while (true) {
             c1 = c0;
             c0 = read();
-            if (c1 == '?' && c0 == '>') return;
+            if (c1 == '?' && c0 == '>') {
+				return;
+			}
         }
     }
 
@@ -614,9 +661,15 @@ public class XParser {
         int depth = 1;
         while (true) {
             int c = read();
-            if (c == '<') depth++;
-            if (c == '>') depth--;
-            if (depth == 0) return;
+            if (c == '<') {
+				depth++;
+			}
+            if (c == '>') {
+				depth--;
+			}
+            if (depth == 0) {
+				return;
+			}
         }
     }
 
@@ -631,9 +684,11 @@ public class XParser {
     private void consume(String s)
             throws Exception {
         int len = s.length();
-        for (int i = 0; i < len; ++i)
-            if (read() != s.charAt(i))
-                throw error("Expected '" + s + "'");
+        for (int i = 0; i < len; ++i) {
+			if (read() != s.charAt(i)) {
+				throw error("Expected '" + s + "'");
+			}
+		}
     }
 
 ////////////////////////////////////////////////////////////////
@@ -660,7 +715,9 @@ public class XParser {
 
         // read the next character
         c = in.read();
-        if (c < 0) throw new EOFException();
+        if (c < 0) {
+			throw new EOFException();
+		}
 
         // update line:col and normalize line breaks (2.11)
         if (c == '\n') {
@@ -669,7 +726,9 @@ public class XParser {
             return '\n';
         } else if (c == '\r') {
             int lookAhead = in.read();
-            if (lookAhead != '\n') pushback = lookAhead;
+            if (lookAhead != '\n') {
+				pushback = lookAhead;
+			}
             line++;
             col = 0;
             return '\n';
@@ -686,10 +745,13 @@ public class XParser {
      */
     private int toCharData(int c)
             throws Exception {
-        if (c == '<')
-            throw error("Invalid markup in char data");
+        if (c == '<') {
+			throw error("Invalid markup in char data");
+		}
 
-        if (c != '&') return c;
+        if (c != '&') {
+			return c;
+		}
 
         c = read();
 
@@ -699,8 +761,11 @@ public class XParser {
             col++;
             int x = 0;
             int base = 10;
-            if (c == 'x') base = 16;
-            else x = toNum(x, c, base);
+            if (c == 'x') {
+				base = 16;
+			} else {
+				x = toNum(x, c, base);
+			}
             c = in.read();
             col++;
             while (c != ';') {
@@ -714,14 +779,26 @@ public class XParser {
         XText ebuf = this.entityBuf;
         ebuf.setLength(0);
         ebuf.append(c);
-        while ((c = read()) != ';') ebuf.append(c);
+        while ((c = read()) != ';') {
+			ebuf.append(c);
+		}
         String entity = ebuf.string().intern();
 
-        if (entity == "lt") return '<';
-        if (entity == "gt") return '>';
-        if (entity == "amp") return '&';
-        if (entity == "quot") return '"';
-        if (entity == "apos") return '\'';
+        if (entity == "lt") {
+			return '<';
+		}
+        if (entity == "gt") {
+			return '>';
+		}
+        if (entity == "amp") {
+			return '&';
+		}
+        if (entity == "quot") {
+			return '"';
+		}
+        if (entity == "apos") {
+			return '\'';
+		}
 
         throw error("Unsupported entity &" + entity + ";");
     }
@@ -729,10 +806,14 @@ public class XParser {
     private int toNum(int x, int c, int base)
             throws Exception {
         x = x * base;
-        if ('0' <= c && c <= '9') return x + (c - '0');
-        else if (base == 16) {
-            if ('a' <= c && c <= 'f') return x + 10 + (c - 'a');
-            else if ('A' <= c && c <= 'F') return x + 10 + (c - 'A');
+        if ('0' <= c && c <= '9') {
+			return x + (c - '0');
+		} else if (base == 16) {
+            if ('a' <= c && c <= 'f') {
+				return x + 10 + (c - 'a');
+			} else if ('A' <= c && c <= 'F') {
+				return x + 10 + (c - 'A');
+			}
         }
         throw error("Expected base " + base + " number");
     }
@@ -740,7 +821,9 @@ public class XParser {
     private String bufToString() {
         if (buf.length == 1) {
             int ch = buf.data[0];
-            if (' ' <= ch && ch < 128) return internCache[ch];
+            if (' ' <= ch && ch < 128) {
+				return internCache[ch];
+			}
         }
         return buf.string();
     }
@@ -756,11 +839,14 @@ public class XParser {
     private XNs prefixToNs(String prefix) {
         for (int i = depth - 1; i >= 0; --i) {
             XNs[] ns = nsStack[i];
-            if (ns == null) continue;
-            for (int j = 0; j < ns.length; ++j)
-                if (ns[j].prefix.equals(prefix)) {
+            if (ns == null) {
+				continue;
+			}
+            for (int j = 0; j < ns.length; ++j) {
+				if (ns[j].prefix.equals(prefix)) {
                     return ns[j];
                 }
+			}
         }
         throw new XException("Undeclared namespace prefix '" + prefix + "'");
     }
@@ -775,10 +861,11 @@ public class XParser {
 
         // update defaultNs
         if (prefix == "") {
-            if (value.equals(""))
-                defaultNs = null;
-            else
-                defaultNs = ns;
+            if (value.equals("")) {
+				defaultNs = null;
+			} else {
+				defaultNs = ns;
+			}
         }
 
         // update stack
@@ -806,7 +893,9 @@ public class XParser {
             if (ns != null) {
                 for (int j = 0; j < ns.length; ++j) {
                     if (ns[j].isDefault()) {
-                        if (!ns[j].uri.equals("")) defaultNs = ns[j];
+                        if (!ns[j].uri.equals("")) {
+							defaultNs = ns[j];
+						}
                         return;
                     }
                 }
@@ -830,8 +919,9 @@ public class XParser {
         XElem elem = stack[depth];
 
         // allocate instance if necessary
-        if (elem == null)
-            elem = stack[depth] = new XElem();
+        if (elem == null) {
+			elem = stack[depth] = new XElem();
+		}
 
         // increase stack size
         depth++;
@@ -929,9 +1019,15 @@ public class XParser {
     private static final int CT_NAME = 0x02;
 
     static {
-        for (int i = 'a'; i <= 'z'; ++i) charMap[i] = CT_NAME;
-        for (int i = 'A'; i <= 'Z'; ++i) charMap[i] = CT_NAME;
-        for (int i = '0'; i <= '9'; ++i) charMap[i] = CT_NAME;
+        for (int i = 'a'; i <= 'z'; ++i) {
+			charMap[i] = CT_NAME;
+		}
+        for (int i = 'A'; i <= 'Z'; ++i) {
+			charMap[i] = CT_NAME;
+		}
+        for (int i = '0'; i <= '9'; ++i) {
+			charMap[i] = CT_NAME;
+		}
         charMap['-'] = CT_NAME;
         charMap['.'] = CT_NAME;
         charMap['_'] = CT_NAME;
@@ -949,8 +1045,9 @@ public class XParser {
     private static final String[] internCache = new String[128];
 
     static {
-        for (int i = ' '; i < 128; ++i)
-            internCache[i] = new String(new char[]{(char) i}).intern();
+        for (int i = ' '; i < 128; ++i) {
+			internCache[i] = new String(new char[]{(char) i}).intern();
+		}
     }
 
 ////////////////////////////////////////////////////////////////

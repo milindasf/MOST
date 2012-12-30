@@ -54,7 +54,9 @@ public class Obj
      */
     public static Obj toObj(String elemName) {
         Class cls = toClass(elemName);
-        if (cls == null) return null;
+        if (cls == null) {
+			return null;
+		}
         try {
             return (Obj) cls.newInstance();
         } catch (Exception e) {
@@ -123,8 +125,12 @@ public class Obj
      * a child to another Obj yet.
      */
     public void setName(String name) {
-        if (this.name != null) throw new IllegalStateException("name is already set");
-        if (this.parent != null) throw new IllegalStateException("obj is already parented");
+        if (this.name != null) {
+			throw new IllegalStateException("name is already set");
+		}
+        if (this.parent != null) {
+			throw new IllegalStateException("obj is already parented");
+		}
         this.name = name;
     }
 
@@ -139,8 +145,11 @@ public class Obj
      * Get the root parent of this object.
      */
     public Obj getRoot() {
-        if (parent == null) return this;
-        else return parent.getRoot();
+        if (parent == null) {
+			return this;
+		} else {
+			return parent.getRoot();
+		}
     }
 
     /**
@@ -156,7 +165,9 @@ public class Obj
      * object doesn't have an href.
      */
     public Uri getNormalizedHref() {
-        if (href == null) return null;
+        if (href == null) {
+			return null;
+		}
         return href.normalize(getRoot().getHref());
     }
 
@@ -179,7 +190,9 @@ public class Obj
      * contains the specified URI.
      */
     public boolean is(Uri uri) {
-        if (is == null) return false;
+        if (is == null) {
+			return false;
+		}
         return is.contains(uri);
     }
 
@@ -365,9 +378,15 @@ public class Obj
      * information.
      */
     public String toDisplayString() {
-        if (display != null) return display;
-        if (this instanceof Val) return ((Val) this).encodeVal();
-        if (is != null && is.size() > 0) return is.toString();
+        if (display != null) {
+			return display;
+		}
+        if (this instanceof Val) {
+			return ((Val) this).encodeVal();
+		}
+        if (is != null && is.size() > 0) {
+			return is.toString();
+		}
         return "obix:" + getElement();
     }
 
@@ -390,8 +409,12 @@ public class Obj
      * return name.
      */
     public String toDisplayName() {
-        if (displayName != null) return displayName;
-        if (name != null) return name;
+        if (displayName != null) {
+			return displayName;
+		}
+        if (name != null) {
+			return name;
+		}
         return getElement();
     }
 
@@ -435,7 +458,9 @@ public class Obj
      * then status is to Status.ok.
      */
     public void setStatus(Status status) {
-        if (status == null) status = Status.ok;
+        if (status == null) {
+			status = Status.ok;
+		}
         this.status = status;
     }
 
@@ -476,8 +501,9 @@ public class Obj
         this.writable = writable;
         if (recursive) {
             Obj[] kids = list();
-            for (int i = 0; i < kids.length; ++i)
-                kids[i].setWritable(writable, recursive);
+            for (int i = 0; i < kids.length; ++i) {
+				kids[i].setWritable(writable, recursive);
+			}
         }
     }
 
@@ -489,7 +515,9 @@ public class Obj
      * Return if this object has a sub object by the specified name.
      */
     public boolean has(String name) {
-        if (kidsByName == null) return false;
+        if (kidsByName == null) {
+			return false;
+		}
         return kidsByName.get(name) != null;
     }
 
@@ -497,7 +525,9 @@ public class Obj
      * Get a sub object by name or return null.
      */
     public Obj get(String name) {
-        if (kidsByName == null) return null;
+        if (kidsByName == null) {
+			return null;
+		}
         return (Obj) kidsByName.get(name);
     }
 
@@ -508,10 +538,12 @@ public class Obj
      */
     public Uri getChildHref(String name) {
         Obj kid = get(name);
-        if (kid == null)
-            throw new IllegalStateException("Missing child object: " + name);
-        if (kid.getHref() == null)
-            throw new IllegalStateException("Child missing href : " + name);
+        if (kid == null) {
+			throw new IllegalStateException("Missing child object: " + name);
+		}
+        if (kid.getHref() == null) {
+			throw new IllegalStateException("Child missing href : " + name);
+		}
         return kid.getNormalizedHref();
     }
 
@@ -528,8 +560,9 @@ public class Obj
     public Obj[] list() {
         Obj[] list = new Obj[kidsCount];
         int n = 0;
-        for (Obj p = kidsHead; p != null; p = p.next)
-            list[n++] = p;
+        for (Obj p = kidsHead; p != null; p = p.next) {
+			list[n++] = p;
+		}
         return list;
     }
 
@@ -542,8 +575,9 @@ public class Obj
         Object[] temp = new Object[kidsCount];
         int count = 0;
         for (Obj p = kidsHead; p != null; p = p.next) {
-            if (cls.isInstance(p))
-                temp[count++] = p;
+            if (cls.isInstance(p)) {
+				temp[count++] = p;
+			}
         }
 
         Object[] result = (Object[]) Array.newInstance(cls, count);
@@ -565,14 +599,18 @@ public class Obj
      */
     public Obj add(Obj kid) {
         // sanity check
-        if (kid.parent != null || kid.prev != null || kid.next != null)
-            throw new IllegalStateException("Child is already parented");
-        if (kid.name != null && kidsByName != null && kidsByName.containsKey(kid.name))
-            throw new IllegalStateException("Duplicate child name '" + kid.name + "'");
+        if (kid.parent != null || kid.prev != null || kid.next != null) {
+			throw new IllegalStateException("Child is already parented");
+		}
+        if (kid.name != null && kidsByName != null && kidsByName.containsKey(kid.name)) {
+			throw new IllegalStateException("Duplicate child name '" + kid.name + "'");
+		}
 
         // if named, add to name map
         if (kid.name != null) {
-            if (kidsByName == null) kidsByName = new HashMap<String, Obj>();
+            if (kidsByName == null) {
+				kidsByName = new HashMap<String, Obj>();
+			}
             kidsByName.put(kid.name, kid);
         }
 
@@ -595,8 +633,9 @@ public class Obj
      * Add all the specified objects as my children. Return this.
      */
     public Obj addAll(Obj[] kids) {
-        for (int i = 0; i < kids.length; ++i)
-            add(kids[i]);
+        for (int i = 0; i < kids.length; ++i) {
+			add(kids[i]);
+		}
         return this;
     }
 
@@ -605,12 +644,14 @@ public class Obj
      */
     public void remove(Obj kid) {
         // sanity checks
-        if (kid.parent != this)
-            throw new IllegalStateException("Not parented by me");
+        if (kid.parent != this) {
+			throw new IllegalStateException("Not parented by me");
+		}
 
         // remove from name map if applicable
-        if (kid.name != null)
-            kidsByName.remove(kid.name);
+        if (kid.name != null) {
+			kidsByName.remove(kid.name);
+		}
 
         // remove from linked list
         if (kidsHead == kid) {
@@ -636,14 +677,17 @@ public class Obj
      * the same name).
      */
     public void replace(Obj oldObj, Obj newObj) {
-        if (!oldObj.name.equals(newObj.name))
-            throw new IllegalStateException("Mismatched names: " + oldObj.name + " != " + newObj.name);
+        if (!oldObj.name.equals(newObj.name)) {
+			throw new IllegalStateException("Mismatched names: " + oldObj.name + " != " + newObj.name);
+		}
 
         // sanity checks
-        if (oldObj.parent != this)
-            throw new IllegalStateException("oldObj not parented by me");
-        if (newObj.parent != null)
-            throw new IllegalStateException("newObj already parented");
+        if (oldObj.parent != this) {
+			throw new IllegalStateException("oldObj not parented by me");
+		}
+        if (newObj.parent != null) {
+			throw new IllegalStateException("newObj already parented");
+		}
 
         // replace in map
         kidsByName.put(newObj.name, newObj);
@@ -651,11 +695,19 @@ public class Obj
         // replace in linked list
         newObj.parent = this;
         newObj.prev = oldObj.prev;
-        if (newObj.prev != null) newObj.prev.next = newObj;
+        if (newObj.prev != null) {
+			newObj.prev.next = newObj;
+		}
         newObj.next = oldObj.next;
-        if (newObj.next != null) newObj.next.prev = newObj;
-        if (kidsHead == oldObj) kidsHead = newObj;
-        if (kidsTail == oldObj) kidsTail = newObj;
+        if (newObj.next != null) {
+			newObj.next.prev = newObj;
+		}
+        if (kidsHead == oldObj) {
+			kidsHead = newObj;
+		}
+        if (kidsTail == oldObj) {
+			kidsTail = newObj;
+		}
 
         // clear oldObj
         oldObj.parent = null;
@@ -667,8 +719,9 @@ public class Obj
      * Convenience for <code>getParent().remove(this)</code>.
      */
     public void removeThis() {
-        if (parent == null)
-            throw new IllegalStateException("Not parented");
+        if (parent == null) {
+			throw new IllegalStateException("Not parented");
+		}
 
         parent.remove(this);
     }
@@ -683,10 +736,15 @@ public class Obj
     public String toString() {
         StringBuffer s = new StringBuffer();
         s.append("<").append(getElement());
-        if (name != null) s.append(" name=\"").append(name).append('"');
-        if (href != null) s.append(" href=\"").append(href.get()).append('"');
-        if (this instanceof Val)
-            s.append(" val=\"").append(((Val) this).encodeVal()).append('"');
+        if (name != null) {
+			s.append(" name=\"").append(name).append('"');
+		}
+        if (href != null) {
+			s.append(" href=\"").append(href.get()).append('"');
+		}
+        if (this instanceof Val) {
+			s.append(" val=\"").append(((Val) this).encodeVal()).append('"');
+		}
         s.append("/>");
         return s.toString();
     }

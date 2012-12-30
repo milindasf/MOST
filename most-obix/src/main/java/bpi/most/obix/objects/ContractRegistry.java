@@ -70,8 +70,9 @@ public class ContractRegistry {
         // would be confusing (consider the Lobby.about Ref
         // as actually implementing About)
         if (contract == null || contract.size() == 0 ||
-                contract.containsOnlyObj() || base == Ref.class)
-            return base;
+                contract.containsOnlyObj() || base == Ref.class) {
+			return base;
+		}
 
         // first check cache
         String key = base.getName() + ": " + contract.toString();
@@ -80,12 +81,14 @@ public class ContractRegistry {
         // we use my own class as a special placeholder
         // for "not found", so we don't repeat the expensive
         // calculations below
-        if (cls == NotFound)
-            return base;
+        if (cls == NotFound) {
+			return base;
+		}
 
         // if we found it then cool beans
-        if (cls != null)
-            return cls;
+        if (cls != null) {
+			return cls;
+		}
 
         // if we didn't find a class, then try to compile
         // one for this contract list
@@ -124,14 +127,17 @@ public class ContractRegistry {
             // check for base like obix:int
             String baseClassName = (String) baseContracts.get(list[i].get());
             if (baseClassName != null) {
-                if (base != Obj.class && !base.getName().equals(baseClassName))
-                    throw new IllegalArgumentException("Base conflicts with contract: " + base.getName() + " and " + list[i].get());
+                if (base != Obj.class && !base.getName().equals(baseClassName)) {
+					throw new IllegalArgumentException("Base conflicts with contract: " + base.getName() + " and " + list[i].get());
+				}
                 base = Class.forName(baseClassName);
             }
         }
 
         // if no interfaces found for contract URIs then bail
-        if (acc.size() == 0) return base;
+        if (acc.size() == 0) {
+			return base;
+		}
         Class[] interfaces = (Class[]) acc.toArray(new Class[acc.size()]);
 
         // compile a class
@@ -151,8 +157,9 @@ public class ContractRegistry {
      * Register a subclass of Obj for the specified contract uri.
      */
     public static void put(Uri href, String className) {
-        if (map.get(href.get()) != null)
-            throw new IllegalStateException("The specified href is already mapped: " + href);
+        if (map.get(href.get()) != null) {
+			throw new IllegalStateException("The specified href is already mapped: " + href);
+		}
         map.put(href.get(), className);
         cache.clear(); // clear cache
     }
