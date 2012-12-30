@@ -5,6 +5,7 @@ package bpi.most.obix.test;
 
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.Enum;
 
 import java.io.ByteArrayInputStream;
 
