@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class ObixObjectBroker implements IObjectBroker {
 
-    private static final String OBIX_DP_PREFIX = "/obix/dp/";
-    private static final String OBIX_ZONE_PREFIX = "/obix/zones/";
+    public static final String OBIX_DP_PREFIX = "/obix/dp/";
+    public static final String OBIX_ZONE_PREFIX = "/obix/zones/";
 
     @Inject
     private ZoneService zoneService;
