@@ -6,6 +6,8 @@ import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 import bpi.most.domain.zone.Zone;
 
+import javax.inject.Inject;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +17,10 @@ public class ObixObjectBroker implements IObjectBroker {
     private static final String OBIX_DP_PREFIX = "/obix/dp/";
     private static final String OBIX_ZONE_PREFIX = "/obix/zones/";
 
-    //@Inject
+    @Inject
     private ZoneService zoneService;
 
-    //@Inject
+    @Inject
     private DatapointService datapointService;
 
     private HashMap<Uri, Dp> dpCache;
