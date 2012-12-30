@@ -7,9 +7,9 @@ import bpi.most.obix.contracts.DatapointData;
  */
 public class DpData extends Obj implements DatapointData {
 
-    private static final String TIMESTAMP = "timestamp";
-    private static final String VALUE = "value";
-    private static final String QUALITY = "quality";
+    public static final String TIMESTAMP = "timestamp";
+    public static final String VALUE = "value";
+    public static final String QUALITY = "quality";
 
     private long timestamp;
     private double value;

@@ -5,6 +5,7 @@ import bpi.most.obix.objects.DpData;
 import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
 
+import java.net.URI;
 import java.util.HashMap;
 
 public interface IObjectBroker {
@@ -18,22 +19,22 @@ public interface IObjectBroker {
     /**
      * GET /obix/dp/{name}
      *
-     * @param uri The uri of the oBix object, which is the datapointName
+     * @param href The uri of the oBix object, which is the datapointName
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      */
-    Dp getDatapoint(String uri); // = datapointName = {name}
+    Dp getDatapoint(URI href); // = datapointName = {name}
 
     /**
      * GET /obix/dp/{name}/data
      *
-     * @param uri The uri of the oBix object, which is the datapointName
+     * @param href The uri of the oBix object, which is the datapointName
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      */
-    DpData getDatapointData(String uri); // = datapointName = {name}
+    List getDatapointData(URI href); // = datapointName = {name}
 
     /**
      * GET /obix/dp
@@ -46,10 +47,10 @@ public interface IObjectBroker {
     /**
      * GET /obix/zones/{id}
      *
-     * @param zone The id of the zone
+     * @param href The id of the zone
      * @return The zone, which contains data points
      */
-    List getDatapointsForZone(String zone); // = {id}
+    List getDatapointsForZone(URI href); // = {id}
     // return list with zones
 
     /**

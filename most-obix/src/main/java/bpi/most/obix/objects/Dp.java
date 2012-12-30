@@ -7,10 +7,10 @@ import bpi.most.obix.contracts.Datapoint;
  */
 public class Dp extends Obj implements Datapoint {
 
-    private static final String DATA_POINT_NAME = "dataPointName";
-    private static final String TYPE = "type";
-    private static final String DESCRIPTION = "description";
-    private static final String DP_DATA = "dpData";
+    public static final String DATA_POINT_NAME = "dataPointName";
+    public static final String TYPE = "type";
+    public static final String DESCRIPTION = "description";
+    public static final String DP_DATA = "dpData";
 
     private String dataPointName;
     private String type;
