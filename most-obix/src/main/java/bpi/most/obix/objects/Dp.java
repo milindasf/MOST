@@ -1,7 +1,6 @@
 package bpi.most.obix.objects;
 
 import bpi.most.obix.comparator.DpDataComparator;
-import bpi.most.obix.contracts.Datapoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +9,7 @@ import java.util.Collections;
 /**
  * @author Alexej Strelzow
  */
-public class Dp extends Obj implements Datapoint {
+public class Dp extends Obj {
 
     public static final String OBIX_DP_PREFIX = "/obix/dp/";
 
@@ -59,10 +58,6 @@ public class Dp extends Obj implements Datapoint {
         this.dpData.addAll(Arrays.asList(dpData));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getDatapointName() {
         if (dataPointName == null) {
             Obj obj = get(DATA_POINT_NAME);
@@ -73,10 +68,6 @@ public class Dp extends Obj implements Datapoint {
         return new Str(DATA_POINT_NAME, dataPointName);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getType() {
         if (type == null) {
             Obj obj = get(TYPE);
@@ -87,10 +78,6 @@ public class Dp extends Obj implements Datapoint {
         return new Str(TYPE, type);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getDescription() {
         if (description == null) {
             Obj obj = get(DESCRIPTION);
@@ -101,10 +88,6 @@ public class Dp extends Obj implements Datapoint {
         return new Str(DESCRIPTION, description);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List getDpData() {
         List list = new List(DP_DATA, new Contract("obix:DatapointData"));
         list.addAll(dpData.toArray(new DpData[dpData.size()]));

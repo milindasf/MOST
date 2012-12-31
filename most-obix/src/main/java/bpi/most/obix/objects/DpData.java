@@ -1,7 +1,5 @@
 package bpi.most.obix.objects;
 
-import bpi.most.obix.contracts.DatapointData;
-
 /**
  * Obix object, which holds:<br>
  * <li>data value with unit, if given (e.g. celsius)</li>
@@ -10,7 +8,7 @@ import bpi.most.obix.contracts.DatapointData;
  *
  * @author Alexej Strelzow
  */
-public class DpData extends Obj implements DatapointData {
+public class DpData extends Obj {
 
     public static final String DP = "dp";
     public static final String TIMESTAMP = "timestamp";
@@ -57,10 +55,6 @@ public class DpData extends Obj implements DatapointData {
 //        return new Str(DP, dp);
 //    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Abstime getTimestamp() {
         if (timestamp == 0) {
             Obj obj = get(TIMESTAMP);
@@ -71,10 +65,6 @@ public class DpData extends Obj implements DatapointData {
         return new Abstime(TIMESTAMP, timestamp);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getValue() {
         if (value == 0.0d) {
             Obj obj = get(VALUE);
@@ -92,10 +82,6 @@ public class DpData extends Obj implements DatapointData {
         return real;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getQuality() {
         if (quality == 0.0d) {
             Obj obj = get(QUALITY);
