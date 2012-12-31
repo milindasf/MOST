@@ -25,20 +25,25 @@ public class ContractRegistry {
     private static HashMap<String, String> baseContracts = new HashMap<String, String>();
 
     static {
-        baseContracts.put("obix:obj", "obix.Obj");
-        baseContracts.put("obix:bool", "obix.Bool");
-        baseContracts.put("obix:int", "obix.Int");
-        baseContracts.put("obix:real", "obix.Real");
-        baseContracts.put("obix:str", "obix.Str");
-        baseContracts.put("obix:enum", "obix.Enum");
-        baseContracts.put("obix:abstime", "obix.Abstime");
-        baseContracts.put("obix:reltime", "obix.Reltime");
-        baseContracts.put("obix:uri", "obix.Uri");
-        baseContracts.put("obix:list", "obix.List");
-        baseContracts.put("obix:op", "obix.Op");
-        baseContracts.put("obix:event", "obix.Event");
-        baseContracts.put("obix:ref", "obix.Ref");
-        baseContracts.put("obix:err", "obix.Err");
+        baseContracts.put("obix:obj", "obix.objects.Obj");
+        baseContracts.put("obix:bool", "obix.objects.Bool");
+        baseContracts.put("obix:int", "obix.objects.Int");
+        baseContracts.put("obix:real", "obix.objects.Real");
+        baseContracts.put("obix:str", "obix.objects.Str");
+        baseContracts.put("obix:enum", "obix.objects.Enum");
+        baseContracts.put("obix:abstime", "obix.objects.Abstime");
+        baseContracts.put("obix:reltime", "obix.objects.Reltime");
+        baseContracts.put("obix:uri", "obix.objects.Uri");
+        baseContracts.put("obix:list", "obix.objects.List");
+        baseContracts.put("obix:op", "obix.objects.Op");
+        baseContracts.put("obix:event", "obix.objects.Event");
+        baseContracts.put("obix:ref", "obix.objects.Ref");
+        baseContracts.put("obix:err", "obix.objects.Err");
+        // my extension
+        baseContracts.put("obix:Datapoint", "obix.objects.Dp");
+        baseContracts.put("obix:DatapointData", "obix.objects.DpData");
+        //baseContracts.put("zone", Zone.class);
+
         bpi.most.obix.contracts.ContractInit.init();
     }
 
@@ -71,8 +76,8 @@ public class ContractRegistry {
         // as actually implementing About)
         if (contract == null || contract.size() == 0 ||
                 contract.containsOnlyObj() || base == Ref.class) {
-			return base;
-		}
+            return base;
+        }
 
         // first check cache
         String key = base.getName() + ": " + contract.toString();
@@ -82,13 +87,13 @@ public class ContractRegistry {
         // for "not found", so we don't repeat the expensive
         // calculations below
         if (cls == NotFound) {
-			return base;
-		}
+            return base;
+        }
 
         // if we found it then cool beans
         if (cls != null) {
-			return cls;
-		}
+            return cls;
+        }
 
         // if we didn't find a class, then try to compile
         // one for this contract list
@@ -128,16 +133,16 @@ public class ContractRegistry {
             String baseClassName = (String) baseContracts.get(list[i].get());
             if (baseClassName != null) {
                 if (base != Obj.class && !base.getName().equals(baseClassName)) {
-					throw new IllegalArgumentException("Base conflicts with contract: " + base.getName() + " and " + list[i].get());
-				}
+                    throw new IllegalArgumentException("Base conflicts with contract: " + base.getName() + " and " + list[i].get());
+                }
                 base = Class.forName(baseClassName);
             }
         }
 
         // if no interfaces found for contract URIs then bail
         if (acc.size() == 0) {
-			return base;
-		}
+            return base;
+        }
         Class[] interfaces = (Class[]) acc.toArray(new Class[acc.size()]);
 
         // compile a class
@@ -158,8 +163,8 @@ public class ContractRegistry {
      */
     public static void put(Uri href, String className) {
         if (map.get(href.get()) != null) {
-			throw new IllegalStateException("The specified href is already mapped: " + href);
-		}
+            throw new IllegalStateException("The specified href is already mapped: " + href);
+        }
         map.put(href.get(), className);
         cache.clear(); // clear cache
     }

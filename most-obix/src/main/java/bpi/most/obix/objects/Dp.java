@@ -30,6 +30,14 @@ public class Dp extends Obj implements Datapoint {
 
     private boolean showData = false;
 
+    /**
+     * Constructor, which will be called via reflection if
+     * the object gets decoded.
+     */
+    public Dp() {
+        // noop
+    }
+
     public Dp(String dataPointName, String type, String description) {
         this.dataPointName = dataPointName;
         this.type = type;
@@ -43,7 +51,7 @@ public class Dp extends Obj implements Datapoint {
         add(getDatapointName());
         add(getType());
         add(getDescription());
-        setIs(new Contract("obix:Datapoint"));
+//        setIs(new Contract("obix:Datapoint"));
     }
 
     public Dp(String dataPointName, String type, String description, DpData[] dpData) {
@@ -56,6 +64,12 @@ public class Dp extends Obj implements Datapoint {
      */
     @Override
     public Str getDatapointName() {
+        if (dataPointName == null) {
+            Obj obj = get(DATA_POINT_NAME);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(DATA_POINT_NAME, dataPointName);
     }
 
@@ -64,6 +78,12 @@ public class Dp extends Obj implements Datapoint {
      */
     @Override
     public Str getType() {
+        if (type == null) {
+            Obj obj = get(TYPE);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(TYPE, type);
     }
 
@@ -72,6 +92,12 @@ public class Dp extends Obj implements Datapoint {
      */
     @Override
     public Str getDescription() {
+        if (description == null) {
+            Obj obj = get(DESCRIPTION);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(DESCRIPTION, description);
     }
 
@@ -86,7 +112,6 @@ public class Dp extends Obj implements Datapoint {
     }
 
     public void addDpData(DpData dpData) {
-        this.dpData.add(dpData);
         Collections.sort(this.dpData, this.dataComparator);
 
         if (showData) {
@@ -116,6 +141,9 @@ public class Dp extends Obj implements Datapoint {
         if (this.showData) {
             if (!dpData.isEmpty()) {
                 Collections.sort(this.dpData, this.dataComparator);
+//    			for (DpData d : this.dpData) {
+//    				d.removeDp();
+//    			}
                 addAll(dpData.toArray(new DpData[dpData.size()]));
             }
         } else {
@@ -128,4 +156,5 @@ public class Dp extends Obj implements Datapoint {
     public Uri getUnit() {
         return unit;
     }
+
 }
