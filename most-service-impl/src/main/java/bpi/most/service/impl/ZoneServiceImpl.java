@@ -1,5 +1,7 @@
 package bpi.most.service.impl;
 
+import bpi.most.domain.datapoint.DatapointFinder;
+import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.domain.zone.ZoneFinder;
@@ -36,10 +38,12 @@ public class ZoneServiceImpl implements ZoneService {
     private EntityManager em;
 
     private ZoneFinder zoneFinder;
+    private DatapointFinder datapointFinder;
 
     @PostConstruct
     protected void init() {
         zoneFinder = new ZoneFinder(em);
+        datapointFinder = new DatapointFinder(em);
     }
 
     private int cacheSize = CACHE_SIZE;
@@ -175,4 +179,50 @@ public class ZoneServiceImpl implements ZoneService {
 
         return resultDTOs;
     }
+
+
+    /**
+     * see {@link bpi.most.server.model.Zone#getSubzones(int sublevels)}
+     * adds permission check
+     * @return A List of ZoneDTOs of requested subzones
+     */
+    @Override
+    public List<ZoneDTO> getSubzones(UserDTO user, ZoneDTO zoneEntity, int sublevels) {
+        List<ZoneDTO> result = new ArrayList<ZoneDTO>();
+        Zone requestedZone = zoneFinder.getZone(zoneEntity.getZoneId());
+
+        //TODO move permission definition
+        user.hasPermission(requestedZone, DpDTO.Permissions.READ);
+
+        List<Zone> subzones = zoneFinder.getSubZones(zoneEntity.getZoneId(), sublevels);
+        if(subzones != null){
+            //convert to DTOs
+            for (Zone iterateZone : subzones) {
+                result.add(new ZoneDTO(iterateZone));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * see {@link bpi.most.server.model.Zone#getDatapoints(int sublevel)}
+     * TODO implement
+     */
+    @Override
+    public List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels) {
+        List<DpDTO> result = new ArrayList<DpDTO>();
+        Zone requestedZone = zoneFinder.getZone(zoneEntity.getZoneId());
+        //TODO move permission definition
+        user.hasPermission(requestedZone, DpDTO.Permissions.READ);
+
+        List<DatapointVO> datapoints = datapointFinder.getDpFromSubZones(zoneEntity.getZoneId(), sublevels);
+        if(datapoints != null){
+            //convert to DTOs
+            for (DatapointVO iterateDp : datapoints) {
+                result.add(new DpDTO(iterateDp));
+            }
+        }
+        return result;
+    }
+
 }

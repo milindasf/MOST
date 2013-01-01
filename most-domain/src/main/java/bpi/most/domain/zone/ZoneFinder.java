@@ -1,5 +1,6 @@
 package bpi.most.domain.zone;
 
+import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.domain.user.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -60,7 +61,7 @@ public class ZoneFinder {
      */
     public List<Zone> getZone(String searchPattern) {
         //get zone info from db
-    	LOG.debug("Fetching zones with searchPattern {}", searchPattern);
+        LOG.debug("Fetching zones with searchPattern {}", searchPattern);
         try{
             // noinspection unchecked
             List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getZoneParametersSearch(:p,:searchPattern)}")
@@ -76,7 +77,37 @@ public class ZoneFinder {
                 return zoneList;
             }
         }catch(HibernateException e){
-        	LOG.debug(e.getStackTrace().toString());
+            LOG.debug(e.getStackTrace().toString());
+            return null;
+        }
+    }
+
+    /**
+     * Get sub zones of a zone
+     * @param zoneId Unique ID of the zone
+     * @param sublevels Level of the subzones
+
+     * @return List of sub Zones of a zone, null if empty
+     */
+    public List<Zone> getSubZones(int zoneId, int sublevels) {
+        //get zone info from db
+        LOG.debug("Fetching sub zones from: {}, sublevels: {}", zoneId, sublevels);
+        try{
+            // noinspection unchecked
+            List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getSubzones(:p,:level)}")
+                    .addEntity(Zone.class)
+                    .setParameter("p", zoneId)
+                    .setParameter("level", sublevels)
+                    .setReadOnly(true)
+                    .list();
+
+            if(zoneList.size() == 0){
+                return null;
+            }else{
+                return zoneList;
+            }
+        }catch(HibernateException e){
+            LOG.debug(e.getStackTrace().toString());
             return null;
         }
     }

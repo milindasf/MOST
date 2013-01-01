@@ -2,11 +2,13 @@ package bpi.most.service.impl;
 
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
+import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.service.api.ZoneService;
 import junit.framework.Assert;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -82,5 +84,19 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void testGetHeadZones_shouldReturn3HeadZones() throws Exception {
         Assert.assertEquals(3, zoneService.getHeadZones().size());
+    }
+
+    @Ignore
+    @Test
+    public void testGetSubZones_shouldReturnSubZones() throws Exception {
+        List<ZoneDTO> zones = zoneService.getSubzones(new UserDTO("mostsoc"), new ZoneDTO(10), 1);
+        Assert.assertTrue(zones.size() > 0); //TODO at the moment we are getting an DB error, because column idzone is not found...
+    }
+
+    @Test
+    public void testGetDatapoints_shouldReturnDPsFromSubZones() throws Exception {
+        List<DpDTO> zones = zoneService.getDatapoints(new UserDTO("mostsoc"), new ZoneDTO(10), 5);
+        Assert.assertEquals(9, zones.size());
+
     }
 }

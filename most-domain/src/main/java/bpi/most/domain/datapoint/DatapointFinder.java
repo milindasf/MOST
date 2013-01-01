@@ -1,5 +1,6 @@
 package bpi.most.domain.datapoint;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
@@ -61,6 +62,37 @@ public class DatapointFinder {
                 .setReadOnly(true)
                 .setResultTransformer(new DatapointVOZoneFilteringResultTransformer(zone))
                 .list();
+    }
+
+
+    /**
+     * Datapoints in a sub zone.
+     * @param zoneId Unique ID of the zone
+     * @param sublevels Level of the subzones
+
+     * @return List of Datapoints in the sub zone, null if empty
+     */
+    public List<DatapointVO> getDpFromSubZones(int zoneId, int sublevels) {
+        //get zone info from db
+        LOG.debug("Fetching datpoints form sub zone: {}, sublevels: {}", zoneId, sublevels);
+        try{
+            // noinspection unchecked
+            List<DatapointVO> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapointsInSubzones(:p,:level)}")
+                    .setParameter("p", zoneId)
+                    .setParameter("level", sublevels)
+                    .setReadOnly(true)
+                    .setResultTransformer(new DatapointVOResultTransformer())
+                    .list();
+
+            if(zoneList.size() == 0){
+                return null;
+            }else{
+                return zoneList;
+            }
+        }catch(HibernateException e){
+            LOG.debug(e.getStackTrace().toString());
+            return null;
+        }
     }
 
     /**

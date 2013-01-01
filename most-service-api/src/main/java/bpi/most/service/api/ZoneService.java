@@ -6,6 +6,7 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,4 +22,8 @@ public interface ZoneService {
     public List<ZoneDTO> getHeadZones();
 
     public List<ZoneDTO> getHeadZones(UserDTO userDTO);
+
+    public List<ZoneDTO> getSubzones(UserDTO user, ZoneDTO zoneEntity, int sublevels);
+
+    List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels);
 }
