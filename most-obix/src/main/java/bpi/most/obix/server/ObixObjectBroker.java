@@ -1,6 +1,8 @@
 package bpi.most.obix.server;
 
 import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.objects.*;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
@@ -30,15 +32,15 @@ public class ObixObjectBroker implements IObjectBroker {
 
     @Override
     public void loadDatapoints() {
-        final java.util.List<Zone> headZones = zoneService.getHeadZones();
-        for (Zone zone : headZones) {
+        final java.util.List<ZoneDTO> headZones = zoneService.getHeadZones();
+        for (ZoneDTO zone : headZones) {
 
             int id = zone.getZoneId();
             String name = zone.getName();
             Uri zoneUri = new Uri(bpi.most.obix.objects.Zone.OBIX_ZONE_PREFIX + id);
             bpi.most.obix.objects.Zone oBixZone = new bpi.most.obix.objects.Zone(id, name);
 
-            for (DatapointVO point : datapointService.getDatapoints(null, String.valueOf(id))) {
+            for (DpDTO point : datapointService.getDatapoints(null, String.valueOf(id))) {
                 String pointName = point.getName();
                 Uri uri = new Uri(Dp.OBIX_DP_PREFIX + pointName);
                 dpCache.put(uri, new Dp(pointName, point.getType(), point.getDescription()));

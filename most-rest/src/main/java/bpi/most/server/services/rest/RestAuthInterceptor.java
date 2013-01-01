@@ -1,5 +1,7 @@
 package bpi.most.server.services.rest;
 
+import bpi.most.dto.UserDTO;
+import bpi.most.service.api.AuthenticationService;
 import org.apache.cxf.binding.soap.interceptor.SoapHeaderInterceptor;
 import org.apache.cxf.configuration.security.AuthorizationPolicy;
 import org.apache.cxf.endpoint.Endpoint;
@@ -11,6 +13,7 @@ import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,6 +32,9 @@ import java.util.Map;
 public class RestAuthInterceptor extends SoapHeaderInterceptor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestAuthInterceptor.class);
+
+    @Inject
+    private AuthenticationService authenticationService;
 	
 	@Override
 	public void handleMessage(Message inMsg) throws Fault{
@@ -44,8 +50,8 @@ public class RestAuthInterceptor extends SoapHeaderInterceptor {
         
         
         //ask service for authentication
-        User mostUser = new User(policy.getUserName());
-        boolean isValid = false; // TODO ASE  AuthenticationService.getInstance().isValidPassword(mostUser, policy.getPassword());
+        UserDTO mostUser = new UserDTO(policy.getUserName());
+        boolean isValid = authenticationService.isValidPassword(mostUser.getUserName(), policy.getPassword());
         if (!isValid) {
         	LOG.warn("Invalid username or password for user: " + policy.getUserName());
             sendErrorResponse(inMsg, HttpURLConnection.HTTP_FORBIDDEN);

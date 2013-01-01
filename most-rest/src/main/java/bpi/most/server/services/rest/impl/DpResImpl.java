@@ -3,9 +3,11 @@ package bpi.most.server.services.rest.impl;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.server.services.rest.api.DpResource;
+import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +15,17 @@ import java.util.List;
 public class DpResImpl extends BaseResImpl implements DpResource {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DpResImpl.class);
-	
-	// TODO ASE DatapointService dpService;
+
+    @Inject
+    DatapointService dpService;
 	
 	public DpResImpl(){
-        // TODO ASE  dpService = DatapointService.getInstance();
+
 	}
 	
 	@Override
 	public DpDTO getDp(String dpName) {
-		return null; // TODO ASE  dpService.getDatapoint(getUser(), new DpDTO(dpName));
+		return dpService.getDatapoint(getUser(), new DpDTO(dpName));
 	}
 	
 	public void addDp(DpDTO dp) {
@@ -56,9 +59,9 @@ public class DpResImpl extends BaseResImpl implements DpResource {
 		DpDTO dp = new DpDTO(dpName);
 		if (sFrom == null && sTo == null) {
 			//no restriction in time -> fetch newest value
-            // TODO ASE  DpDataDTO lastData = dpService.getData(getUser(), dp);
+            DpDataDTO lastData = dpService.getData(getUser(), dp);
 			result = new ArrayList<DpDataDTO>();
-            // TODO ASE  result.add(lastData);
+            result.add(lastData);
 		}else{
 			//some restriction in time, either "from", or "to", or both
             // TODO ASE  Date from = DateUtils.returnNowOnNull(sFrom);

@@ -2,6 +2,8 @@ package bpi.most.obix.test;
 
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
+import bpi.most.dto.UserDTO;
+import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.objects.Uri;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
@@ -36,12 +38,11 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void testZoneTransformationToObix_fromUser_shouldTransform1Zone() throws Exception {
-        User user = new User();
-        user.setName("mostsoc");
-        List<Zone> zones = zoneService.getHeadZones(user);
+        UserDTO user = new UserDTO("mostsoc");
+        List<ZoneDTO> zones = zoneService.getHeadZones(user);
         junit.framework.Assert.assertEquals(1, zones.size());
 
-        Zone zone = zones.get(0);
+        ZoneDTO zone = zoneService.getZone(user, zones.get(0));  // ATTENTION: ZoneDTOs have just set the zoneId per default, if you would like to have all values set, you have to use zoneService.getZone(user, zoneDtoObj)!!
         int id = zone.getZoneId();
         String name = zone.getName();
         Uri zoneUri = new Uri(bpi.most.obix.objects.Zone.OBIX_ZONE_PREFIX + id);

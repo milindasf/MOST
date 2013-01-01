@@ -1,6 +1,6 @@
 package bpi.most.server.services.rest.impl;
 
-import bpi.most.server.services.rest.User;
+import bpi.most.dto.UserDTO;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class BaseResImpl {
 		String user = null;
 		
 		if (context != null){
-			User u = (User) context.getHttpServletRequest().getAttribute("user");
+			UserDTO u = (UserDTO) context.getHttpServletRequest().getAttribute("user");
 			if (u != null){
 				user = u.getUserName();
 			}
@@ -38,12 +38,12 @@ public class BaseResImpl {
 		return user;
 	}
 	
-	protected User getUser(){
+	protected UserDTO getUser(){
 		String userName = getUsername();
 		if (userName == null){
 			throw new WebApplicationException(Status.FORBIDDEN);
 		}
 		
-		return new User(userName);
+		return new UserDTO(userName);
 	}
 }
