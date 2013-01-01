@@ -2,15 +2,16 @@ package bpi.most.server.services.opcua.server;
 
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.opc.uaserver.annotation.IAnnotatedNodeSource;
-//TODO import bpi.most.server.services.DatapointService;
-//TODO import bpi.most.server.services.User;
-//TODO import bpi.most.server.services.ZoneService;
+import bpi.most.service.api.ZoneService;
+import bpi.most.service.api.DatapointService;
 import bpi.most.server.services.opcua.server.nodes.DpDataNode;
 import bpi.most.server.services.opcua.server.nodes.DpNode;
 import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,17 +28,27 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 	
 	private final String ZONE_NODE = ZoneNode.class.getSimpleName();
 	private final String DP_NODE = DpNode.class.getSimpleName();
-	
-	//TODO ASE private ZoneService zService = ZoneService.getInstance();
-    //TODO ASE private DatapointService dpService = DatapointService.getInstance();
 
-    //TODO ASE private User mostUser;
-	
-	public MostNodeManager(String mostUserName){
-        //TODO ASE mostUser = new User(mostUserName);
-	}
-	
-	@Override
+    @Inject
+	private ZoneService zService;
+
+    @Inject
+    private DatapointService dpService;
+
+    private UserDTO mostUser;
+
+    public MostNodeManager(String mostUserName){
+        mostUser = new UserDTO(mostUserName);
+    }
+
+    public MostNodeManager(){
+    }
+
+    public void setMostUser(UserDTO mostUser) {
+        this.mostUser = mostUser;
+    }
+
+    @Override
 	public Object getObjectById(String className, String id){
 		Object result = null;
 		
@@ -55,38 +66,34 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 	
 	private ZoneNode getZoneById(String id){
 		int zoneId = Integer.parseInt(id);
-        //TODO ASE ZoneDTO zone = zService.getZone(mostUser, new ZoneDTO(zoneId));
-        //TODO ASE return mapZoneToZoneNode(zone);
-        return null; //TODO remove
+        ZoneDTO zone = zService.getZone(mostUser, new ZoneDTO(zoneId));
+        return mapZoneToZoneNode(zone);
 
     }
 	
 	private DpNode getDpById(String dpName){
-        //TODO ASE DpDTO dp = dpService.getDatapoint(mostUser, new DpDTO(dpName));
-        //TODO ASE DpDataDTO dpData = dpService.getData(mostUser, dp);
+        DpDTO dp = dpService.getDatapoint(mostUser, new DpDTO(dpName));
+        DpDataDTO dpData = dpService.getData(mostUser, dp);
 		
 		/*
 		 * here we also have to fetch the last datapoint value because
 		 * the current value of the datapoint is annotated as variable
 		 * on the DpNode object. 
 		 */
-        //TODO ASE DpNode dpNode = mapDpToDpNode(dp);
-        //TODO ASE dpNode.setData(mapDpDataToDpDataNode(dpData));
+        DpNode dpNode = mapDpToDpNode(dp);
+        dpNode.setData(mapDpDataToDpDataNode(dpData));
 		
 		//TODO remove mock data. used it because i do not understand the database and why do some points do not have any valuesS
-        //TODO ASE dpNode.setData(new DpDataNode("temperature", new Date(), 23.33, 1f));
+        dpNode.setData(new DpDataNode("temperature", new Date(), 23.33, 1f));
 
-        //TODO ASE return dpNode ;
-        return null; //TODO remove
-
+        return dpNode;
     }
 	
 	@Override
 	public List<?> getTopLevelElements() {
-        //TODO ASE List<ZoneDTO> headZones = zService.getHeadZones(mostUser);
-        //TODO ASE return mapZoneToZoneNode(headZones);
-        return null; //TODO remove
-	}
+        List<ZoneDTO> headZones = zService.getHeadZones(mostUser);
+        return mapZoneToZoneNode(headZones);
+   	}
 	
 	
 	@Override
@@ -106,17 +113,13 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 	}
 	
 	private List<?> getSubZones(ZoneDTO parentZone){
-        //TODO ASE List<ZoneDTO> subZones = zService.getSubzones(mostUser, parentZone, 1);
-        //TODO ASE return mapZoneToZoneNode(subZones);
-        return null; //TODO remove
-
+        List<ZoneDTO> subZones = zService.getSubzones(mostUser, parentZone, 1);
+        return mapZoneToZoneNode(subZones);
     }
 	
 	private List<?> getDatapoints(ZoneDTO parentZone){
-        //TODO ASE List<DpDTO> datapoints = zService.getDatapoints(mostUser, parentZone, 1);
-        //TODO ASE return mapDpToDpNode(datapoints);
-        return null; //TODO remove
-
+        List<DpDTO> datapoints = zService.getDatapoints(mostUser, parentZone, 1);
+        return mapDpToDpNode(datapoints);
     }
 	
 	private List<DpNode> mapDpToDpNode(List<DpDTO> dpList){
