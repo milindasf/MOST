@@ -3,6 +3,8 @@
 
 package bpi.most.domain.zone;
 
+import bpi.most.dto.ZoneDTO;
+
 import javax.persistence.*;
 
 /**
@@ -16,6 +18,10 @@ import javax.persistence.*;
 public class Zone {
 	
     public Zone() {
+    }
+
+    public ZoneDTO getDTO(){
+        return new ZoneDTO(idzone, name, description, country, state, country, city, building, floor, room, area, volume);
     }
 
     @Id

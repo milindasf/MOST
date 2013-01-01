@@ -77,7 +77,7 @@ public class DatapointServiceImpl implements DatapointService {
         }
 
         // TODO implement permission system
-        return new DpDTO(dp);
+        return dp.getDTO();
     }
 
     /**
@@ -106,7 +106,7 @@ public class DatapointServiceImpl implements DatapointService {
         if(dpList != null){
             dpDTOList = new ArrayList<DpDTO>();
             for (DatapointVO datapointVO : dpList) {
-                dpDTOList.add(new DpDTO(datapointVO));
+                dpDTOList.add(datapointVO.getDTO());
             }
         }
 

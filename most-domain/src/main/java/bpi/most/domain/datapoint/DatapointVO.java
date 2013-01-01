@@ -2,6 +2,8 @@
 
 package bpi.most.domain.datapoint;
 
+import bpi.most.dto.DpDTO;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -66,6 +68,10 @@ public class DatapointVO implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+    public DpDTO getDTO(){
+        return new DpDTO(name, type, description);
+    }
 
 	@Override
 	public String toString() {

@@ -1,7 +1,5 @@
 package bpi.most.dto;
 
-import bpi.most.domain.zone.Zone;
-
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -50,23 +48,9 @@ public class ZoneDTO implements Serializable{
 		this.volume = volume;
 	}
 
-    public ZoneDTO(Zone zone) {
-        super();
-        this.zoneId = zone.getZoneId();
-        this.name = zone.getName();
-        this.description = zone.getDescription();
-        this.country = zone.getCountry();
-        this.state = zone.getState();
-        this.county = zone.getCounty();
-        this.city = zone.getCity();
-        this.building = zone.getBuilding();
-        this.floor = zone.getFloor();
-        this.room = zone.getRoom();
-        this.area = zone.getArea();
-        this.volume = zone.getVolume();
-    }
-	
-	//getter, setter
+
+
+    //getter, setter
 	@XmlAttribute
 	public int getZoneId() {
 		return zoneId;

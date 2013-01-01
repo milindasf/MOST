@@ -124,7 +124,7 @@ public class ZoneServiceImpl implements ZoneService {
         //TODO move permission definition
         if (requestedZone != null){
             user.hasPermission(requestedZone, DpDTO.Permissions.READ);
-            result = new ZoneDTO(requestedZone);
+            result = requestedZone.getDTO();
         }
 
         return result;
@@ -198,7 +198,7 @@ public class ZoneServiceImpl implements ZoneService {
         if(subzones != null){
             //convert to DTOs
             for (Zone iterateZone : subzones) {
-                result.add(new ZoneDTO(iterateZone));
+                result.add(iterateZone.getDTO());
             }
         }
         return result;
@@ -219,7 +219,7 @@ public class ZoneServiceImpl implements ZoneService {
         if(datapoints != null){
             //convert to DTOs
             for (DatapointVO iterateDp : datapoints) {
-                result.add(new DpDTO(iterateDp));
+                result.add(iterateDp.getDTO());
             }
         }
         return result;
