@@ -2,6 +2,7 @@ package bpi.most.service.impl;
 
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -60,6 +61,13 @@ public class DatapointServiceImpl implements DatapointService {
     @Transactional
     public List<DatapointVO> getDatapoints(String searchstring, String zone) {
         return datapointFinder.getDatapoints(searchstring, zone);
+    }
+
+    @Override
+    @Transactional
+    public DatapointVO getDatapoint(UserDTO user, DatapointVO dpDto) {
+        // TODO implement permission system
+        return dpDto;
     }
 
 }

@@ -3,6 +3,9 @@ package bpi.most.service.impl;
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.domain.zone.ZoneFinder;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.UserDTO;
+import bpi.most.dto.ZoneDTO;
 import bpi.most.service.api.ZoneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +61,7 @@ public class ZoneServiceImpl implements ZoneService {
      * searches for instance of zone in cache
      * @return return Zone if cached, null if emtpy
      */
-    public Zone lookupZoneInCache(int zoneId) {
+    Zone lookupZoneInCache(int zoneId) {
         return cachedZones.get(zoneId);
     }
 
@@ -76,8 +79,7 @@ public class ZoneServiceImpl implements ZoneService {
      * @param zone Zone object
      * @return returns the respective Zone object, zoneID is used as identifier
      */
-    @Override
-    public Zone getZone(Zone zone) {
+    Zone getZone(ZoneDTO zone) {
         Zone result = lookupZoneInCache(zone.getZoneId());
         if (result != null) {
             return result;
@@ -89,11 +91,11 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     /**
+     *
      * @param zoneId Unique ID of the zone
      * @return Requested Zone, null if not valid
      */
-    @Override
-    public Zone getZone(int zoneId) {
+    Zone getZone(int zoneId) {
         Zone result = lookupZoneInCache(zoneId);
         if (result != null) {
             return result;
@@ -105,47 +107,72 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     /**
+     * returns a single {@link ZoneDTO} which is identified by the given
+     * {@link ZoneDTO#getName()}. this is used so that clients can fetch a
+     * fully filled DpDTO object by only having the datapoints name.
+     * @param user
+     * @param zoneDto
+     * @return
+     */
+    public ZoneDTO getZone(UserDTO user, ZoneDTO zoneDto) {
+        ZoneDTO result = null;
+        Zone requestedZone = zoneFinder.getZone(zoneDto.getZoneId());
+        //TODO move permission definition
+        if (requestedZone != null){
+            user.hasPermission(requestedZone, DpDTO.Permissions.READ);
+            result = new ZoneDTO(requestedZone);
+        }
+
+        return result;
+    }
+
+    /**
      * Search for a zone using a String search pattern
      * @param searchPattern String search pattern
      * @return List of Zones matching the searchPattern, null if empty
      */
     @Override
-    public List<Zone> getZone(String searchPattern) {
+    public List<ZoneDTO> getZone(String searchPattern) {
+        List<ZoneDTO> resultDTOs = null;
         List<Zone> results = zoneFinder.getZone(searchPattern);
         if(results != null){
+            resultDTOs = new ArrayList<ZoneDTO>();
             for (Zone result : results) {
                 cacheZone(result);
+                resultDTOs.add(new ZoneDTO(result.getZoneId()));
             }
         }
-        return results;
+        return resultDTOs;
     }
 
     /**
      * @return A List of all Zones which have no parent ("highest" Zones).
      */
     @Override
-    public List<Zone> getHeadZones() {
+    public List<ZoneDTO> getHeadZones() {
         return getHeadZones(null);
     }
 
     /**
-     * @param user
+     * @param userDTO
      * @return A List of all highest Zones were the user still has any permissions (Zone with no parents were the user has any permissions).
      */
     @Override
-    public List<Zone> getHeadZones(User user) {
-        List<Zone> zones = new ArrayList<Zone>();
+    public List<ZoneDTO> getHeadZones(UserDTO userDTO) {
+        User user = null;
+
+        if(userDTO != null){
+            user = new User();
+            user.setName(userDTO.getUserName());
+        }
+        List<ZoneDTO> resultDTOs = new ArrayList<ZoneDTO>();
         List<Integer> results = zoneFinder.getHeadZoneIds(user);
 
         // Retrieve the corresponding zone for each zoneId in the result
         for(Integer zoneId:results){
-            Zone zone = getZone(zoneId);
-            if(zone != null){
-                zones.add(zone);
-                cachedZones.put(zone.getZoneId(), zone);
-            }
+            resultDTOs.add(new ZoneDTO(zoneId));
         }
 
-        return zones;
+        return resultDTOs;
     }
 }

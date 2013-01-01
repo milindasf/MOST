@@ -2,6 +2,8 @@ package bpi.most.service.impl;
 
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
+import bpi.most.dto.UserDTO;
+import bpi.most.dto.ZoneDTO;
 import bpi.most.service.api.ZoneService;
 import junit.framework.Assert;
 import org.junit.After;
@@ -22,7 +24,7 @@ import java.util.List;
 public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTests{
 
     @Inject
-    private ZoneService zoneService;
+    private ZoneServiceImpl zoneService;
 
     @After
     public void tearDown() throws Exception {
@@ -31,18 +33,16 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void testGetHeadZones_fromUser_shouldReturn1HeadZone() throws Exception {
-        User user = new User();
-        user.setName("mostsoc");
-        List<Zone> zones = zoneService.getHeadZones(user);
+        UserDTO user = new UserDTO("mostsoc");
+        List<ZoneDTO> zones = zoneService.getHeadZones(user);
         Assert.assertEquals(1, zones.size());
         Assert.assertEquals(10, zones.get(0).getZoneId());
     }
 
     @Test
     public void testGetHeadZones_fromInvalidUser_shouldReturnEmptyList() throws Exception {
-        User user = new User();
-        user.setName("invalid-username");
-        List<Zone> zones = zoneService.getHeadZones(user);
+        UserDTO user = new UserDTO("invalid-username");
+        List<ZoneDTO> zones = zoneService.getHeadZones(user);
         Assert.assertEquals(0, zones.size());
     }
 
@@ -63,14 +63,14 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void testGetZone_withZone_shouldReturnZoneWithSameId() throws Exception {
         int zoneId = 8;
-        Zone SearchZone = new Zone(zoneId);
+        ZoneDTO SearchZone = new ZoneDTO(zoneId);
         Zone zone = zoneService.getZone(SearchZone);
         Assert.assertEquals(zoneId, zone.getZoneId());
     }
 
     @Test
     public void testGetZone_withSearchPattern_shouldReturn23Zone() throws Exception {
-        List<Zone> zones = zoneService.getZone("city");
+        List<ZoneDTO> zones = zoneService.getZone("city");
         Assert.assertEquals(23, zones.size());
     }
 

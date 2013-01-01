@@ -2,6 +2,9 @@ package bpi.most.service.api;
 
 import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.UserDTO;
+import bpi.most.dto.ZoneDTO;
 
 import java.util.List;
 
@@ -11,13 +14,11 @@ import java.util.List;
  * @author Lukas Weichselbaum
  */
 public interface ZoneService {
-    Zone getZone(Zone zone);
+    public ZoneDTO getZone(UserDTO user, ZoneDTO zoneDto);
 
-    Zone getZone(int zoneId);
+    public List<ZoneDTO> getZone(String searchPattern);
 
-    List<Zone> getZone(String searchPattern);
+    public List<ZoneDTO> getHeadZones();
 
-    List<Zone> getHeadZones();
-
-    List<Zone> getHeadZones(User user);
+    public List<ZoneDTO> getHeadZones(UserDTO userDTO);
 }

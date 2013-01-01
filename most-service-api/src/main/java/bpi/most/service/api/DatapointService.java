@@ -1,6 +1,7 @@
 package bpi.most.service.api;
 
 import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.dto.UserDTO;
 
 import java.util.List;
 
@@ -68,5 +69,16 @@ public interface DatapointService {
      *         zone.
      */
     List<DatapointVO> getDatapoints(String searchstring, String zone);
+
+    /**
+     * fetching one DpDTO identified by the given {@link DatapointVO#getName()}. this
+     * is used so that clients can fetch a fully filled DpDTO object by only
+     * having the data points name.
+     *
+     * @param user
+     * @param dpDto
+     * @return
+     */
+    public DatapointVO getDatapoint(UserDTO user, DatapointVO dpDto);
 
 }
