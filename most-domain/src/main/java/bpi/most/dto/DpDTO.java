@@ -1,5 +1,7 @@
 package bpi.most.dto;
 
+import bpi.most.domain.datapoint.DatapointVO;
+
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -39,12 +41,18 @@ public class DpDTO implements Serializable {
 	public DpDTO(String datapointName) {
 		this.name = datapointName;
 	}
-	
-	public DpDTO(String name, String type, String description) {
-		this.name = name;
-		this.type = type;
-		this.description = description;
-	}
+
+    public DpDTO(String name, String type, String description) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+    }
+
+    public DpDTO(DatapointVO datapointVO) {
+        this.name = datapointVO.getName();
+        this.type = datapointVO.getType();
+        this.description = datapointVO.getDescription();
+    }
 	
 	@XmlAttribute
 	public String getName() {

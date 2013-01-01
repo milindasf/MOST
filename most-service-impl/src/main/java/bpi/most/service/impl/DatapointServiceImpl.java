@@ -1,7 +1,10 @@
 package bpi.most.service.impl;
 
+import bpi.most.domain.datapoint.DatapointDataVO;
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import org.hibernate.Session;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,27 +51,65 @@ public class DatapointServiceImpl implements DatapointService {
 
     @Override
     @Transactional
-    public List<DatapointVO> getDatapoints() {
+    public List<DpDTO> getDatapoints() {
         return getDatapoints(null);
     }
 
     @Override
     @Transactional
-    public List<DatapointVO> getDatapoints(String searchstring) {
-        return datapointFinder.getDatapoints(searchstring);
+    public List<DpDTO> getDatapoints(String searchstring) {
+        return transformToDpDTOList(datapointFinder.getDatapoints(searchstring));
     }
 
     @Override
     @Transactional
-    public List<DatapointVO> getDatapoints(String searchstring, String zone) {
-        return datapointFinder.getDatapoints(searchstring, zone);
+    public List<DpDTO> getDatapoints(String searchstring, String zone) {
+        return transformToDpDTOList(datapointFinder.getDatapoints(searchstring, zone));
     }
 
     @Override
     @Transactional
-    public DatapointVO getDatapoint(UserDTO user, DatapointVO dpDto) {
+    public DpDTO getDatapoint(UserDTO user, DpDTO dpDto) {
+        // Fetch all data from DB
+        DatapointVO dp = datapointFinder.getDatapoint(dpDto.getName());
+        if(dp == null){
+            return null;
+        }
+
         // TODO implement permission system
-        return dpDto;
+        return new DpDTO(dp);
     }
 
+    /**
+     * latest measurement see {@link bpi.most.server.model.Datapoint#getData()}
+     *
+     * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
+     *         throw exceptions if no permissions, etc.
+     */
+    public DpDataDTO getData(UserDTO user, DpDTO dpDTO) {
+        DpDataDTO result = null;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+
+        // TODO ASE: return the correct DpDataDTO! We will need DpVirtual + DpPhysical...
+        /*
+        // check permissions
+        if (user.hasPermission(dp, DpDTO.Permissions.READ)) {
+            result = dp.getData();
+        }
+        */
+        return result;
+    }
+
+    private List<DpDTO> transformToDpDTOList(List<DatapointVO> dpList){
+        List<DpDTO> dpDTOList = null;
+
+        if(dpList != null){
+            dpDTOList = new ArrayList<DpDTO>();
+            for (DatapointVO datapointVO : dpList) {
+                dpDTOList.add(new DpDTO(datapointVO));
+            }
+        }
+
+        return dpDTOList;
+    }
 }

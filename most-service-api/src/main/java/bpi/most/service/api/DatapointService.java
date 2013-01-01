@@ -1,6 +1,8 @@
 package bpi.most.service.api;
 
 import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 
 import java.util.List;
@@ -13,20 +15,6 @@ import java.util.List;
  * @author Jakob Korherr
  */
 public interface DatapointService {
-
-    /**
-     * A) Searches for data point in the object cache. <br> B) Instantiates respective
-     * physical or virtual data point.
-     *
-     * @param dpName
-     *            The name of the data point.
-     *
-     * @return Returns an instance of a "physical" (DpServer) or "virtual"
-     *          (DpVirtual) data point. Null if not valid.
-     */
-    // TODO specify class Datapoint.
-    // public Datapoint getDatapoint(String dpName);
-
     /**
      * Checks if a data point with the given name is in the database.
      *
@@ -35,7 +23,7 @@ public interface DatapointService {
      * @return Returns true if a data point with the given name exists, false
      *         otherwise.
      */
-    boolean isValidDp(String dpName);
+    public boolean isValidDp(String dpName);
 
     /**
      * Get a list of {@link DatapointVO} of all data points in the database.
@@ -43,22 +31,24 @@ public interface DatapointService {
      * @return Returns a list of {@link DatapointVO} of all data points in the
      *         database.
      */
-    List<DatapointVO> getDatapoints();
+    public List<DpDTO> getDatapoints();
 
     /**
      * Get a list of {@link DatapointVO} of all data points in the database that
      * contains the search string.
+     *
      *
      * @param searchstring
      *            The string to be searched for.
      * @return Returns a list of {@link DatapointVO} of all data points in the
      *         database that contains the search string.
      */
-    List<DatapointVO> getDatapoints(String searchstring);
+    public List<DpDTO> getDatapoints(String searchstring);
 
     /**
      * Get a list of {@link DatapointVO} of all data points in the database that
      * contains the search string and are in the given zone.
+     *
      *
      * @param searchstring
      *            The string to be searched for.
@@ -68,7 +58,7 @@ public interface DatapointService {
      *         database that contains the search string and are in the given
      *         zone.
      */
-    List<DatapointVO> getDatapoints(String searchstring, String zone);
+    public List<DpDTO> getDatapoints(String searchstring, String zone);
 
     /**
      * fetching one DpDTO identified by the given {@link DatapointVO#getName()}. this
@@ -79,6 +69,13 @@ public interface DatapointService {
      * @param dpDto
      * @return
      */
-    public DatapointVO getDatapoint(UserDTO user, DatapointVO dpDto);
+    public DpDTO getDatapoint(UserDTO user, DpDTO dpDto);
 
+    /**
+     * latest measurement see {@link bpi.most.server.model.Datapoint#getData()}
+     *
+     * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
+     *         throw exceptions if no permissions, etc.
+     */
+    public DpDataDTO getData(UserDTO user, DpDTO dpDTO);
 }

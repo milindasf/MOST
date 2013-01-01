@@ -27,6 +27,22 @@ public class DatapointFinder {
         this.em = em;
     }
 
+    public DatapointVO getDatapoint(String dpName) {
+        LOG.debug("Fetching datapoint: {}", dpName);
+        // noinspection unchecked
+        List<DatapointVO> result = ((Session) em.getDelegate()).createSQLQuery("SELECT * FROM datapoint LEFT JOIN device ON (datapoint.device_name = device.device_name) WHERE datapoint.datapoint_name = :searchstring ORDER BY ABS(datapoint.datapoint_name);")
+                .setParameter("searchstring", dpName)
+                .setReadOnly(true)
+                .setResultTransformer(new DatapointVOResultTransformer())
+                .list();
+
+        if(result.size() > 0){
+            return result.get(0);
+        }
+
+        return null;
+    }
+
     public List<DatapointVO> getDatapoints(String searchstring) {
         LOG.debug("Fetching datapoints with searchstring {}", searchstring);
         // noinspection unchecked

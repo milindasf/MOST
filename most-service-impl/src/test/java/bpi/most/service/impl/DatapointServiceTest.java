@@ -1,9 +1,13 @@
 package bpi.most.service.impl;
 
 import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import junit.framework.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +41,7 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
     @Test
     @Transactional
     public void test_getDatapoints_noFilter_shouldReturnData() throws Exception {
-        List<DatapointVO> datapoints = datapointService.getDatapoints();
+        List<DpDTO> datapoints = datapointService.getDatapoints();
 
         Assert.assertNotNull(datapoints);
         Assert.assertFalse(datapoints.isEmpty());
@@ -46,7 +50,7 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
     @Test
     @Transactional
     public void test_getDatapoints_matchingFilter_shouldReturnData() throws Exception {
-        List<DatapointVO> datapoints = datapointService.getDatapoints("cdi");
+        List<DpDTO> datapoints = datapointService.getDatapoints("cdi");
 
         Assert.assertNotNull(datapoints);
         Assert.assertFalse(datapoints.isEmpty());
@@ -55,7 +59,7 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
     @Test
     @Transactional
     public void test_getDatapoints_nonMatchingFilter_shouldNotReturnData() throws Exception {
-        List<DatapointVO> datapoints = datapointService.getDatapoints("non-matching-datapoint-filter");
+        List<DpDTO> datapoints = datapointService.getDatapoints("non-matching-datapoint-filter");
 
         Assert.assertNotNull(datapoints);
         Assert.assertTrue(datapoints.isEmpty());
@@ -64,19 +68,29 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
     @Test
     @Transactional
     public void test_getDatapoints_zone_matchingFilter_shouldReturnData() throws Exception {
-        List<DatapointVO> datapoints = datapointService.getDatapoints("con", "2");
+        List<DpDTO> datapoints = datapointService.getDatapoints("con", "2");
 
         Assert.assertNotNull(datapoints);
         Assert.assertFalse(datapoints.isEmpty());
-        for (DatapointVO datapoint : datapoints) {
+        for (DpDTO datapoint : datapoints) {
             Assert.assertNotNull(datapoint);
         }
     }
 
     @Test
     @Transactional
+    public void test_getDatapoint_shouldReturnData() throws Exception {
+        DpDTO dpDTO = datapointService.getDatapoint(new UserDTO("mostsoc"), new DpDTO("con1"));
+
+        Assert.assertEquals("con1", dpDTO.getName());
+        Assert.assertEquals("con", dpDTO.getType());
+        Assert.assertEquals("con1", dpDTO.getDescription());
+    }
+
+    @Test
+    @Transactional
     public void test_getDatapoints_zone_nonMatchingFilter_shouldNotReturnData() throws Exception {
-        List<DatapointVO> datapoints = datapointService.getDatapoints("con", "non-existing-zone");
+        List<DpDTO> datapoints = datapointService.getDatapoints("con", "non-existing-zone");
 
         Assert.assertNotNull(datapoints);
         Assert.assertTrue(datapoints.isEmpty());
