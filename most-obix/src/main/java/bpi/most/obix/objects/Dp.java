@@ -139,5 +139,4 @@ public class Dp extends Obj {
     public Uri getUnit() {
         return unit;
     }
-
 }
