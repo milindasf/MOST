@@ -13,7 +13,7 @@
 
   <groupId>bpi.most</groupId>
   <artifactId>most-opc</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>MOST OPC</name>
 
   <dependencies>

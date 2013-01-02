@@ -1,13 +1,10 @@
 package bpi.most.server.services.opcua.server;
 
 import bpi.most.dto.UserDTO;
-import bpi.most.dto.ZoneDTO;
-import bpi.most.server.services.opcua.server.nodes.DpNode;
 import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -20,7 +17,7 @@ import java.util.List;
  *
  * @author Lukas Weichselbaum
  */
-@ContextConfiguration(locations = "/META-INF/service.spring.xml")
+@ContextConfiguration(locations = "/META-INF/opcua.service.spring.xml")
 public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Inject
     MostNodeManager mostNodeManager;
@@ -35,8 +32,6 @@ public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContex
 
     }
 
-    //TODO jakl: make mvn find spring config (it works for intelliJ)
-    @Ignore
     @Test
     public void testGetTopLevelElements() throws Exception {
         List<ZoneNode> zones = (List<ZoneNode>) mostNodeManager.getTopLevelElements();
