@@ -13,6 +13,7 @@ public class Dp extends Obj {
 
     public static final String OBIX_DP_PREFIX = "/obix/dp/";
 
+    public static final String ELEMENT_TAG = "dp";
     public static final String DATA_POINT_NAME = "dataPointName";
     public static final String TYPE = "type";
     public static final String DESCRIPTION = "description";
@@ -34,23 +35,23 @@ public class Dp extends Obj {
      * the object gets decoded.
      */
     public Dp() {
-        // noop
+        dpData = new ArrayList<DpData>();
+        dataComparator = new DpDataComparator();
     }
 
     public Dp(String dataPointName, String type, String description) {
+        this();
         this.dataPointName = dataPointName;
         this.type = type;
         this.description = description;
-        dpData = new ArrayList<DpData>();
-        dataComparator = new DpDataComparator();
 
         // lets set that to the default-value
         this.unit = new Uri("obix:units/celsius");
+        this.setName(this.dataPointName);
 
         add(getDatapointName());
         add(getType());
         add(getDescription());
-//        setIs(new Contract("obix:Datapoint"));
     }
 
     public Dp(String dataPointName, String type, String description, DpData[] dpData) {
@@ -89,17 +90,13 @@ public class Dp extends Obj {
     }
 
     public List getDpData() {
-        List list = new List(DP_DATA, new Contract("obix:DatapointData"));
+        List list = new List(DP_DATA, new Contract("obix:dpData"));
         list.addAll(dpData.toArray(new DpData[dpData.size()]));
         return list;
     }
 
     public void addDpData(DpData dpData) {
-        Collections.sort(this.dpData, this.dataComparator);
-
-        if (showData) {
-            add(dpData);
-        }
+        this.dpData.add(dpData);
     }
 
     /**
@@ -107,7 +104,7 @@ public class Dp extends Obj {
      */
     @Override
     public String getElement() {
-        return "dp";
+        return ELEMENT_TAG;
     }
 
     /**
@@ -115,7 +112,7 @@ public class Dp extends Obj {
      */
     @Override
     public Uri getHref() {
-        return new Uri(dataPointName, OBIX_DP_PREFIX+dataPointName);
+        return new Uri(dataPointName, OBIX_DP_PREFIX + dataPointName);
     }
 
     public void setShowData(boolean showData) {
@@ -124,9 +121,6 @@ public class Dp extends Obj {
         if (this.showData) {
             if (!dpData.isEmpty()) {
                 Collections.sort(this.dpData, this.dataComparator);
-//    			for (DpData d : this.dpData) {
-//    				d.removeDp();
-//    			}
                 addAll(dpData.toArray(new DpData[dpData.size()]));
             }
         } else {

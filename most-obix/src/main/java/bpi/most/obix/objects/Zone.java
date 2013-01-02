@@ -1,7 +1,5 @@
 package bpi.most.obix.objects;
 
-import bpi.most.obix.contracts.IZone;
-
 import java.util.ArrayList;
 
 /**
@@ -10,10 +8,11 @@ import java.util.ArrayList;
  * Date: 30.12.12
  * Time: 14:05
  */
-public class Zone extends Obj implements IZone  {
+public class Zone extends Obj {
 
     public static final String OBIX_ZONE_PREFIX = "/obix/zones/";
 
+    public static final String ELEMENT_TAG = "zone";
     public static final String ZONE = "zone";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
@@ -50,38 +49,51 @@ public class Zone extends Obj implements IZone  {
 
     private boolean showData = false;
 
-    public Zone(int zoneID, String name) {
-        this.zoneID = zoneID;
-        this.zoneName = name;
-
+    /**
+     * Constructor, which will be called via reflection if
+     * the object gets decoded.
+     */
+    public Zone() {
         uriList = new ArrayList<Uri>();
         dpList = new ArrayList<Dp>();
+    }
+
+    public Zone(int zoneID, String name) {
+        this();
+        this.zoneID = zoneID;
+        this.zoneName = name;
 
         add(getZone());
         add(getZoneName());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Int getZone() {
+        if (zoneID == 0) {
+            Obj obj = get(ZONE);
+            if (obj != null) {
+                return (Int)obj;
+            }
+        }
         return new Int(ZONE, zoneID);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getZoneName() {
+        if (zoneName == null) {
+            Obj obj = get(NAME);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(NAME, zoneName);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getDescription() {
+        if (description == null) {
+            Obj obj = get(DESCRIPTION);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(DESCRIPTION, description);
     }
 
@@ -92,11 +104,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getCountry() {
+        if (country == null) {
+            Obj obj = get(COUNTRY);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(COUNTRY, country);
     }
 
@@ -107,11 +121,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getState() {
+        if (state == null) {
+            Obj obj = get(STATE);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(STATE, state);
     }
 
@@ -122,11 +138,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getCounty() {
+        if (county == null) {
+            Obj obj = get(COUNTY);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(COUNTY, county);
     }
 
@@ -137,11 +155,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getCity() {
+        if (city == null) {
+            Obj obj = get(CITY);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(CITY, city);
     }
 
@@ -152,11 +172,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getBuilding() {
+        if (building == null) {
+            Obj obj = get(BUILDING);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(BUILDING, building);
     }
 
@@ -167,11 +189,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getFloor() {
+        if (floor == null) {
+            Obj obj = get(FLOOR);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(FLOOR, floor);
     }
 
@@ -182,11 +206,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Str getRoom() {
+        if (room == null) {
+            Obj obj = get(ROOM);
+            if (obj != null) {
+                return (Str)obj;
+            }
+        }
         return new Str(ROOM, room);
     }
 
@@ -197,11 +223,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getArea() {
+        if (area == 0.0) {
+            Obj obj = get(AREA);
+            if (obj != null) {
+                return (Real)obj;
+            }
+        }
         return new Real(AREA, area);
     }
 
@@ -212,11 +240,13 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Real getVolume() {
+        if (volume == 0.0) {
+            Obj obj = get(VOLUME);
+            if (obj != null) {
+                return (Real)obj;
+            }
+        }
         return new Real(VOLUME, volume);
     }
 
@@ -227,24 +257,18 @@ public class Zone extends Obj implements IZone  {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void addURI(Uri uri) {
         if (uri != null) {
             uriList.add(uri);
         }
     }
 
-    @Override
     public void removeURI(Uri uri) {
         if (uriList.contains(uri)) {
             uriList.remove(uri);
         }
     }
 
-    @Override
     public List getDatapointURIs() {
         List list = new List(URI, new Contract("obix:Uri"));
         list.addAll(uriList.toArray(new Uri[uriList.size()]));
@@ -256,7 +280,7 @@ public class Zone extends Obj implements IZone  {
      */
     @Override
     public String getElement() {
-        return "zone";
+        return ELEMENT_TAG;
     }
 
     /**
@@ -271,28 +295,34 @@ public class Zone extends Obj implements IZone  {
         this.showData = showData;
 
         if (!dpList.isEmpty()) {
-            for (Dp dp : dpList) {
-                dp.setShowData(showData);
+            if (this.showData) {
+                for (Dp dp : dpList) {
+                    dp.setShowData(this.showData);
+                    add(dp);
+                }
+            } else {
+                for (Dp dp : dpList) {
+                    dp.setShowData(this.showData);
+                    remove(dp);
+                }
             }
         }
     }
 
     public void addDp(Dp dp) {
-        if (uriList.contains(dp.getHref())) { // can lead to problems. TODO: 1st: override equals/hashcode in Uri
-            dpList.add(dp);
+        dpList.add(dp);
+    }
 
-            if (showData) {
-                dp.setShowData(showData);
-                add(dp);
-            }
+    public Dp[] getDps() {
+        if (dpList.isEmpty()) {
+            Obj obj = get("dp");
         }
+
+        return dpList.toArray(new Dp[dpList.size()]);
     }
 
     public void removeDp(Dp dp) {
-        if (uriList.contains(dp.getHref())) { // can lead to problems. TODO: 1st: override equals/hashcode in Uri
-            dpList.remove(dp);
-            remove(dp);
-        }
+        dpList.remove(dp);
     }
 
 }
