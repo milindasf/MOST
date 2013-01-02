@@ -13,9 +13,10 @@ package bpi.most.obix.xml;
 public class XException
         extends RuntimeException {
 
-////////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////////
+    private int line;
+    private int col;
+    private Throwable cause;
+    private XElem elem;
 
     /**
      * Construct using specified line and column.
@@ -154,14 +155,5 @@ public class XException
 		}
         return msg + " [" + line + ':' + col + ']';
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////  
-
-    private int line;
-    private int col;
-    private Throwable cause;
-    private XElem elem;
 
 }

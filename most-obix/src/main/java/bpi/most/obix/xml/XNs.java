@@ -15,9 +15,9 @@ package bpi.most.obix.xml;
  */
 public final class XNs {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+    String prefix;
+    String uri;
+    XElem declaringElem;
 
     /**
      * Create a new XNs instance with the specified
@@ -93,13 +93,5 @@ public final class XNs {
 		}
         return ns1.equals(ns2);
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////  
-
-    String prefix;
-    String uri;
-    XElem declaringElem;
 
 }
