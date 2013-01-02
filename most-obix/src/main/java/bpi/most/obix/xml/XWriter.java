@@ -18,9 +18,21 @@ import java.util.zip.ZipOutputStream;
 public class XWriter
         extends Writer {
 
-////////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////////
+    private OutputStream sink;      // the underlying output sink
+    private Writer xout;            // writer for XML markup
+    private ZipOutputStream zout;   // zipped stream if zipped is true
+    private boolean zipped;         // are we generating a zip file
+    private int numWritten;         // number of chars written
+
+    private static String[] SPACES;
+
+    static {
+        SPACES = new String[50];
+        SPACES[0] = "";
+        for (int i = 1; i < 50; ++i) {
+            SPACES[i] = SPACES[i - 1] + " ";
+        }
+    }
 
     /**
      * Construct writer for specified file.
@@ -394,26 +406,5 @@ public class XWriter
             return buf.toString();
         }
     }
-
-    private static String[] SPACES;
-
-    static {
-        SPACES = new String[50];
-        SPACES[0] = "";
-        for (int i = 1; i < 50; ++i) {
-			SPACES[i] = SPACES[i - 1] + " ";
-		}
-    }
-
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    private OutputStream sink;      // the underlying output sink
-    private Writer xout;            // writer for XML markup
-    private ZipOutputStream zout;   // zipped stream if zipped is true
-    private boolean zipped;         // are we generating a zip file
-    private int numWritten;         // number of chars written
 
 }

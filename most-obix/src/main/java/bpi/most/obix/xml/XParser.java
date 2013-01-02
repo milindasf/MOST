@@ -24,6 +24,31 @@ import java.io.*;
  */
 public class XParser {
 
+    private XInputStreamReader in;
+    private int pushback = -1;
+    private int line = 1;
+    private int col;
+    private int type;
+    private XText text = new XText();
+    private int depth;
+    private XElem[] stack = new XElem[256];
+    private XNs[][] nsStack = new XNs[256][];
+    private XNs defaultNs;
+    private XText buf = new XText();        // working string buffer
+    private XText entityBuf = new XText();  // working string buffer
+    private String name;        // result of parseQName()
+    private String prefix;      // result of parseQName()
+    private boolean popStack;   // used for next event
+    private boolean emptyElem;  // used for next event
+
+    private static final String[] internCache = new String[128];
+
+    static {
+        for (int i = ' '; i < 128; ++i) {
+            internCache[i] = new String(new char[]{(char) i}).intern();
+        }
+    }
+
 ////////////////////////////////////////////////////////////////
 // Factories
 ////////////////////////////////////////////////////////////////
@@ -1037,38 +1062,5 @@ public class XParser {
         charMap[' '] = CT_SPACE;
         charMap['\t'] = CT_SPACE;
     }
-
-////////////////////////////////////////////////////////////////
-// String Cache
-////////////////////////////////////////////////////////////////  
-
-    private static final String[] internCache = new String[128];
-
-    static {
-        for (int i = ' '; i < 128; ++i) {
-			internCache[i] = new String(new char[]{(char) i}).intern();
-		}
-    }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////  
-
-    private XInputStreamReader in;
-    private int pushback = -1;
-    private int line = 1;
-    private int col;
-    private int type;
-    private XText text = new XText();
-    private int depth;
-    private XElem[] stack = new XElem[256];
-    private XNs[][] nsStack = new XNs[256][];
-    private XNs defaultNs;
-    private XText buf = new XText();        // working string buffer
-    private XText entityBuf = new XText();  // working string buffer
-    private String name;        // result of parseQName()
-    private String prefix;      // result of parseQName()
-    private boolean popStack;   // used for next event
-    private boolean emptyElem;  // used for next event
 
 }

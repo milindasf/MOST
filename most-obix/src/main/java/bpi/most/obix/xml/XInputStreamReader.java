@@ -29,9 +29,21 @@ import java.util.zip.ZipInputStream;
 public class XInputStreamReader
         extends Reader {
 
-////////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////////
+
+    static final int UTF_8 = 0;
+    static final int UTF_16_BE = 1;
+    static final int UTF_16_LE = 2;
+    static final String[] ENCODINGS =
+            {
+                    "UTF-8",     // 0
+                    "UTF-16BE",  // 1
+                    "UTF-16LE",  // 2
+            };
+
+    private InputStream in;        // raw InputStream
+    private boolean autoDetected;  // have we run autoDetect() yet
+    private boolean zipped;        // was stream a zip file
+    private int encoding = -1;     // encoding constant
 
     /**
      * Construct writer for specified file.
@@ -270,24 +282,5 @@ public class XInputStreamReader
 		}
         return ((c1 & 0xFF) << 8) | ((c0 & 0xFF) << 0);
     }
-
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
-
-    static final int UTF_8 = 0;
-    static final int UTF_16_BE = 1;
-    static final int UTF_16_LE = 2;
-    static final String[] ENCODINGS =
-            {
-                    "UTF-8",     // 0
-                    "UTF-16BE",  // 1
-                    "UTF-16LE",  // 2
-            };
-
-    private InputStream in;        // raw InputStream
-    private boolean autoDetected;  // have we run autoDetect() yet
-    private boolean zipped;        // was stream a zip file
-    private int encoding = -1;     // encoding constant
 
 }

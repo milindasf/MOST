@@ -16,9 +16,17 @@ import java.io.IOException;
 public class XElem
 extends XContent {
 
-	////////////////////////////////////////////////////////////////
-	// Constructors
-	////////////////////////////////////////////////////////////////
+    static Object[] noAttr = new Object[0];
+    static XContent[] noContent = new XContent[0];
+    static XElem[] noElem = new XElem[0];
+
+    XNs ns;
+    String name;
+    Object[] attr = noAttr;   // 0=name, 1=ns, 2=value
+    int attrSize;
+    XContent[] content = noContent;
+    int contentSize;
+    int line;
 
 	/**
 	 * Create a new element and define a new namespace
@@ -1169,21 +1177,4 @@ extends XContent {
 		s.append('>');
 		return s.toString();
 	}
-
-	////////////////////////////////////////////////////////////////
-	// Fields
-	////////////////////////////////////////////////////////////////
-
-	static Object[] noAttr = new Object[0];
-	static XContent[] noContent = new XContent[0];
-	static XElem[] noElem = new XElem[0];
-
-	XNs ns;
-	String name;
-	Object[] attr = noAttr;   // 0=name, 1=ns, 2=value
-	int attrSize;
-	XContent[] content = noContent;
-	int contentSize;
-	int line;
-
 }
