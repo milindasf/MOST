@@ -25,23 +25,23 @@ public class ContractRegistry {
     private static HashMap<String, String> baseContracts = new HashMap<String, String>();
 
     static {
-        baseContracts.put("obix:obj", "obix.objects.Obj");
-        baseContracts.put("obix:bool", "obix.objects.Bool");
-        baseContracts.put("obix:int", "obix.objects.Int");
-        baseContracts.put("obix:real", "obix.objects.Real");
-        baseContracts.put("obix:str", "obix.objects.Str");
-        baseContracts.put("obix:enum", "obix.objects.Enum");
-        baseContracts.put("obix:abstime", "obix.objects.Abstime");
-        baseContracts.put("obix:reltime", "obix.objects.Reltime");
-        baseContracts.put("obix:uri", "obix.objects.Uri");
-        baseContracts.put("obix:list", "obix.objects.List");
-        baseContracts.put("obix:op", "obix.objects.Op");
-        baseContracts.put("obix:event", "obix.objects.Event");
-        baseContracts.put("obix:ref", "obix.objects.Ref");
-        baseContracts.put("obix:err", "obix.objects.Err");
+        baseContracts.put("obix:obj", "bpi.most.obix.objects.Obj");
+        baseContracts.put("obix:bool", "bpi.most.obix.objects.Bool");
+        baseContracts.put("obix:int", "bpi.most.obix.objects.Int");
+        baseContracts.put("obix:real", "bpi.most.obix.objects.Real");
+        baseContracts.put("obix:str", "bpi.most.obix.objects.Str");
+        baseContracts.put("obix:enum", "bpi.most.obix.objects.Enum");
+        baseContracts.put("obix:abstime", "bpi.most.obix.objects.Abstime");
+        baseContracts.put("obix:reltime", "bpi.most.obix.objects.Reltime");
+        baseContracts.put("obix:uri", "bpi.most.obix.objects.Uri");
+        baseContracts.put("obix:list", "bpi.most.obix.objects.List");
+        baseContracts.put("obix:op", "bpi.most.obix.objects.Op");
+        baseContracts.put("obix:event", "bpi.most.obix.objects.Event");
+        baseContracts.put("obix:ref", "bpi.most.obix.objects.Ref");
+        baseContracts.put("obix:err", "bpi.most.obix.objects.Err");
         // my extension
-        baseContracts.put("obix:Datapoint", "obix.objects.Dp");
-        baseContracts.put("obix:DatapointData", "obix.objects.DpData");
+        baseContracts.put("obix:Datapoint", "bpi.most.obix.objects.Dp");
+        baseContracts.put("obix:DatapointData", "bpi.most.obix.objects.DpData");
         //baseContracts.put("zone", Zone.class);
 
         bpi.most.obix.contracts.ContractInit.init();

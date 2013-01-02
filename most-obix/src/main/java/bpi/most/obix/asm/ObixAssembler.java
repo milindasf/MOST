@@ -41,8 +41,8 @@ public class ObixAssembler
             throws Exception {
         // short circuit if no interfaces to add
         if (interfaces.length == 0) {
-			return superClass;
-		}
+            return superClass;
+        }
 
         // generate a unique name
         String name = null;
@@ -62,8 +62,8 @@ public class ObixAssembler
         // to ctor and accessor methods
         HashMap<String, Method> done = new HashMap<String, Method>();
         for (int i = 0; i < interfaces.length; ++i) {
-			asm.compileInterface(interfaces[i], done, ctor);
-		}
+            asm.compileInterface(interfaces[i], done, ctor);
+        }
 
         // add ctor
         ctor.add(RETURN);
@@ -89,8 +89,8 @@ public class ObixAssembler
     private void compileInterface(Class iface, HashMap<String, Method> done, Code ctor) {
         // sanity checks
         if (!iface.isInterface() || !IObj.class.isAssignableFrom(iface)) {
-			throw new IllegalArgumentException("Invalid contract interface: + " + iface);
-		}
+            throw new IllegalArgumentException("Invalid contract interface: + " + iface);
+        }
 
         // process each method
         Method[] methods = iface.getMethods();
@@ -100,13 +100,13 @@ public class ObixAssembler
 
             // skip anything from IObj
             if (m.getDeclaringClass() == IObj.class) {
-				continue;
-			}
+                continue;
+            }
 
             // skip if already done, otherwise not it is done
             if (done.get(m.getName()) != null) {
-				continue;
-			}
+                continue;
+            }
             done.put(m.getName(), m);
 
             // process this method
@@ -127,8 +127,8 @@ public class ObixAssembler
         // return an Obj is invalid
         if (m.getParameterTypes().length != 0 ||
                 !IObj.class.isAssignableFrom(type)) {
-			throw new IllegalArgumentException("Incorrect contract method: " + m);
-		}
+            throw new IllegalArgumentException("Incorrect contract method: " + m);
+        }
 
         // check if there is a contract field that we can
         // use to initialize the child object - if a contract
@@ -202,29 +202,29 @@ public class ObixAssembler
 
     private int objAdd() {
         if (objAdd == 0) {
-			objAdd = getCp().method("obix/Obj", "add", "(Lobix/Obj;)Lobix/Obj;");
-		}
+            objAdd = getCp().method("bpi/most/obix/objects/Obj", "add", "(Lbpi/most/obix/objects/Obj;)Lbpi/most/obix/objects/Obj;");
+        }
         return objAdd;
     }
 
     private int objAddWithName() {
         if (objAddWithName == 0) {
-			objAddWithName = getCp().method("obix/Obj", "add", "(Ljava/lang/String;Lobix/Obj;)Lobix/Obj;");
-		}
+            objAddWithName = getCp().method("bpi/most/obix/objects/Obj", "add", "(Ljava/lang/String;Lbpi/most/obix/objects/Obj;)Lbpi/most/obix/objects/Obj;");
+        }
         return objAddWithName;
     }
 
     private int objGet() {
         if (objGet == 0) {
-			objGet = getCp().method("obix/Obj", "get", "(Ljava/lang/String;)Lobix/Obj;");
-		}
+            objGet = getCp().method("bpi/most/obix/objects/Obj", "get", "(Ljava/lang/String;)Lbpi/most/obix/objects/Obj;");
+        }
         return objGet;
     }
 
     private int decoderFromString() {
         if (decoderFromString == 0) {
-			decoderFromString = getCp().method("obix/io/ObixDecoder", "fromString", "(Ljava/lang/String;)Lobix/Obj;");
-		}
+            decoderFromString = getCp().method("bpi/most/obix/io/ObixDecoder", "fromString", "(Ljava/lang/String;)Lbpi/most/obix/objects/Obj;");
+        }
         return decoderFromString;
     }
 
@@ -246,14 +246,14 @@ public class ObixAssembler
             synchronized (loadLock) {
                 classFile = (Buffer) loadClassFiles.get(name);
                 if (classFile != null) {
-					loadClassFiles.remove(name);
-				}
+                    loadClassFiles.remove(name);
+                }
             }
 
             // if predefined, then use it
             if (classFile != null) {
-				return defineClass(name, classFile.getBytes(), 0, classFile.getCount());
-			}
+                return defineClass(name, classFile.getBytes(), 0, classFile.getCount());
+            }
 
             // otherwise, my parent class loader should have found it
             throw new ClassNotFoundException(name);
