@@ -5,8 +5,8 @@ package bpi.most.obix.objects;
 
 import bpi.most.obix.io.ObixEncoder;
 
-import java.lang.*;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -758,5 +758,18 @@ public class Obj
      */
     public void dump() {
         ObixEncoder.dump(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> java.util.List<T> getKidsByClass(Class<T> clazz) {
+        java.util.List<T> matches = new ArrayList<T>();
+
+        for (Obj kid : kidsByName.values()) {
+            if (kid.getClass().equals(clazz)) {
+                matches.add((T)kid);
+            }
+        }
+
+        return matches;
     }
 }

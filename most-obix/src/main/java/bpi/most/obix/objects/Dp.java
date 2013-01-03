@@ -89,7 +89,20 @@ public class Dp extends Obj {
         return new Str(DESCRIPTION, description);
     }
 
-    public List getDpData() {
+    public DpData[] getDpData() {
+        if (this.dpData.isEmpty()) {
+            java.util.List<DpData> kids = getKidsByClass(DpData.class);
+            this.dpData.addAll(kids);
+        }
+        return this.dpData.toArray(new DpData[this.dpData.size()]);
+    }
+
+    public List getDpDataAsList() {
+        if (this.dpData.isEmpty()) {
+            java.util.List<DpData> kids = getKidsByClass(DpData.class);
+            this.dpData.addAll(kids);
+        }
+
         List list = new List(DP_DATA, new Contract("obix:dpData"));
         list.addAll(dpData.toArray(new DpData[dpData.size()]));
         return list;

@@ -315,7 +315,8 @@ public class Zone extends Obj {
 
     public Dp[] getDps() {
         if (dpList.isEmpty()) {
-            Obj obj = get("dp");
+            java.util.List<Dp> kids = getKidsByClass(Dp.class);
+            dpList.addAll(kids);
         }
 
         return dpList.toArray(new Dp[dpList.size()]);
