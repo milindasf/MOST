@@ -2,20 +2,22 @@ package bpi.most.server.services.gwtrpc;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import bpi.most.client.rpc.ZoneService;
+import bpi.most.service.api.ZoneService;
+import bpi.most.dto.UserDTO;
 import bpi.most.server.services.User;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.ZoneDTO;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class GwtRpcZoneService extends RemoteServiceServlet implements
-		ZoneService {
+public class GwtRpcZoneService extends SpringGwtServlet implements
+        bpi.most.client.rpc.ZoneService {
 
-	bpi.most.server.services.ZoneService zoneService = bpi.most.server.services.ZoneService
-			.getInstance();
+    @Inject
+	ZoneService zoneService;
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +31,10 @@ public class GwtRpcZoneService extends RemoteServiceServlet implements
 		// get user of session
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
-		return zoneService.getHeadZones(user);
+		List<ZoneDTO> list = zoneService.getHeadZones(new UserDTO(user.getUserName()));
+
+        return list;
+
 	}
 
 	@Override
@@ -38,7 +43,7 @@ public class GwtRpcZoneService extends RemoteServiceServlet implements
 		// get user of session
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
-		return zoneService.getSubzones(user, zoneEntity, sublevels);
+		return zoneService.getSubzones(new UserDTO(user.getUserName()), zoneEntity, sublevels);
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class GwtRpcZoneService extends RemoteServiceServlet implements
 		// get user of session
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
-		return zoneService.getZone(user, zoneDto);
+		return zoneService.getZone(new UserDTO(user.getUserName()), zoneDto);
 	}
 
 	@Override
@@ -56,7 +61,7 @@ public class GwtRpcZoneService extends RemoteServiceServlet implements
 		// get user of session
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
-		return zoneService.getDatapoints(user, zoneEntity, sublevels);
+		return zoneService.getDatapoints(new UserDTO(user.getUserName()), zoneEntity, sublevels);
 	}
 
 }
