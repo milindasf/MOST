@@ -259,7 +259,7 @@ public class SessionWatch {
         }
 
         // invoke add operation
-        Obj out = session.invoke(removeHref, in);
+        session.invoke(removeHref, in);
 
         // remove from our lookup tables
         for (int i = 0; i < items.length; ++i) {
@@ -453,7 +453,7 @@ public class SessionWatch {
     public void delete() {
         stop();
         try {
-            Obj out = session.invoke(deleteHref, null);
+            session.invoke(deleteHref, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
