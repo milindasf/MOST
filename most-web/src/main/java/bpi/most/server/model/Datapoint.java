@@ -1,19 +1,18 @@
 package bpi.most.server.model;
 
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
+import bpi.most.server.utils.DbPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Observable;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import bpi.most.server.utils.DbPool;
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.DpDataDTO;
-import bpi.most.dto.DpDatasetDTO;
 
 /**
  * Abstract representation of a datapoint. Use this interface if you access

@@ -1,15 +1,15 @@
 package bpi.most.obix.server;
 
-import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.ZoneDTO;
-import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.Contract;
+import bpi.most.obix.objects.Dp;
+import bpi.most.obix.objects.List;
+import bpi.most.obix.objects.Uri;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
-import bpi.most.domain.zone.Zone;
 
 import javax.inject.Inject;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;

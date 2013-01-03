@@ -1,7 +1,5 @@
 package bpi.most.obix.test;
 
-import bpi.most.domain.user.User;
-import bpi.most.domain.zone.Zone;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.objects.Uri;

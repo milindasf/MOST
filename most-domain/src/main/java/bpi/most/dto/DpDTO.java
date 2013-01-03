@@ -26,9 +26,9 @@ public class DpDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public String name;
-	public String type;
-	public String description;
+	private String name;
+	private String type;
+	private String description;
 	
 	public DpDTO() {
 		this.name = "null";

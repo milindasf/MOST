@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response.Status;
 
 public class BaseResImpl {
 	
-	protected static Logger LOG = LoggerFactory.getLogger(BaseResImpl.class);
+	protected static final Logger LOG = LoggerFactory.getLogger(BaseResImpl.class);
 	public static final int NOT_IMPLEMENTED = 501;
 	
 	@Resource

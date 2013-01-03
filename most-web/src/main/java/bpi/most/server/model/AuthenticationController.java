@@ -1,16 +1,15 @@
 package bpi.most.server.model;
 
+import bpi.most.server.services.User;
+import bpi.most.server.utils.BCrypt;
+import bpi.most.server.utils.DbPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import bpi.most.server.services.User;
-import bpi.most.server.utils.BCrypt;
-import bpi.most.server.utils.DbPool;
 
 /**
  * Provides permission and authentication processing

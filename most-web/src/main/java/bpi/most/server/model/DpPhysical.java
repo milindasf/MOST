@@ -3,19 +3,14 @@
  */
 package bpi.most.server.model;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
-
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
+import bpi.most.server.utils.DbPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.utils.DbPool;
-import bpi.most.dto.DpDataDTO;
-import bpi.most.dto.DpDatasetDTO;
+import java.sql.*;
+import java.util.Date;
 
 /**
  * Provides a implementation of a physical datapoint (real sensor/actor) which

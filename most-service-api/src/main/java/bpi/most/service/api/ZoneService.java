@@ -1,12 +1,10 @@
 package bpi.most.service.api;
 
-import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,17 +13,17 @@ import java.util.List;
  * @author Lukas Weichselbaum
  */
 public interface ZoneService {
-    public ZoneDTO getZone(UserDTO user, ZoneDTO zoneDto);
+    ZoneDTO getZone(UserDTO user, ZoneDTO zoneDto);
 
-    public List<ZoneDTO> getZone(String searchPattern);
+    List<ZoneDTO> getZone(String searchPattern);
 
-    public List<ZoneDTO> getHeadZones();
+    List<ZoneDTO> getHeadZones();
 
-    public List<ZoneDTO> getHeadZones(UserDTO userDTO);
+    List<ZoneDTO> getHeadZones(UserDTO userDTO);
 
-    public List<ZoneDTO> getSubzones(UserDTO user, ZoneDTO zoneEntity, int sublevels);
+    List<ZoneDTO> getSubzones(UserDTO user, ZoneDTO zoneEntity, int sublevels);
 
-    public List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels);
+    List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels);
 
     Zone getZone(int zoneId);
 

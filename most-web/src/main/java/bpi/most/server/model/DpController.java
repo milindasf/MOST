@@ -1,17 +1,16 @@
 package bpi.most.server.model;
 
+import bpi.most.dto.DpDTO;
+import bpi.most.server.utils.DbPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ServiceLoader;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import bpi.most.server.utils.DbPool;
-import bpi.most.dto.DpDTO;
 
 /**
  * Handles instantiation of requested data points. Caches data points for

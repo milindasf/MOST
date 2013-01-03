@@ -1,9 +1,9 @@
 package bpi.most.obix.server;
 
-import bpi.most.obix.objects.Err;
-import bpi.most.obix.objects.Obj;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
+import bpi.most.obix.objects.Err;
+import bpi.most.obix.objects.Obj;
 
 import java.io.BufferedReader;
 import java.io.IOException;

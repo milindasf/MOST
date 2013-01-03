@@ -4,8 +4,6 @@ import bpi.most.domain.connector.ConnectorFinder;
 import bpi.most.domain.connector.ConnectorVO;
 import bpi.most.domain.user.User;
 import bpi.most.service.api.ConnectorService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +20,6 @@ import java.util.List;
  */
 @Service
 public class ConnectorServiceImpl implements ConnectorService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ConnectorServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;

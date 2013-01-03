@@ -17,6 +17,7 @@ import static bpi.most.infra.db.DbUtils.prepareSearchParameter;
  * Finds {@link DatapointVO}s from a given {@link javax.persistence.EntityManager}.
  *
  * @author Jakob Korherr
+ * @author Lukas Weichselbaum
  */
 public class DatapointFinder {
 
@@ -90,7 +91,7 @@ public class DatapointFinder {
                 return zoneList;
             }
         }catch(HibernateException e){
-            LOG.debug(e.getStackTrace().toString());
+            LOG.warn(e.getMessage());
             return null;
         }
     }

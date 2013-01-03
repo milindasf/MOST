@@ -7,7 +7,6 @@ import bpi.most.obix.contracts.*;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.objects.*;
 import bpi.most.obix.objects.Enum;
-import bpi.most.obix.objects.Obj;
 
 import java.io.ByteArrayInputStream;
 

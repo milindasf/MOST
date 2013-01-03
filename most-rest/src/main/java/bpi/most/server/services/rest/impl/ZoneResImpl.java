@@ -20,7 +20,7 @@ public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 	private static final Logger LOG = LoggerFactory.getLogger(ZoneResImpl.class);
 
     @Inject
-    ZoneService service;
+    private ZoneService service;
 	
 	public ZoneResImpl(){
 
@@ -40,8 +40,7 @@ public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 
 	@Override
 	public List<ZoneDTO> getSubZones(int id, int level) {
-		List<ZoneDTO> subZones = service.getSubzones(getUser(), new ZoneDTO(id), level);
-		return subZones;
+		return service.getSubzones(getUser(), new ZoneDTO(id), level);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.datapoint.DatapointDataVO;
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.dto.DpDTO;
@@ -9,8 +8,6 @@ import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import org.hibernate.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +26,6 @@ import java.util.List;
  */
 @Service
 public class DatapointServiceImpl implements DatapointService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(DatapointServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;
@@ -92,7 +87,7 @@ public class DatapointServiceImpl implements DatapointService {
     @Transactional
     public DpDataDTO getData(UserDTO user, DpDTO dpDTO) {
         DpDataDTO result = null;
-        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+        //DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
 
         // TODO ASE: return the correct DpDataDTO! We will need DpVirtual + DpPhysical...
         /*

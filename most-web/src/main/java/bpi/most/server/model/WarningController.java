@@ -1,11 +1,11 @@
 package bpi.most.server.model;
 
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.WarningDTO;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
-
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.WarningDTO;
 
 /**
  * Handles warnings of datapoints

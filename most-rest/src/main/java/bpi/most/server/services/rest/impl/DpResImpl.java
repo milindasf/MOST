@@ -17,7 +17,7 @@ public class DpResImpl extends BaseResImpl implements DpResource {
 	private static final Logger LOG = LoggerFactory.getLogger(DpResImpl.class);
 
     @Inject
-    DatapointService dpService;
+    private DatapointService dpService;
 	
 	public DpResImpl(){
 

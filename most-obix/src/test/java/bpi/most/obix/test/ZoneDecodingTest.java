@@ -1,15 +1,13 @@
 package bpi.most.obix.test;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.Dp;
 import bpi.most.obix.objects.DpData;
 import bpi.most.obix.objects.Zone;
+import junit.framework.Assert;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 public class ZoneDecodingTest extends TestCase {
 

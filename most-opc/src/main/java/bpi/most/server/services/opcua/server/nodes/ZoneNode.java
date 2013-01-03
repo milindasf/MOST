@@ -241,11 +241,10 @@ public class ZoneNode {
 		this.dataPoints = dataPoints;
 	}
 
-	/**
-	 * @param subZones the subZones to set
-	 */
-	public void setSubZones(List<ZoneNode> subZones) {
-		this.subZones = subZones;
-	}
-	
+    /**
+     * @param subZones the subZones to set
+     */
+    public void setSubZones(List<ZoneNode> subZones) {
+        this.subZones = subZones;
+    }
 }

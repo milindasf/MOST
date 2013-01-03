@@ -1,12 +1,10 @@
 package bpi.most.obix.test;
 
-import junit.framework.TestCase;
-
-import org.junit.Test;
-
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.Dp;
 import bpi.most.obix.objects.DpData;
+import junit.framework.TestCase;
+import org.junit.Test;
 
 public class DatapointEncodingTest extends TestCase {
 

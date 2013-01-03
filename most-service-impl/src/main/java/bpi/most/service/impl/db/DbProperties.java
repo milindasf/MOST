@@ -1,11 +1,11 @@
 package bpi.most.service.impl.db;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * database properties which are read from JNDI.
@@ -21,7 +21,7 @@ public final class DbProperties {
 	private static final int CONNECTION_POOL_MIN = 10;
 	private static final int CONNECTION_POOL_MAX = 100;
 	
-	private static DbProperties INSTANCE = new DbProperties();
+	private static final DbProperties INSTANCE = new DbProperties();
 
 	/**
 	 * for testing purposes;
@@ -66,7 +66,6 @@ public final class DbProperties {
 			
 		} catch (NamingException e) {
 			LOG.info("no context supported!");
-			//e.printStackTrace();
 		}
 		LOG.info("using the following db config:");
 		LOG.info("hostname: " + hostname + " username: " + username + " database: " + database);
@@ -90,12 +89,4 @@ public final class DbProperties {
 	public static Integer getConPoolMax() {
 		return INSTANCE.conPoolMax;
 	}
-/*
-	public static String HOSTNAME = "demo-most.bpi.tuwien.ac.at";
-	public static String USERNAME = "mostsoc";
-	public static String PASSWORD = "demo12";
-	public static String DATABASE = "mon_development";
-	public static int CONNECTION_POOL_MIN = 10;
-	public static int CONNECTION_POOL_MAX = 100;
-*/	
 }

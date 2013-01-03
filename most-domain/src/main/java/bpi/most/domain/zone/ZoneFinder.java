@@ -49,7 +49,7 @@ public class ZoneFinder {
                 return zoneList.get(0);
             }
         }catch(HibernateException e){
-        	LOG.debug(e.getStackTrace().toString());
+        	LOG.warn(e.getMessage());
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class ZoneFinder {
                 return zoneList;
             }
         }catch(HibernateException e){
-            LOG.debug(e.getStackTrace().toString());
+            LOG.warn(e.getMessage());
             return null;
         }
     }
@@ -106,7 +106,7 @@ public class ZoneFinder {
                 return zoneIDs;
             }
         }catch(HibernateException e){
-            LOG.debug(e.getStackTrace().toString());
+            LOG.warn(e.getMessage());
             return null;
         }
     }
@@ -136,7 +136,7 @@ public class ZoneFinder {
             return zoneIDs;
 
         }catch(HibernateException e){
-        	LOG.debug(e.getStackTrace().toString());
+            LOG.warn(e.getMessage());
             return new ArrayList<Integer>();
         }
     }

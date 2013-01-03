@@ -1,6 +1,5 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.user.User;
 import bpi.most.domain.zone.Zone;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
@@ -8,11 +7,9 @@ import bpi.most.dto.ZoneDTO;
 import bpi.most.service.api.ZoneService;
 import junit.framework.Assert;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;

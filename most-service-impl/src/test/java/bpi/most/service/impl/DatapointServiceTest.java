@@ -1,13 +1,10 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import junit.framework.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.transaction.annotation.Transactional;

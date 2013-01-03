@@ -1,5 +1,3 @@
-/* TODO: Refactor! */
-
 package bpi.most.domain.datapoint;
 
 import javax.xml.bind.annotation.XmlAccessType;

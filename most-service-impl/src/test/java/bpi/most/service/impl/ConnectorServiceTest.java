@@ -5,7 +5,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.inject.Inject;

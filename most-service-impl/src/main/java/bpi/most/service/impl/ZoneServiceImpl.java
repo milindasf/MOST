@@ -9,18 +9,13 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.service.api.ZoneService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of {@link bpi.most.service.api.ZoneService}.
@@ -30,8 +25,6 @@ import java.util.Map;
 @Service
 public class ZoneServiceImpl implements ZoneService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ZoneServiceImpl.class);
-    
     private static final int CACHE_SIZE = 100;
     private static final float LOAD_FACTOR = 0.7f;
 
@@ -48,7 +41,7 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     private int cacheSize = CACHE_SIZE;
-    private LinkedHashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, LOAD_FACTOR, true) {
+    private HashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, LOAD_FACTOR, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Integer, Zone> eldest) {
             return size() > cacheSize;
