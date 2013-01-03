@@ -27,9 +27,9 @@ public class ObixObjectBroker implements IObjectBroker {
     ObixObjectBroker() {
         this.dpCache = new HashMap<Uri, Dp>();
         this.zoneCache = new HashMap<Uri, bpi.most.obix.objects.Zone>();
+        loadDatapoints();
     }
 
-    @Override
     public void loadDatapoints() {
         final java.util.List<ZoneDTO> headZones = zoneService.getHeadZones();
         for (ZoneDTO zone : headZones) {

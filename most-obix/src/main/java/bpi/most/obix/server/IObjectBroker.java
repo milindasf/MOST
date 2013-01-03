@@ -5,15 +5,7 @@ import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
 import bpi.most.obix.objects.Zone;
 
-import java.util.HashMap;
-
 public interface IObjectBroker {
-
-    /**
-     * Loads all Datapoints, which are in the DB, converts them
-     * to oBix objects and finally caches them in a {@link HashMap}.
-     */
-    void loadDatapoints();
 
     /**
      * GET /obix/dp/{name}

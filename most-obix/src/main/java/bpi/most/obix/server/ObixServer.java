@@ -1,12 +1,11 @@
 package bpi.most.obix.server;
 
-import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
-import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.Dp;
+import bpi.most.obix.objects.List;
+import bpi.most.obix.objects.Uri;
+import bpi.most.obix.objects.Zone;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 
 public class ObixServer implements IObixServer {
@@ -14,7 +13,9 @@ public class ObixServer implements IObixServer {
     private IObjectBroker objectBroker;
 
     public ObixServer() {
-
+        if (objectBroker == null) {
+            objectBroker = new ObixObjectBroker();
+        }
     }
 
     @Override

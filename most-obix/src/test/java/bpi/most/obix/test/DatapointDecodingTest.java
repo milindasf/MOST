@@ -1,11 +1,14 @@
 package bpi.most.obix.test;
 
+import bpi.most.obix.comparator.DpDataComparator;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.junit.Test;
+
+import java.util.Collections;
 
 /**
  * Decoding an encoded obix object, which is a string
@@ -141,14 +144,16 @@ public class DatapointDecodingTest extends TestCase {
 
         java.util.List<DpData> kidsByClass = ((List)decodedDpDataAsList).getKidsByClass(DpData.class);
 
+        Collections.sort(kidsByClass, new DpDataComparator());
+
         Assert.assertTrue(kidsByClass.size() == 2);
 
-        DpData decodedDpData1 = kidsByClass.get(0);
+        DpData decodedDpData1 = kidsByClass.get(1);
         Assert.assertEquals(dpData1.getTimestamp(), decodedDpData1.getTimestamp());
         Assert.assertEquals(dpData1.getValue(), decodedDpData1.getValue());
         Assert.assertEquals(dpData1.getQuality(), decodedDpData1.getQuality());
 
-        DpData decodedDpData2 = kidsByClass.get(1);
+        DpData decodedDpData2 = kidsByClass.get(0);
         Assert.assertEquals(dpData2.getTimestamp(), decodedDpData2.getTimestamp());
         Assert.assertEquals(dpData2.getValue(), decodedDpData2.getValue());
         Assert.assertEquals(dpData2.getQuality(), decodedDpData2.getQuality());
