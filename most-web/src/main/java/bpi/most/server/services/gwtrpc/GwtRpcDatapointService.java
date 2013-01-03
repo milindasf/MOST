@@ -1,10 +1,13 @@
 package bpi.most.server.services.gwtrpc;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import bpi.most.dto.UserDTO;
+import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,20 +15,18 @@ import bpi.most.server.services.User;
 import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.DpDTO;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 /**
  * Implementation of GWT-RPC interface
  * 
  * @author robert.zach@tuwien.ac.at
  */
-public class GwtRpcDatapointService extends RemoteServiceServlet implements
+public class GwtRpcDatapointService extends SpringGwtServlet implements
 		bpi.most.client.rpc.DatapointService {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(GwtRpcDatapointService.class);
-	
-	bpi.most.server.services.DatapointService dpService = bpi.most.server.services.DatapointService
-			.getInstance();
+
+    @Inject
+    DatapointService dpService;
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +48,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
 
-		return dpService.getData(user, new DpDTO(datapointName), starttime,
+		return dpService.getData(new UserDTO(user.getUserName()), new DpDTO(datapointName), starttime,
 				endtime);
 
 	}
@@ -59,7 +60,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 	 * 
 	 * @see bpi.most.client.rpc.DatapointService#getDatapoints()
 	 */
-	public ArrayList<DpDTO> getDatapoints() {
+	public List<DpDTO> getDatapoints() {
 		// no user checking here yet
 		return dpService.getDatapoints(null);
 	}
@@ -69,7 +70,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 	 * 
 	 * @see bpi.most.client.rpc.DatapointService#getDatapoints(java.lang.String)
 	 */
-	public ArrayList<DpDTO> getDatapoints(String searchstring) {
+	public List<DpDTO> getDatapoints(String searchstring) {
 		// no user checking here yet
 		return dpService.getDatapoints(null, searchstring);
 	}
@@ -79,7 +80,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 	 * @see bpi.most.client.rpc.DatapointService#getDatapoints(java.lang.String, java.lang.String)
 	 */
 	@SuppressWarnings("deprecation")
-	public ArrayList<DpDTO> getDatapoints(String searchstring, String zone) {
+	public List<DpDTO> getDatapoints(String searchstring, String zone) {
 		// no user checking here yet
 		return dpService.getDatapoints(null, searchstring, zone);
 	}
@@ -98,7 +99,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
 
-		return dpService.getDataPeriodic(user, new DpDTO(datapointName),
+		return dpService.getDataPeriodic(new UserDTO(user.getUserName()), new DpDTO(datapointName),
 				starttime, endtime, period);
 	}
 
@@ -116,7 +117,7 @@ public class GwtRpcDatapointService extends RemoteServiceServlet implements
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
 
-		return dpService.getNumberOfValues(user, new DpDTO(datapointName),
+		return dpService.getNumberOfValues(new UserDTO(user.getUserName()), new DpDTO(datapointName),
 				starttime, endtime);
 	}
 

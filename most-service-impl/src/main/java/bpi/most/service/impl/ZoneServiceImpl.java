@@ -150,7 +150,7 @@ public class ZoneServiceImpl implements ZoneService {
             resultDTOs = new ArrayList<ZoneDTO>();
             for (Zone result : results) {
                 cacheZone(result);
-                resultDTOs.add(new ZoneDTO(result.getZoneId()));
+                resultDTOs.add(result.getDTO());
             }
         }
         return resultDTOs;

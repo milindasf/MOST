@@ -3,8 +3,10 @@ package bpi.most.service.api;
 import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -78,4 +80,12 @@ public interface DatapointService {
      *         throw exceptions if no permissions, etc.
      */
     public DpDataDTO getData(UserDTO user, DpDTO dpDTO);
+
+    public DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
+
+    public List<DpDTO> getDatapoints(Object o, String searchstring, String zone);
+
+    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period);
+
+    public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
 }

@@ -5,6 +5,7 @@ import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import org.hibernate.Session;
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -86,6 +88,8 @@ public class DatapointServiceImpl implements DatapointService {
      * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
      *         throw exceptions if no permissions, etc.
      */
+    @Override
+    @Transactional
     public DpDataDTO getData(UserDTO user, DpDTO dpDTO) {
         DpDataDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -98,6 +102,27 @@ public class DatapointServiceImpl implements DatapointService {
         }
         */
         return result;
+    }
+
+    @Override
+    public DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
+        // TODO ASE: see implementation in bpi.most.server.services.DatapointService
+        return null;
+    }
+
+    @Override
+    public List<DpDTO> getDatapoints(Object o, String searchstring, String zone) {
+        // TODO ASE: see implementation in bpi.most.server.services.DatapointService
+        return null;     }
+
+    @Override
+    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period) {
+        // TODO ASE: see implementation in bpi.most.server.services.DatapointService
+        return null;     }
+
+    @Override
+    public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private List<DpDTO> transformToDpDTOList(List<DatapointVO> dpList){

@@ -2,6 +2,7 @@ package bpi.most.client.rpc;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.DpDTO;
@@ -31,33 +32,35 @@ public interface DatapointService extends RemoteService {
 	 * 
 	 * @return Returns a list of all data points as {@link DpDTO}.
 	 */
-	ArrayList<DpDTO> getDatapoints();
+	List<DpDTO> getDatapoints();
 
 	/**
 	 * A method used to get all data points that contains the search string as a
 	 * list of {@link DpDTO}.
 	 * 
-	 * @param searchstring
-	 *            The string to be searched for.
-	 * @return Returns a list of all data points that contains the search string
+	 *
+     * @param searchstring
+     *            The string to be searched for.
+     * @return Returns a list of all data points that contains the search string
 	 *         as {@link DpDTO}.
 	 */
-	ArrayList<DpDTO> getDatapoints(String searchstring);
+	List<DpDTO> getDatapoints(String searchstring);
 
 	/**
 	 * A method used to get all data points that contains the search string and
 	 * is in the given zone as a list of {@link DpDTO}.
 	 * 
-	 * @param searchstring
-	 *            The string to be searched for.
-	 * @param zone
-	 *            The zone in which you want to search.
-	 * @return Returns a list of all data points that contains the search string
+	 *
+     * @param searchstring
+     *            The string to be searched for.
+     * @param zone
+     *            The zone in which you want to search.
+     * @return Returns a list of all data points that contains the search string
 	 *         and is in the given zone as {@link DpDTO}.
 	 * @deprecated Maybe replaced in the future with a {@link ZoneDTO} instead
 	 *             of a string.
 	 */
-	ArrayList<DpDTO> getDatapoints(String searchstring, String zone);
+	List<DpDTO> getDatapoints(String searchstring, String zone);
 
 	/**
 	 * A method used to get data between a start and end time with a specific
