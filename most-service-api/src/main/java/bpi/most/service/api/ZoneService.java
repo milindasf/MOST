@@ -25,5 +25,11 @@ public interface ZoneService {
 
     public List<ZoneDTO> getSubzones(UserDTO user, ZoneDTO zoneEntity, int sublevels);
 
-    List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels);
+    public List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels);
+
+    Zone getZone(int zoneId);
+
+    Zone getZone(ZoneDTO zone);
+
+    void resetCache();
 }

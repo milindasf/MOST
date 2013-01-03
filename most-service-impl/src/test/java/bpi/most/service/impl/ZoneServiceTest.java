@@ -26,11 +26,11 @@ import java.util.List;
 public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTests{
 
     @Inject
-    private ZoneServiceImpl zoneService;
+    private ZoneService zoneService;
 
     @After
     public void tearDown() throws Exception {
-        ((ZoneServiceImpl) zoneService).resetCache();
+        zoneService.resetCache();
     }
 
     @Test
@@ -86,11 +86,11 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
         Assert.assertEquals(3, zoneService.getHeadZones().size());
     }
 
-    @Ignore
+
     @Test
     public void testGetSubZones_shouldReturnSubZones() throws Exception {
         List<ZoneDTO> zones = zoneService.getSubzones(new UserDTO("mostsoc"), new ZoneDTO(10), 1);
-        Assert.assertTrue(zones.size() > 0); //TODO at the moment we are getting an DB error, because column idzone is not found...
+        Assert.assertEquals(2, zones.size());
     }
 
     @Test

@@ -89,22 +89,21 @@ public class ZoneFinder {
 
      * @return List of sub Zones of a zone, null if empty
      */
-    public List<Zone> getSubZones(int zoneId, int sublevels) {
+    public List<Integer> getSubZoneIds(int zoneId, int sublevels) {
         //get zone info from db
         LOG.debug("Fetching sub zones from: {}, sublevels: {}", zoneId, sublevels);
         try{
             // noinspection unchecked
-            List<Zone> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getSubzones(:p,:level)}")
-                    .addEntity(Zone.class)
+            List<Integer> zoneIDs = ((Session) em.getDelegate()).createSQLQuery("{CALL getSubzones(:p,:level)}")
                     .setParameter("p", zoneId)
                     .setParameter("level", sublevels)
                     .setReadOnly(true)
                     .list();
 
-            if(zoneList.size() == 0){
+            if(zoneIDs.size() == 0){
                 return null;
             }else{
-                return zoneList;
+                return zoneIDs;
             }
         }catch(HibernateException e){
             LOG.debug(e.getStackTrace().toString());

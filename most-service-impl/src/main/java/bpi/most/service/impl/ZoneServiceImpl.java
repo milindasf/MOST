@@ -12,6 +12,7 @@ import bpi.most.service.api.ZoneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -57,7 +58,8 @@ public class ZoneServiceImpl implements ZoneService {
     /**
      * reset the cache
      */
-    void resetCache() {
+    @Override
+    public void resetCache() {
         cachedZones.clear();
     }
 
@@ -83,7 +85,8 @@ public class ZoneServiceImpl implements ZoneService {
      * @param zone Zone object
      * @return returns the respective Zone object, zoneID is used as identifier
      */
-    Zone getZone(ZoneDTO zone) {
+    @Override
+    public Zone getZone(ZoneDTO zone) {
         Zone result = lookupZoneInCache(zone.getZoneId());
         if (result != null) {
             return result;
@@ -99,7 +102,8 @@ public class ZoneServiceImpl implements ZoneService {
      * @param zoneId Unique ID of the zone
      * @return Requested Zone, null if not valid
      */
-    Zone getZone(int zoneId) {
+    @Override
+    public Zone getZone(int zoneId) {
         Zone result = lookupZoneInCache(zoneId);
         if (result != null) {
             return result;
@@ -118,6 +122,8 @@ public class ZoneServiceImpl implements ZoneService {
      * @param zoneDto
      * @return
      */
+    @Override
+    @Transactional
     public ZoneDTO getZone(UserDTO user, ZoneDTO zoneDto) {
         ZoneDTO result = null;
         Zone requestedZone = zoneFinder.getZone(zoneDto.getZoneId());
@@ -136,6 +142,7 @@ public class ZoneServiceImpl implements ZoneService {
      * @return List of Zones matching the searchPattern, null if empty
      */
     @Override
+    @Transactional
     public List<ZoneDTO> getZone(String searchPattern) {
         List<ZoneDTO> resultDTOs = null;
         List<Zone> results = zoneFinder.getZone(searchPattern);
@@ -153,6 +160,7 @@ public class ZoneServiceImpl implements ZoneService {
      * @return A List of all Zones which have no parent ("highest" Zones).
      */
     @Override
+    @Transactional
     public List<ZoneDTO> getHeadZones() {
         return getHeadZones(null);
     }
@@ -162,6 +170,7 @@ public class ZoneServiceImpl implements ZoneService {
      * @return A List of all highest Zones were the user still has any permissions (Zone with no parents were the user has any permissions).
      */
     @Override
+    @Transactional
     public List<ZoneDTO> getHeadZones(UserDTO userDTO) {
         User user = null;
 
@@ -174,7 +183,7 @@ public class ZoneServiceImpl implements ZoneService {
 
         // Retrieve the corresponding zone for each zoneId in the result
         for(Integer zoneId:results){
-            resultDTOs.add(new ZoneDTO(zoneId));
+            resultDTOs.add(getZone(zoneId).getDTO());
         }
 
         return resultDTOs;
@@ -182,11 +191,11 @@ public class ZoneServiceImpl implements ZoneService {
 
 
     /**
-     * see {@link bpi.most.server.model.Zone#getSubzones(int sublevels)}
      * adds permission check
      * @return A List of ZoneDTOs of requested subzones
      */
     @Override
+    @Transactional
     public List<ZoneDTO> getSubzones(UserDTO user, ZoneDTO zoneEntity, int sublevels) {
         List<ZoneDTO> result = new ArrayList<ZoneDTO>();
         Zone requestedZone = zoneFinder.getZone(zoneEntity.getZoneId());
@@ -194,21 +203,20 @@ public class ZoneServiceImpl implements ZoneService {
         //TODO move permission definition
         user.hasPermission(requestedZone, DpDTO.Permissions.READ);
 
-        List<Zone> subzones = zoneFinder.getSubZones(zoneEntity.getZoneId(), sublevels);
-        if(subzones != null){
+        List<Integer> subzoneIds = zoneFinder.getSubZoneIds(zoneEntity.getZoneId(), sublevels);
+        if(subzoneIds != null){
             //convert to DTOs
-            for (Zone iterateZone : subzones) {
-                result.add(iterateZone.getDTO());
+            for (Integer subzoneId : subzoneIds) {
+                result.add(getZone(subzoneId).getDTO());
             }
         }
         return result;
     }
 
     /**
-     * see {@link bpi.most.server.model.Zone#getDatapoints(int sublevel)}
-     * TODO implement
      */
     @Override
+    @Transactional
     public List<DpDTO> getDatapoints(UserDTO user, ZoneDTO zoneEntity, int sublevels) {
         List<DpDTO> result = new ArrayList<DpDTO>();
         Zone requestedZone = zoneFinder.getZone(zoneEntity.getZoneId());

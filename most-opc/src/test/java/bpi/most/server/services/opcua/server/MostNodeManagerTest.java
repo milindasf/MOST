@@ -37,46 +37,4 @@ public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContex
         List<ZoneNode> zones = (List<ZoneNode>) mostNodeManager.getTopLevelElements();
         Assert.assertEquals(10, zones.get(0).getZoneID());
     }
-
-    /*
-    @Test
-    public void testGetSubZones() throws Exception {
-
-
-    }
-
-    @Test
-    public void testGetDatapoints() throws Exception {
-
-
-    }
-
-    @Test
-    public void testGetZoneById() throws Exception {
-
-
-    }
-
-    @Test
-    public void testGetDpById() throws Exception {
-
-
-    }
-
-
-
-
-
-    /////
-    @Test
-    public void testGetObjectById() throws Exception {
-
-
-    }
-
-    @Test
-    public void testGetChildren() throws Exception {
-
-    }
-    */
 }
