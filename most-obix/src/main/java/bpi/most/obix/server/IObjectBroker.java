@@ -3,8 +3,8 @@ package bpi.most.obix.server;
 import bpi.most.obix.objects.Dp;
 import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
+import bpi.most.obix.objects.Zone;
 
-import java.net.URI;
 import java.util.HashMap;
 
 public interface IObjectBroker {
@@ -18,22 +18,24 @@ public interface IObjectBroker {
     /**
      * GET /obix/dp/{name}
      *
-     * @param href The uri of the oBix object, which is the datapointName
+     * @param href The uri of the oBix object, which is /obix/dp/{datapointName}
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
+     *         Dp contains only data, which belongs to Dp.
      */
-    Dp getDatapoint(URI href); // = datapointName = {name}
+    Dp getDatapoint(Uri href); // = datapointName = {name} /obix/dp/{name}
 
     /**
      * GET /obix/dp/{name}/data
      *
-     * @param href The uri of the oBix object, which is the datapointName
+     * @param href The uri of the oBix object, which is /obix/dp/{datapointName}
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
+     *         Dp contains all data from all DpData.
      */
-    Dp getDatapointData(URI href); // = datapointName = {name}
+    Dp getDatapointData(Uri href); // = datapointName = {name}
 
     /**
      * GET /obix/dp
@@ -49,7 +51,7 @@ public interface IObjectBroker {
      * @param href The id of the zone
      * @return The zone, which contains data points
      */
-    bpi.most.obix.objects.Zone getDatapointsForZone(URI href); // = {id}
+    Zone getDatapointsForZone(Uri href); // = {id}
     // return zone with dp inside
 
     /**
@@ -80,6 +82,6 @@ public interface IObjectBroker {
      * @param uri The uri of the oBix object, which is the datapointName
      *            of the Datapoint to update.
      */
-    void updateDatapoint(String uri);
+    void updateDatapoint(Uri uri);
 
 }

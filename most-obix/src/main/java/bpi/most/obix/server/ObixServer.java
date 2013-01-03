@@ -2,8 +2,7 @@ package bpi.most.obix.server;
 
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
-import bpi.most.obix.objects.Err;
-import bpi.most.obix.objects.Obj;
+import bpi.most.obix.objects.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,71 +10,70 @@ import java.io.InputStreamReader;
 import java.net.URI;
 
 public class ObixServer implements IObixServer {
+
     private IObjectBroker objectBroker;
 
     public ObixServer() {
-        char[] inC = {'a'};
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-        objectBroker = new ObixObjectBroker();
-
-
-        try {
-            new HTTPServer(80, this);
-            while (inC[0] != 'q')
-                in.read(inC);
-        } catch (IOException ioex) {
-            ioex.printStackTrace();
-            System.exit(1);
-        }
-
-        System.exit(0);
     }
 
-
-    public String readObj(URI href, String user) {
-        System.out.println("read request on: " + href.getPath());
-//		Obj o = _objectBroker.pullObj(new Uri(href.toASCIIString()));
-//		o = ObjectFilter.filterObject(o, 0);
-//		return ObixEncoder.toString(o);
-
+    @Override
+    public String getDatapoint(URI href) {
+        Uri uri = new Uri(href.toASCIIString());
+        Dp dp = objectBroker.getDatapoint(uri);
+        if (dp != null) {
+            return ObixEncoder.toString(dp);
+        }
         return null;
     }
 
-    public String writeObj(URI href, String xmlStream) {
-        Obj input = ObixDecoder.fromString(xmlStream);
-
-        try {
-//			_objectBroker.pushObj(new Uri(href.toASCIIString()), input, false);
-        } catch (Exception ex) {
-            Err e = new Err("Error writing object to network" + ex.getMessage());
-            return ObixEncoder.toString(e);
+    @Override
+    public String getDatapointData(URI href) {
+        Uri uri = new Uri(href.toASCIIString());
+        Dp dp = objectBroker.getDatapointData(uri);
+        if (dp != null) {
+            return ObixEncoder.toString(dp);
         }
-
-        return xmlStream;
+        return null;
     }
 
-    public String invokeOp(URI href, String xmlStream) {
-        Obj input = ObixDecoder.fromString(xmlStream);
-
-        try {
-            // do nothing
-        } catch (Exception ex) {
-            Err e = new Err("Error invoking operation" + ex.getMessage());
-            ex.printStackTrace();
-            return ObixEncoder.toString(e);
+    @Override
+    public String getAllDatapoints() {
+        List dataPoints = objectBroker.getAllDatapoints();
+        if (dataPoints != null) {
+            return ObixEncoder.toString(dataPoints);
         }
-
-        return ObixEncoder.toString(new Obj());
+        return null;
     }
 
-    /**
-     * Starts a new oBIX server.
-     *
-     * @param args No command line parameters available.
-     */
-    public static void main(String[] args) {
-        new ObixServer();
+    @Override
+    public String getDatapointsForZone(URI href) {
+        Uri uri = new Uri(href.toASCIIString());
+        Zone zone = objectBroker.getDatapointsForZone(uri);
+        if (zone != null) {
+            return ObixEncoder.toString(zone);
+        }
+        return null;
+    }
+
+    @Override
+    public String getDatapointsForAllZones() {
+        List dataPoints = objectBroker.getDatapointsForAllZones();
+        if (dataPoints != null) {
+            return ObixEncoder.toString(dataPoints);
+        }
+        return null;
+    }
+
+    @Override
+    public String getDatapoints(String from, String to) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void updateDatapoint(URI href) {
+        Uri uri = new Uri(href.toASCIIString());
+
     }
 
 }
