@@ -40,9 +40,9 @@ public class ContractRegistry {
         baseContracts.put("obix:ref", "bpi.most.obix.objects.Ref");
         baseContracts.put("obix:err", "bpi.most.obix.objects.Err");
         // my extension
-        baseContracts.put("obix:Datapoint", "bpi.most.obix.objects.Dp");
-        baseContracts.put("obix:DatapointData", "bpi.most.obix.objects.DpData");
-        //baseContracts.put("zone", Zone.class);
+        baseContracts.put("obix:dp", "bpi.most.obix.objects.Dp");
+        baseContracts.put("obix:dpData", "bpi.most.obix.objects.DpData");
+        baseContracts.put("obix:zone", "bpi.most.obix.objects.Zone");
 
         bpi.most.obix.contracts.ContractInit.init();
     }
