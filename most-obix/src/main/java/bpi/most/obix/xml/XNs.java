@@ -47,14 +47,14 @@ public final class XNs {
      * Get the prefix used to tag elements with this namespace.
      * If this is the default namespace then return "".
      */
-    public final String prefix() {
+    public String prefix() {
         return prefix;
     }
 
     /**
      * Get the uri which defines a universally unique namespace.
      */
-    public final String uri() {
+    public String uri() {
         return uri;
     }
 
@@ -73,7 +73,7 @@ public final class XNs {
      * Two instances of XNs are equal if they have the
      * exact same uri characters.
      */
-    public final boolean equals(Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
 			return true;
 		}

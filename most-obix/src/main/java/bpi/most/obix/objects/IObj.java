@@ -14,126 +14,126 @@ package bpi.most.obix.objects;
  */
 public interface IObj {
 
-////////////////////////////////////////////////////////////////
-// Identity
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Identity
+	////////////////////////////////////////////////////////////////
 
-    public String getName();
+	String getName();
 
-    public Obj getParent();
+	Obj getParent();
 
-    public Obj getRoot();
+	Obj getRoot();
 
-    public Uri getHref();
+	Uri getHref();
 
-    public Uri getNormalizedHref();
+	Uri getNormalizedHref();
 
-    public void setHref(Uri href);
+	void setHref(Uri href);
 
-    public Contract getIs();
+	Contract getIs();
 
-    public void setIs(Contract is);
+	void setIs(Contract is);
 
-////////////////////////////////////////////////////////////////
-// Convenience
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Convenience
+	////////////////////////////////////////////////////////////////
 
-    public boolean isVal();
+	boolean isVal();
 
-    public boolean isBool();
+	boolean isBool();
 
-    public boolean isInt();
+	boolean isInt();
 
-    public boolean isReal();
+	boolean isReal();
 
-    public boolean isEnum();
+	boolean isEnum();
 
-    public boolean isStr();
+	boolean isStr();
 
-    public boolean isAbstime();
+	boolean isAbstime();
 
-    public boolean isReltime();
+	boolean isReltime();
 
-    public boolean isUri();
+	boolean isUri();
 
-    public boolean isList();
+	boolean isList();
 
-    public boolean isOp();
+	boolean isOp();
 
-    public boolean isRef();
+	boolean isRef();
 
-    public boolean isFeed();
+	boolean isFeed();
 
-    public boolean isErr();
+	boolean isErr();
 
-    public boolean getBool();
+	boolean getBool();
 
-    public long getInt();
+	long getInt();
 
-    public double getReal();
+	double getReal();
 
-    public String getStr();
+	String getStr();
 
-    public void setBool(boolean val);
+	void setBool(boolean val);
 
-    public void setInt(long val);
+	void setInt(long val);
 
-    public void setReal(double val);
+	void setReal(double val);
 
-    public void setStr(String val);
+	void setStr(String val);
 
-////////////////////////////////////////////////////////////////
-// Facets
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Facets
+	////////////////////////////////////////////////////////////////
 
-    public String toDisplayString();
+	String toDisplayString();
 
-    public String getDisplay();
+	String getDisplay();
 
-    public void setDisplay(String display);
+	void setDisplay(String display);
 
-    public String toDisplayName();
+	String toDisplayName();
 
-    public String getDisplayName();
+	String getDisplayName();
 
-    public void setDisplayName(String displayName);
+	void setDisplayName(String displayName);
 
-    public Uri getIcon();
+	Uri getIcon();
 
-    public void setIcon(Uri icon);
+	void setIcon(Uri icon);
 
-    public Status getStatus();
+	Status getStatus();
 
-    public void setStatus(Status status);
+	void setStatus(Status status);
 
-    public boolean isNull();
+	boolean isNull();
 
-    public void setNull(boolean isNull);
+	void setNull(boolean isNull);
 
-    public boolean isWritable();
+	boolean isWritable();
 
-    public void setWritable(boolean writable);
+	void setWritable(boolean writable);
 
-    public void setWritable(boolean writable, boolean recursive);
+	void setWritable(boolean writable, boolean recursive);
 
-////////////////////////////////////////////////////////////////
-// Children
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Children
+	////////////////////////////////////////////////////////////////
 
-    public Obj get(String name);
+	Obj get(String name);
 
-    public int size();
+	int size();
 
-    public Obj[] list();
+	Obj[] list();
 
-    public Obj add(Obj kid);
+	Obj add(Obj kid);
 
-    public Obj addAll(Obj[] kid);
+	Obj addAll(Obj[] kid);
 
-    public void remove(Obj kid);
+	void remove(Obj kid);
 
-    public void replace(Obj oldObj, Obj newObj);
+	void replace(Obj oldObj, Obj newObj);
 
-    public void removeThis();
+	void removeThis();
 
 }

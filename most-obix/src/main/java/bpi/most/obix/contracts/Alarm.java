@@ -11,11 +11,10 @@ import bpi.most.obix.objects.Ref;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface Alarm
-        extends IObj {
+public interface Alarm extends IObj {
 
-    public Ref source();
+	Ref source();
 
-    public Abstime timestamp();
+	Abstime timestamp();
 
 }

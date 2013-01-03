@@ -11,19 +11,18 @@ import bpi.most.obix.objects.Ref;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface Lobby
-        extends IObj {
+public interface Lobby extends IObj {
 
-    public static final String aboutContract = "<ref name='about' is='obix:About'/>";
+	static final String aboutContract = "<ref name='about' is='obix:About'/>";
 
-    public Ref about();
+	Ref about();
 
-    public static final String batchContract = "<op name='batch' in='obix:BatchIn' out='obix:BatchOut'/>";
+	static final String batchContract = "<op name='batch' in='obix:BatchIn' out='obix:BatchOut'/>";
 
-    public Op batch();
+	Op batch();
 
-    public static final String watchServiceContract = "<ref name='watchService' is='obix:WatchService'/>";
+	static final String watchServiceContract = "<ref name='watchService' is='obix:WatchService'/>";
 
-    public Ref watchService();
+	Ref watchService();
 
 }

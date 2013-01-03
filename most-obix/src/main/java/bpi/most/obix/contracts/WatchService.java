@@ -10,11 +10,10 @@ import bpi.most.obix.objects.Op;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface WatchService
-        extends IObj {
+public interface WatchService extends IObj {
 
-    public static final String makeContract = "<op name='make' in='obix:Nil' out='obix:Watch'/>";
+	static final String makeContract = "<op name='make' in='obix:Nil' out='obix:Watch'/>";
 
-    public Op make();
+	Op make();
 
 }

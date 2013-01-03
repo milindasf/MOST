@@ -10,9 +10,8 @@ import bpi.most.obix.objects.List;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface WatchOut
-        extends IObj {
+public interface WatchOut extends IObj {
 
-    public List values();
+	List values();
 
 }

@@ -14,6 +14,6 @@ import bpi.most.obix.objects.Obj;
  */
 public interface WatchListener {
 
-    public void changed(Obj obj);
+	void changed(Obj obj);
 
 } 

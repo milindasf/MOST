@@ -10,21 +10,20 @@ import bpi.most.obix.objects.Int;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface Dimension
-        extends IObj {
+public interface Dimension extends IObj {
 
-    public Int kg();
+	Int kg();
 
-    public Int m();
+	Int m();
 
-    public Int sec();
+	Int sec();
 
-    public Int K();
+	Int K();
 
-    public Int A();
+	Int A();
 
-    public Int mol();
+	Int mol();
 
-    public Int cd();
+	Int cd();
 
 }

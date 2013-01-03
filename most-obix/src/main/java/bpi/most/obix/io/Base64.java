@@ -129,7 +129,7 @@ public class Base64 {
      * Append a character to the specified buffer inserting
      * line breaks if necessary to conform to the linelen.
      */
-    private static final int append(StringBuffer sbuf, char ch,
+    private static int append(StringBuffer sbuf, char ch,
                                     int linelen, int pos) {
         if (linelen != -1) {
             if (pos == linelen) {

@@ -9,11 +9,10 @@ import bpi.most.obix.objects.IObj;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface AckAlarmOut
-        extends IObj {
+public interface AckAlarmOut extends IObj {
 
-    public static final String alarmContract = "<obj name='alarm' is='obix:AckAlarm obix:Alarm'/>";
+	static final String alarmContract = "<obj name='alarm' is='obix:AckAlarm obix:Alarm'/>";
 
-    public AckAlarm alarm();
+	AckAlarm alarm();
 
 }

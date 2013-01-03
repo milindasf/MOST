@@ -10,11 +10,10 @@ import bpi.most.obix.objects.List;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface WatchIn
-        extends IObj {
+public interface WatchIn extends IObj {
 
-    public static final String hrefsContract = "<list name='hrefs' of='obix:WatchInItem'/>";
+	static final String hrefsContract = "<list name='hrefs' of='obix:WatchInItem'/>";
 
-    public List hrefs();
+	List hrefs();
 
 }

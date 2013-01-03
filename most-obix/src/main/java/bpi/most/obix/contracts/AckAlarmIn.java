@@ -10,11 +10,10 @@ import bpi.most.obix.objects.Str;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface AckAlarmIn
-        extends IObj {
+public interface AckAlarmIn extends IObj {
 
-    public static final String ackUserContract = "<str name='ackUser' val='' null='true'/>";
+	static final String ackUserContract = "<str name='ackUser' val='' null='true'/>";
 
-    public Str ackUser();
+	Str ackUser();
 
 }

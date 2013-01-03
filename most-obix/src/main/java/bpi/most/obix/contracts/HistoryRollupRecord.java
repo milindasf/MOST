@@ -12,21 +12,20 @@ import bpi.most.obix.objects.Real;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface HistoryRollupRecord
-        extends IObj {
+public interface HistoryRollupRecord extends IObj {
 
-    public Abstime start();
+	Abstime start();
 
-    public Abstime end();
+	Abstime end();
 
-    public Int count();
+	Int count();
 
-    public Real min();
+	Real min();
 
-    public Real max();
+	Real max();
 
-    public Real avg();
+	Real avg();
 
-    public Real sum();
+	Real sum();
 
 }

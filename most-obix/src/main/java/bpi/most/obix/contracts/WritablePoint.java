@@ -10,11 +10,10 @@ import bpi.most.obix.objects.Op;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface WritablePoint
-        extends IObj, Point {
+public interface WritablePoint extends IObj, Point {
 
-    public static final String writePointContract = "<op name='writePoint' in='obix:WritePointIn' out='obix:Point'/>";
+	static final String writePointContract = "<op name='writePoint' in='obix:WritePointIn' out='obix:Point'/>";
 
-    public Op writePoint();
+	Op writePoint();
 
 }

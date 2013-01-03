@@ -10,9 +10,8 @@ import bpi.most.obix.objects.Reltime;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface HistoryRollupIn
-        extends IObj, HistoryFilter {
+public interface HistoryRollupIn extends IObj, HistoryFilter {
 
-    public Reltime interval();
+	Reltime interval();
 
 }

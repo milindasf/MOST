@@ -10,9 +10,8 @@ import bpi.most.obix.objects.Obj;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface PointAlarm
-        extends IObj, Alarm {
+public interface PointAlarm extends IObj, Alarm {
 
-    public Obj alarmValue();
+	Obj alarmValue();
 
 }

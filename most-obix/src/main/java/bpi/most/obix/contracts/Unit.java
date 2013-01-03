@@ -11,19 +11,18 @@ import bpi.most.obix.objects.Str;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface Unit
-        extends IObj {
+public interface Unit extends IObj {
 
-    public Str symbol();
+	Str symbol();
 
-    public static final String dimensionContract = "<obj name='dimension' is='obix:Dimension'/>";
+	static final String dimensionContract = "<obj name='dimension' is='obix:Dimension'/>";
 
-    public Dimension dimension();
+	Dimension dimension();
 
-    public static final String scaleContract = "<real name='scale' val='1.0'/>";
+	static final String scaleContract = "<real name='scale' val='1.0'/>";
 
-    public Real scale();
+	Real scale();
 
-    public Real offset();
+	Real offset();
 
 }

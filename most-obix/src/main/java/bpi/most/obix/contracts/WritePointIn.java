@@ -10,9 +10,8 @@ import bpi.most.obix.objects.Obj;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface WritePointIn
-        extends IObj {
+public interface WritePointIn extends IObj {
 
-    public Obj value();
+	Obj value();
 
 }

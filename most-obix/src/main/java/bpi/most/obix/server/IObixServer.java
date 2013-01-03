@@ -20,7 +20,7 @@ public interface IObixServer {
      * @param user Name of the user who wants to read the object.
      * @return XML representation of the object to be read.
      */
-    public String readObj(URI href, String user);
+    String readObj(URI href, String user);
 
     /**
      * The object specified via the URI is written by pushing it to the object
@@ -30,7 +30,7 @@ public interface IObixServer {
      * @param xmlStream XML representation of the object to be written.
      * @return XML representation of the written object.
      */
-    public String writeObj(URI href, String xmlStream);
+    String writeObj(URI href, String xmlStream);
 
     /**
      * The operation specified via the URI is invoked by pushing it to the
@@ -40,5 +40,5 @@ public interface IObixServer {
      * @param xmlStream Parameters of the operation to be invoked.
      * @return XML representation of the output parameters of the operation.
      */
-    public String invokeOp(URI href, String xmlStream);
+    String invokeOp(URI href, String xmlStream);
 }

@@ -12,25 +12,24 @@ import bpi.most.obix.objects.Uri;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface About
-        extends IObj {
+public interface About extends IObj {
 
-    public Str obixVersion();
+	Str obixVersion();
 
-    public Str serverName();
+	Str serverName();
 
-    public Abstime serverTime();
+	Abstime serverTime();
 
-    public Abstime serverBootTime();
+	Abstime serverBootTime();
 
-    public Str vendorName();
+	Str vendorName();
 
-    public Uri vendorUrl();
+	Uri vendorUrl();
 
-    public Str productName();
+	Str productName();
 
-    public Str productVersion();
+	Str productVersion();
 
-    public Uri productUrl();
+	Uri productUrl();
 
 }

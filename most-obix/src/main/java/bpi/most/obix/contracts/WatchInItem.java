@@ -10,9 +10,8 @@ import bpi.most.obix.objects.Obj;
  * @version $Revision$ $Date$
  * @creation 24 May 06
  */
-public interface WatchInItem
-        extends IObj {
+public interface WatchInItem extends IObj {
 
-    public Obj in();
+	Obj in();
 
 }
