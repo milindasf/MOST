@@ -33,7 +33,7 @@ public class ConstantPool {
 ////////////////////////////////////////////////////////////////
 
     public int utf(String str) {
-        Integer ref = (Integer) utfTable.get(str);
+        Integer ref = utfTable.get(str);
         if (ref != null) {
 			return ref.intValue();
 		}
@@ -42,12 +42,12 @@ public class ConstantPool {
         buf.utf(str);
 
         count++;
-        utfTable.put(str, new Integer(count));
+        utfTable.put(str, count);
         return count;
     }
 
     public int cls(String className) {
-        Integer ref = (Integer) classTable.get(className);
+        Integer ref = classTable.get(className);
         if (ref != null) {
 			return ref.intValue();
 		}
@@ -57,12 +57,12 @@ public class ConstantPool {
         buf.u2(i);
 
         count++;
-        classTable.put(className, new Integer(count));
+        classTable.put(className, count);
         return count;
     }
 
     public int string(String str) {
-        Integer ref = (Integer) stringTable.get(str);
+        Integer ref = stringTable.get(str);
         if (ref != null) {
 			return ref.intValue();
 		}
@@ -72,7 +72,7 @@ public class ConstantPool {
         buf.u2(i);
 
         count++;
-        stringTable.put(str, new Integer(count));
+        stringTable.put(str, count);
         return count;
     }
 
@@ -86,13 +86,13 @@ public class ConstantPool {
         buf.u4(i);
 
         count++;
-        integerTable.put(i, new Integer(count));
+        integerTable.put(i, Integer.valueOf(count));
         return count;
     }
 
     public int floatConst(float f) {
-        Float key = new Float(f);
-        Integer ref = (Integer) floatTable.get(key);
+        Float key = f;
+        Integer ref = floatTable.get(key);
         if (ref != null) {
 			return ref.intValue();
 		}
@@ -101,12 +101,12 @@ public class ConstantPool {
         buf.u4(Float.floatToIntBits(f));
 
         count++;
-        floatTable.put(key, new Integer(count));
+        floatTable.put(key, count);
         return count;
     }
 
     public int doubleConst(double d) {
-        Double key = new Double(d);
+        Double key = d;
         Integer ref = (Integer) doubleTable.get(key);
         if (ref != null) {
 			return ref.intValue();
@@ -116,14 +116,14 @@ public class ConstantPool {
         buf.u8(Double.doubleToLongBits(d));
 
         count++;
-        doubleTable.put(key, new Integer(count));
+        doubleTable.put(key, count);
         count++; // float entries use two slots
         return count - 1;
     }
 
     public int longConst(long lng) {
-        Long key = new Long(lng);
-        Integer ref = (Integer) longTable.get(key);
+        Long key = lng;
+        Integer ref = longTable.get(key);
         if (ref != null) {
 			return ref.intValue();
 		}
@@ -132,7 +132,7 @@ public class ConstantPool {
         buf.u8(lng);
 
         count++;
-        longTable.put(key, new Integer(count));
+        longTable.put(key, count);
         count++; // long entries use two slots
         return count - 1;
     }
@@ -149,7 +149,7 @@ public class ConstantPool {
         buf.u2(type);
 
         count++;
-        ntTable.put(hash, new Integer(count));
+        ntTable.put(hash, count);
         return count;
     }
 
@@ -165,7 +165,7 @@ public class ConstantPool {
         buf.u2(nt);
 
         count++;
-        fieldTable.put(hash, new Integer(count));
+        fieldTable.put(hash, count);
         return count;
     }
 
@@ -181,7 +181,7 @@ public class ConstantPool {
         buf.u2(nt);
 
         count++;
-        methodTable.put(hash, new Integer(count));
+        methodTable.put(hash, count);
         return count;
     }
 
@@ -197,7 +197,7 @@ public class ConstantPool {
         buf.u2(nt);
 
         count++;
-        ifaceTable.put(hash, new Integer(count));
+        ifaceTable.put(hash, count);
         return count;
     }
 

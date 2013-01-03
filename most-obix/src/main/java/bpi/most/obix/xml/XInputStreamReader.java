@@ -4,7 +4,6 @@
 package bpi.most.obix.xml;
 
 import java.io.*;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
@@ -123,7 +122,6 @@ public class XInputStreamReader
         if (!autoDetected) {
 			autoDetect();
 		}
-        int last = off + len;
         for (int i = 0; i < len; ++i) {
             int c = read();
             if (c < 0) {
@@ -174,7 +172,7 @@ public class XInputStreamReader
         // recurse to auto-detect the text stream
         if (match(sig, 0x50, 0x4b, 0x03, 0x04)) {
             ZipInputStream unzip = new ZipInputStream(in);
-            ZipEntry entry = unzip.getNextEntry();
+            unzip.getNextEntry();
             this.zipped = true;
             this.in = new BufferedInputStream(unzip);
             autoDetect();
