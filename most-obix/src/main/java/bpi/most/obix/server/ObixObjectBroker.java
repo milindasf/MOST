@@ -13,6 +13,21 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Loads and caches all oBix-objects. This broker can be used
+ * to retrieve following Data:
+ *
+ * <li><b>Dp without data:</b> Datapoints, which contain no data</li>
+ * <li><b>Dp with data:</b> Datapoints, which contain data</li>
+ * <li><b>List:</b> List, which contains all Dps, which contain data</li>
+ *
+ * <li><b>Zone data:</b> A Zone, which contains Dps, which contain data</li>
+ * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain data</li>
+ *
+ * <li><b>List:</b> List, which contains all Dps in a period of time, which contain data</li>
+ *
+ * @author Alexej Strelzow
+ */
 public class ObixObjectBroker implements IObjectBroker {
 
     @Inject
@@ -30,6 +45,10 @@ public class ObixObjectBroker implements IObjectBroker {
         loadDatapoints();
     }
 
+    /**
+     * Loads all data points -> Dp
+     * TODO: Also headZones can have zones -> maybe recursive algorithm
+     */
     public void loadDatapoints() {
         final java.util.List<ZoneDTO> headZones = zoneService.getHeadZones();
         for (ZoneDTO zone : headZones) {
@@ -49,6 +68,9 @@ public class ObixObjectBroker implements IObjectBroker {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dp getDatapoint(Uri href) {
         Dp dp = dpCache.get(href);
@@ -57,6 +79,9 @@ public class ObixObjectBroker implements IObjectBroker {
         return dp;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dp getDatapointData(Uri href) {
         Dp dp = dpCache.get(href);
@@ -68,6 +93,9 @@ public class ObixObjectBroker implements IObjectBroker {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List getAllDatapoints() {
         List list = new List("datapoints", new Contract("obix:dp"));
@@ -81,6 +109,9 @@ public class ObixObjectBroker implements IObjectBroker {
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public bpi.most.obix.objects.Zone getDatapointsForZone(Uri href) {
 
@@ -103,6 +134,9 @@ public class ObixObjectBroker implements IObjectBroker {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List getDatapointsForAllZones() {
         List list = new List("zones", new Contract("obix:zone"));
@@ -114,14 +148,20 @@ public class ObixObjectBroker implements IObjectBroker {
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List getDatapoints(String from, String to) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateDatapoint(Uri uri) {
+    public void updateDatapoint(Dp dp) {
         // TODO Auto-generated method stub
 
     }

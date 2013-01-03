@@ -58,9 +58,9 @@ public interface IObjectBroker {
      * GET /obix/dp/{name}/data?from={UCT datetime}&to=
      * {UCT datetime}
      *
-     * @param from
-     * @param to
-     * @return
+     * @param from Begin Timestamp
+     * @param to End Timestamp
+     * @return A List of objects, which are in this period of time
      */
     List getDatapoints(String from, String to);
     // return list with all datapoint data, see DpDataDTO (!)
@@ -69,11 +69,10 @@ public interface IObjectBroker {
     /**
      * PUT /obix/dp/{name}
      * <p/>
-     * Update for the data point with the {@link Uri} <code>{name}</code>
+     * Updates the data for a data point.
      *
-     * @param uri The uri of the oBix object, which is the datapointName
-     *            of the Datapoint to update.
+     * @param dp An instance of Dp, which contains new values
      */
-    void updateDatapoint(Uri uri);
+    void updateDatapoint(Dp dp);
 
 }

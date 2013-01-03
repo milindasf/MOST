@@ -1,10 +1,8 @@
 package bpi.most.obix.server;
 
+import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
-import bpi.most.obix.objects.Dp;
-import bpi.most.obix.objects.List;
-import bpi.most.obix.objects.Uri;
-import bpi.most.obix.objects.Zone;
+import bpi.most.obix.objects.*;
 
 import java.net.URI;
 
@@ -18,26 +16,39 @@ public class ObixServer implements IObixServer {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDatapoint(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-        Dp dp = objectBroker.getDatapoint(uri);
-        if (dp != null) {
-            return ObixEncoder.toString(dp);
+        if (href != null) {
+            Uri uri = new Uri(href.toASCIIString());
+            Dp dp = objectBroker.getDatapoint(uri);
+            if (dp != null) {
+                return ObixEncoder.toString(dp);
+            }
         }
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDatapointData(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-        Dp dp = objectBroker.getDatapointData(uri);
-        if (dp != null) {
-            return ObixEncoder.toString(dp);
+        if (href != null) {
+            Uri uri = new Uri(href.toASCIIString());
+            Dp dp = objectBroker.getDatapointData(uri);
+            if (dp != null) {
+                return ObixEncoder.toString(dp);
+            }
         }
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAllDatapoints() {
         List dataPoints = objectBroker.getAllDatapoints();
@@ -47,16 +58,24 @@ public class ObixServer implements IObixServer {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDatapointsForZone(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-        Zone zone = objectBroker.getDatapointsForZone(uri);
-        if (zone != null) {
-            return ObixEncoder.toString(zone);
+        if (href != null) {
+            Uri uri = new Uri(href.toASCIIString());
+            Zone zone = objectBroker.getDatapointsForZone(uri);
+            if (zone != null) {
+                return ObixEncoder.toString(zone);
+            }
         }
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDatapointsForAllZones() {
         List dataPoints = objectBroker.getDatapointsForAllZones();
@@ -66,15 +85,25 @@ public class ObixServer implements IObixServer {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDatapoints(String from, String to) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateDatapoint(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-
+    public void updateDatapoint(String encodedDp) {
+        if (encodedDp != null) {
+            Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
+            if (dp != null) {
+                objectBroker.updateDatapoint(dp);
+            }
+        }
     }
 
 }

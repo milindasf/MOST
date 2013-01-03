@@ -73,10 +73,9 @@ public interface IObixServer {
     /**
      * PUT /obix/dp/{name}
      * <p/>
-     * Update for the data point with the {@link bpi.most.obix.objects.Uri} <code>{name}</code>
+     * Updates the data for a data point.
      *
-     * @param href The uri of the oBix object, which is the datapointName
-     *            of the Datapoint to update.
+     * @param encodedDp An encoded instance of Dp
      */
-    void updateDatapoint(URI href);
+    void updateDatapoint(String encodedDp);
 }
