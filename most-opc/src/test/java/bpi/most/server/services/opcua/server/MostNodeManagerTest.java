@@ -29,9 +29,6 @@ public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContex
     @Inject
     MostNodeManager mostNodeManager;
 
-    @Inject
-    ZoneService zoneService;
-    
     @Before
     public void setUp() throws Exception {
         mostNodeManager.setMostUser(new UserDTO("mostsoc"));
