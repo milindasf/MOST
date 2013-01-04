@@ -53,12 +53,6 @@ public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContex
         List<Object> zones = (List<Object>) mostNodeManager.getChildren(ZoneNode.class.getSimpleName(), "1");
         Assert.assertEquals(5, zones.size());
         
-        for(Object o : zones){
-        	if(o instanceof DpNode){
-        		System.err.println(o.toString());
-        	}
-        }
-        
         zones = (List<Object>) mostNodeManager.getChildren(null, "1");
         Assert.assertEquals(0, zones.size());
         
