@@ -223,7 +223,7 @@ public class XInputStreamReader
         // at this point 0xxx xxxx (ASCII) is already handled
         // since it is inlined into read() itself
 
-        int c1, c2, c3;
+        int c1, c2;
         switch (c0 >> 4) {
             case 12:
             case 13:
