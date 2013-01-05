@@ -18,7 +18,7 @@ public class Base64 {
 // Encoding table
 ///////////////////////////////////////////////////////////
 
-    private final static char[] encodeTable =
+    private static final char[] encodeTable =
             {
                     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
