@@ -155,7 +155,7 @@ public class ObixEncoder
         if (obj.getIcon() != null) {
 			attr(" icon", obj.getIcon().toString());
 		}
-        if (obj.getStatus() != Status.ok) {
+        if (obj.getStatus() != Status.OK) {
 			attr(" status", obj.getStatus().toString());
 		}
         if (obj.isNull()) {

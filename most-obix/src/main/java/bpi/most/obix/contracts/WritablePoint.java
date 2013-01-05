@@ -12,7 +12,7 @@ import bpi.most.obix.objects.Op;
  */
 public interface WritablePoint extends IObj, Point {
 
-	static final String writePointContract = "<op name='writePoint' in='obix:WritePointIn' out='obix:Point'/>";
+	String writePointContract = "<op name='writePoint' in='obix:WritePointIn' out='obix:Point'/>";
 
 	Op writePoint();
 

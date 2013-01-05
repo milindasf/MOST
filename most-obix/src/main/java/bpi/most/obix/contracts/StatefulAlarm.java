@@ -12,7 +12,7 @@ import bpi.most.obix.objects.IObj;
  */
 public interface StatefulAlarm extends IObj, Alarm {
 
-	static final String normalTimestampContract = "<abstime name='normalTimestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String normalTimestampContract = "<abstime name='normalTimestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime normalTimestamp();
 

@@ -38,7 +38,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Utf8);
+        buf.u1(Jvm.CONSTANT_UTF8);
         buf.utf(str);
 
         count++;
@@ -53,7 +53,7 @@ public class ConstantPool {
 		}
 
         int i = utf(className);
-        buf.u1(Jvm.CONSTANT_Class);
+        buf.u1(Jvm.CONSTANT_CLASS);
         buf.u2(i);
 
         count++;
@@ -68,7 +68,7 @@ public class ConstantPool {
 		}
 
         int i = utf(str);
-        buf.u1(Jvm.CONSTANT_String);
+        buf.u1(Jvm.CONSTANT_STRING);
         buf.u2(i);
 
         count++;
@@ -82,7 +82,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Integer);
+        buf.u1(Jvm.CONSTANT_INTEGER);
         buf.u4(i);
 
         count++;
@@ -97,7 +97,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Float);
+        buf.u1(Jvm.CONSTANT_FLOAT);
         buf.u4(Float.floatToIntBits(f));
 
         count++;
@@ -112,7 +112,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Double);
+        buf.u1(Jvm.CONSTANT_DOUBLE);
         buf.u8(Double.doubleToLongBits(d));
 
         count++;
@@ -128,7 +128,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Long);
+        buf.u1(Jvm.CONSTANT_LONG);
         buf.u8(lng);
 
         count++;
@@ -144,7 +144,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_NameAndType);
+        buf.u1(Jvm.CONSTANT_NAMEANDTYPE);
         buf.u2(name);
         buf.u2(type);
 
@@ -160,7 +160,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Fieldref);
+        buf.u1(Jvm.CONSTANT_FIELDREF);
         buf.u2(cls);
         buf.u2(nt);
 
@@ -176,7 +176,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_Methodref);
+        buf.u1(Jvm.CONSTANT_METHODREF);
         buf.u2(cls);
         buf.u2(nt);
 
@@ -192,7 +192,7 @@ public class ConstantPool {
 			return ref.intValue();
 		}
 
-        buf.u1(Jvm.CONSTANT_InterfaceMethodref);
+        buf.u1(Jvm.CONSTANT_INTERFACEMETHODREF);
         buf.u2(cls);
         buf.u2(nt);
 

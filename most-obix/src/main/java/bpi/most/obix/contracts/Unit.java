@@ -15,11 +15,11 @@ public interface Unit extends IObj {
 
 	Str symbol();
 
-	static final String dimensionContract = "<obj name='dimension' is='obix:Dimension'/>";
+	String dimensionContract = "<obj name='dimension' is='obix:Dimension'/>";
 
 	Dimension dimension();
 
-	static final String scaleContract = "<real name='scale' val='1.0'/>";
+	String scaleContract = "<real name='scale' val='1.0'/>";
 
 	Real scale();
 

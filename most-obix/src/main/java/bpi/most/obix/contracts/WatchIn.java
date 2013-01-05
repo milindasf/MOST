@@ -12,7 +12,7 @@ import bpi.most.obix.objects.List;
  */
 public interface WatchIn extends IObj {
 
-	static final String hrefsContract = "<list name='hrefs' of='obix:WatchInItem'/>";
+	String hrefsContract = "<list name='hrefs' of='obix:WatchInItem'/>";
 
 	List hrefs();
 

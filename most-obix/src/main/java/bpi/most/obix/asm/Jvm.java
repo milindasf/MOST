@@ -42,17 +42,17 @@ public final class Jvm
 // Constant Pool Constants
 //////////////////////////////////////////////////////////////
 
-    public static final int CONSTANT_Utf8 = 1;
-    public static final int CONSTANT_Integer = 3;
-    public static final int CONSTANT_Float = 4;
-    public static final int CONSTANT_Long = 5;
-    public static final int CONSTANT_Double = 6;
-    public static final int CONSTANT_Class = 7;
-    public static final int CONSTANT_String = 8;
-    public static final int CONSTANT_Fieldref = 9;
-    public static final int CONSTANT_Methodref = 10;
-    public static final int CONSTANT_InterfaceMethodref = 11;
-    public static final int CONSTANT_NameAndType = 12;
+    public static final int CONSTANT_UTF8 = 1;
+    public static final int CONSTANT_INTEGER = 3;
+    public static final int CONSTANT_FLOAT = 4;
+    public static final int CONSTANT_LONG = 5;
+    public static final int CONSTANT_DOUBLE = 6;
+    public static final int CONSTANT_CLASS = 7;
+    public static final int CONSTANT_STRING = 8;
+    public static final int CONSTANT_FIELDREF = 9;
+    public static final int CONSTANT_METHODREF = 10;
+    public static final int CONSTANT_INTERFACEMETHODREF = 11;
+    public static final int CONSTANT_NAMEANDTYPE = 12;
 
 //////////////////////////////////////////////////////////////
 // Attribute Keyword Constants

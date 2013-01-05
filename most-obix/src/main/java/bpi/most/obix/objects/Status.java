@@ -44,14 +44,14 @@ public class Status {
 // Range
 ////////////////////////////////////////////////////////////////
 
-    public static final Status disabled = new Status(0, "disabled");
-    public static final Status fault = new Status(1, "fault");
-    public static final Status down = new Status(2, "down");
-    public static final Status unackedAlarm = new Status(3, "unackedAlarm");
-    public static final Status alarm = new Status(4, "alarm");
-    public static final Status unacked = new Status(5, "unacked");
-    public static final Status overridden = new Status(6, "overridden");
-    public static final Status ok = new Status(7, "ok");
+    public static final Status DISABLED = new Status(0, "disabled");
+    public static final Status FAULT = new Status(1, "fault");
+    public static final Status DOWN = new Status(2, "down");
+    public static final Status UNACKED_ALARM = new Status(3, "unackedAlarm");
+    public static final Status ALARM = new Status(4, "alarm");
+    public static final Status UNACKED = new Status(5, "unacked");
+    public static final Status OVERRIDDEN = new Status(6, "overridden");
+    public static final Status OK = new Status(7, "ok");
 
 ////////////////////////////////////////////////////////////////
 // Private Constructor

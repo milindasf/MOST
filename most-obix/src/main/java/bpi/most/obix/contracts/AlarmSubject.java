@@ -14,15 +14,15 @@ import bpi.most.obix.objects.Op;
  */
 public interface AlarmSubject extends IObj {
 
-	static final String countContract = "<int name='count' val='0' min='0'/>";
+	String countContract = "<int name='count' val='0' min='0'/>";
 
 	Int count();
 
-	static final String queryContract = "<op name='query' in='obix:AlarmFilter' out='obix:AlarmQueryOut'/>";
+	String queryContract = "<op name='query' in='obix:AlarmFilter' out='obix:AlarmQueryOut'/>";
 
 	Op query();
 
-	static final String feedContract = "<feed name='feed' in='obix:AlarmFilter' of='obix:Alarm'/>";
+	String feedContract = "<feed name='feed' in='obix:AlarmFilter' of='obix:Alarm'/>";
 
 	Feed feed();
 

@@ -28,7 +28,7 @@ public class Obj
     private Obj kidsHead, kidsTail;
     private int kidsCount;
     private Obj prev, next;
-    private Status status = Status.ok;
+    private Status status = Status.OK;
     private String display;
     private String displayName;
     private Uri icon;
@@ -463,7 +463,7 @@ public class Obj
      */
     public void setStatus(Status status) {
         if (status == null) {
-            status = Status.ok;
+            status = Status.OK;
         }
         this.status = status;
     }

@@ -14,19 +14,19 @@ import bpi.most.obix.objects.List;
  */
 public interface HistoryRollupOut extends IObj {
 
-	static final String countContract = "<int name='count' val='0' min='0'/>";
+	String countContract = "<int name='count' val='0' min='0'/>";
 
 	Int count();
 
-	static final String startContract = "<abstime name='start' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String startContract = "<abstime name='start' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime start();
 
-	static final String endContract = "<abstime name='end' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String endContract = "<abstime name='end' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime end();
 
-	static final String dataContract = "<list name='data' of='obix:HistoryRollupRecord'/>";
+	String dataContract = "<list name='data' of='obix:HistoryRollupRecord'/>";
 
 	List data();
 

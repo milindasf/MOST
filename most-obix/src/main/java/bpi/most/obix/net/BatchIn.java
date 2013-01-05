@@ -15,11 +15,11 @@ import bpi.most.obix.objects.*;
 public class BatchIn
         extends List {
 
-    public static final Contract uriContract = new Contract("obix:uri");
-    public static final Contract batchInContract = new Contract("obix:BatchIn");
-    public static final Contract readContract = new Contract("obix:Read");
-    public static final Contract writeContract = new Contract("obix:Write");
-    public static final Contract invokeContract = new Contract("obix:Invoke");
+    public static final Contract URI_CONTRACT = new Contract("obix:uri");
+    public static final Contract BATCH_IN_CONTRACT = new Contract("obix:BatchIn");
+    public static final Contract READ_CONTRACT = new Contract("obix:Read");
+    public static final Contract WRITE_CONTRACT = new Contract("obix:Write");
+    public static final Contract INVOKE_CONTRACT = new Contract("obix:Invoke");
 
     private ObixSession session;
 
@@ -27,8 +27,8 @@ public class BatchIn
      * Package private constructor - see ObixSession.makeBatch()
      */
     BatchIn(ObixSession session) {
-        setOf(uriContract);
-        setIs(batchInContract);
+        setOf(URI_CONTRACT);
+        setIs(BATCH_IN_CONTRACT);
         this.session = session;
     }
 
@@ -49,7 +49,7 @@ public class BatchIn
      */
     public void read(Uri uri)
             throws Exception {
-        uri.setIs(readContract);
+        uri.setIs(READ_CONTRACT);
         add(uri);
     }
 
@@ -61,7 +61,7 @@ public class BatchIn
     public void write(Obj obj)
             throws Exception {
         Uri uri = obj.getHref();
-        uri.setIs(writeContract);
+        uri.setIs(WRITE_CONTRACT);
         uri.add(obj);
         add(uri);
     }
@@ -88,7 +88,7 @@ public class BatchIn
             in = new Obj();
             in.setNull(true);
         }
-        uri.setIs(invokeContract);
+        uri.setIs(INVOKE_CONTRACT);
         uri.add(in);
         add(uri);
     }

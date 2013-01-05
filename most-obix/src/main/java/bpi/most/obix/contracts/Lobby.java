@@ -13,15 +13,15 @@ import bpi.most.obix.objects.Ref;
  */
 public interface Lobby extends IObj {
 
-	static final String aboutContract = "<ref name='about' is='obix:About'/>";
+	String aboutContract = "<ref name='about' is='obix:About'/>";
 
 	Ref about();
 
-	static final String batchContract = "<op name='batch' in='obix:BatchIn' out='obix:BatchOut'/>";
+	String batchContract = "<op name='batch' in='obix:BatchIn' out='obix:BatchOut'/>";
 
 	Op batch();
 
-	static final String watchServiceContract = "<ref name='watchService' is='obix:WatchService'/>";
+	String watchServiceContract = "<ref name='watchService' is='obix:WatchService'/>";
 
 	Ref watchService();
 
