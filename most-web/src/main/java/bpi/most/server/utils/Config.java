@@ -33,8 +33,7 @@ public class Config
 
 	public String getProperty(String key)
 	{
-		String value = this.properties.getProperty(key);		
-		return value;
+		return this.properties.getProperty(key);
 	}
 }
 

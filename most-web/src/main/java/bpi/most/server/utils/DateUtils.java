@@ -27,8 +27,7 @@ public class DateUtils {
 	 * @return
 	 */
 	public static Calendar parseISO8601Date(String iso8601date){
-		Calendar cal = DatatypeConverter.parseDateTime(iso8601date);
-		return cal;
+		return DatatypeConverter.parseDateTime(iso8601date);
 	}
 	
 	/**
