@@ -41,11 +41,11 @@ public class XParser {
     private boolean popStack;   // used for next event
     private boolean emptyElem;  // used for next event
 
-    private static final String[] internCache = new String[128];
+    private static final String[] INTERN_CACHE = new String[128];
 
     static {
         for (int i = ' '; i < 128; ++i) {
-            internCache[i] = new String(new char[]{(char) i}).intern();
+            INTERN_CACHE[i] = new String(new char[]{(char) i}).intern();
         }
     }
 
@@ -847,7 +847,7 @@ public class XParser {
         if (buf.length == 1) {
             int ch = buf.data[0];
             if (' ' <= ch && ch < 128) {
-				return internCache[ch];
+				return INTERN_CACHE[ch];
 			}
         }
         return buf.string();
@@ -1032,35 +1032,35 @@ public class XParser {
 ////////////////////////////////////////////////////////////////  
 
     static boolean isName(int c) {
-        return (c < 128) ? (charMap[c] & CT_NAME) != 0 : true;
+        return (c < 128) ? (CHAR_MAP[c] & CT_NAME) != 0 : true;
     }
 
     static boolean isSpace(int c) {
-        return (c < 128) ? (charMap[c] & CT_SPACE) != 0 : false;
+        return (c < 128) ? (CHAR_MAP[c] & CT_SPACE) != 0 : false;
     }
 
-    private static final byte[] charMap = new byte[128];
+    private static final byte[] CHAR_MAP = new byte[128];
     private static final int CT_SPACE = 0x01;
     private static final int CT_NAME = 0x02;
 
     static {
         for (int i = 'a'; i <= 'z'; ++i) {
-			charMap[i] = CT_NAME;
+			CHAR_MAP[i] = CT_NAME;
 		}
         for (int i = 'A'; i <= 'Z'; ++i) {
-			charMap[i] = CT_NAME;
+			CHAR_MAP[i] = CT_NAME;
 		}
         for (int i = '0'; i <= '9'; ++i) {
-			charMap[i] = CT_NAME;
+			CHAR_MAP[i] = CT_NAME;
 		}
-        charMap['-'] = CT_NAME;
-        charMap['.'] = CT_NAME;
-        charMap['_'] = CT_NAME;
+        CHAR_MAP['-'] = CT_NAME;
+        CHAR_MAP['.'] = CT_NAME;
+        CHAR_MAP['_'] = CT_NAME;
 
-        charMap['\n'] = CT_SPACE;
-        charMap['\r'] = CT_SPACE;
-        charMap[' '] = CT_SPACE;
-        charMap['\t'] = CT_SPACE;
+        CHAR_MAP['\n'] = CT_SPACE;
+        CHAR_MAP['\r'] = CT_SPACE;
+        CHAR_MAP[' '] = CT_SPACE;
+        CHAR_MAP['\t'] = CT_SPACE;
     }
 
 }

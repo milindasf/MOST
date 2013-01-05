@@ -12,7 +12,7 @@ import bpi.most.obix.objects.Op;
  */
 public interface WatchService extends IObj {
 
-	String makeContract = "<op name='make' in='obix:Nil' out='obix:Watch'/>";
+	String MAKE_CONTRACT = "<op name='make' in='obix:Nil' out='obix:Watch'/>";
 
 	Op make();
 

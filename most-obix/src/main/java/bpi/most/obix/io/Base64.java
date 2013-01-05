@@ -18,7 +18,7 @@ public class Base64 {
 // Encoding table
 ///////////////////////////////////////////////////////////
 
-    private static final char[] encodeTable =
+    private static final char[] ENCODE_TABLE =
             {
                     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
                     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
@@ -82,10 +82,10 @@ public class Base64 {
                     ((int) (0xFF & buf[index + 2]) >> 6);
             int i3 = ((int) (0xFF & buf[index + 2])) & 0x3f;
 
-            pos = append(sbuf, encodeTable[i0], linelen, pos);
-            pos = append(sbuf, encodeTable[i1], linelen, pos);
-            pos = append(sbuf, encodeTable[i2], linelen, pos);
-            pos = append(sbuf, encodeTable[i3], linelen, pos);
+            pos = append(sbuf, ENCODE_TABLE[i0], linelen, pos);
+            pos = append(sbuf, ENCODE_TABLE[i1], linelen, pos);
+            pos = append(sbuf, ENCODE_TABLE[i2], linelen, pos);
+            pos = append(sbuf, ENCODE_TABLE[i3], linelen, pos);
 
             bytesRemaining -= 3;
             index += 3;
@@ -108,12 +108,12 @@ public class Base64 {
             int i2 = ((int) (0xF & remainder[1]) << 2) +
                     ((int) (0xFF & remainder[2]) >> 6);
 
-            pos = append(sbuf, encodeTable[i0], linelen, pos);
+            pos = append(sbuf, ENCODE_TABLE[i0], linelen, pos);
             if (lastOut > 1) {
-				pos = append(sbuf, encodeTable[i1], linelen, pos);
+				pos = append(sbuf, ENCODE_TABLE[i1], linelen, pos);
 			}
             if (lastOut > 2) {
-				pos = append(sbuf, encodeTable[i2], linelen, pos);
+				pos = append(sbuf, ENCODE_TABLE[i2], linelen, pos);
 			}
 
             int padCount = 4 - lastOut;

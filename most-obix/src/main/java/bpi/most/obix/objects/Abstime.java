@@ -20,11 +20,11 @@ import java.util.*;
 public class Abstime
         extends Val {
 
-    private static final int[] daysInMonth =
+    private static final int[] DAYS_IN_MONTH =
             {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    static final TimeZone defaultTimeZone = TimeZone.getDefault();
-    static final TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
+    static final TimeZone DEFAULT_TIME_ZONE = TimeZone.getDefault();
+    static final TimeZone UTC_TIME_ZONE = TimeZone.getTimeZone("UTC");
 
     private long millis;
     private int bits0, bits1;
@@ -37,7 +37,7 @@ public class Abstime
      */
     public Abstime(String name, long millis) {
         super(name);
-        set(millis, defaultTimeZone);
+        set(millis, DEFAULT_TIME_ZONE);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Abstime
      */
     public Abstime(String name) {
         super(name);
-        set(0, defaultTimeZone);
+        set(0, DEFAULT_TIME_ZONE);
     }
 
     /**
@@ -66,7 +66,7 @@ public class Abstime
      * Construct unnamed Abstime with specified value using default time zone.
      */
     public Abstime(long millis) {
-        this(millis, defaultTimeZone);
+        this(millis, DEFAULT_TIME_ZONE);
     }
 
     /**
@@ -80,35 +80,35 @@ public class Abstime
      * Construct unnamed Abstime with components relative to default time zone.
      */
     public Abstime(int year, int month, int day, int hour, int min, int sec, int millis) {
-        this(year, month, day, hour, min, sec, millis, defaultTimeZone);
+        this(year, month, day, hour, min, sec, millis, DEFAULT_TIME_ZONE);
     }
 
     /**
      * Construct unnamed Abstime with components relative to default time zone.
      */
     public Abstime(int year, int month, int day, int hour, int min, int sec) {
-        this(year, month, day, hour, min, sec, 0, defaultTimeZone);
+        this(year, month, day, hour, min, sec, 0, DEFAULT_TIME_ZONE);
     }
 
     /**
      * Construct unnamed Abstime with components relative to default time zone.
      */
     public Abstime(int year, int month, int day, int hour, int min) {
-        this(year, month, day, hour, min, 0, 0, defaultTimeZone);
+        this(year, month, day, hour, min, 0, 0, DEFAULT_TIME_ZONE);
     }
 
     /**
      * Construct unnamed Abstime with components relative to default time zone.
      */
     public Abstime(int year, int month, int day) {
-        this(year, month, day, 0, 0, 0, 0, defaultTimeZone);
+        this(year, month, day, 0, 0, 0, 0, DEFAULT_TIME_ZONE);
     }
 
     /**
      * Construct unnamed Abstime with value of 0 using default time zone.
      */
     public Abstime() {
-        set(0, defaultTimeZone);
+        set(0, DEFAULT_TIME_ZONE);
     }
 
 ////////////////////////////////////////////////////////////////
@@ -268,10 +268,10 @@ public class Abstime
      * current VM's local time zone.
      */
     public Abstime toLocalTime() {
-        if (timeZone.equals(defaultTimeZone)) {
+        if (timeZone.equals(DEFAULT_TIME_ZONE)) {
 			return this;
 		} else {
-			return new Abstime(this, defaultTimeZone);
+			return new Abstime(this, DEFAULT_TIME_ZONE);
 		}
     }
 
@@ -279,10 +279,10 @@ public class Abstime
      * Convert this instance to an equivalent instance in UTC.
      */
     public Abstime toUtcTime() {
-        if (timeZone.equals(utcTimeZone)) {
+        if (timeZone.equals(UTC_TIME_ZONE)) {
 			return this;
 		} else {
-			return new Abstime(this, utcTimeZone);
+			return new Abstime(this, UTC_TIME_ZONE);
 		}
     }
 
@@ -590,7 +590,7 @@ public class Abstime
         if (month == 2) {
 			return isLeapYear(year) ? 29 : 28;
 		} else {
-			return daysInMonth[month - 1];
+			return DAYS_IN_MONTH[month - 1];
 		}
     }
 

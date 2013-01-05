@@ -55,7 +55,7 @@ public class Feed
      * Set the input contract.
      */
     public void setIn(Contract in) {
-        this.in = (in != null) ? in : Contract.Obj;
+        this.in = (in != null) ? in : Contract.OBJ;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Feed
      * Set the of contract.
      */
     public void setOf(Contract of) {
-        this.of = (of != null) ? of : Contract.Obj;
+        this.of = (of != null) ? of : Contract.OBJ;
     }
 
     /**

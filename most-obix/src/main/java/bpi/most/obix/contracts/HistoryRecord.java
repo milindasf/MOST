@@ -13,11 +13,11 @@ import bpi.most.obix.objects.Obj;
  */
 public interface HistoryRecord extends IObj {
 
-	String timestampContract = "<abstime name='timestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String TIMESTAMP_CONTRACT = "<abstime name='timestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime timestamp();
 
-	String valueContract = "<obj name='value' null='true'/>";
+	String VALUE_CONTRACT = "<obj name='value' null='true'/>";
 
 	Obj value();
 

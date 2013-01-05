@@ -25,8 +25,8 @@ public class ObixAssembler
 
 
     private static AsmClassLoader classLoader = new AsmClassLoader();
-    private static final Object nameLock = new Object();
-    private static final Object loadLock = new Object();
+    private static final Object NAME_LOCK = new Object();
+    private static final Object LOAD_LOCK = new Object();
     private static HashMap<String, Buffer> loadClassFiles = new HashMap<String, Buffer>(); // className -> byte[]
     private static int nextName = 0;
 
@@ -46,7 +46,7 @@ public class ObixAssembler
 
         // generate a unique name
         String name = null;
-        synchronized (nameLock) {
+        synchronized (NAME_LOCK) {
             name = "obix$" + (nextName++);
         }
 
@@ -74,7 +74,7 @@ public class ObixAssembler
 
         // put class file into a table for classloader, then
         // use our custom classloader to defint it
-        synchronized (loadLock) {
+        synchronized (LOAD_LOCK) {
             loadClassFiles.put(name, classFile);
         }
         return classLoader.loadClass(name);
@@ -243,7 +243,7 @@ public class ObixAssembler
             // first check if this is code in our class file map,
             // if not then get safe copy of dependencies
             Buffer classFile = null;
-            synchronized (loadLock) {
+            synchronized (LOAD_LOCK) {
                 classFile = (Buffer) loadClassFiles.get(name);
                 if (classFile != null) {
                     loadClassFiles.remove(name);

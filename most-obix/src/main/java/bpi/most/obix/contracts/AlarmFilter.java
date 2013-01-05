@@ -13,15 +13,15 @@ import bpi.most.obix.objects.Int;
  */
 public interface AlarmFilter extends IObj {
 
-	String limitContract = "<int name='limit' val='0' null='true'/>";
+	String LIMIT_CONTRACT = "<int name='limit' val='0' null='true'/>";
 
 	Int limit();
 
-	String startContract = "<abstime name='start' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String START_CONTRACT = "<abstime name='start' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime start();
 
-	String endContract = "<abstime name='end' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String END_CONTRACT = "<abstime name='end' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime end();
 

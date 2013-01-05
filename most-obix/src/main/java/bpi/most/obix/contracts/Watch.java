@@ -13,23 +13,23 @@ import bpi.most.obix.objects.Reltime;
  */
 public interface Watch extends IObj {
 
-	String leaseContract = "<reltime name='lease' val='PT0S' writable='true' min='PT0S'/>";
+	String LEASE_CONTRACT = "<reltime name='lease' val='PT0S' writable='true' min='PT0S'/>";
 
 	Reltime lease();
 
-	String addContract = "<op name='add' in='obix:WatchIn' out='obix:WatchOut'/>";
+	String ADD_CONTRACT = "<op name='add' in='obix:WatchIn' out='obix:WatchOut'/>";
 
 	Op add();
 
-	String removeContract = "<op name='remove' in='obix:WatchIn' out='obix:obj'/>";
+	String REMOVE_CONTRACT = "<op name='remove' in='obix:WatchIn' out='obix:obj'/>";
 
 	Op remove();
 
-	String pollChangesContract = "<op name='pollChanges' in='obix:obj' out='obix:WatchOut'/>";
+	String POLL_CANGES_CONTRACT = "<op name='pollChanges' in='obix:obj' out='obix:WatchOut'/>";
 
 	Op pollChanges();
 
-	String pollRefreshContract = "<op name='pollRefresh' in='obix:obj' out='obix:WatchOut'/>";
+	String POLL_REFRESH_CONTRACT = "<op name='pollRefresh' in='obix:obj' out='obix:WatchOut'/>";
 
 	Op pollRefresh();
 

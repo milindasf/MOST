@@ -12,7 +12,7 @@ import bpi.most.obix.objects.Str;
  */
 public interface AckAlarmIn extends IObj {
 
-	String ackUserContract = "<str name='ackUser' val='' null='true'/>";
+	String ACK_USER_CONTRACT = "<str name='ackUser' val='' null='true'/>";
 
 	Str ackUser();
 

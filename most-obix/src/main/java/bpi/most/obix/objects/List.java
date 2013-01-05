@@ -71,7 +71,7 @@ public class List
      * Set the contract of the objects this list contains.
      */
     public void setOf(Contract of) {
-        this.of = (of != null) ? of : Contract.Obj;
+        this.of = (of != null) ? of : Contract.OBJ;
     }
 
 ////////////////////////////////////////////////////////////////

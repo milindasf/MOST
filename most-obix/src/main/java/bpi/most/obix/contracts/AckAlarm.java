@@ -14,15 +14,15 @@ import bpi.most.obix.objects.Str;
  */
 public interface AckAlarm extends IObj, Alarm {
 
-	String ackTimestampContract = "<abstime name='ackTimestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
+	String ACK_TIMESTAMP_CONTRACT = "<abstime name='ackTimestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	Abstime ackTimestamp();
 
-	String ackUserContract = "<str name='ackUser' val='' null='true'/>";
+	String ACK_USER_CONTRACT = "<str name='ackUser' val='' null='true'/>";
 
 	Str ackUser();
 
-	String ackContract = "<op name='ack' in='obix:AlarmAckIn' out='obix:AlarmAckOut'/>";
+	String ACK_CONTRACT = "<op name='ack' in='obix:AlarmAckIn' out='obix:AlarmAckOut'/>";
 
 	Op ack();
 

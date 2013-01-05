@@ -11,7 +11,7 @@ import bpi.most.obix.objects.IObj;
  */
 public interface AckAlarmOut extends IObj {
 
-	String alarmContract = "<obj name='alarm' is='obix:AckAlarm obix:Alarm'/>";
+	String ALARM_CONTRACT = "<obj name='alarm' is='obix:AckAlarm obix:Alarm'/>";
 
 	AckAlarm alarm();
 

@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
  */
 public class Contract {
 
-    static final Contract Obj = new Contract("obix:obj");
+    static final Contract OBJ = new Contract("obix:obj");
 
     private Uri[] list;
     private String string;

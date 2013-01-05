@@ -54,7 +54,7 @@ public class Op
      * Set operations input contract.
      */
     public void setIn(Contract in) {
-        this.in = (in != null) ? in : Contract.Obj;
+        this.in = (in != null) ? in : Contract.OBJ;
     }
 
     /**
@@ -68,7 +68,7 @@ public class Op
      * Set the operatikons output contract.
      */
     public void setOut(Contract out) {
-        this.out = (out != null) ? out : Contract.Obj;
+        this.out = (out != null) ? out : Contract.OBJ;
     }
 
 ////////////////////////////////////////////////////////////////
