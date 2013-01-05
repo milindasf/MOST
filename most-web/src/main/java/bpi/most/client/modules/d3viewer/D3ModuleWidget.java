@@ -429,7 +429,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	public static void callbackClickEventDatapointMarked(String dpName) {
 		Window.alert(dpName);
 		String dp = dpName.trim().substring(TRIM_BEGIN_INDEX);
-		int win = dp.indexOf("(");
+		int win = dp.indexOf('(');
 		if (win > 0) {
 			dp = dp.substring(0, win);
 		}
@@ -613,7 +613,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	 */
 	public static void callbackAddDpWidget(String dpName, int x, int y) {
 		String dp = dpName.trim().substring(TRIM_BEGIN_INDEX);
-		int win = dp.indexOf("(");
+		int win = dp.indexOf('(');
 		if (win > 0) {
 			dp = dp.substring(0, win);
 		}
