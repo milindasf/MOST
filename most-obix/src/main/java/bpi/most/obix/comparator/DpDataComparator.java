@@ -2,11 +2,14 @@ package bpi.most.obix.comparator;
 
 import bpi.most.obix.objects.DpData;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 
-public class DpDataComparator implements Comparator<DpData> {
+public class DpDataComparator implements Comparator<DpData>, Serializable {
 
+	private static final long serialVersionUID = -3516029306314472125L;
+	
 	private boolean sortCriteriaTimeDesc = true;
 	
 	/**
