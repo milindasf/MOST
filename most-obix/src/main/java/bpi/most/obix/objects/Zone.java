@@ -288,7 +288,7 @@ public class Zone extends Obj {
      */
     @Override
     public Uri getHref() {
-        return new Uri(String.valueOf(zoneID), OBIX_ZONE_PREFIX + String.valueOf(zoneID));
+        return new Uri(String.valueOf(zoneID), OBIX_ZONE_PREFIX + zoneID);
     }
 
     public void setShowData(boolean showData) {

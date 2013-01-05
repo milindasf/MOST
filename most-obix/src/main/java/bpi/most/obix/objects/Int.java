@@ -135,7 +135,7 @@ public class Int
      * Encode the value as a Java code literal to pass to the constructor.
      */
     public String encodeJava() {
-        return String.valueOf(val) + "L";
+        return val + "L";
     }
 
 ////////////////////////////////////////////////////////////////
