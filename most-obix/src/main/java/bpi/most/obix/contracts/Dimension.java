@@ -18,9 +18,9 @@ public interface Dimension extends IObj {
 
 	Int sec();
 
-	Int K();
+	Int k();
 
-	Int A();
+	Int a();
 
 	Int mol();
 

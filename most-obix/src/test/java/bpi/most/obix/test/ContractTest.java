@@ -54,8 +54,8 @@ public class ContractTest
         verify(dim.kg().getClass() == Int.class);
         verify(dim.m().get() == 0L);
         verify(dim.sec().get() == 0L);
-        verify(dim.K().get() == 0L);
-        verify(dim.A().get() == 0L);
+        verify(dim.k().get() == 0L);
+        verify(dim.a().get() == 0L);
         verify(dim.mol().get() == 0L);
         verify(dim.cd().get() == 0L);
         dim.m().set(1);
@@ -85,18 +85,18 @@ public class ContractTest
         verify(unit.symbol().get().equals("\u00baC"));
         verify(unit.offset().get() == 273);
         verify(unit.scale().get() == 1d); // default val=1
-        verify(unit.dimension().K().get() == 1);
+        verify(unit.dimension().k().get() == 1);
         verify(unit.dimension().kg().get() == 0);
 
         // round IO trip the unit we just did
-        unit.dimension().K().set(2);
+        unit.dimension().k().set(2);
         unit.dimension().kg().set(-8);
         unit.scale().set(77d);
         unit = (Unit) roundtrip((Obj) unit);
         verify(unit.symbol().get().equals("\u00baC"));
         verify(unit.offset().get() == 273);
         verify(unit.scale().get() == 77d);
-        verify(unit.dimension().K().get() == 2);
+        verify(unit.dimension().k().get() == 2);
         verify(unit.dimension().kg().get() == -8);
 
 
