@@ -4,6 +4,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import bpi.most.dto.DpDataDTO;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -63,6 +66,10 @@ public class DatapointDataVO implements Serializable{
 	public void setQuality(Float quality) {
 		this.quality = quality;
 	}
+
+    public DpDataDTO getDTO(){
+        return new DpDataDTO(timestamp, value, quality);
+    }
 	
 	@Override
 	public String toString() {

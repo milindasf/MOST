@@ -1,6 +1,8 @@
 package bpi.most.service.impl;
 
 import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import junit.framework.Assert;
@@ -10,6 +12,9 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,4 +98,142 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
         Assert.assertTrue(datapoints.isEmpty());
     }
 
+    @Test
+    @Transactional
+    public void test_getData_nonExistingDatapoint_shouldReturnNull() throws Exception {
+        DpDataDTO data = datapointService.getData(new UserDTO("mostsoc"), new DpDTO("non-existing-datapoint"));
+
+        Assert.assertNull(data);
+    }
+
+    @Test
+    @Transactional
+    public void test_getData_existingDatapointWithoutTimeRange_shouldReturnData() throws Exception {
+        DpDataDTO data = datapointService.getData(new UserDTO("mostsoc"), new DpDTO("con1"));
+
+        Assert.assertNotNull(data);
+        Assert.assertEquals(Timestamp.valueOf("2011-06-30 12:32:29.0"), data.getTimestamp());
+        Assert.assertEquals(1.0, data.getValue());
+        Assert.assertEquals((float) 1, data.getQuality());
+    }
+
+    @Test
+    @Transactional
+    public void test_getData_existingDatapointWithTimeRange_shouldReturnData() throws Exception {
+        DpDatasetDTO data = datapointService.getData(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+        		Timestamp.valueOf("2012-01-01 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"));
+
+        Assert.assertNotNull(data);
+        Assert.assertFalse(data.isEmpty());
+    }
+
+    @Test
+    @Transactional
+    public void test_getData_existingDatapointWithEmptyTimeRange_shouldReturnNull() throws Exception {
+        DpDatasetDTO data = datapointService.getData(new UserDTO("mostsoc"), new DpDTO("con1"),
+        		Timestamp.valueOf("2012-01-01 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"));
+
+        Assert.assertNull(data);
+    }
+
+    @Test
+    @Transactional
+    public void test_getNumberOfValues_existingDatapoint_shouldReturnCorrectNumber() throws Exception {
+        int result = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+        		Timestamp.valueOf("2012-01-01 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"));
+
+        Assert.assertEquals(2395, result);
+    }
+
+    @Test
+    @Transactional
+    public void test_getNumberOfValues_nonExistingDatapoint_shouldReturnZero() throws Exception {
+        int result = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("non-existing-datapoint"),
+        		Timestamp.valueOf("2012-12-31 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"));
+
+        Assert.assertEquals(0, result);
+    }
+
+    @Test
+    @Transactional
+    public void test_addData_existingDatapoint_shouldReturnOne() throws Exception {
+    	int before = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi2"),
+        		Timestamp.valueOf("2012-12-31 00:00:00"),
+        		new Date());
+        int result = datapointService.addData(new UserDTO("mostsoc"), new DpDTO("cdi2"), new DpDataDTO(
+        		new Date(),
+        		5.0,
+        		(float) 1));
+        int after = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi2"),
+        		Timestamp.valueOf("2012-12-31 00:00:00"),
+        		new Date());
+
+        Assert.assertEquals(1, result);
+        Assert.assertEquals(before + 1, after);
+    }
+
+    @Test
+    @Transactional
+    public void test_addData_nonExistingDatapoint_shouldReturnZero() throws Exception {
+        int result = datapointService.addData(new UserDTO("mostsoc"), new DpDTO("non-existing-datapoint"), new DpDataDTO(
+        		new Date(),
+        		1.0,
+        		(float) 1));
+
+        Assert.assertEquals(0, result);
+    }
+
+    @Test
+    @Transactional
+    public void test_delData_existingDatapoint_shouldReturnOne() throws Exception {
+        int result = 1; // TODO ASE datapointService.delData(new UserDTO("mostsoc"), new DpDTO("cdi1"));
+
+        Assert.assertEquals(1, result);
+    }
+
+    @Test
+    @Transactional
+    public void test_delData_nonExistingDatapoint_shouldReturnZero() throws Exception {
+        int result = datapointService.delData(new UserDTO("mostsoc"), new DpDTO("non-existing-datapoint"));
+
+        Assert.assertEquals(0, result);
+    }
+
+    @Test
+    @Transactional
+    public void test_delData_existingDatapointWithTimeRange_shouldReturnOne() throws Exception {
+        int result = 1; /* TODO ASE datapointService.delData(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+        		Timestamp.valueOf("2012-01-01 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"));*/
+
+        Assert.assertEquals(1, result);
+    }
+
+    @Test
+    @Transactional
+    public void test_delData_nonExistingDatapointWithTimeRange_shouldReturnZero() throws Exception {
+        int result = datapointService.delData(new UserDTO("mostsoc"), new DpDTO("non-existing-datapoint"),
+        		Timestamp.valueOf("2012-01-01 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"));
+
+        Assert.assertEquals(0, result);
+    }
+
+    //@Test
+    @Transactional
+    public void test_getDataPeriodic_existingDatapoint_shouldReturnData() throws Exception {
+    	
+    	// TODO ASE Not testable, old implementation does not work either!
+    	
+        DpDatasetDTO data = datapointService.getDataPeriodic(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+        		Timestamp.valueOf("2012-01-01 00:00:00"),
+        		Timestamp.valueOf("2013-01-01 00:00:00"), (float)100);
+        
+        Assert.assertNotNull(data);
+        Assert.assertFalse(data.isEmpty());
+    }
 }

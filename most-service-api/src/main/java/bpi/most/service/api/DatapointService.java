@@ -79,13 +79,29 @@ public interface DatapointService {
      * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
      *         throw exceptions if no permissions, etc.
      */
-    DpDataDTO getData(UserDTO user, DpDTO dpDTO);
+    DpDataDTO getData(UserDTO userDTO, DpDTO dpDTO);
 
     DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
-
-    List<DpDTO> getDatapoints(Object o, String searchstring, String zone);
 
     DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period);
 
     int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
+    
+    /**
+	 * add new measurement see {@link bpi.most.server.model.Datapoint#addData()}
+	 * 
+	 * @return 1 = inserted; < 0 constraints violated or procedure error TODO:
+	 *         throw exceptions if no permissions, etc.
+	 */
+	int addData(UserDTO userDTO, DpDTO dpDTO, DpDataDTO measurement);
+	
+	/**
+	 * Deletes all stored data of datapoint. Use with caution!!
+	 */
+    int delData(UserDTO userDTO, DpDTO dpDTO);
+
+	/**
+	 * Deletes data of a given timeslot
+	 */
+    int delData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
 }

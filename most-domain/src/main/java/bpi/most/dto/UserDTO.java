@@ -24,4 +24,9 @@ public class UserDTO {
     public boolean hasPermission(Zone zone, DpDTO.Permissions permissions) {
         return true;
     }
+	
+	//TODO: implement, permissions are hierarchical! ro,rw,admin
+	public boolean hasPermission(DatapointVO dp, DpDTO.Permissions permissions) {
+		return true;
+	}
 }

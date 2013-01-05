@@ -1,5 +1,7 @@
 package bpi.most.service.impl;
 
+import bpi.most.domain.datapoint.DatapointDataFinder;
+import bpi.most.domain.datapoint.DatapointDataVO;
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.dto.DpDTO;
@@ -31,10 +33,12 @@ public class DatapointServiceImpl implements DatapointService {
     private EntityManager em;
 
     private DatapointFinder datapointFinder;
+    private DatapointDataFinder datapointDataFinder;
 
     @PostConstruct
     protected void init() {
         datapointFinder = new DatapointFinder(em);
+        datapointDataFinder = new DatapointDataFinder(em);
     }
 
     @Override
@@ -66,15 +70,13 @@ public class DatapointServiceImpl implements DatapointService {
 
     @Override
     @Transactional
-    public DpDTO getDatapoint(UserDTO user, DpDTO dpDto) {
+    public DpDTO getDatapoint(UserDTO userDTO, DpDTO dpDto) {
         // Fetch all data from DB
         DatapointVO dp = datapointFinder.getDatapoint(dpDto.getName());
-        if(dp == null){
-            return null;
+        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+            return dp.getDTO();
         }
-
-        // TODO implement permission system
-        return dp.getDTO();
+        return null;
     }
 
     /**
@@ -85,39 +87,67 @@ public class DatapointServiceImpl implements DatapointService {
      */
     @Override
     @Transactional
-    public DpDataDTO getData(UserDTO user, DpDTO dpDTO) {
+    public DpDataDTO getData(UserDTO userDTO, DpDTO dpDTO) {
         DpDataDTO result = null;
-        //DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
-
-        // TODO ASE: return the correct DpDataDTO! We will need DpVirtual + DpPhysical...
-        /*
-        // check permissions
-        if (user.hasPermission(dp, DpDTO.Permissions.READ)) {
-            result = dp.getData();
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+	        DatapointDataVO data = datapointDataFinder.getData(dp.getName());	
+	        // TODO ASE: We will need DpVirtual + DpPhysical...
+	        if(data != null){
+	        	result = data.getDTO();
+	        }
         }
-        */
         return result;
     }
 
     @Override
     public DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
-        // TODO ASE: see implementation in bpi.most.server.services.DatapointService
-        return null;
+    	DpDatasetDTO result = null;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+	        List<DatapointDataVO> data = datapointDataFinder.getData(dp.getName(), starttime, endtime);	
+	        // TODO ASE: We will need DpVirtual + DpPhysical...
+	        if(data != null && data.size() > 0){
+	        	result = new DpDatasetDTO(dp.getName());
+	        	for(DatapointDataVO vo : data){
+	        		result.add(vo.getDTO());
+	        	}
+	        }
+        }
+        return result;
     }
 
     @Override
-    public List<DpDTO> getDatapoints(Object o, String searchstring, String zone) {
-        // TODO ASE: see implementation in bpi.most.server.services.DatapointService
-        return null;     }
-
-    @Override
     public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period) {
-        // TODO ASE: see implementation in bpi.most.server.services.DatapointService
-        return null;     }
+    	DpDatasetDTO result = null;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+			// set mode of getDataPeriodic() to 1, because other modes are
+			// currently not well supported (or even not implemented)
+	        List<DatapointDataVO> data = datapointDataFinder.getDataPeriodic(dp.getName(), starttime, endtime, period, 1);	
+	        // TODO ASE: We will need DpVirtual + DpPhysical...
+	        if(data != null && data.size() > 0){
+	        	result = new DpDatasetDTO(dp.getName());
+	        	for(DatapointDataVO vo : data){
+	        		result.add(vo.getDTO());
+	        	}
+	        }
+        }
+        return result;
+    }
 
     @Override
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    	int result = 0;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+	        Integer number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);	
+	        // TODO ASE: We will need DpVirtual + DpPhysical...
+	        if(number != null){
+	        	result = number;
+	        }
+        }
+        return result;
     }
 
     private List<DpDTO> transformToDpDTOList(List<DatapointVO> dpList){
@@ -132,4 +162,49 @@ public class DatapointServiceImpl implements DatapointService {
 
         return dpDTOList;
     }
+    
+    /**
+	 * add new measurement see {@link bpi.most.server.model.Datapoint#addData()}
+	 * 
+	 * @return 1 = inserted; < 0 constraints violated or procedure error TODO:
+	 *         throw exceptions if no permissions, etc.
+	 */
+    @Override
+    public int addData(UserDTO userDTO, DpDTO dpDTO, DpDataDTO measurement) {
+		int result = 0;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+		// check permissions
+		if (dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.WRITE)) {
+			result = datapointDataFinder.addData(dp.getName(), measurement);
+		}
+		return result;
+	}
+	
+	/**
+	 * Deletes all stored data of datapoint. Use with caution!!
+	 */
+    @Override
+    public int delData(UserDTO userDTO, DpDTO dpDTO) {
+		int result = 0;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+		// check permissions
+		if (dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.WRITE)) {
+			result = datapointDataFinder.delData(dp.getName());
+		}
+		return result;
+	}
+
+	/**
+	 * Deletes data of a given timeslot
+	 */
+    @Override
+    public int delData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
+		int result = 0;
+        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+		// check permissions
+		if (dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.WRITE)) {
+			result = datapointDataFinder.delData(dp.getName(), starttime, endtime);
+		}
+		return result;
+	}
 }
