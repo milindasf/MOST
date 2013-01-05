@@ -53,7 +53,7 @@ public class User {
     }
 
     public void setPassword(byte[] password) {
-        this.password = password;
+        this.password = password.clone();
     }
 
     public List<Role> getRoles() {

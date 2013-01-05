@@ -61,14 +61,15 @@ PersonModuleService {
 		try {
 			Connection con = DbPool.getInstance().getConnection();
 			Statement stmt = con.createStatement();
-			String query = "INSERT INTO personModuleData(temperature, air, air_movement, clothing) VALUES "
-					+ "('"
-					+ ap.get("Temperatur")
-					+ "','"
-					+ ap.get("Luft")
-					+ "','"
-					+ ap.get("Luftbewegung") + "','" + ap.get("Kleidung") + "');";
-			stmt.executeUpdate(query);
+			stmt.executeUpdate(new StringBuilder("INSERT INTO personModuleData(temperature, air, air_movement, clothing) VALUES ('").
+					append(ap.get("Temperatur")).
+					append("','").
+					append(ap.get("Luft")).
+					append("','").
+					append(ap.get("Luftbewegung")).
+					append("','").
+					append(ap.get("Kleidung")).
+					append("');").toString());
 			stmt.close();
 			con.close();
 		} catch (Exception e) {

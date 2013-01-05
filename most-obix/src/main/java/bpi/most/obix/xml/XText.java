@@ -23,7 +23,7 @@ public final class XText extends XContent {
 	 * Create text with specified char buffer and length.
 	 */
 	public XText(char[] data, int length) {
-		this.data = data;
+		this.data = data.clone();
 		this.length = length;
 	}
 
@@ -32,7 +32,7 @@ public final class XText extends XContent {
 	 * length of data.length.
 	 */
 	public XText(char[] data) {
-		this.data = data;
+		this.data = data.clone();
 		this.length = data.length;
 	}
 

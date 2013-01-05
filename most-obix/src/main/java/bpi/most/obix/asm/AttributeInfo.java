@@ -19,13 +19,13 @@ public class AttributeInfo {
     public AttributeInfo(Assembler asm, int name, byte[] info) {
         this.asm = asm;
         this.name = name;
-        this.info = info;
+        this.info = info.clone();
     }
 
     public AttributeInfo(Assembler asm, String name, byte[] info) {
         this.asm = asm;
         this.name = asm.getCp().utf(name);
-        this.info = info;
+        this.info = info.clone();
     }
 
     public AttributeInfo(Assembler asm, String name, String value) {

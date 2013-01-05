@@ -42,7 +42,7 @@ public class Contract {
      * Construct from uri list.
      */
     public Contract(Uri[] list) {
-        this.list = list;
+        this.list = list.clone();
     }
 
     /**
