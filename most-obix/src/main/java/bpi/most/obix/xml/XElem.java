@@ -128,17 +128,16 @@ extends XContent {
 			return ns;
 		}
 
-		int attrSize = attrSize();
-		for (int i = 0; i < attrSize; ++i) {
+		for (int i = 0; i < attrSize(); ++i) {
 			if (uri.equals(attrValue(i))) {
-				String name = attrName(i);
+				String attributeName = attrName(i);
 				String prefix;
-				if (name.equals("xmlns")) {
+				if (attributeName.equals("xmlns")) {
 					prefix = "";
-				} else if (name.startsWith("xmlns:")) {
-					prefix = name.substring(6);
+				} else if (attributeName.startsWith("xmlns:")) {
+					prefix = attributeName.substring(6);
 				} else {
-					throw new XException("Invalid xmlns: " + name, this);
+					throw new XException("Invalid xmlns: " + attributeName, this);
 				}
 				return new XNs(prefix, uri);
 			}
@@ -193,11 +192,11 @@ extends XContent {
 	 * XElem in the namespace unless setNs() is called.
 	 */
 	public XNs defineNs(XNs ns) {
-		String name = ns.prefix.equals("") ?
+		String nsName = ns.prefix.equals("") ?
 				"xmlns" :
 					"xmlns:" + ns.prefix;
 
-		setAttr(name, ns.uri);
+		setAttr(nsName, ns.uri);
 
 		return ns;
 	}
@@ -690,9 +689,8 @@ extends XContent {
 	 */
 	public int contentIndex(XContent child) {
 		int len = this.contentSize;
-		XContent[] content = this.content;
 		for (int i = 0; i < len; ++i) {
-			if (content[i] == child) {
+			if (this.content[i] == child) {
 				return i;
 			}
 		}
@@ -723,13 +721,12 @@ extends XContent {
 		if (len == 0) {
 			return noElem;
 		}
-		XContent[] content = this.content;
 
 		int n = 0;
 		XElem[] temp = new XElem[len];
 		for (int i = 0; i < len; ++i) {
-			if (content[i] instanceof XElem) {
-				temp[n++] = (XElem) content[i];
+			if (this.content[i] instanceof XElem) {
+				temp[n++] = (XElem) this.content[i];
 			}
 		}
 
@@ -751,13 +748,12 @@ extends XContent {
 		if (len == 0) {
 			return noElem;
 		}
-		XContent[] content = this.content;
-
+		
 		int n = 0;
 		XElem[] temp = new XElem[len];
 		for (int i = 0; i < len; ++i) {
-			if (content[i] instanceof XElem) {
-				XElem kid = (XElem) content[i];
+			if (this.content[i] instanceof XElem) {
+				XElem kid = (XElem) this.content[i];
 				if (XNs.equals(ns, kid.ns) && kid.name.equals(name)) {
 					temp[n++] = kid;
 				}
@@ -781,13 +777,12 @@ extends XContent {
 		if (len == 0) {
 			return noElem;
 		}
-		XContent[] content = this.content;
-
+		
 		int n = 0;
 		XElem[] temp = new XElem[len];
 		for (int i = 0; i < len; ++i) {
-			if (content[i] instanceof XElem) {
-				XElem kid = (XElem) content[i];
+			if (this.content[i] instanceof XElem) {
+				XElem kid = (XElem) this.content[i];
 				if (XNs.equals(ns, kid.ns)) {
 					temp[n++] = kid;
 				}
@@ -812,13 +807,12 @@ extends XContent {
 		if (len == 0) {
 			return noElem;
 		}
-		XContent[] content = this.content;
-
+		
 		int n = 0;
 		XElem[] temp = new XElem[len];
 		for (int i = 0; i < len; ++i) {
-			if (content[i] instanceof XElem) {
-				XElem kid = (XElem) content[i];
+			if (this.content[i] instanceof XElem) {
+				XElem kid = (XElem) this.content[i];
 				if (kid.name.equals(name)) {
 					temp[n++] = kid;
 				}
@@ -841,10 +835,10 @@ extends XContent {
 	 */
 	public final XElem elem(XNs ns, String name) {
 		int len = contentSize;
-		XContent[] content = this.content;
+		
 		for (int i = 0; i < len; ++i) {
-			if (content[i] instanceof XElem) {
-				XElem kid = (XElem) content[i];
+			if (this.content[i] instanceof XElem) {
+				XElem kid = (XElem) this.content[i];
 				if (XNs.equals(ns, kid.ns) && kid.name.equals(name)) {
 					return kid;
 				}
@@ -859,10 +853,10 @@ extends XContent {
 	 */
 	public final XElem elem(String name) {
 		int len = contentSize;
-		XContent[] content = this.content;
+		
 		for (int i = 0; i < len; ++i) {
-			if (content[i] instanceof XElem) {
-				XElem kid = (XElem) content[i];
+			if (this.content[i] instanceof XElem) {
+				XElem kid = (XElem) this.content[i];
 				if (kid.name.equals(name)) {
 					return kid;
 				}
@@ -1070,13 +1064,11 @@ extends XContent {
 		}
 		out.w(name);
 
-		int attrSize = this.attrSize;
-		if (attrSize > 0) {
-			Object[] attr = this.attr;
-			for (int i = 0; i < attrSize; ++i) {
-				String attrName = (String) attr[i * 3 + 0];
-				XNs attrNs = (XNs) attr[i * 3 + 1];
-				String attrVal = (String) attr[i * 3 + 2];
+		if (this.attrSize > 0) {
+			for (int i = 0; i < this.attrSize; ++i) {
+				String attrName = (String) this.attr[i * 3 + 0];
+				XNs attrNs = (XNs) this.attr[i * 3 + 1];
+				String attrVal = (String) this.attr[i * 3 + 2];
 				out.w(' ');
 				if (attrNs != null) {
 					out.w(attrNs.prefix).w(':');
@@ -1085,20 +1077,18 @@ extends XContent {
 			}
 		}
 
-		int contentSize = this.contentSize;
-		if (contentSize == 0) {
+		if (this.contentSize == 0) {
 			out.w('/').w('>').nl();
 			return;
 		}
 
-		XContent[] content = this.content;
-		if (contentSize == 1 && content[0] instanceof XText) {
+		if (this.contentSize == 1 && this.content[0] instanceof XText) {
 			out.w('>');
-			((XText) content[0]).write(out);
+			((XText) this.content[0]).write(out);
 		} else {
 			out.w('>').nl();
-			for (int i = 0; i < contentSize; ++i) {
-				XContent c = content[i];
+			for (int i = 0; i < this.contentSize; ++i) {
+				XContent c = this.content[i];
 				if (c instanceof XElem) {
 					((XElem) c).write(out, indent + 1);
 				} else {

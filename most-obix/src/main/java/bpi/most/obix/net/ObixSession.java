@@ -127,15 +127,15 @@ public class ObixSession {
         batchUri = new Uri();  // MN
 
         // read about
-        Obj about = lobby.get("about");
-        if (about != null && about.getHref() != null) {
-			this.about = read(about.getNormalizedHref());
+        Obj actAbout = lobby.get("about");
+        if (actAbout != null && actAbout.getHref() != null) {
+			this.about = read(actAbout.getNormalizedHref());
 		}
 
         // read watch service
-        Obj watchService = lobby.get("watchService");
-        if (watchService != null && watchService.getHref() != null) {
-			this.watchService = read(watchService.getNormalizedHref());
+        Obj actWatchService = lobby.get("watchService");
+        if (actWatchService != null && actWatchService.getHref() != null) {
+			this.watchService = read(actWatchService.getNormalizedHref());
 		}
     }
 

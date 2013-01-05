@@ -225,25 +225,25 @@ public final class XText extends XContent {
 	 * Write to the specified XWriter stream.
 	 */
 	public void write(XWriter out) {
-		int length = this.length;
-		char[] data = this.data;
+		int actLength = this.length;
+		char[] actData = this.data;
 
 		if (cdata) {
 			out.w("<![CDATA[");
-			if (data == null) {
+			if (actData == null) {
 				out.w(string);
 			} else {
-				for (int i = 0; i < length; ++i) {
-					out.w(data[i]);
+				for (int i = 0; i < actLength; ++i) {
+					out.w(actData[i]);
 				}
 			}
 			out.w("]]>");
 		} else {
-			if (data == null) {
+			if (actData == null) {
 				out.safe(string, false);
 			} else {
-				for (int i = 0; i < length; ++i) {
-					out.safe(data[i], false);
+				for (int i = 0; i < actLength; ++i) {
+					out.safe(actData[i], false);
 				}
 			}
 		}

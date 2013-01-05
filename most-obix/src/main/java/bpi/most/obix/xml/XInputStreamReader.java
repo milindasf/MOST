@@ -181,27 +181,24 @@ public class XInputStreamReader
 
         // check the bytes to look for BOM (byte order mark); we only
         // support UTF-16 with a BOM and UTF-8 with and without BOM
-        int encoding;
         if (match(sig, 0xFE, 0xFF)) {
             in.read();
             in.read();
-            encoding = UTF_16_BE;
+            this.encoding = UTF_16_BE;
         } else if (match(sig, 0xFF, 0xFE)) {
             in.read();
             in.read();
-            encoding = UTF_16_LE;
+            this.encoding = UTF_16_LE;
         } else if (match(sig, 0xEF, 0xBB, 0xBF)) {
             in.read();
             in.read();
             in.read();
-            encoding = UTF_8;
+            this.encoding = UTF_8;
         } else {
             // always fallback to utf-8
-            encoding = UTF_8;
+        	this.encoding = UTF_8;
         }
 
-        // create the appropiate InputStreamReader with char encoding
-        this.encoding = encoding;
         this.autoDetected = true;
     }
 

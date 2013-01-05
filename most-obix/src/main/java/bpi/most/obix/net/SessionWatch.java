@@ -88,12 +88,12 @@ public class SessionWatch {
 
         // read server specified lease time (we assume at this
         // point the server will never change it from under us)
-        Reltime lease = (Reltime) watchObj.get("lease");
-        if (lease == null) {
+        Reltime actLease = (Reltime) watchObj.get("lease");
+        if (actLease == null) {
 			throw new Exception("Watch missing lease object " + watchObj);
 		}
-        this.lease = lease.get();
-        this.leaseHref = lease.getNormalizedHref();
+        this.lease = actLease.get();
+        this.leaseHref = actLease.getNormalizedHref();
 
         // set pollPeriod (and automaticaly request
         // longer lease time if needed)
@@ -222,11 +222,11 @@ public class SessionWatch {
      */
     public void remove(Uri[] hrefs)
             throws Exception {
-        Item[] items = new Item[hrefs.length];
-        for (int i = 0; i < items.length; ++i) {
-			items[i] = (Item) hrefToItem.get(hrefs[i].toString());
+        Item[] removeItems = new Item[hrefs.length];
+        for (int i = 0; i < removeItems.length; ++i) {
+			removeItems[i] = (Item) hrefToItem.get(hrefs[i].toString());
 		}
-        remove(items, hrefs);
+        remove(removeItems, hrefs);
     }
 
     /**
@@ -234,13 +234,13 @@ public class SessionWatch {
      */
     public void remove(int[] indexes)
             throws Exception {
-        Item[] items = new Item[indexes.length];
-        Uri[] hrefs = new Uri[items.length];
-        for (int i = 0; i < items.length; ++i) {
-            items[i] = (Item) this.items.get(indexes[i]);
-            hrefs[i] = items[i].obj.getHref();
+        Item[] removeItems = new Item[indexes.length];
+        Uri[] hrefs = new Uri[removeItems.length];
+        for (int i = 0; i < removeItems.length; ++i) {
+            removeItems[i] = (Item) this.items.get(indexes[i]);
+            hrefs[i] = removeItems[i].obj.getHref();
         }
-        remove(items, hrefs);
+        remove(removeItems, hrefs);
     }
 
     /**
@@ -433,10 +433,10 @@ public class SessionWatch {
     }
 
     public void fireChanged(Obj obj) {
-        WatchListener[] listeners = getListeners();
-        for (int i = 0; i < listeners.length; ++i) {
+        WatchListener[] actListeners = getListeners();
+        for (int i = 0; i < actListeners.length; ++i) {
             try {
-                listeners[i].changed(obj);
+                actListeners[i].changed(obj);
             } catch (Exception e) {
                 e.printStackTrace();
             }

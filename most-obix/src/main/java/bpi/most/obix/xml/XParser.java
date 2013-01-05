@@ -150,22 +150,22 @@ public class XParser {
     public final XElem parseCurrent(boolean close)
             throws Exception {
         try {
-            int depth = 1;
+            int actDebth = 1;
             XElem root = elem().copy();
             XElem cur = root;
-            while (depth > 0) {
-                int type = next();
-                if (type == ELEM_START) {
+            while (actDebth > 0) {
+                int elemType = next();
+                if (elemType == ELEM_START) {
                     XElem oldCur = cur;
                     cur = elem().copy();
                     oldCur.addContent(cur);
-                    depth++;
-                } else if (type == ELEM_END) {
+                    actDebth++;
+                } else if (elemType == ELEM_END) {
                     cur = cur.parent();
-                    depth--;
-                } else if (type == TEXT) {
+                    actDebth--;
+                } else if (elemType == TEXT) {
                     cur.addContent(text().copy());
-                } else if (type == EOF) {
+                } else if (elemType == EOF) {
                     throw new EOFException();
                 }
             }
@@ -281,8 +281,8 @@ public class XParser {
             if (type == ELEM_END && depth == toDepth) {
 				return;
 			}
-            int type = next();
-            if (type == EOF) {
+            int elemType = next();
+            if (elemType == EOF) {
 				throw new EOFException();
 			}
         }
@@ -388,7 +388,7 @@ public class XParser {
         parseQName(c);
         elem.name = name;
         elem.line = line;
-        String prefix = this.prefix;
+        String actPrefix = this.prefix;
         boolean resolveAttrNs = false;
 
         // Fields
@@ -415,10 +415,10 @@ public class XParser {
         // after reading all the attributes, now it is safe to
         // resolve prefixes into their actual XNs instances;
         // first resolve the element itself...
-        if (prefix == null) {
+        if (actPrefix == null) {
 			elem.ns = defaultNs;
 		} else {
-			elem.ns = prefixToNs(prefix);
+			elem.ns = prefixToNs(actPrefix);
 		}
 
         // resolve attribute prefixes (optimize to short circuit if
@@ -473,8 +473,8 @@ public class XParser {
             throws Exception {
         // prefix / name
         parseQName(c);
-        String prefix = this.prefix;
-        String name = this.name;
+        String actPrefix = this.prefix;
+        String actName = this.name;
 
         // Eq [25] production
         skipSpace();
@@ -491,25 +491,25 @@ public class XParser {
         String value = parseString(c);
 
         // check namespace declaration "xmlns" or "xmlns:prefix"
-        if (prefix == null) {
-            if (name.equals("xmlns")) {
+        if (actPrefix == null) {
+            if (actName.equals("xmlns")) {
                 pushNs(elem, "", value);
             }
         } else {
-            if (prefix.equals("xmlns")) {
-                pushNs(elem, name, value);
-                prefix = null;
-                name = "xmlns:" + name;
-            } else if (prefix.equalsIgnoreCase("xml")) {
-                prefix = null;
-                name = "xml:" + name;
+            if (actPrefix.equals("xmlns")) {
+                pushNs(elem, actName, value);
+                actPrefix = null;
+                actName = "xmlns:" + actName;
+            } else if (actPrefix.equalsIgnoreCase("xml")) {
+                actPrefix = null;
+                actName = "xml:" + actName;
             }
         }
 
         // add attribute using raw prefix string - we
         // will resolve later in parseElemStart
-        elem.addAttrImpl(prefix, name, value);
-        return prefix != null;
+        elem.addAttrImpl(actPrefix, actName, value);
+        return actPrefix != null;
     }
 
     /**
@@ -536,11 +536,11 @@ public class XParser {
      */
     private String parseString(int quote)
             throws Exception {
-        XText buf = this.buf;
-        buf.setLength(0);
+        XText actBuf = this.buf;
+        actBuf.setLength(0);
         int c;
         while ((c = read()) != quote) {
-			buf.append(toCharData(c));
+			actBuf.append(toCharData(c));
 		}
         return bufToString();
     }
@@ -554,11 +554,11 @@ public class XParser {
 			throw error("Expected XML name");
 		}
 
-        XText buf = this.buf;
-        buf.setLength(0);
-        buf.append(c);
+        XText actBuf = this.buf;
+        actBuf.setLength(0);
+        actBuf.append(c);
         while (isName(c = read())) {
-			buf.append(c);
+			actBuf.append(c);
 		}
         pushback = c;
 
@@ -570,9 +570,9 @@ public class XParser {
      */
     private void parseCDATA()
             throws Exception {
-        XText text = this.text;
-        text.length = 0;
-        text.cdata = true;
+        XText actText = this.text;
+        actText.length = 0;
+        actText.cdata = true;
 
         int c2 = -1, c1 = -1, c0 = -1;
         while (true) {
@@ -580,10 +580,10 @@ public class XParser {
             c1 = c0;
             c0 = read();
             if (c2 == ']' && c1 == ']' && c0 == '>') {
-                text.setLength(text.length - 2);
+                actText.setLength(actText.length - 2);
                 return;
             }
-            text.append(c0);
+            actText.append(c0);
         }
     }
 
@@ -593,10 +593,10 @@ public class XParser {
      */
     private boolean parseText(int c)
             throws Exception {
-        XText text = this.text;
-        text.length = 0;
-        text.cdata = false;
-        text.append(toCharData(c));
+        XText actText = this.text;
+        actText.length = 0;
+        actText.cdata = false;
+        actText.append(toCharData(c));
         boolean gotText = !isSpace(c);
 
         while (true) {
@@ -617,7 +617,7 @@ public class XParser {
             if (!isSpace(c)) {
 				gotText = true;
 			}
-            text.append(toCharData(c));
+            actText.append(toCharData(c));
         }
     }
 
@@ -683,16 +683,16 @@ public class XParser {
      */
     private void skipDocType()
             throws Exception {
-        int depth = 1;
+        int actDebth = 1;
         while (true) {
             int c = read();
             if (c == '<') {
-				depth++;
+				actDebth++;
 			}
             if (c == '>') {
-				depth--;
+				actDebth--;
 			}
-            if (depth == 0) {
+            if (actDebth == 0) {
 				return;
 			}
         }

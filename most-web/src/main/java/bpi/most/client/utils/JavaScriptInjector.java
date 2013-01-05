@@ -18,10 +18,10 @@ public class JavaScriptInjector {
 	private static BodyElement body;
 
 	public static void inject(String js) {
-		BodyElement body = getBody();
+		BodyElement bodyElem = getBody();
 		ScriptElement scriptElement = createNewScriptElement();
 		scriptElement.setText(js);
-		body.appendChild(scriptElement);
+		bodyElem.appendChild(scriptElement);
 	}
 
 	private static ScriptElement createNewScriptElement() {
@@ -36,8 +36,8 @@ public class JavaScriptInjector {
 			Element bodyElement = (Element) Document.get()
 					.getElementsByTagName("body").getItem(0);
 			assert bodyElement != null : "Error retrieving body";
-			BodyElement body = BodyElement.as(bodyElement);
-			JavaScriptInjector.body = body;
+			BodyElement bodyElem = BodyElement.as(bodyElement);
+			JavaScriptInjector.body = bodyElem;
 		}
 		return JavaScriptInjector.body;
 	}

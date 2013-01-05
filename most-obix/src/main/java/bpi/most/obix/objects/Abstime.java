@@ -659,11 +659,11 @@ public class Abstime
 		}
         s.append(hour).append(':');
 
-        int min = getMinute();
-        if (min < 10) {
+        int minute = getMinute();
+        if (minute < 10) {
 			s.append('0');
 		}
-        s.append(min).append(':');
+        s.append(minute).append(':');
 
         int sec = getSecond();
         if (sec < 10) {
@@ -671,14 +671,14 @@ public class Abstime
 		}
         s.append(sec).append('.');
 
-        int millis = getMillisecond();
-        if (millis < 10) {
+        int millisecond = getMillisecond();
+        if (millisecond < 10) {
 			s.append('0');
 		}
-        if (millis < 100) {
+        if (millisecond < 100) {
 			s.append('0');
 		}
-        s.append(millis);
+        s.append(millisecond);
 
         int offset = getTimeZoneOffset();
         if (offset == 0) {
@@ -757,7 +757,7 @@ public class Abstime
 				throw new Exception();
 			}
 
-            int min = (int) (c[i++] - '0') * 10 +
+            int minute = (int) (c[i++] - '0') * 10 +
                     (int) (c[i++] - '0') * 1;
 
             if (c[i++] != ':') {
@@ -813,7 +813,7 @@ public class Abstime
 				}
             }
 
-            Calendar cal = new GregorianCalendar(year, mon - 1, day, hour, min, sec);
+            Calendar cal = new GregorianCalendar(year, mon - 1, day, hour, minute, sec);
             cal.set(Calendar.MILLISECOND, ms);
             cal.setTimeZone(new SimpleTimeZone(tzOff, "Offset"));
 
