@@ -2,80 +2,108 @@ package bpi.most.obix.server;
 
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
-import bpi.most.obix.objects.Err;
-import bpi.most.obix.objects.Obj;
+import bpi.most.obix.objects.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 
 public class ObixServer implements IObixServer {
+
     private IObjectBroker objectBroker;
 
     public ObixServer() {
-        char[] inC = {'a'};
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
-        objectBroker = new ObixObjectBroker();
-
-
-        try {
-            new HTTPServer(80, this);
-            while (inC[0] != 'q')
-                in.read(inC);
-        } catch (IOException ioex) {
-            ioex.printStackTrace();
-            System.exit(1);
+        if (objectBroker == null) {
+            objectBroker = new ObixObjectBroker();
         }
-
-        System.exit(0);
-    }
-
-
-    public String readObj(URI href, String user) {
-        System.out.println("read request on: " + href.getPath());
-//		Obj o = _objectBroker.pullObj(new Uri(href.toASCIIString()));
-//		o = ObjectFilter.filterObject(o, 0);
-//		return ObixEncoder.toString(o);
-
-        return null;
-    }
-
-    public String writeObj(URI href, String xmlStream) {
-        Obj input = ObixDecoder.fromString(xmlStream);
-
-        try {
-//			_objectBroker.pushObj(new Uri(href.toASCIIString()), input, false);
-        } catch (Exception ex) {
-            Err e = new Err("Error writing object to network" + ex.getMessage());
-            return ObixEncoder.toString(e);
-        }
-
-        return xmlStream;
-    }
-
-    public String invokeOp(URI href, String xmlStream) {
-        Obj input = ObixDecoder.fromString(xmlStream);
-
-        try {
-            // do nothing
-        } catch (Exception ex) {
-            Err e = new Err("Error invoking operation" + ex.getMessage());
-            ex.printStackTrace();
-            return ObixEncoder.toString(e);
-        }
-
-        return ObixEncoder.toString(new Obj());
     }
 
     /**
-     * Starts a new oBIX server.
-     *
-     * @param args No command line parameters available.
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
-        new ObixServer();
+    @Override
+    public String getDatapoint(URI href) {
+        if (href != null) {
+            Uri uri = new Uri(href.toASCIIString());
+            Dp dp = objectBroker.getDatapoint(uri);
+            if (dp != null) {
+                return ObixEncoder.toString(dp);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDatapointData(URI href) {
+        if (href != null) {
+            Uri uri = new Uri(href.toASCIIString());
+            Dp dp = objectBroker.getDatapointData(uri);
+            if (dp != null) {
+                return ObixEncoder.toString(dp);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAllDatapoints() {
+        List dataPoints = objectBroker.getAllDatapoints();
+        if (dataPoints != null) {
+            return ObixEncoder.toString(dataPoints);
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDatapointsForZone(URI href) {
+        if (href != null) {
+            Uri uri = new Uri(href.toASCIIString());
+            Zone zone = objectBroker.getDatapointsForZone(uri);
+            if (zone != null) {
+                return ObixEncoder.toString(zone);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDatapointsForAllZones() {
+        List dataPoints = objectBroker.getDatapointsForAllZones();
+        if (dataPoints != null) {
+            return ObixEncoder.toString(dataPoints);
+        }
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDatapoints(String from, String to) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateDatapoint(String encodedDp) {
+        if (encodedDp != null) {
+            Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
+            if (dp != null) {
+                objectBroker.updateDatapoint(dp);
+            }
+        }
     }
 
 }

@@ -10,10 +10,24 @@ import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 
 import javax.inject.Inject;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Loads and caches all oBix-objects. This broker can be used
+ * to retrieve following Data:
+ *
+ * <li><b>Dp without data:</b> Datapoints, which contain no data</li>
+ * <li><b>Dp with data:</b> Datapoints, which contain data</li>
+ * <li><b>List:</b> List, which contains all Dps, which contain data</li>
+ *
+ * <li><b>Zone data:</b> A Zone, which contains Dps, which contain data</li>
+ * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain data</li>
+ *
+ * <li><b>List:</b> List, which contains all Dps in a period of time, which contain data</li>
+ *
+ * @author Alexej Strelzow
+ */
 public class ObixObjectBroker implements IObjectBroker {
 
     @Inject
@@ -28,9 +42,13 @@ public class ObixObjectBroker implements IObjectBroker {
     ObixObjectBroker() {
         this.dpCache = new HashMap<Uri, Dp>();
         this.zoneCache = new HashMap<Uri, bpi.most.obix.objects.Zone>();
+        loadDatapoints();
     }
 
-    @Override
+    /**
+     * Loads all data points -> Dp
+     * TODO: Also headZones can have zones -> maybe recursive algorithm
+     */
     public void loadDatapoints() {
         final java.util.List<ZoneDTO> headZones = zoneService.getHeadZones();
         for (ZoneDTO zone : headZones) {
@@ -50,16 +68,24 @@ public class ObixObjectBroker implements IObjectBroker {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Dp getDatapoint(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-        return dpCache.get(uri);
+    public Dp getDatapoint(Uri href) {
+        Dp dp = dpCache.get(href);
+        dp.setShowData(false);
+
+        return dp;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Dp getDatapointData(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-        Dp dp = dpCache.get(uri);
+    public Dp getDatapointData(Uri href) {
+        Dp dp = dpCache.get(href);
+
         if (dp != null) {
             dp.setShowData(true);
             return dp;
@@ -67,30 +93,40 @@ public class ObixObjectBroker implements IObjectBroker {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List getAllDatapoints() {
-        // TODO
-        List list = new List("datapoints", new Contract("obix:Datapoint"));
-        list.addAll(dpCache.values().toArray(new Dp[dpCache.size()]));
+        List list = new List("datapoints", new Contract("obix:dp"));
+        Dp[] values = dpCache.values().toArray(new Dp[dpCache.size()]);
+
+        for (Dp dp : values)  {
+            dp.setShowData(true);
+        }
+
+        list.addAll(values);
         return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public bpi.most.obix.objects.Zone getDatapointsForZone(URI href) {
-        Uri uri = new Uri(href.toASCIIString());
-        if (zoneCache.containsKey(uri)) {
+    public bpi.most.obix.objects.Zone getDatapointsForZone(Uri href) {
+
+        if (zoneCache.containsKey(href)) {
             java.util.List<Dp> dpList = new ArrayList<Dp>();
-            bpi.most.obix.objects.Zone oBixZone = zoneCache.get(uri);
+            bpi.most.obix.objects.Zone oBixZone = zoneCache.get(href);
 
             if (oBixZone != null) {
-                oBixZone.setShowData(true);
                 for (Uri u : (Uri[]) oBixZone.getDatapointURIs().list()) {
                     Dp dp = dpCache.get(u);
                     if (dp != null) {
-                        dp.setShowData(true);
                         oBixZone.addDp(dp);
                     }
                 }
+                oBixZone.setShowData(true);
             }
 
            return oBixZone;
@@ -98,20 +134,34 @@ public class ObixObjectBroker implements IObjectBroker {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List getDatapointsForAllZones() {
-        // TODO Auto-generated method stub
-        return null;
+        List list = new List("zones", new Contract("obix:zone"));
+
+        for (Uri uri : zoneCache.keySet()) {
+            list.add(getDatapointsForZone(uri));
+        }
+
+        return list;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List getDatapoints(String from, String to) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void updateDatapoint(String uri) {
+    public void updateDatapoint(Dp dp) {
         // TODO Auto-generated method stub
 
     }

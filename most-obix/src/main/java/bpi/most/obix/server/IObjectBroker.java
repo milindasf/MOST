@@ -3,37 +3,31 @@ package bpi.most.obix.server;
 import bpi.most.obix.objects.Dp;
 import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
-
-import java.net.URI;
-import java.util.HashMap;
+import bpi.most.obix.objects.Zone;
 
 public interface IObjectBroker {
 
     /**
-     * Loads all Datapoints, which are in the DB, converts them
-     * to oBix objects and finally caches them in a {@link HashMap}.
-     */
-    void loadDatapoints();
-
-    /**
      * GET /obix/dp/{name}
      *
-     * @param href The uri of the oBix object, which is the datapointName
+     * @param href The uri of the oBix object, which is /obix/dp/{datapointName}
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
+     *         Dp contains only data, which belongs to Dp.
      */
-    Dp getDatapoint(URI href); // = datapointName = {name}
+    Dp getDatapoint(Uri href); // = datapointName = {name} /obix/dp/{name}
 
     /**
      * GET /obix/dp/{name}/data
      *
-     * @param href The uri of the oBix object, which is the datapointName
+     * @param href The uri of the oBix object, which is /obix/dp/{datapointName}
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
+     *         Dp contains all data from all DpData.
      */
-    Dp getDatapointData(URI href); // = datapointName = {name}
+    Dp getDatapointData(Uri href); // = datapointName = {name}
 
     /**
      * GET /obix/dp
@@ -49,7 +43,7 @@ public interface IObjectBroker {
      * @param href The id of the zone
      * @return The zone, which contains data points
      */
-    bpi.most.obix.objects.Zone getDatapointsForZone(URI href); // = {id}
+    Zone getDatapointsForZone(Uri href); // = {id}
     // return zone with dp inside
 
     /**
@@ -64,9 +58,9 @@ public interface IObjectBroker {
      * GET /obix/dp/{name}/data?from={UCT datetime}&to=
      * {UCT datetime}
      *
-     * @param from
-     * @param to
-     * @return
+     * @param from Begin Timestamp
+     * @param to End Timestamp
+     * @return A List of objects, which are in this period of time
      */
     List getDatapoints(String from, String to);
     // return list with all datapoint data, see DpDataDTO (!)
@@ -75,11 +69,10 @@ public interface IObjectBroker {
     /**
      * PUT /obix/dp/{name}
      * <p/>
-     * Update for the data point with the {@link Uri} <code>{name}</code>
+     * Updates the data for a data point.
      *
-     * @param uri The uri of the oBix object, which is the datapointName
-     *            of the Datapoint to update.
+     * @param dp An instance of Dp, which contains new values
      */
-    void updateDatapoint(String uri);
+    void updateDatapoint(Dp dp);
 
 }

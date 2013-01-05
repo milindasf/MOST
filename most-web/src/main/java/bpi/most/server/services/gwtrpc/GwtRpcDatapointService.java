@@ -82,7 +82,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 	@SuppressWarnings("deprecation")
 	public List<DpDTO> getDatapoints(String searchstring, String zone) {
 		// no user checking here yet
-		return dpService.getDatapoints(null, searchstring, zone);
+		return dpService.getDatapoints(searchstring, zone);
 	}
 
 	/*

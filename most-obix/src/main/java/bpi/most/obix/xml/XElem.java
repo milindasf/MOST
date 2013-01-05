@@ -223,7 +223,7 @@ extends XContent {
 	 */
 	public final XNs attrNs(int index) {
 		if (index >= attrSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return (XNs) attr[index * 3 + 1];
 	}
@@ -237,7 +237,7 @@ extends XContent {
 	 */
 	public final String attrName(int index) {
 		if (index >= attrSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return (String) attr[index * 3];
 	}
@@ -249,7 +249,7 @@ extends XContent {
 	 */
 	public final String attrValue(int index) {
 		if (index >= attrSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return (String) attr[index * 3 + 2];
 	}
@@ -554,7 +554,7 @@ extends XContent {
 		}
 
 		if (index >= attrSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		attr[index * 3 + 2] = value;
 	}
@@ -634,7 +634,7 @@ extends XContent {
 	 */
 	public final void removeAttr(int index) {
 		if (index >= attrSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 
 		int shift = attrSize - index - 1;
@@ -669,7 +669,7 @@ extends XContent {
 	 */
 	public final XContent content(int index) {
 		if (index >= contentSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return content[index];
 	}
@@ -710,7 +710,7 @@ extends XContent {
 	 */
 	public final XElem elem(int index) {
 		if (index >= contentSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return (XElem) content[index];
 	}
@@ -902,7 +902,7 @@ extends XContent {
 	 */
 	public final XText text(int index) {
 		if (index >= contentSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		return (XText) content[index];
 	}
@@ -978,7 +978,7 @@ extends XContent {
 	 */
 	public final void replaceContent(int index, XContent child) {
 		if (index >= contentSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 		content[index].parent = null;
 		content[index] = child;
@@ -1002,7 +1002,7 @@ extends XContent {
 	 */
 	public final void removeContent(int index) {
 		if (index >= contentSize) {
-			new ArrayIndexOutOfBoundsException(index);
+			throw new ArrayIndexOutOfBoundsException(index);
 		}
 
 		content[index].parent = null;

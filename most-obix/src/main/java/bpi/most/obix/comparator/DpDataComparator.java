@@ -26,5 +26,13 @@ public class DpDataComparator implements Comparator<DpData> {
 			return  timestamp1 == timestamp2 ? 0 : timestamp1 > timestamp2 ? 1 : -1;
 		}
 	}
+
+    public void sortAscendingByTime() {
+        sortCriteriaTimeDesc = false;
+    }
+
+    public void sortDescendingByTime() {
+        sortCriteriaTimeDesc = true;
+    }
 	
 }
