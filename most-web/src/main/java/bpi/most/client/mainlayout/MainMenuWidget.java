@@ -117,13 +117,13 @@ public class MainMenuWidget extends Composite {
 
 	public void registerMouseOverHandler(Widget highlightWidget,
 			MainMenuEntryWidget mainMenuEntryWidget) {
-		final Widget _highlightWidget = highlightWidget;
-		final Widget _verticalPanel = mainMenuEntryWidget.vertical;
-		final Widget _anchor = mainMenuEntryWidget.anchor;
+		final Widget actHighlightWidget = highlightWidget;
+		final Widget actVerticalPanel = mainMenuEntryWidget.vertical;
+		final Widget actAnchor = mainMenuEntryWidget.anchor;
 
 		// add a new highlight element for each menu entry
 		DNDController.EVENT_BUS.fireEvent(new RegisterHighlightElementEvent(
-				_highlightWidget.getElement()));
+				actHighlightWidget.getElement()));
 
 		// handler for triggering menu action on mouse over
 		// _highlightWidget.getParent().addDomHandler(new DragOverHandler() {
@@ -138,14 +138,14 @@ public class MainMenuWidget extends Composite {
 		// }, DragOverEvent.getType());
 
 		// handler for loading new module on drag operation
-		_verticalPanel.addDomHandler(new DragOverHandler() {
+		actVerticalPanel.addDomHandler(new DragOverHandler() {
 
 			@Override
 			public void onDragOver(DragOverEvent event) {
 				try {
 					NativeEvent e = Document.get().createClickEvent(1, 1, 1, 1,
 							1, false, false, false, false);
-					DomEvent.fireNativeEvent(e, _anchor);
+					DomEvent.fireNativeEvent(e, actAnchor);
 
 				} catch (Exception e) {
 
@@ -153,7 +153,7 @@ public class MainMenuWidget extends Composite {
 
 			}
 		}, DragOverEvent.getType());
-		_verticalPanel.addDomHandler(new MouseOverHandler() {
+		actVerticalPanel.addDomHandler(new MouseOverHandler() {
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
@@ -161,7 +161,7 @@ public class MainMenuWidget extends Composite {
 					if (DNDController.getCurrentDrag() != null) {
 						NativeEvent e = Document.get().createClickEvent(1, 1,
 								1, 1, 1, false, false, false, false);
-						DomEvent.fireNativeEvent(e, _anchor);
+						DomEvent.fireNativeEvent(e, actAnchor);
 					}
 				} catch (Exception e) {
 
