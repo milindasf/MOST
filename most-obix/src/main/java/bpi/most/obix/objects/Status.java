@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  * @creation 23 May 06
  */
-public class Status {
+public final class Status {
 
     private int ordinal;
     private String name;

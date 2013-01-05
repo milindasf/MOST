@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @version $Revision$ $Date$
  * @creation 12 Sept 05
  */
-public class SessionWatch {
+public final class SessionWatch {
 
     public boolean debug = false;
 

@@ -19,7 +19,7 @@ import java.util.HashMap;
  * @version $Revision$ $Date: 29/12/2012
  * @creation 24 May 06
  */
-public class ObixAssembler
+public final class ObixAssembler
         extends Assembler
         implements OpCodes {
 
