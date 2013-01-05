@@ -20,7 +20,7 @@ public class ContractRegistry {
 
     private static HashMap<String, String> map = new HashMap<String, String>();   // URI -> className
     private static HashMap<String, Class> cache = new HashMap<String, Class>(); // Contract.toString -> Class
-    private static Class NotFound = ContractRegistry.class;
+    private static Class notFound = ContractRegistry.class;
 
     private static HashMap<String, String> baseContracts = new HashMap<String, String>();
 
@@ -86,7 +86,7 @@ public class ContractRegistry {
         // we use my own class as a special placeholder
         // for "not found", so we don't repeat the expensive
         // calculations below
-        if (cls == NotFound) {
+        if (cls == notFound) {
             return base;
         }
 
@@ -100,7 +100,7 @@ public class ContractRegistry {
         try {
             cls = compile(base, contract);
             if (cls == null) {
-                cache.put(key, NotFound);
+                cache.put(key, notFound);
                 return base;
             }
 

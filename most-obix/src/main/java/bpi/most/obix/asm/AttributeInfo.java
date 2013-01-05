@@ -10,11 +10,11 @@ package bpi.most.obix.asm;
  */
 public class AttributeInfo {
 
-    private static byte[] EMPTY = new byte[0];
+    private static byte[] empty = new byte[0];
 
     private final Assembler asm;
     private final int name;
-    private byte[] info = EMPTY;
+    private byte[] info = empty;
 
     public AttributeInfo(Assembler asm, int name, byte[] info) {
         this.asm = asm;

@@ -23,7 +23,7 @@ public final class DbProperties {
 	private static final Integer CON_POOL_MIN = 10;
 	private static final Integer CON_POOL_MAX = 100;
 	
-	private static DbProperties INSTANCE = new DbProperties();
+	private static DbProperties instance = new DbProperties();
 
 	/**
 	 * for testing purposes;
@@ -76,22 +76,22 @@ public final class DbProperties {
 	}
 
 	public static String getHostname() {
-		return INSTANCE.hostname;
+		return instance.hostname;
 	}
 	public static String getUsername() {
-		return INSTANCE.username;
+		return instance.username;
 	}
 	public static String getPassword() {
-		return INSTANCE.password;
+		return instance.password;
 	}
 	public static String getDatabase() {
-		return INSTANCE.database;
+		return instance.database;
 	}
 	public static Integer getConPoolMin() {
-		return INSTANCE.conPoolMin;
+		return instance.conPoolMin;
 	}
 	public static Integer getConPoolMax() {
-		return INSTANCE.conPoolMax;
+		return instance.conPoolMax;
 	}
 /*
 	public static String HOSTNAME = "demo-most.bpi.tuwien.ac.at";

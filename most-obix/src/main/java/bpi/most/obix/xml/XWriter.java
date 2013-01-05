@@ -24,13 +24,13 @@ public class XWriter
     private boolean zipped;         // are we generating a zip file
     private int numWritten;         // number of chars written
 
-    private static String[] SPACES;
+    private static String[] spaces;
 
     static {
-        SPACES = new String[50];
-        SPACES[0] = "";
+        spaces = new String[50];
+        spaces[0] = "";
         for (int i = 1; i < 50; ++i) {
-            SPACES[i] = SPACES[i - 1] + " ";
+            spaces[i] = spaces[i - 1] + " ";
         }
     }
 
@@ -383,23 +383,23 @@ public class XWriter
         try {
             // 99.9% of the time num is going to be
             // smaller than 50, so just try it
-            return SPACES[num];
+            return spaces[num];
         } catch (ArrayIndexOutOfBoundsException e) {
             if (num < 0) {
 				return "";
 			}
 
             // too big!
-            int len = SPACES.length;
+            int len = spaces.length;
             StringBuffer buf;
             buf = new StringBuffer(num);
             int rem = num;
             while (true) {
                 if (rem < len) {
-                    buf.append(SPACES[rem]);
+                    buf.append(spaces[rem]);
                     break;
                 } else {
-                    buf.append(SPACES[len - 1]);
+                    buf.append(spaces[len - 1]);
                     rem -= len - 1;
                 }
             }
