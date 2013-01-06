@@ -56,7 +56,7 @@ public class Dp extends Obj {
 
     public Dp(String dataPointName, String type, String description, DpData[] dpData) {
         this(dataPointName, type, description);
-        this.dpData.addAll(Arrays.asList(dpData));
+        this.dpData = Arrays.asList(dpData);
     }
 
     public Str getDatapointName() {
@@ -145,5 +145,17 @@ public class Dp extends Obj {
 
     public Uri getUnit() {
         return unit;
+    }
+
+    public Dp clone() {
+        Dp clone = new Dp(this.getDatapointName().get(), this.getType().get(), this.getDescription().get());
+
+        if (this.getDpData().length != 0) {
+            for (DpData data : this.getDpData()) {
+                clone.addDpData(data.clone(clone));
+            }
+        }
+
+        return clone;
     }
 }

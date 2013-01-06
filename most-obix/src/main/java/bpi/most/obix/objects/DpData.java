@@ -128,4 +128,11 @@ public class DpData extends Obj {
         return new Uri(this.datapointName + "/data", Dp.OBIX_DP_PREFIX + this.datapointName + "/data" + timestamp);
     }
 
+    public DpData clone(Dp parent) {
+        DpData clone = new DpData(parent, this.getTimestamp().get(),
+                this.getValue().get(), this.getQuality().get());
+
+        return clone;
+    }
+
 }
