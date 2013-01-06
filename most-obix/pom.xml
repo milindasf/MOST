@@ -17,6 +17,18 @@
   <name>MOST oBIX</name>
 
     <dependencies>
+        <!-- Apache CXF as REST framework -->
+        <!-- TODO not include whole cxf-bundle, but only the modules that are really needed, see the following sites:
+           http://cxf.apache.org/docs/restful-services.html
+           http://cxf.apache.org/project-status.html
+           http://repo2.maven.org/maven2/org/apache/cxf/
+          -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-bundle</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-service-impl</artifactId>

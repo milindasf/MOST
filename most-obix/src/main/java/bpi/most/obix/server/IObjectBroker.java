@@ -16,7 +16,7 @@ public interface IObjectBroker {
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      *         Dp contains only data, which belongs to Dp.
      */
-    Dp getDatapoint(Uri href); // = datapointName = {name} /obix/dp/{name}
+    Dp getDp(Uri href); // = datapointName = {name} /obix/dp/{name}
 
     /**
      * GET /obix/dp/{name}/data
@@ -27,15 +27,23 @@ public interface IObjectBroker {
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      *         Dp contains all data from all DpData.
      */
-    Dp getDatapointData(Uri href); // = datapointName = {name}
+    Dp getDpData(Uri href); // = datapointName = {name}
 
     /**
      * GET /obix/dp
      *
      * @return All data points
      */
-    List getAllDatapoints();
+    List getAllDps();
     // return list with all data points
+
+    /**
+     * GET /obix/dp/data
+     *
+     * @return All data points
+     */
+    List getAllDpData();
+    // return list with all data points with data included
 
     /**
      * GET /obix/zones/{id}
@@ -43,7 +51,16 @@ public interface IObjectBroker {
      * @param href The id of the zone
      * @return The zone, which contains data points
      */
-    Zone getDatapointsForZone(Uri href); // = {id}
+    Zone getDpsForZone(Uri href); // = {id}
+    // return zone with dp inside
+
+    /**
+     * GET /obix/zones/{id}/data
+     *
+     * @param href The id of the zone
+     * @return The zone, which contains data points
+     */
+    Zone getDpDataForZone(Uri href); // = {id}
     // return zone with dp inside
 
     /**
@@ -51,8 +68,18 @@ public interface IObjectBroker {
      *
      * @return All objects, wrapped in their own zone
      */
-    List getDatapointsForAllZones();
+    List getDpsForAllZones();
     // return list with all zones
+
+    /**
+     * GET /obix/zones/data
+     *
+     * @return All objects, wrapped in their own zone
+     */
+    List getAllZones();  // TODO
+    // return list with all zones
+
+    Zone getDpForZone(Uri href, String from, String to);
 
     /**
      * GET /obix/dp/{name}/data?from={UCT datetime}&to=

@@ -2,10 +2,7 @@ package bpi.most.obix.server;
 
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.ZoneDTO;
-import bpi.most.obix.objects.Contract;
-import bpi.most.obix.objects.Dp;
-import bpi.most.obix.objects.List;
-import bpi.most.obix.objects.Uri;
+import bpi.most.obix.objects.*;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 
@@ -72,10 +69,24 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public Dp getDatapoint(Uri href) {
-        Dp dp = dpCache.get(href);
-        dp.setShowData(false);
+    public Dp getDp(Uri href) {
+        return getDpInternal(href, false);
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Dp getDpData(Uri href) {
+        return getDpInternal(href, true);
+    }
+
+    private Dp getDpInternal(Uri href, boolean showData) {
+        Dp dp = dpCache.get(href);
+
+        if (dp != null && showData) {
+            dp.setShowData(true);
+        }
         return dp;
     }
 
@@ -83,26 +94,26 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public Dp getDatapointData(Uri href) {
-        Dp dp = dpCache.get(href);
-
-        if (dp != null) {
-            dp.setShowData(true);
-            return dp;
-        }
-        return null;
+    public List getAllDps() {
+        return getAllDpsInternal(false);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List getAllDatapoints() {
+    public List getAllDpData() {
+        return getAllDpsInternal(true);
+    }
+
+    private List getAllDpsInternal(boolean showData) {
         List list = new List("datapoints", new Contract("obix:dp"));
         Dp[] values = dpCache.values().toArray(new Dp[dpCache.size()]);
 
-        for (Dp dp : values)  {
-            dp.setShowData(true);
+        if (showData) {
+            for (Dp dp : values)  {
+                dp.setShowData(true);
+            }
         }
 
         list.addAll(values);
@@ -113,8 +124,19 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public bpi.most.obix.objects.Zone getDatapointsForZone(Uri href) {
+    public bpi.most.obix.objects.Zone getDpsForZone(Uri href) {
+        return getDpDataForZoneInternal(href, false);
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Zone getDpDataForZone(Uri href) {
+        return getDpDataForZoneInternal(href, true);
+    }
+
+    private bpi.most.obix.objects.Zone getDpDataForZoneInternal(Uri href, boolean showData) {
         if (zoneCache.containsKey(href)) {
             java.util.List<Dp> dpList = new ArrayList<Dp>();
             bpi.most.obix.objects.Zone oBixZone = zoneCache.get(href);
@@ -126,10 +148,12 @@ public class ObixObjectBroker implements IObjectBroker {
                         oBixZone.addDp(dp);
                     }
                 }
-                oBixZone.setShowData(true);
+                if (showData) {
+                    oBixZone.setShowData(true);
+                }
             }
 
-           return oBixZone;
+            return oBixZone;
         }
         return null;
     }
@@ -138,14 +162,34 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public List getDatapointsForAllZones() {
+    public List getDpsForAllZones() {
+        return getAllZonesInternal(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List getAllZones() {
+        return getAllZonesInternal(false);
+    }
+
+    private List getAllZonesInternal(boolean showData) {
         List list = new List("zones", new Contract("obix:zone"));
 
         for (Uri uri : zoneCache.keySet()) {
-            list.add(getDatapointsForZone(uri));
+            list.add(getAllDpsInternal(showData));
         }
 
         return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Zone getDpForZone(Uri href, String from, String to) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /**

@@ -46,11 +46,32 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
      <ref bean="authFilter"/>
  	</jaxrs:inInterceptors>
   </jaxrs:server>
+
+  <!-- oBix Resources -->
+  <!-- Zone Resource -->
+  <jaxrs:server id="obixZoneService" address="/obix/zones" beanNames="obixZoneResource">
+    <jaxrs:inInterceptors>
+        <ref bean="authFilter"/>
+    </jaxrs:inInterceptors>
+  </jaxrs:server>
+
+  <!-- Datapoint Resource -->
+  <jaxrs:server id="obixDpService" address="/obix/dp" beanNames="obixDpResource">
+    <jaxrs:inInterceptors>
+        <ref bean="authFilter"/>
+    </jaxrs:inInterceptors>
+  </jaxrs:server>
+  <!-- oBix Resources end -->
   
   <bean id="authFilter" class="bpi.most.server.services.rest.RestAuthInterceptor">
-        <!-- authorization bean properties -->
-    </bean>
+    <!-- authorization bean properties -->
+  </bean>
     
   <bean id="zoneResource" class="bpi.most.server.services.rest.impl.ZoneResImpl" scope="prototype"/>
   <bean id="dpResource" class="bpi.most.server.services.rest.impl.DpResImpl" scope="prototype" />
+
+  <!-- oBix beans -->
+  <bean id="obixZoneResource" class="bpi.most.server.services.rest.impl.ZoneResImpl" scope="prototype"/>
+  <bean id="obixDpResource" class="bpi.most.server.services.rest.impl.DpResImpl" scope="prototype" />
+
 </beans>
