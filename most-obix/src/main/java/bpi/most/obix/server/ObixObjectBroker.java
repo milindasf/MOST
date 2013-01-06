@@ -3,12 +3,12 @@ package bpi.most.obix.server;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.List;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Loads and caches all oBix-objects. This broker can be used
@@ -193,16 +193,39 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public Zone getDpForZone(Uri href, String from, String to) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    public List getDpForZone(Uri href, String from, String to) {
+        Date fromDate = null;
+        Date toDate = null;
+        // TODO: ASE fromDate = DateUtils.returnNowOnNull(from);
+        // TODO: ASE toDate = DateUtils.returnNowOnNull(to);
+        if (fromDate == null || toDate == null) {
+            return null;
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getDatapoints(String from, String to) {
-        // TODO Auto-generated method stub
+        long fromMillis = fromDate.getTime();
+        long toMillis =  toDate.getTime();
+        java.util.List<DpData> resultList = new ArrayList<DpData>();
+
+        bpi.most.obix.objects.Zone oBixZone = zoneCache.get(href);
+
+        if (oBixZone != null) {
+            for (Uri u : (Uri[]) oBixZone.getDatapointURIs().list()) {
+                Dp dp = dpCache.get(u);
+                if (dp != null) {
+                    for (DpData data : dp.getDpData()) {
+                        long dataMillis = data.getTimestamp().getMillis();
+                        if (dataMillis >= fromMillis && dataMillis <= toMillis) {
+                            resultList.add(data);
+                        }
+                    }
+                }
+            }
+            List list = new List("datapointData", new Contract("obix:dpData"));
+            list.addAll(resultList.toArray(new Dp[resultList.size()]));
+
+            return list;
+        }
+
         return null;
     }
 
@@ -210,8 +233,48 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
+    public List getDatapoints(String from, String to) {
+        Date fromDate = null;
+        Date toDate = null;
+        // TODO: ASE fromDate = DateUtils.returnNowOnNull(from);
+        // TODO: ASE toDate = DateUtils.returnNowOnNull(to);
+        if (fromDate == null || toDate == null) {
+            return null;
+        }
+
+        long fromMillis = fromDate.getTime();
+        long toMillis =  toDate.getTime();
+        java.util.List<DpData> resultList = new ArrayList<DpData>();
+
+        for (Dp dp : dpCache.values()) {
+            for (DpData data : dp.getDpData()) {
+                long dataMillis = data.getTimestamp().getMillis();
+                if (dataMillis >= fromMillis && dataMillis <= toMillis) {
+                    resultList.add(data);
+                }
+            }
+        }
+
+        List list = new List("datapointData", new Contract("obix:dpData"));
+        list.addAll(resultList.toArray(new Dp[resultList.size()]));
+
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addDp(Dp dp) {
-        // TODO Auto-generated method stub
+        Uri uri = dp.getHref();
+        if (dpCache.containsKey(uri)) {
+            // update data in DB (and cache)
+            // TODO: datapointService.addData()
+        } else {
+            // add to DB (and cache)
+
+            //dpCache.put(uri, dp);
+        }
 
     }
 

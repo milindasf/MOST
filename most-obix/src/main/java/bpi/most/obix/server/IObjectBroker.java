@@ -99,7 +99,7 @@ public interface IObjectBroker {
     List getAllZones();  // TODO
     // return list with all zones
 
-    Zone getDpForZone(Uri href, String from, String to);
+    List getDpForZone(Uri href, String from, String to);
 
     /**
      * GET /obix/dp/{name}/data?from={UCT datetime}&to=
