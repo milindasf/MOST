@@ -18,27 +18,41 @@ public class ObixZoneResourceImpl /*extends BaseResImpl*/ implements ObixZoneRes
     @Inject
     ObixServer server;
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDpForZone(@PathParam("id") int id) {
         return server.getDpsForZone(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getZone(@PathParam("id") int id) {
         return server.getDpDataForZone(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDpForAllZones() {
         return server.getDpsForAllZones();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAllZones() {
         return server.getAllZones();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDpForZone(@PathParam("id") int id, @QueryParam("from") String from, @QueryParam("to") String to) {
         return server.getDpForZone(id, from, to);

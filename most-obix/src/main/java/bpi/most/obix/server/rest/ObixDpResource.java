@@ -1,13 +1,17 @@
-package bpi.most.obix.server;
+package bpi.most.obix.server.rest;
+
+import javax.ws.rs.*;
 
 /**
- * The oBIX server acts as a gateway between incoming requests from outside, for
- * example an HTTP server, and the internal object broker. It also translates
- * between XML and java-representation of oBIX objects.
- *
- * @author Alexej Strelzow
+ * Created with IntelliJ IDEA.
+ * User: Alexej Strelzow
+ * Date: 06.01.13
+ * Time: 18:22
  */
-public interface IObixServer {
+//@Path("obix/dp/")
+@Produces("application/xml")
+@Consumes("application/xml")
+public interface ObixDpResource {
 
     /**
      * GET /obix/dp/{name}
@@ -18,7 +22,9 @@ public interface IObixServer {
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      *         Dp contains only data, which belongs to Dp.
      */
-    String getDp(String name); // = datapointName = {name} /obix/dp/{name}
+    @GET
+    @Path("/{name}/")
+    String getDp(@PathParam("name") String name); // = datapointName = {name} /obix/dp/{name}
 
     /**
      * GET /obix/dp/{name}/data
@@ -29,13 +35,17 @@ public interface IObixServer {
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      *         Dp contains all data from all DpData.
      */
-    String getDpData(String name); // = datapointName = {name}
+    @GET
+    @Path("/{name}/data")
+    String getDpData(@PathParam("name") String name); // = datapointName = {name}
 
     /**
      * GET /obix/dp
      *
      * @return All data points
      */
+    @GET
+//    @Path("/")
     String getAllDps();
     // return list with all data points
 
@@ -44,45 +54,9 @@ public interface IObixServer {
      *
      * @return All data points
      */
+    @GET
+    @Path("/data/")
     String getAllDpData();
-    // return list with all data points with data included
-
-    /**
-     * GET /obix/zones/{id}
-     *
-     * @param id The id of the zone
-     * @return The zone, which contains data points
-     */
-    String getDpsForZone(int id); // = {id}
-    // return zone with dp inside
-
-    /**
-     * GET /obix/zones/{id}/data
-     *
-     * @param id The id of the zone
-     * @return The zone, which contains data points
-     */
-    String getDpDataForZone(int id); // = {id}
-    // return zone with dp inside
-
-    /**
-     * GET /obix/zones
-     *
-     * @return All objects, wrapped in their own zone
-     */
-    String getDpsForAllZones();  // TODO
-    // return list with all zones
-
-    /**
-     * GET /obix/zones/data
-     *
-     * @return All objects, wrapped in their own zone
-     */
-    String getAllZones();  // TODO
-    // return list with all zones
-
-
-    String getDpForZone(int id, String from, String to);
 
     /**
      * GET /obix/dp/{name}/data?from={UCT datetime}&to=
@@ -92,7 +66,9 @@ public interface IObixServer {
      * @param to
      * @return
      */
-    String getDatapoints(String from, String to);
+    @GET
+    @Path("/data")
+    String getDatapoints(@QueryParam("from") String from, @QueryParam("to") String to);
     // return list with all datapoint data, see DpDataDTO (!)
 
 
@@ -103,5 +79,8 @@ public interface IObixServer {
      *
      * @param encodedDp An encoded instance of Dp
      */
+    @POST
+//    @Path("/")
     void addDp(String encodedDp);
+
 }

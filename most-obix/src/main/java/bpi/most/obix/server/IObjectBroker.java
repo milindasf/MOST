@@ -5,6 +5,26 @@ import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
 import bpi.most.obix.objects.Zone;
 
+/**
+ * Loads and caches all oBix-objects. This broker can be used
+ * to retrieve following Data:
+ *
+ * <li><b>Dp without data:</b> Data points, which contain no data</li>
+ * <li><b>Dp with data:</b> Data points, which contain data</li>
+ * <li><b>List:</b> List, which contains all Dps, which contain no data point data</li>
+ * <li><b>List:</b> List, which contains all Dps, which contain data point data</li>
+ *
+ * <li><b>Zone data:</b> A Zone, which contains Dps, which contain no data</li>
+ * <li><b>Zone data:</b> A Zone, which contains Dps, which contain data</li>
+ *  * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain no data point data</li>
+ * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain data point data</li>
+ *
+ * <li><b>List:</b> List, which contains all Dps in a period of time, which contain data</li>
+ *
+ * Also a data point can use the broker to add data to it.
+ *
+ * @author Alexej Strelzow
+ */
 public interface IObjectBroker {
 
     /**
@@ -96,10 +116,10 @@ public interface IObjectBroker {
     /**
      * PUT /obix/dp/{name}
      * <p/>
-     * Updates the data for a data point.
+     * Adds the encoded Dp and its values to the server.
      *
      * @param dp An instance of Dp, which contains new values
      */
-    void updateDatapoint(Dp dp);
+    void addDp(Dp dp);
 
 }

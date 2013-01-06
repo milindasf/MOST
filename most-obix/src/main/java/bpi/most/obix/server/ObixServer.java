@@ -7,6 +7,13 @@ import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
 import bpi.most.obix.objects.Zone;
 
+/**
+ * The oBIX server acts as a gateway between incoming requests from outside, for
+ * example an HTTP server, and the internal object broker. It also translates
+ * between XML and java-representation of oBIX objects.
+ *
+ * @author Alexej Strelzow
+ */
 public class ObixServer implements IObixServer {
 
     private IObjectBroker objectBroker;
@@ -97,6 +104,9 @@ public class ObixServer implements IObixServer {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getDpForZone(int id, String from, String to) {
         Uri uri = new Uri(Zone.OBIX_ZONE_PREFIX + id);
@@ -119,6 +129,9 @@ public class ObixServer implements IObixServer {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getAllZones() {
         List dataPoints = objectBroker.getAllZones();
@@ -133,18 +146,22 @@ public class ObixServer implements IObixServer {
      */
     @Override
     public String getDatapoints(String from, String to) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List dataPoints = objectBroker.getDatapoints(from, to);
+        if (dataPoints != null) {
+            return ObixEncoder.toString(dataPoints);
+        }
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void updateDp(String encodedDp) {
+    public void addDp(String encodedDp) {
         if (encodedDp != null) {
             Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
             if (dp != null) {
-                objectBroker.updateDatapoint(dp);
+                objectBroker.addDp(dp);
             }
         }
     }

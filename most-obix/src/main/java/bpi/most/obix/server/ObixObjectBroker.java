@@ -14,14 +14,19 @@ import java.util.HashMap;
  * Loads and caches all oBix-objects. This broker can be used
  * to retrieve following Data:
  *
- * <li><b>Dp without data:</b> Datapoints, which contain no data</li>
- * <li><b>Dp with data:</b> Datapoints, which contain data</li>
- * <li><b>List:</b> List, which contains all Dps, which contain data</li>
+ * <li><b>Dp without data:</b> Data points, which contain no data</li>
+ * <li><b>Dp with data:</b> Data points, which contain data</li>
+ * <li><b>List:</b> List, which contains all Dps, which contain no data point data</li>
+ * <li><b>List:</b> List, which contains all Dps, which contain data point data</li>
  *
+ * <li><b>Zone data:</b> A Zone, which contains Dps, which contain no data</li>
  * <li><b>Zone data:</b> A Zone, which contains Dps, which contain data</li>
- * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain data</li>
+ *  * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain no data point data</li>
+ * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain data point data</li>
  *
  * <li><b>List:</b> List, which contains all Dps in a period of time, which contain data</li>
+ *
+ * Also a data point can use the broker to add data to it.
  *
  * @author Alexej Strelzow
  */
@@ -33,8 +38,8 @@ public class ObixObjectBroker implements IObjectBroker {
     @Inject
     private DatapointService datapointService;
 
-    private HashMap<Uri, Dp> dpCache;
-    private HashMap<Uri, bpi.most.obix.objects.Zone> zoneCache;
+    private HashMap<Uri, Dp> dpCache;      // Obj-href to Dp
+    private HashMap<Uri, bpi.most.obix.objects.Zone> zoneCache;  // Obj-href to Zone
 
     ObixObjectBroker() {
         this.dpCache = new HashMap<Uri, Dp>();
@@ -205,7 +210,7 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public void updateDatapoint(Dp dp) {
+    public void addDp(Dp dp) {
         // TODO Auto-generated method stub
 
     }
