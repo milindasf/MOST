@@ -72,6 +72,8 @@ public class Zone extends Obj {
             Obj obj = get(ZONE);
             if (obj != null) {
                 return (Int)obj;
+            } else {
+                return null;
             }
         }
         return new Int(ZONE, zoneID);
@@ -82,6 +84,8 @@ public class Zone extends Obj {
             Obj obj = get(NAME);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(NAME, zoneName);
@@ -92,6 +96,8 @@ public class Zone extends Obj {
             Obj obj = get(DESCRIPTION);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(DESCRIPTION, description);
@@ -109,6 +115,8 @@ public class Zone extends Obj {
             Obj obj = get(COUNTRY);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(COUNTRY, country);
@@ -126,6 +134,8 @@ public class Zone extends Obj {
             Obj obj = get(STATE);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(STATE, state);
@@ -143,6 +153,8 @@ public class Zone extends Obj {
             Obj obj = get(COUNTY);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(COUNTY, county);
@@ -160,6 +172,8 @@ public class Zone extends Obj {
             Obj obj = get(CITY);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(CITY, city);
@@ -177,6 +191,8 @@ public class Zone extends Obj {
             Obj obj = get(BUILDING);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(BUILDING, building);
@@ -194,6 +210,8 @@ public class Zone extends Obj {
             Obj obj = get(FLOOR);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(FLOOR, floor);
@@ -211,6 +229,8 @@ public class Zone extends Obj {
             Obj obj = get(ROOM);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(ROOM, room);
@@ -228,6 +248,8 @@ public class Zone extends Obj {
             Obj obj = get(AREA);
             if (obj != null) {
                 return (Real)obj;
+            } else {
+                return null;
             }
         }
         return new Real(AREA, area);
@@ -245,6 +267,8 @@ public class Zone extends Obj {
             Obj obj = get(VOLUME);
             if (obj != null) {
                 return (Real)obj;
+            } else {
+                return null;
             }
         }
         return new Real(VOLUME, volume);
@@ -269,6 +293,10 @@ public class Zone extends Obj {
         }
     }
 
+    public Uri[] getURIs() {
+        return uriList.toArray(new Uri[uriList.size()]);
+    }
+
     public List getDatapointURIs() {
         List list = new List(URI, new Contract("obix:Uri"));
         list.addAll(uriList.toArray(new Uri[uriList.size()]));
@@ -288,7 +316,7 @@ public class Zone extends Obj {
      */
     @Override
     public Uri getHref() {
-        return new Uri(String.valueOf(zoneID), OBIX_ZONE_PREFIX + zoneID);
+        return new Uri(String.valueOf(zoneID), OBIX_ZONE_PREFIX + String.valueOf(zoneID));
     }
 
     public void setShowData(boolean showData) {
@@ -324,6 +352,65 @@ public class Zone extends Obj {
 
     public void removeDp(Dp dp) {
         dpList.remove(dp);
+    }
+
+    public Zone clone() {
+
+        Zone clone = new Zone((int)this.getZone().get(), this.getZoneName().get());
+        Str str = this.getDescription();
+        if (str != null) {
+            clone.setDescription(str.get());
+        }
+        str = this.getCountry();
+        if (str != null) {
+            clone.setCountry(str.get());
+        }
+        str = this.getState();
+        if (str != null) {
+            clone.setState(str.get());
+        }
+        str = this.getCounty();
+        if (str != null) {
+            clone.setCounty(str.get());
+        }
+        str = this.getCity();
+        if (str != null) {
+            clone.setCity(str.get());
+        }
+        str = this.getBuilding();
+        if (str != null) {
+            clone.setBuilding(str.get());
+        }
+        str = this.getFloor();
+        if (str != null) {
+            clone.setFloor(str.get());
+        }
+        str = this.getRoom();
+        if (str != null) {
+            clone.setRoom(str.get());
+        }
+        Real real = this.getArea();
+        if (real != null) {
+            clone.setArea(real.get());
+        }
+        real = this.getVolume();
+        if (real != null) {
+            clone.setVolume(real.get());
+        }
+
+        if (getURIs().length > 0) {
+            for (Uri uri : getURIs()) {
+                clone.addURI(new Uri(uri.getName(), uri.get()));
+            }
+        }
+
+        if (getDps().length > 0) {
+            for (Dp dp : getDps()) {
+                clone.addDp(dp.clone());
+            }
+        }
+
+        return clone;
     }
 
 }

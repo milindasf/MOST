@@ -64,6 +64,8 @@ public class Dp extends Obj {
             Obj obj = get(DATA_POINT_NAME);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(DATA_POINT_NAME, dataPointName);
@@ -74,6 +76,8 @@ public class Dp extends Obj {
             Obj obj = get(TYPE);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(TYPE, type);
@@ -84,6 +88,8 @@ public class Dp extends Obj {
             Obj obj = get(DESCRIPTION);
             if (obj != null) {
                 return (Str)obj;
+            } else {
+                return null;
             }
         }
         return new Str(DESCRIPTION, description);

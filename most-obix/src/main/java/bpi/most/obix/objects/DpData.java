@@ -72,6 +72,8 @@ public class DpData extends Obj {
             Obj obj = get(TIMESTAMP);
             if (obj != null) {
                 return (Abstime)obj;
+            } else {
+                return null;
             }
         }
         return new Abstime(TIMESTAMP, timestamp);
@@ -82,6 +84,8 @@ public class DpData extends Obj {
             Obj obj = get(VALUE);
             if (obj != null) {
                 return (Real)obj;
+            } else {
+                return null;
             }
         }
 
@@ -99,6 +103,8 @@ public class DpData extends Obj {
             Obj obj = get(QUALITY);
             if (obj != null) {
                 return (Real)obj;
+            } else {
+                return null;
             }
         }
 
