@@ -476,4 +476,11 @@ public class Uri
         return '"' + val + '"';
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return val.hashCode();
+    }
 }
