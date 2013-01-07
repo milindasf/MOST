@@ -4,12 +4,14 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.server.services.rest.api.DpResource;
 import bpi.most.service.api.DatapointService;
+import bpi.most.server.services.rest.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DpResImpl extends BaseResImpl implements DpResource {
@@ -49,7 +51,7 @@ public class DpResImpl extends BaseResImpl implements DpResource {
 	public void addDpData(String dpName, DpDataDTO data) {
 		LOG.info("adding new data to datapoint: " + dpName);
 		LOG.info(data.toString());
-        // TODO ASE   dpService.addData(getUser(), new DpDTO(dpName), data);
+        dpService.addData(getUser(), new DpDTO(dpName), data);
 	}
 
 	@Override
@@ -64,9 +66,9 @@ public class DpResImpl extends BaseResImpl implements DpResource {
             result.add(lastData);
 		}else{
 			//some restriction in time, either "from", or "to", or both
-            // TODO ASE  Date from = DateUtils.returnNowOnNull(sFrom);
-            // TODO ASE  Date to = DateUtils.returnNowOnNull(sTo);
-            // TODO ASE  result = dpService.getData(getUser(), dp, from, to);
+            Date from = DateUtils.returnNowOnNull(sFrom);
+            Date to = DateUtils.returnNowOnNull(sTo);
+            result = dpService.getData(getUser(), dp, from, to);
 		}
 		return result;
 	}
@@ -77,9 +79,9 @@ public class DpResImpl extends BaseResImpl implements DpResource {
 		LOG.info("returning periodic data");
 		List<DpDataDTO> result = null;
 		DpDTO dp = new DpDTO(dpName);
-        // TODO ASE  Date from = DateUtils.returnNowOnNull(sFrom);
-        // TODO ASE  Date to = DateUtils.returnNowOnNull(sTo);
-        // TODO ASE  result = dpService.getDataPeriodic(getUser(), dp, from, to, (float)period);
+        Date from = DateUtils.returnNowOnNull(sFrom);
+        Date to = DateUtils.returnNowOnNull(sTo);
+        result = dpService.getDataPeriodic(getUser(), dp, from, to, (float)period);
 		return result;
 	}
 }

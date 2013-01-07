@@ -25,15 +25,6 @@ public class BaseResImpl {
 			if (u != null){
 				user = u.getUserName();
 			}
-/*			
-			SecurityContext secCtxt = context.getSecurityContext();
-			if (secCtxt != null && secCtxt.getUserPrincipal() != null){
-				Principal userPrincpl = secCtxt.getUserPrincipal();
-				if (userPrincpl instanceof MostUserPrincipal){
-					user = ((MostUserPrincipal) userPrincpl).getUser().getUserName();
-				}
-			}
-*/			
 		}
 		return user;
 	}

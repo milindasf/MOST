@@ -1,10 +1,9 @@
-package bpi.most.server.utils;
+package bpi.most.server.services.rest.utils;
 
+import javax.xml.bind.DatatypeConverter;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.xml.bind.DatatypeConverter;
 
 /**
  * util class which holds methods for date calculations
@@ -34,7 +33,7 @@ public class DateUtils {
 	 * tries to parse the given date by several formats.
 	 * @param someDate
 	 * @return
-	 * @throws ParseException 
+	 * @throws java.text.ParseException
 	 */
 	public static Date parseDate(String someDate) throws ParseException{
 		Date result = null;
