@@ -12,25 +12,25 @@ public class ConnectorVO implements Serializable {
     
 	private static final long serialVersionUID = 743912991919824495L;
     
-	public int connectionNumber = 0;	//unique identifier of a connection
-	public String dpName;
-	public String deviceName;
-	public String connectionType;
-	public String connectionVariables;
-	public boolean writeable = false;
-	public String vendor;
-	public String model;
+	private int connectionNumber = 0;	//unique identifier of a connection
+	private String dpName;
+	private String deviceName;
+	private String connectionType;
+	private String connectionVariables;
+	private boolean writeable = false;
+	private String vendor;
+	private String model;
 
 	//dp specific
-	public String unit;
-	public String type;
+    private String unit;
+	private String type;
 
 	//set worst case value. used if set to null
-	public double min = - Double.MAX_VALUE;
-	public double max = Double.MAX_VALUE;
-	public double deadband = 0.0;
-	public int sampleInterval = 0; //0 means not used (null)!
-	public int minSampleInterval = 0;
+    private double min = - Double.MAX_VALUE;
+	private double max = Double.MAX_VALUE;
+	private double deadband = 0.0;
+	private int sampleInterval = 0; //0 means not used (null)!
+	private int minSampleInterval = 0;
 	
 	/**
 	 * constructor without deadband, min/max, etc. information 
@@ -118,4 +118,124 @@ public class ConnectorVO implements Serializable {
 		}
 		return myResult;
 	}
+
+    public int getConnectionNumber() {
+        return connectionNumber;
+    }
+
+    public void setConnectionNumber(int connectionNumber) {
+        this.connectionNumber = connectionNumber;
+    }
+
+    public String getDpName() {
+        return dpName;
+    }
+
+    public void setDpName(String dpName) {
+        this.dpName = dpName;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getConnectionType() {
+        return connectionType;
+    }
+
+    public void setConnectionType(String connectionType) {
+        this.connectionType = connectionType;
+    }
+
+    public String getConnectionVariables() {
+        return connectionVariables;
+    }
+
+    public void setConnectionVariables(String connectionVariables) {
+        this.connectionVariables = connectionVariables;
+    }
+
+    public boolean isWriteable() {
+        return writeable;
+    }
+
+    public void setWriteable(boolean writeable) {
+        this.writeable = writeable;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
+    }
+
+    public double getMax() {
+        return max;
+    }
+
+    public void setMax(double max) {
+        this.max = max;
+    }
+
+    public double getDeadband() {
+        return deadband;
+    }
+
+    public void setDeadband(double deadband) {
+        this.deadband = deadband;
+    }
+
+    public int getSampleInterval() {
+        return sampleInterval;
+    }
+
+    public void setSampleInterval(int sampleInterval) {
+        this.sampleInterval = sampleInterval;
+    }
+
+    public int getMinSampleInterval() {
+        return minSampleInterval;
+    }
+
+    public void setMinSampleInterval(int minSampleInterval) {
+        this.minSampleInterval = minSampleInterval;
+    }
 }

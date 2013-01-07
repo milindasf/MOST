@@ -41,7 +41,7 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     private int cacheSize = CACHE_SIZE;
-    private HashMap<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, LOAD_FACTOR, true) {
+    private Map<Integer, Zone> cachedZones = new LinkedHashMap<Integer, Zone>(cacheSize, LOAD_FACTOR, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Integer, Zone> eldest) {
             return size() > cacheSize;
