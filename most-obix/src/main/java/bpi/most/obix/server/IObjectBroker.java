@@ -9,40 +9,46 @@ import bpi.most.obix.objects.Zone;
  * Loads and caches all oBix-objects. This broker can be used
  * to retrieve following Data:
  *
- * <li><b>Dp without data:</b> Data points, which contain no data</li>
- * <li><b>Dp with data:</b> Data points, which contain data</li>
+ * <li><b>Dp without data:</b> Data points, which contain no data point data</li>
+ * <li><b>Dp with data:</b> Data points, which contain data point data</li>
  * <li><b>List:</b> List, which contains all Dps, which contain no data point data</li>
  * <li><b>List:</b> List, which contains all Dps, which contain data point data</li>
  *
  * <li><b>Zone data:</b> A Zone, which contains Dps, which contain no data</li>
  * <li><b>Zone data:</b> A Zone, which contains Dps, which contain data</li>
- *  * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain no data point data</li>
+ * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain no data point data</li>
  * <li><b>List:</b> List, which contains all Zones, which contain Dps, which contain data point data</li>
  *
  * <li><b>List:</b> List, which contains all Dps in a period of time, which contain data</li>
  *
- * Also a data point can use the broker to add data to it.
+ * Following data can be set:
+ * <li><b>Dp without data:</b> Data point, which contains no data point data</li>
+ * <li><b>Dp with data:</b> Data point, which contains data point data</li>
  *
  * @author Alexej Strelzow
  */
 public interface IObjectBroker {
 
     /**
-     * GET /obix/dp/{name}
+     * Incoming HTTP-Request should be: GET /obix/dp/{name}
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
      *
-     * @param href The uri of the oBix object, which is /obix/dp/{datapointName}
-     *            of the Datapoint to retrieve.
+     * @param href The uri of the oBix object, which is: /obix/dp/{datapointName}
+     *            of the data point to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
-     *         Dp contains only data, which belongs to Dp.
+     *         Dp contains only data, which belongs to Dp, no data point data.
      */
-    Dp getDp(Uri href); // = datapointName = {name} /obix/dp/{name}
+    Dp getDp(Uri href); // = data pointName = {name} /obix/dp/{name}
 
     /**
-     * GET /obix/dp/{name}/data
+     * Incoming HTTP-Request should be: GET /obix/dp/{name}/data
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
      *
      * @param href The uri of the oBix object, which is /obix/dp/{datapointName}
-     *            of the Datapoint to retrieve.
+     *            of the data point to retrieve.
      * @return One oBix object with the {@link Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
      *         Dp contains all data from all DpData.
@@ -50,76 +56,105 @@ public interface IObjectBroker {
     Dp getDpData(Uri href); // = datapointName = {name}
 
     /**
-     * GET /obix/dp
+     * Incoming HTTP-Request should be: GET /obix/dp
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
      *
-     * @return All data points
+     * @return All data points, which are cached in the broker,
+     *         but without the data point data.
      */
     List getAllDps();
-    // return list with all data points
+    // return list with all data points (Dp)
 
     /**
-     * GET /obix/dp/data
+     * Incoming HTTP-Request should be: GET /obix/dp/data
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
      *
-     * @return All data points
+     * @return All data points and its data, which are cached in the broker.
      */
     List getAllDpData();
     // return list with all data points with data included
 
     /**
-     * GET /obix/zones/{id}
+     * Incoming HTTP-Request should be: GET /obix/dp/{name}/data?from={UTC datetime}&to={UTC datetime}
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
      *
-     * @param href The id of the zone
-     * @return The zone, which contains data points
+     * @param from UTC Time-String, beginning of the retrieving interval
+     * @param to UTC Time-String, end of the retrieving interval
+     * @return A list of data points + data, which is in the UTC time interval: [from; to].
      */
-    Zone getDpsForZone(Uri href); // = {id}
+    List getDpData(String from, String to);
+    // return list with all data points + data
+
+
+    /**
+     * Incoming HTTP-Request should be: PUT /obix/dp/{name}
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
+     *
+     * Adds the decoded Dp and its values to the server.
+     *
+     * @param dp An instance of Dp, which maybe contains new values
+     */
+    void addDp(Dp dp);  // TODO
+
+    /**
+     * Incoming HTTP-Request should be: GET /obix/zones/{id}
+     * @see bpi.most.obix.server.rest.ObixZoneResource
+     * @see bpi.most.obix.server.rest.impl.ObixZoneResourceImpl
+     *
+     * @param href The uri of the zone
+     * @return The zone, which contains data points, but the data points
+     *         contain no data.
+     */
+    Zone getDpsForZone(Uri href);
     // return zone with dp inside
 
     /**
-     * GET /obix/zones/{id}/data
+     * Incoming HTTP-Request should be: GET /obix/zones/{id}/data
+     * @see bpi.most.obix.server.rest.ObixZoneResource
+     * @see bpi.most.obix.server.rest.impl.ObixZoneResourceImpl
      *
-     * @param href The id of the zone
-     * @return The zone, which contains data points
+     * @param href The uri of the zone
+     * @return The zone, which contains data points + their data
      */
-    Zone getDpDataForZone(Uri href); // = {id}
-    // return zone with dp inside
+    Zone getDpDataForZone(Uri href);
+    // return zone with dp inside, which have data inside
 
     /**
-     * GET /obix/zones
+     * Incoming HTTP-Request should be: GET /obix/zones
+     * @see bpi.most.obix.server.rest.ObixZoneResource
+     * @see bpi.most.obix.server.rest.impl.ObixZoneResourceImpl
      *
-     * @return All objects, wrapped in their own zone
+     * @return All objects, wrapped in their own zone, but without data
+     */
+    List getAllZones();
+    // return list with all zones, which contain their dp
+
+    /**
+     * Incoming HTTP-Request should be: GET /obix/zones/data
+     * @see bpi.most.obix.server.rest.ObixZoneResource
+     * @see bpi.most.obix.server.rest.impl.ObixZoneResourceImpl
+     *
+     * @return All objects, wrapped in their own zone, but with data
      */
     List getDpsForAllZones();
-    // return list with all zones
+    // return list with all zones, which contain their dp, which contain their data
 
     /**
-     * GET /obix/zones/data
+     * Incoming HTTP-Request should be: GET /obix/zones/{id}/data
+     * @see bpi.most.obix.server.rest.ObixZoneResource
+     * @see bpi.most.obix.server.rest.impl.ObixZoneResourceImpl
      *
-     * @return All objects, wrapped in their own zone
+     * @param href The uri of the zone
+     * @param from UTC Time-String, beginning of the retrieving interval
+     * @param to UTC Time-String, end of the retrieving interval
+     * @return A list of data points + data for the zone with the uri
+     *         <code>href</code>. The data is in the UTC time interval:
+     *         [from; to].
      */
-    List getAllZones();  // TODO
-    // return list with all zones
-
     List getDpForZone(Uri href, String from, String to);
-
-    /**
-     * GET /obix/dp/{name}/data?from={UCT datetime}&to=
-     * {UCT datetime}
-     *
-     * @param from Begin Timestamp
-     * @param to End Timestamp
-     * @return A List of objects, which are in this period of time
-     */
-    List getDatapoints(String from, String to);
-    // return list with all datapoint data, see DpDataDTO (!)
-
-
-    /**
-     * PUT /obix/dp/{name}
-     * <p/>
-     * Adds the encoded Dp and its values to the server.
-     *
-     * @param dp An instance of Dp, which contains new values
-     */
-    void addDp(Dp dp);
 
 }

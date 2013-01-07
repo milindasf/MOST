@@ -1,6 +1,6 @@
 package bpi.most.obix.server.rest.impl;
 
-import bpi.most.obix.server.ObixServer;
+import bpi.most.obix.server.impl.ObixServer;
 import bpi.most.obix.server.rest.ObixDpResource;
 
 import javax.inject.Inject;
@@ -55,7 +55,7 @@ public class ObixDpResourceImpl implements ObixDpResource {
      */
     @Override
     public String getDatapoints(@QueryParam("from") String from, @QueryParam("to") String to) {
-        return server.getDatapoints(from, to);
+        return server.getDpData(from, to);
     }
 
     /**

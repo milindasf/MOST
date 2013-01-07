@@ -1,6 +1,6 @@
 package bpi.most.obix.server.rest.impl;
 
-import bpi.most.obix.server.ObixServer;
+import bpi.most.obix.server.impl.ObixServer;
 import bpi.most.obix.server.rest.ObixZoneResource;
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package bpi.most.obix.server;
+package bpi.most.obix.server.impl;
 
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
@@ -6,6 +6,8 @@ import bpi.most.obix.objects.Dp;
 import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Uri;
 import bpi.most.obix.objects.Zone;
+import bpi.most.obix.server.IObixServer;
+import bpi.most.obix.server.IObjectBroker;
 
 /**
  * The oBIX server acts as a gateway between incoming requests from outside, for
@@ -145,8 +147,8 @@ public class ObixServer implements IObixServer {
      * {@inheritDoc}
      */
     @Override
-    public String getDatapoints(String from, String to) {
-        List dataPoints = objectBroker.getDatapoints(from, to);
+    public String getDpData(String from, String to) {
+        List dataPoints = objectBroker.getDpData(from, to);
         if (dataPoints != null) {
             return ObixEncoder.toString(dataPoints);
         }
