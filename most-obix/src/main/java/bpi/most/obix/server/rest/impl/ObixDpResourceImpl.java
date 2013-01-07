@@ -55,7 +55,7 @@ public class ObixDpResourceImpl implements ObixDpResource {
      */
     @Override
     public String getDatapoints(@QueryParam("from") String from, @QueryParam("to") String to) {
-        return server.getDatapoints(from, to);
+        return server.getDpData(from, to);
     }
 
     /**

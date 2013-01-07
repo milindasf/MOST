@@ -145,8 +145,8 @@ public class ObixServer implements IObixServer {
      * {@inheritDoc}
      */
     @Override
-    public String getDatapoints(String from, String to) {
-        List dataPoints = objectBroker.getDatapoints(from, to);
+    public String getDpData(String from, String to) {
+        List dataPoints = objectBroker.getDpData(from, to);
         if (dataPoints != null) {
             return ObixEncoder.toString(dataPoints);
         }

@@ -49,7 +49,7 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
         junit.framework.Assert.assertEquals(zone.getZoneId(), (int)oBixZone.getZone().get());
         junit.framework.Assert.assertEquals(zone.getName(), oBixZone.getZoneName().get());
 
-        //datapointService.getDatapoints(null, String.valueOf(zone.getZoneId()));
+        //datapointService.getDpData(null, String.valueOf(zone.getZoneId()));
 
     }
 
