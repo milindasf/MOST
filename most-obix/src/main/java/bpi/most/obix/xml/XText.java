@@ -14,10 +14,12 @@ package bpi.most.obix.xml;
  */
 public final class XText extends XContent {
 
-	////////////////////////////////////////////////////////////////
-	// Constructors
-	////////////////////////////////////////////////////////////////
+    private static char[] noData = new char[0];
 
+    char[] data;
+    int length;
+    private String string;
+    boolean cdata;
 
 	/**
 	 * Create text with specified char buffer and length.
@@ -255,16 +257,5 @@ public final class XText extends XContent {
 	public String toString() {
 		return string();
 	}
-
-	////////////////////////////////////////////////////////////////
-	// Fields
-	////////////////////////////////////////////////////////////////  
-
-	static char[] noData = new char[0];
-
-	char[] data;
-	int length;
-	String string;
-	boolean cdata;
 
 }
