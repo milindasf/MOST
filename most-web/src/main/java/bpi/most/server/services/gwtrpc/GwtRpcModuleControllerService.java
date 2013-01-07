@@ -1,13 +1,11 @@
 package bpi.most.server.services.gwtrpc;
 
-import java.io.File;
-
+import bpi.most.client.rpc.ModuleControllerService;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.client.rpc.ModuleControllerService;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.io.File;
 
 public class GwtRpcModuleControllerService extends RemoteServiceServlet implements  ModuleControllerService {
 

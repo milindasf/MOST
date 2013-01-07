@@ -1,26 +1,20 @@
 package bpi.most.server.services.gwtrpc;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import bpi.most.client.model.eventservice.DpChangedEvent;
 import bpi.most.client.rpc.DpChangedEventService;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
 import bpi.most.server.model.Datapoint;
 import bpi.most.server.model.DpController;
 import bpi.most.server.services.DatapointService;
 import bpi.most.server.services.User;
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.DpDataDTO;
 import de.novanic.eventservice.client.event.domain.Domain;
 import de.novanic.eventservice.client.event.domain.DomainFactory;
 import de.novanic.eventservice.service.RemoteEventServiceServlet;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * The GwtRpcDpChangedEventService handle the attached datapoints which should be updated

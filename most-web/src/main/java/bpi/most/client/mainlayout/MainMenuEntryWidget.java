@@ -2,7 +2,6 @@ package bpi.most.client.mainlayout;
 
 import bpi.most.client.utils.dnd.DNDController;
 import bpi.most.client.utils.dnd.MostDragEndEvent;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;

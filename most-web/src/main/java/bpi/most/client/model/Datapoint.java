@@ -1,7 +1,5 @@
 package bpi.most.client.model;
 
-import java.util.Date;
-
 import bpi.most.client.model.eventservice.EventManager;
 import bpi.most.client.rpc.DpChangedEventService;
 import bpi.most.client.rpc.DpChangedEventServiceAsync;
@@ -9,10 +7,11 @@ import bpi.most.client.utils.Observable;
 import bpi.most.client.utils.Observer;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.Date;
 
 /**
  * don't use synchronous methods on the client side

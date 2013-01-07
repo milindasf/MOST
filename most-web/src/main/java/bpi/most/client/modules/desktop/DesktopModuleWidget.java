@@ -1,17 +1,16 @@
 package bpi.most.client.modules.desktop;
 
-import java.util.Iterator;
-
 import bpi.most.client.mainlayout.RootModule;
 import bpi.most.client.modules.ModuleInterface;
 import bpi.most.client.modules.ModuleWidget;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.Iterator;
 
 /**
  * 

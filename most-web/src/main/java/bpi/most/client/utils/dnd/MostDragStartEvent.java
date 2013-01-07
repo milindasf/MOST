@@ -1,7 +1,5 @@
 package bpi.most.client.utils.dnd;
 
-import bpi.most.client.utils.dnd.MostDragStartEventHandler;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.GwtEvent;
 

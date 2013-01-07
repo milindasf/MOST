@@ -1,12 +1,11 @@
 package bpi.most.client.rpc;
 
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDatasetDTO;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import java.util.ArrayList;
 import java.util.Date;
-
-import bpi.most.dto.DpDatasetDTO;
-import bpi.most.dto.DpDTO;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DatapointServiceAsync {
 

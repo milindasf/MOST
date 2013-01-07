@@ -1,8 +1,8 @@
 package bpi.most.client.rpc;
 
-import java.util.HashMap;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.HashMap;
 
 public interface PersonModuleServiceAsync {
   

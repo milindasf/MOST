@@ -1,13 +1,12 @@
 package bpi.most.server.services.gwtrpc;
 
+import bpi.most.server.services.User;
+import bpi.most.service.api.AuthenticationService;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import bpi.most.server.services.User;
-
-import bpi.most.service.api.AuthenticationService;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * Handles session and permission management. HttpSession is used for login/logout. 

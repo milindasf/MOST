@@ -1,12 +1,11 @@
 package bpi.most.server;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
+import bpi.most.server.utils.PollService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.utils.PollService;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * Server side initialization during startup 

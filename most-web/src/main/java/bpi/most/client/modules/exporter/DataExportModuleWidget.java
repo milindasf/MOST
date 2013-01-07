@@ -5,7 +5,6 @@ import bpi.most.client.modules.ModuleWidget;
 import bpi.most.client.utils.ui.DpSearchWidget;
 import bpi.most.client.utils.ui.DpSelectWidget;
 import bpi.most.client.utils.ui.ZoneBrowseWidget;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;

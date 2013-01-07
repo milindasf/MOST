@@ -1,20 +1,14 @@
 package bpi.most.server.utils;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import bpi.most.dto.DpDataDTO;
+import bpi.most.server.model.Datapoint;
+import bpi.most.server.model.DpController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.model.Datapoint;
-import bpi.most.server.model.DpController;
-import bpi.most.dto.DpDataDTO;
+import java.sql.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * call start(), stop() after instantiating!

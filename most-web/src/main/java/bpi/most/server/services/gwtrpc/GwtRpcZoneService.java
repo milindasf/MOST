@@ -1,17 +1,14 @@
 package bpi.most.server.services.gwtrpc;
 
-import java.util.List;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.UserDTO;
+import bpi.most.dto.ZoneDTO;
+import bpi.most.server.services.User;
+import bpi.most.service.api.ZoneService;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-
-import bpi.most.service.api.ZoneService;
-import bpi.most.dto.UserDTO;
-import bpi.most.server.services.User;
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.ZoneDTO;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.List;
 
 public class GwtRpcZoneService extends SpringGwtServlet implements
         bpi.most.client.rpc.ZoneService {

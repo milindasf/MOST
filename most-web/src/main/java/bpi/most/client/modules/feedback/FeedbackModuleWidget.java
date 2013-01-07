@@ -9,7 +9,6 @@ import bpi.most.client.rpc.PersonModuleService;
 import bpi.most.client.rpc.PersonModuleServiceAsync;
 import bpi.most.client.utils.ui.GeneralDragWidget;
 import bpi.most.client.utils.ui.GeneralDropWidget;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;

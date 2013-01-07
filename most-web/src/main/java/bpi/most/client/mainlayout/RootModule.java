@@ -3,8 +3,6 @@
  */
 package bpi.most.client.mainlayout;
 
-import java.util.Iterator;
-
 import bpi.most.client.login.LoginViewWidget;
 import bpi.most.client.modules.ModuleController;
 import bpi.most.client.rpc.AuthenticationService;
@@ -14,7 +12,6 @@ import bpi.most.client.utils.dnd.DNDController;
 import bpi.most.client.utils.dnd.DropWidget;
 import bpi.most.client.utils.dnd.MostDragEndEvent;
 import bpi.most.client.utils.ui.GeneralDropWidget;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -26,17 +23,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
+
+import java.util.Iterator;
 
 /**
  * 

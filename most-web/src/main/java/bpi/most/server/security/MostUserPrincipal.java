@@ -1,8 +1,8 @@
 package bpi.most.server.security;
 
-import java.security.Principal;
-
 import bpi.most.server.services.User;
+
+import java.security.Principal;
 
 public class MostUserPrincipal implements Principal {
 

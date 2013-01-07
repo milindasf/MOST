@@ -1,13 +1,11 @@
 package bpi.most.server.utils;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.utils.Config;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * database properties which are read from JNDI.

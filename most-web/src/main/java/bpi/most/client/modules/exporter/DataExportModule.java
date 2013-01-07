@@ -3,7 +3,6 @@ package bpi.most.client.modules.exporter;
 import bpi.most.client.mainlayout.MainMenuEntry;
 import bpi.most.client.modules.ModuleInterface;
 import bpi.most.client.modules.ModuleWidget;
-
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 /**

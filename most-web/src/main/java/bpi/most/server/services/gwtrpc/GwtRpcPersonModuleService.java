@@ -1,19 +1,17 @@
 package bpi.most.server.services.gwtrpc;
 
+import bpi.most.client.rpc.PersonModuleService;
+import bpi.most.server.utils.DbPool;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Enumeration;
 import java.util.HashMap;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import bpi.most.client.rpc.PersonModuleService;
-import bpi.most.server.utils.DbPool;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
 public class GwtRpcPersonModuleService extends RemoteServiceServlet implements

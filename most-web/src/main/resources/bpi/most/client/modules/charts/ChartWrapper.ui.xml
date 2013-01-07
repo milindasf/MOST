@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:hc="urn:import:bpi.most.client.modules.charts.Highchart"
-	xmlns:gen="urn:import:bpi.most.client.utils.ui">
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:gen="urn:import:bpi.most.client.utils.ui">
 	<ui:style>
 		
 	</ui:style>

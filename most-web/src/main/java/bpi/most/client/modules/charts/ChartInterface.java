@@ -1,10 +1,10 @@
 package bpi.most.client.modules.charts;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Interface for all functions a chart window must implement, the

@@ -1,22 +1,17 @@
 package bpi.most.server.security;
- 
-import java.io.IOException;
-import java.util.Map;
 
-import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.spi.LoginModule;
-
+import bpi.most.server.services.User;
+import bpi.most.service.api.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.server.services.AuthenticationService;
-import bpi.most.server.services.User;
+import javax.inject.Inject;
+import javax.security.auth.Subject;
+import javax.security.auth.callback.*;
+import javax.security.auth.login.LoginException;
+import javax.security.auth.spi.LoginModule;
+import java.io.IOException;
+import java.util.Map;
  
 /**
  * 
@@ -31,6 +26,9 @@ public class MostLoginModule implements LoginModule {
 	
 	public static final String ROLE = "mostuser";
 	
+    @Inject
+    private AuthenticationService authenticationService;
+
     /** Callback handler to store between initialization and authentication. */
     private CallbackHandler handler;
  
@@ -111,7 +109,7 @@ public class MostLoginModule implements LoginModule {
             String password = String.valueOf(((PasswordCallback) callbacks[1]).getPassword());
  
             //ask database for authentication
-            boolean isValid = AuthenticationService.getInstance().isValidPassword(new User(name), password);
+            boolean isValid = authenticationService.isValidPassword(name, password);
             if (!isValid) {
  
                 throw new LoginException("Authentication failed");
