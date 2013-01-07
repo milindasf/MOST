@@ -5,7 +5,11 @@ import bpi.most.obix.objects.DpData;
 import java.io.Serializable;
 import java.util.Comparator;
 
-
+/**
+ * Sorts DpData ascending or descending (default) by timestamp.
+ *
+ * @author Alexej Strelzow
+ */
 public class DpDataComparator implements Comparator<DpData>, Serializable {
 
 	private static final long serialVersionUID = -3516029306314472125L;
@@ -13,10 +17,11 @@ public class DpDataComparator implements Comparator<DpData>, Serializable {
 	private boolean sortCriteriaTimeDesc = true;
 	
 	/**
-	 * 
-	 * @param o1
-	 * @param o2
-	 * @return
+	 * The compare logic.
+     *
+	 * @param o1 The first DpData object
+	 * @param o2 The second DpData object
+	 * @return if descending sorting: 0 if equal, -1 if o1(ts) > o2(ts), else 1
 	 */
 	@Override
 	public int compare(DpData o1, DpData o2) {
@@ -30,10 +35,16 @@ public class DpDataComparator implements Comparator<DpData>, Serializable {
 		}
 	}
 
+    /**
+     * Sets the sort order to descending
+     */
     public void sortAscendingByTime() {
         sortCriteriaTimeDesc = false;
     }
 
+    /**
+     * Sets the sort order to ascending
+     */
     public void sortDescendingByTime() {
         sortCriteriaTimeDesc = true;
     }

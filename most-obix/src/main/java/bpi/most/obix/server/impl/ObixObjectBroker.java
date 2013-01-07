@@ -41,8 +41,16 @@ public class ObixObjectBroker implements IObjectBroker {
     @Inject
     private DatapointService datapointService;
 
-    private HashMap<Uri, Dp> dpCache;      // Obj-href to Dp
-    private HashMap<Uri, bpi.most.obix.objects.Zone> zoneCache;  // Obj-href to Zone
+    /** Obj-href (= Uri) to Dp */
+    private HashMap<Uri, Dp> dpCache;
+    /** Obj-href (= Uri) to Zone */
+    private HashMap<Uri, bpi.most.obix.objects.Zone> zoneCache;
+
+    public static final String DP_LIST_NAME = "datapoints";
+    public static final String DP_LIST_CONTRACT_NAME = "obix:dp";
+
+    public static final String ZONE_LIST_NAME = "zones";
+    public static final String ZONE_LIST_CONTRACT_NAME = "obix:zone";
 
     /**
      * Constructor, which initializes the broker with data points
@@ -58,7 +66,7 @@ public class ObixObjectBroker implements IObjectBroker {
      * Loads all data points -> Dp
      * TODO: Also headZones can have zones -> maybe recursive algorithm
      */
-    public void loadDatapoints() {
+    private final void loadDatapoints() {
         final java.util.List<ZoneDTO> headZones = zoneService.getHeadZones();
 
         for (ZoneDTO zone : headZones) {
@@ -127,7 +135,7 @@ public class ObixObjectBroker implements IObjectBroker {
             return null;
         }
 
-        List list = new List("datapoints", new Contract("obix:dp"));
+        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
         Dp[] values = dpCache.values().toArray(new Dp[dpCache.size()]);
 
         for (Dp dp : values)  {
@@ -196,7 +204,7 @@ public class ObixObjectBroker implements IObjectBroker {
     }
 
     private List getAllZonesInternal(boolean showData) {
-        List list = new List("zones", new Contract("obix:zone"));
+        List list = new List(ZONE_LIST_NAME, new Contract(ZONE_LIST_CONTRACT_NAME));
 
         for (Uri uri : zoneCache.keySet()) {
             list.add(getDpDataForZoneInternal(uri, showData));
@@ -219,7 +227,7 @@ public class ObixObjectBroker implements IObjectBroker {
 
         long fromMillis = fromDate.getTime();
         long toMillis =  toDate.getTime();
-        List list = new List("datapoints", new Contract("obix:dp"));
+        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
 
         bpi.most.obix.objects.Zone oBixZone = zoneCache.get(href);
 
@@ -259,7 +267,7 @@ public class ObixObjectBroker implements IObjectBroker {
 
         long fromMillis = fromDate.getTime();
         long toMillis =  toDate.getTime();
-        List list = new List("datapoints", new Contract("obix:dp"));
+        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
 
         for (Dp dp : dpCache.values()) {
             Dp dpClone = dp.clone();
