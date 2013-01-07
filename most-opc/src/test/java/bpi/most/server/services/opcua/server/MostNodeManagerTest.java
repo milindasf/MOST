@@ -1,23 +1,17 @@
 package bpi.most.server.services.opcua.server;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
+import bpi.most.dto.UserDTO;
+import bpi.most.server.services.opcua.server.nodes.DpNode;
+import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.UserDTO;
-import bpi.most.dto.ZoneDTO;
-import bpi.most.server.services.opcua.server.nodes.DpNode;
-import bpi.most.server.services.opcua.server.nodes.ZoneNode;
-import bpi.most.service.api.ZoneService;
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Tests for {@link MostNodeManager}.

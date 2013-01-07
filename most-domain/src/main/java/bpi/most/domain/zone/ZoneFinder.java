@@ -1,6 +1,5 @@
 package bpi.most.domain.zone;
 
-import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.domain.user.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

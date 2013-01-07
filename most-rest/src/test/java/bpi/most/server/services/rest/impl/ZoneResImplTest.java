@@ -1,10 +1,10 @@
 package bpi.most.server.services.rest.impl;
 
-import javax.inject.Inject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.inject.Inject;
 
 /**
  * Tests for {@link bpi.most.server.services.rest.impl.ZoneResImpl}.

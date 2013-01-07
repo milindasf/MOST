@@ -3,14 +3,12 @@
  */
 package bpi.most.obix.test;
 
-import org.junit.Test;
-
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.Dp;
 import bpi.most.obix.objects.DpData;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @author Alexej Strelzow

@@ -3,8 +3,8 @@ package bpi.most.server.services.rest.impl;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.server.services.rest.api.DpResource;
-import bpi.most.service.api.DatapointService;
 import bpi.most.server.services.rest.utils.DateUtils;
+import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

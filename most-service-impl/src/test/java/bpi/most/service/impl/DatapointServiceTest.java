@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;

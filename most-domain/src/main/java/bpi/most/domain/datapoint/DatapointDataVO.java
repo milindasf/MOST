@@ -1,12 +1,11 @@
 package bpi.most.domain.datapoint;
 
+import bpi.most.dto.DpDataDTO;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import bpi.most.dto.DpDataDTO;
-
 import java.io.Serializable;
 import java.util.Date;
 

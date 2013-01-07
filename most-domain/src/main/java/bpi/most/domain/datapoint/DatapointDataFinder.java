@@ -1,15 +1,13 @@
 package bpi.most.domain.datapoint;
 
+import bpi.most.dto.DpDataDTO;
 import org.hibernate.Session;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bpi.most.dto.DpDataDTO;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;

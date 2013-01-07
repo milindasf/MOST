@@ -3,13 +3,13 @@
  */
 package bpi.most.obix.net;
 
+import bpi.most.obix.io.Base64;
+import bpi.most.obix.io.ObixDecoder;
+import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.Err;
 import bpi.most.obix.objects.Obj;
 import bpi.most.obix.objects.Op;
 import bpi.most.obix.objects.Uri;
-import bpi.most.obix.io.Base64;
-import bpi.most.obix.io.ObixDecoder;
-import bpi.most.obix.io.ObixEncoder;
 
 import java.io.*;
 import java.net.HttpURLConnection;
