@@ -32,6 +32,8 @@
 
 package bpi.most.obix.history;
 
+import bpi.most.obix.contracts.HistoryFilterExt;
+import bpi.most.obix.contracts.HistoryRecordExt;
 import bpi.most.obix.objects.*;
 import bpi.most.obix.contracts.History;
 import bpi.most.obix.contracts.HistoryFilter;
@@ -105,14 +107,20 @@ public class HistoryImpl extends Obj implements History {
 
 	private Obj query(Obj in) {
 
+        long mode = 0;
 		long limit = 0;
 		Abstime start = new Abstime();
 		Abstime end = new Abstime();
+
 		if (in != null && in instanceof HistoryFilter) {
 			HistoryFilter historyFilter = (HistoryFilter) in;
 			limit = historyFilter.getInt();
 			start = historyFilter.start();
 			end = historyFilter.end();
+
+            if (historyFilter instanceof HistoryFilterExt) {
+                mode = ((HistoryFilterExt)historyFilter).mode().get();
+            }
 		}
 
 		ArrayList<HistoryRecordImpl> filteredRecords = new ArrayList<HistoryRecordImpl>();
@@ -137,6 +145,12 @@ public class HistoryImpl extends Obj implements History {
 					addRecord = false;
 				}
 			}
+
+            if (record instanceof HistoryRecordExt) {
+                if (mode != ((HistoryRecordExt)record).mode().get()) {
+                    addRecord = false;
+                }
+            }
 
 			if (addRecord) {
 				filteredRecords.add(record);
