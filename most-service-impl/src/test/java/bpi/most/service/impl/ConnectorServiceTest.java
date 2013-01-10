@@ -1,13 +1,16 @@
 package bpi.most.service.impl;
 
+import bpi.most.domain.connector.ConnectorVO;
+import bpi.most.dto.ConnectorDTO;
 import bpi.most.service.api.ConnectorService;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.util.Assert;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Tests for {@link ConnectorServiceImpl}.
@@ -21,8 +24,7 @@ public class ConnectorServiceTest extends AbstractTransactionalJUnit4SpringConte
     private ConnectorService connectorServiceService;
 
     @Test
-    @Ignore  // TODO currently ignored, b/c of db bug
     public void testGetConnection_withNullAsUser_shouldReturnConnectors(){
-        Assert.notEmpty(connectorServiceService.getConnection(null));    //TODO: improve test case; at the moment there is no table "connection" in DB!?
+        Assert.assertEquals(182, (connectorServiceService.getConnection(null).size()));
     }
 }
