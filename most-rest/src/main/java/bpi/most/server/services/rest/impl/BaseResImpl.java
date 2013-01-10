@@ -5,8 +5,8 @@ import org.apache.cxf.jaxrs.ext.MessageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response.Status;
 
 public class BaseResImpl {
@@ -14,7 +14,7 @@ public class BaseResImpl {
 	protected static final Logger LOG = LoggerFactory.getLogger(BaseResImpl.class);
 	public static final int NOT_IMPLEMENTED = 501;
 	
-	@Resource
+	@Context
 	protected MessageContext context;
 
 	protected String getUsername(){
