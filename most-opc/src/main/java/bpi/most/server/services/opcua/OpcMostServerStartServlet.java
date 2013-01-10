@@ -30,8 +30,8 @@ public class OpcMostServerStartServlet extends HttpServlet {
 	
 	private String endpointUrl = "opc.tcp://127.0.0.1:6001/mostopcua";
 	private String keyPhrase = "mostrulez";
-	private String certPath = "/pki/server.pem";
-	private String keyPath = "/pki/server.key";
+	private String certPath = "/WEB-INF/pki/server.pem";
+	private String keyPath = "/WEB-INF/pki/server.key";
 	private String mostUserName = "mostsoc"; //used for database access. as long as the user is not retrieved from the opc client
 	
 	
@@ -62,6 +62,7 @@ public class OpcMostServerStartServlet extends HttpServlet {
 			
 			//create and start the most opc ua server
 			uaServer = new MostOpcUaServer(endpointUrl, certUrl, keyUrl, keyPhrase, mostUserName);
+            uaServer.initServer(ctx);
 			uaServer.start();
 			
 		} catch (Exception e) {

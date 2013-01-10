@@ -11,7 +11,6 @@ import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,19 +28,15 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 	private final String ZONE_NODE = ZoneNode.class.getSimpleName();
 	private final String DP_NODE = DpNode.class.getSimpleName();
 
-    @Inject
-	private ZoneService zService;
-
-    @Inject
-    private DatapointService dpService;
+	private final ZoneService zService;
+    private final DatapointService dpService;
 
     private UserDTO mostUser;
 
-    public MostNodeManager(String mostUserName){
+    public MostNodeManager(String mostUserName, ZoneService zService, DatapointService dpService){
         mostUser = new UserDTO(mostUserName);
-    }
-
-    public MostNodeManager(){
+        this.zService = zService;
+        this.dpService = dpService;
     }
 
     public void setMostUser(UserDTO mostUser) {

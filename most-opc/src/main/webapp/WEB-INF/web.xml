@@ -5,6 +5,16 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
+    <!-- CXF with spring configuration -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/service.spring.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <!-- OPC UA Most server servlet -->
     <servlet>
         <servlet-name>OpcMostServer</servlet-name>
@@ -65,12 +75,12 @@
     <env-entry>
         <env-entry-name>opc/certpath</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>/pki/server.pem</env-entry-value>
+        <env-entry-value>/WEB-INF/pki/server.pem</env-entry-value>
     </env-entry>
     <env-entry>
         <env-entry-name>opc/keypath</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>/pki/server.key</env-entry-value>
+        <env-entry-value>/WEB-INF/pki/server.key</env-entry-value>
     </env-entry>
     <env-entry>
         <env-entry-name>opc/keyphrase</env-entry-name>

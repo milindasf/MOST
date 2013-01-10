@@ -5,6 +5,8 @@ import bpi.most.opc.uaserver.core.UAServer;
 import bpi.most.server.services.opcua.server.nodes.DpDataNode;
 import bpi.most.server.services.opcua.server.nodes.DpNode;
 import bpi.most.server.services.opcua.server.nodes.ZoneNode;
+import bpi.most.service.api.DatapointService;
+import bpi.most.service.api.ZoneService;
 import org.apache.log4j.Logger;
 import org.bouncycastle.openssl.PEMReader;
 import org.bouncycastle.openssl.PasswordFinder;
@@ -15,7 +17,10 @@ import org.opcfoundation.ua.transport.security.Cert;
 import org.opcfoundation.ua.transport.security.KeyPair;
 import org.opcfoundation.ua.transport.security.PrivKey;
 import org.opcfoundation.ua.transport.security.SecurityMode;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.ServletContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -61,11 +66,9 @@ public class MostOpcUaServer {
 		this.keyUrl = keyUrl;
 		this.keyPhrase = keyPhrase;
 		this.mostUserName = mostUserName;
-		
-		initServer();
 	}
 
-	private void initServer() throws Exception {
+	public void initServer(ServletContext servletContext) throws Exception {
 		try {
 			// create a UAServer instance
 			UAServer uaServerInstance = new UAServer();
@@ -89,9 +92,14 @@ public class MostOpcUaServer {
 			// set a X.509 certificate for the server - this is mandatory
 			uaServerInstance.addApplicationInstanceCertificate(getApplicationInstanceCertificate());
 
+            // find Spring services to use
+            WebApplicationContext spring = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+            ZoneService zService = spring.getBean(ZoneService.class);
+            DatapointService dpService = spring.getBean(DatapointService.class);
+
 			// set nodemanger
 			AnnotationNodeManager annoNMgr = new AnnotationNodeManager(
-					new MostNodeManager(mostUserName), "Zones",
+					new MostNodeManager(mostUserName, zService, dpService), "Zones",
 					"root node for all most zones", "mostzones");
 			// add nodes to get introspected at startup -> this is a good
 			// practice
