@@ -1,195 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app
-  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-  "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
 
-<web-app>
+    <!-- Default page to serve -->
+    <welcome-file-list>
+        <welcome-file>Most.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- Server side startup -->
+    <listener>
+        <listener-class>
+            bpi.most.server.Most
+        </listener-class>
+    </listener>
 
 
-<!-- Default page to serve -->
-<welcome-file-list>
-  <welcome-file>Most.html</welcome-file>
-</welcome-file-list>
+    <!-- GWT RPC services -->
+    <!-- available at /most/services/gwtrpc/* -->
 
-<!-- Server side startup -->
-<listener>
-  	<listener-class>
-  		bpi.most.server.Most
-  	</listener-class>
-</listener>
+    <servlet>
+        <servlet-name>AuthenticationServiceImpl</servlet-name>
+        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcAuthenticationService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthenticationServiceImpl</servlet-name>
+        <url-pattern>/most/services/gwtrpc/authentication</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>PersonModuleServiceImpl</servlet-name>
+        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcPersonModuleService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PersonModuleServiceImpl</servlet-name>
+        <url-pattern>/most/services/gwtrpc/person</url-pattern>
+    </servlet-mapping>
 
-<!-- GWT RPC services -->
-<!-- available at /most/services/gwtrpc/* -->
+    <servlet>
+        <servlet-name>ModuleControllerServiceImpl</servlet-name>
+        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcModuleControllerService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModuleControllerServiceImpl</servlet-name>
+        <url-pattern>/most/services/gwtrpc/modulectrl</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>AuthenticationServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcAuthenticationService</servlet-class>
-</servlet>
-<servlet-mapping>
-<servlet-name>AuthenticationServiceImpl</servlet-name>
-<url-pattern>/most/services/gwtrpc/authentication</url-pattern>
-</servlet-mapping>
+    <servlet>
+        <servlet-name>DatapointServiceImpl</servlet-name>
+        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDatapointService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DatapointServiceImpl</servlet-name>
+        <url-pattern>/most/services/gwtrpc/dp</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>PersonModuleServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcPersonModuleService</servlet-class>
-</servlet>
-<servlet-mapping>
-<servlet-name> PersonModuleServiceImpl</servlet-name>
-<url-pattern>/most/services/gwtrpc/person</url-pattern>
-</servlet-mapping>
+    <servlet>
+        <servlet-name>ZoneServiceImpl</servlet-name>
+        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcZoneService</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ZoneServiceImpl</servlet-name>
+        <url-pattern>/most/services/gwtrpc/zone</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>ModuleControllerServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcModuleControllerService</servlet-class>
-</servlet>
-<servlet-mapping>
-<servlet-name>ModuleControllerServiceImpl</servlet-name>
-<url-pattern>/most/services/gwtrpc/modulectrl</url-pattern>
-</servlet-mapping>
+    <servlet>
+        <servlet-name>DpChangedEventServiceImpl</servlet-name>
+        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDpChangedEventService</servlet-class>
+    </servlet>
 
-<servlet>
-<servlet-name>DatapointServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDatapointService</servlet-class>
-</servlet>
-<servlet-mapping>
-<servlet-name>DatapointServiceImpl</servlet-name>
-<url-pattern>/most/services/gwtrpc/dp</url-pattern>
-</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DpChangedEventServiceImpl</servlet-name>
+        <url-pattern>/most/services/gwtrpc/dp-event-service</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>ZoneServiceImpl</servlet-name>
-<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcZoneService</servlet-class>
-</servlet>
-<servlet-mapping>
-<servlet-name>ZoneServiceImpl</servlet-name>
-<url-pattern>/most/services/gwtrpc/zone</url-pattern>
-</servlet-mapping>
+    <servlet>
+        <servlet-name>EventService</servlet-name>
+        <servlet-class>de.novanic.eventservice.service.EventServiceImpl</servlet-class>
+    </servlet>
 
-<servlet> 
-<servlet-name>DpChangedEventServiceImpl</servlet-name> 
-<servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDpChangedEventService</servlet-class>
-</servlet> 
-	 
-<servlet-mapping> 
-<servlet-name>DpChangedEventServiceImpl</servlet-name> 
-<url-pattern>/most/services/gwtrpc/dp-event-service</url-pattern> 
-</servlet-mapping> 
- 		 
-<servlet> 
-<servlet-name>EventService</servlet-name> 
-<servlet-class>de.novanic.eventservice.service.EventServiceImpl</servlet-class> 
-</servlet> 
- 		 
-<servlet-mapping> 
-<servlet-name>EventService</servlet-name> 
-<url-pattern>/most/gwteventservice</url-pattern> 
-</servlet-mapping> 
+    <servlet-mapping>
+        <servlet-name>EventService</servlet-name>
+        <url-pattern>/most/gwteventservice</url-pattern>
+    </servlet-mapping>
 
-<!-- CXF with spring configuration -->
-  <context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>WEB-INF/cxf.spring.xml WEB-INF/service.spring.xml</param-value>
-	</context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/service.spring.xml</param-value>
+    </context-param>
 
-	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
-	</listener>
-
-	<servlet>
-		<servlet-name>CXFServlet</servlet-name>
-		<display-name>CXF Servlet</display-name>
-		<servlet-class>
-			org.apache.cxf.transport.servlet.CXFServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>CXFServlet</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>
-<!-- END cxf config -->
-
-<!-- OPC UA Most server servlet -->
-<servlet>
-    <servlet-name>OpcMostServer</servlet-name>
-    <servlet-class>bpi.most.server.services.opcua.OpcMostServerStartServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>OpcMostServer</servlet-name>
-    <url-pattern>/OpcMostServer</url-pattern>
-  </servlet-mapping>
-
-<!-- JNDI entries -->
-<!-- db properties -->
-<env-entry>
-	<env-entry-name>db/hostname</env-entry-name>
-	<env-entry-value>demo-most.bpi.tuwien.ac.at</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>db/username</env-entry-name>
-	<env-entry-value>mostsoc</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>db/password</env-entry-name>
-	<env-entry-value>demo12</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>db/database</env-entry-name>
-	<env-entry-value>mon_development</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>db/conPoolMax</env-entry-name>
-	<env-entry-value>10</env-entry-value>
-	<env-entry-type>java.lang.Integer</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>db/conPoolMin</env-entry-name>
-	<env-entry-value>100</env-entry-value>
-	<env-entry-type>java.lang.Integer</env-entry-type>
-</env-entry>
-
-<!-- opc properties -->
-<env-entry>
-	<env-entry-name>opc/endpoint</env-entry-name>
-	<env-entry-value>opc.tcp://tomcat1.bpi.tuwien.ac.at:6001/most/services/opcua</env-entry-value>
-	<!-- 
-	endpoint is like
-	opc.tcp://<servername>:<port>/<context>
-	name has to match the servername!
-	demo server:
-	opc.tcp://demo-most.bpi.tuwien.ac.at:6001/mostopcua
-	 -->
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>opc/certpath</env-entry-name>
-	<env-entry-value>/pki/server.pem</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>opc/keypath</env-entry-name>
-	<env-entry-value>/pki/server.key</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>opc/keyphrase</env-entry-name>
-	<env-entry-value>mostrulez</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
-<env-entry>
-	<env-entry-name>opc/mostusername</env-entry-name>
-	<env-entry-value>mostsoc</env-entry-value>
-	<env-entry-type>java.lang.String</env-entry-type>
-</env-entry>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
 
 </web-app>
