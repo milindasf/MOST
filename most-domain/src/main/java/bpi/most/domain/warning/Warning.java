@@ -1,5 +1,3 @@
-/* TODO: Refactor! */
-
 package bpi.most.domain.warning;
 
 import java.util.Date;

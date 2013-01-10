@@ -1,5 +1,3 @@
-/* TODO: Refactor! */
-
 package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDTO;

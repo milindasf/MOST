@@ -1,6 +1,3 @@
-/* TODO: Refactor! */
-
-
 package bpi.most.domain.zone;
 
 import bpi.most.dto.ZoneDTO;
