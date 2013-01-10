@@ -3,6 +3,8 @@ package bpi.most.obix.test;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.objects.Uri;
+import bpi.most.obix.server.IObjectBroker;
+import bpi.most.obix.server.impl.ObixObjectBroker;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 import org.junit.After;
@@ -49,8 +51,16 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
         junit.framework.Assert.assertEquals(zone.getZoneId(), (int)oBixZone.getZone().get());
         junit.framework.Assert.assertEquals(zone.getName(), oBixZone.getZoneName().get());
 
-        //datapointService.getDpData(null, String.valueOf(zone.getZoneId()));
+    }
 
+    // TODO: test against API: IObjectBroker
+
+    @Test
+    public void testExample() throws Exception {
+        IObjectBroker objectBroker = new ObixObjectBroker();
+        //bpi.most.obix.objects.List dataPoints = objectBroker.getAllDps();
+
+        //ObixEncoder.dump(dataPoints);
     }
 
 }

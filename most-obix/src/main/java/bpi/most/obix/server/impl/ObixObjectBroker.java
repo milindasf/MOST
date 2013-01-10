@@ -59,7 +59,7 @@ public class ObixObjectBroker implements IObjectBroker {
      * Constructor, which initializes the broker with data points
      * and zones, which are stored in the DB.
      */
-    ObixObjectBroker() {
+    public ObixObjectBroker() {
         this.dpCache = new HashMap<String, DpDTO>();
     }
 
