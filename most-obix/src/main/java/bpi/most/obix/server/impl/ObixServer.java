@@ -9,6 +9,8 @@ import bpi.most.obix.objects.*;
 import bpi.most.obix.server.IObixServer;
 import bpi.most.obix.server.IObjectBroker;
 
+import javax.inject.Inject;
+
 /**
  * The oBIX server acts as a gateway between incoming requests from outside, for
  * example an HTTP server, and the internal object broker. It also translates
@@ -18,13 +20,8 @@ import bpi.most.obix.server.IObjectBroker;
  */
 public class ObixServer implements IObixServer {
 
+    @Inject
     private IObjectBroker objectBroker;
-
-    public ObixServer() {
-        if (objectBroker == null) {
-            objectBroker = new ObixObjectBroker();
-        }
-    }
 
     /**
      * {@inheritDoc}

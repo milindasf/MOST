@@ -2,9 +2,9 @@ package bpi.most.obix.test;
 
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
+import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.Uri;
 import bpi.most.obix.server.IObjectBroker;
-import bpi.most.obix.server.impl.ObixObjectBroker;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 import org.junit.After;
@@ -30,6 +30,9 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Inject
     private DatapointService datapointService;
+
+    @Inject
+    private IObjectBroker objectBroker;
 
     @After
     public void tearDown() throws Exception {
@@ -57,10 +60,9 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
 
     @Test
     public void testExample() throws Exception {
-        IObjectBroker objectBroker = new ObixObjectBroker();
-        //bpi.most.obix.objects.List dataPoints = objectBroker.getAllDps();
+        bpi.most.obix.objects.List dataPoints = objectBroker.getAllDps();
 
-        //ObixEncoder.dump(dataPoints);
+        ObixEncoder.dump(dataPoints);
     }
 
 }
