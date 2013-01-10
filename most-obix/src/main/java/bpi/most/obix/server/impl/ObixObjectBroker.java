@@ -4,10 +4,16 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
-import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.Contract;
+import bpi.most.obix.objects.Dp;
+import bpi.most.obix.objects.DpData;
+import bpi.most.obix.objects.List;
+import bpi.most.obix.objects.Uri;
+import bpi.most.obix.objects.Zone;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -35,6 +41,7 @@ import java.util.HashMap;
  *
  * @author Alexej Strelzow
  */
+@Component
 public class ObixObjectBroker implements IObjectBroker {
 
     @Inject

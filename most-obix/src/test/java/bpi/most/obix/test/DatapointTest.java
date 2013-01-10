@@ -22,7 +22,7 @@ import java.util.List;
  * Time: 17:16
  * To change this template use File | Settings | File Templates.
  */
-@ContextConfiguration(locations = "/META-INF/most-service.spring.xml")
+@ContextConfiguration(locations = "/META-INF/obix.spring.xml")
 public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Inject
