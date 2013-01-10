@@ -104,4 +104,6 @@ public interface DatapointService {
 	 * Deletes data of a given timeslot
 	 */
     int delData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
+
+    DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, Integer mode);
 }

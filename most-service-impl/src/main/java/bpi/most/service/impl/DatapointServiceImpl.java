@@ -119,19 +119,24 @@ public class DatapointServiceImpl implements DatapointService {
 
     @Override
     public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period) {
-    	DpDatasetDTO result = null;
+        return getDataPeriodic(userDTO, dpDTO, starttime, endtime, period, 1);
+    }
+
+    @Override
+    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, Integer mode) {
+        DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-			// set mode of getDataPeriodic() to 1, because other modes are
-			// currently not well supported (or even not implemented)
-	        List<DatapointDataVO> data = datapointDataFinder.getDataPeriodic(dp.getName(), starttime, endtime, period, 1);	
-	        // TODO ASE: We will need DpVirtual + DpPhysical...
-	        if(data != null && data.size() > 0){
-	        	result = new DpDatasetDTO(dp.getName());
-	        	for(DatapointDataVO vo : data){
-	        		result.add(vo.getDTO());
-	        	}
-	        }
+            // set mode of getDataPeriodic() to 1, because other modes are
+            // currently not well supported (or even not implemented)
+            List<DatapointDataVO> data = datapointDataFinder.getDataPeriodic(dp.getName(), starttime, endtime, period, mode);
+            // TODO ASE: We will need DpVirtual + DpPhysical...
+            if(data != null && data.size() > 0){
+                result = new DpDatasetDTO(dp.getName());
+                for(DatapointDataVO vo : data){
+                    result.add(vo.getDTO());
+                }
+            }
         }
         return result;
     }
