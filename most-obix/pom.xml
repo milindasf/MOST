@@ -39,6 +39,10 @@
         </dependency>
         <dependency>
             <groupId>bpi.most</groupId>
+            <artifactId>most-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
             <artifactId>most-domain</artifactId>
         </dependency>
         <dependency>

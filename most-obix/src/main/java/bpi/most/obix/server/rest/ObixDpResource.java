@@ -33,7 +33,7 @@ public interface ObixDpResource {
      *            of the Datapoint to retrieve.
      * @return One oBix object with the {@link bpi.most.obix.objects.Uri} <code>uri</code>,
      *         or <code>null</code>, if the <code>uri</code> is a wrong one.
-     *         Dp contains all data from all DpData.
+     *         The latest measurement for the data point.
      */
     @GET
     @Path("/{name}/data")
@@ -50,15 +50,6 @@ public interface ObixDpResource {
     // return list with all data points
 
     /**
-     * GET /obix/dp/data
-     *
-     * @return All data points
-     */
-    @GET
-    @Path("/data/")
-    String getAllDpData();
-
-    /**
      * GET /obix/dp/{name}/data?from={UCT datetime}&to=
      * {UCT datetime}
      *
@@ -68,7 +59,7 @@ public interface ObixDpResource {
      */
     @GET
     @Path("/data")
-    String getDatapoints(@QueryParam("from") String from, @QueryParam("to") String to);
+    String getDpData(@PathParam("name") String name, @QueryParam("from") String from, @QueryParam("to") String to);
     // return list with all datapoint data, see DpDataDTO (!)
 
 

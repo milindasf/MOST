@@ -42,7 +42,6 @@ public interface ZoneResource {
 
 	/**
 	 * returns all headzones. so this resource acts as a starting point for all information
-	 * @param level
 	 * @return
 	 */
 	@GET

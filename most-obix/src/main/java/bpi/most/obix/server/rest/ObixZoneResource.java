@@ -15,17 +15,6 @@ import javax.ws.rs.*;
 public interface ObixZoneResource {
 
     /**
-     * GET /obix/zones/{id}/data
-     *
-     * @param id The id of the zone
-     * @return The zone, which contains data points
-     */
-    @GET
-    @Path("/{id}/data/")
-    String getDpForZone(@PathParam("id") int id); // = {id}
-    // return zone with dp inside the zone
-
-    /**
      * GET /obix/zones/{id}
      *
      * @param id The id of the zone
@@ -37,14 +26,15 @@ public interface ObixZoneResource {
     // return zone
 
     /**
-     * GET /obix/zones
+     * GET /obix/zones/{id}/data
      *
-     * @return All objects, wrapped in their own zone
+     * @param id The id of the zone
+     * @return The zone, which contains data points
      */
     @GET
-	@Path("/data/")
-    String getDpForAllZones();
-    // return list with all zones
+    @Path("/{id}/data/")
+    String getDpForZone(@PathParam("id") int id, @QueryParam("level") int level); // = {id}
+    // return zone with dp inside the zone
 
     /**
      * GET /obix/zones
@@ -53,21 +43,7 @@ public interface ObixZoneResource {
      */
     @GET
 //    @Path("/")
-    String getAllZones();
+    String getHeadZones();
     // return list with all zones
-
-    /**
-     * GET /obix/dp/{name}/data?from={UCT datetime}&to=
-     * {UCT datetime}
-     *
-     * @param id
-     * @param from
-     * @param to
-     * @return
-     */
-    @GET
-    @Path("/{id}")
-    String getDpForZone(@PathParam("id") int id, @QueryParam("from") String from, @QueryParam("to") String to);
-    // return zone with dp inside the interval
 
 }

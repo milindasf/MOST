@@ -1,7 +1,9 @@
 package bpi.most.obix.server.rest.impl;
 
+import bpi.most.dto.DpDTO;
 import bpi.most.obix.server.impl.ObixServer;
 import bpi.most.obix.server.rest.ObixDpResource;
+import bpi.most.server.services.rest.impl.BaseResImpl;
 
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
@@ -13,7 +15,7 @@ import javax.ws.rs.QueryParam;
  * Date: 06.01.13
  * Time: 19:05
  */
-public class ObixDpResourceImpl implements ObixDpResource {
+public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
 
     @Inject
     ObixServer server;
@@ -23,7 +25,7 @@ public class ObixDpResourceImpl implements ObixDpResource {
      */
     @Override
     public String getDp(@PathParam("name") String name) {
-        return server.getDp(name);
+        return server.getDp(getUser(), new DpDTO(name));
     }
 
     /**
@@ -31,7 +33,7 @@ public class ObixDpResourceImpl implements ObixDpResource {
      */
     @Override
     public String getDpData(@PathParam("name") String name) {
-        return server.getDpData(name);
+        return server.getDpData(getUser(), new DpDTO(name));
     }
 
     /**
@@ -46,16 +48,8 @@ public class ObixDpResourceImpl implements ObixDpResource {
      * {@inheritDoc}
      */
     @Override
-    public String getAllDpData() {
-        return server.getAllDpData();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getDatapoints(@QueryParam("from") String from, @QueryParam("to") String to) {
-        return server.getDpData(from, to);
+    public String getDpData(@PathParam("name") String name, @QueryParam("from") String from, @QueryParam("to") String to) {
+        return server.getDpData(getUser(), new DpDTO(name), from, to);
     }
 
     /**
@@ -63,6 +57,6 @@ public class ObixDpResourceImpl implements ObixDpResource {
      */
     @Override
     public void addDp(String encodedDp) {
-        server.addDp(encodedDp);
+        server.addDp(getUser(), encodedDp);
     }
 }

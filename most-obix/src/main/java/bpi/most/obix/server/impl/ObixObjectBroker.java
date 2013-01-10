@@ -1,15 +1,17 @@
 package bpi.most.obix.server.impl;
 
 import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.objects.*;
-import bpi.most.obix.objects.List;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Loads and caches all oBix-objects. This broker can be used
@@ -41,13 +43,14 @@ public class ObixObjectBroker implements IObjectBroker {
     @Inject
     private DatapointService datapointService;
 
-    /** Obj-href (= Uri) to Dp */
-    private HashMap<Uri, Dp> dpCache;
-    /** Obj-href (= Uri) to Zone */
-    private HashMap<Uri, bpi.most.obix.objects.Zone> zoneCache;
+    /** data point name to Dp */
+    private HashMap<String, DpDTO> dpCache;
 
     public static final String DP_LIST_NAME = "datapoints";
     public static final String DP_LIST_CONTRACT_NAME = "obix:dp";
+
+    public static final String DP_DATA_LIST_NAME = "dpData";
+    public static final String DP_DATA_LIST_CONTRACT_NAME = "obix:dpData";
 
     public static final String ZONE_LIST_NAME = "zones";
     public static final String ZONE_LIST_CONTRACT_NAME = "obix:zone";
@@ -57,61 +60,56 @@ public class ObixObjectBroker implements IObjectBroker {
      * and zones, which are stored in the DB.
      */
     ObixObjectBroker() {
-        this.dpCache = new HashMap<Uri, Dp>();
-        this.zoneCache = new HashMap<Uri, bpi.most.obix.objects.Zone>();
-        loadDatapoints();
+        this.dpCache = new HashMap<String, DpDTO>();
     }
 
-    /**
-     * Loads all data points -> Dp
-     * TODO: Also headZones can have zones -> maybe recursive algorithm
-     */
-    private final void loadDatapoints() {
-        final java.util.List<ZoneDTO> headZones = zoneService.getHeadZones();
-
-        for (ZoneDTO zone : headZones) {
-            int id = zone.getZoneId();
-            String name = zone.getName();
-            Uri zoneUri = new Uri(bpi.most.obix.objects.Zone.OBIX_ZONE_PREFIX + id);
-            bpi.most.obix.objects.Zone oBixZone = new bpi.most.obix.objects.Zone(id, name);
-
-            for (DpDTO point : datapointService.getDatapoints(null, String.valueOf(id))) {
-                String pointName = point.getName();
-                Uri uri = new Uri(Dp.OBIX_DP_PREFIX + pointName);
-                dpCache.put(uri, new Dp(pointName, point.getType(), point.getDescription()));
-                oBixZone.addURI(uri);
-            }
-            zoneCache.put(zoneUri, oBixZone);
-        }
+    private Dp transformDpDTO(DpDTO dpDto) {
+        return new Dp(dpDto.getName(), dpDto.getType(), dpDto.getDescription());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Dp getDp(Uri href) {
-        return getDpInternal(href, false);
+    private DpData transformDpDataDTO(Dp dp, DpDataDTO dpDataDto) {
+        return new DpData(dp, dpDataDto.getTimestamp().getTime(), dpDataDto.getValue(), dpDataDto.getQuality());
+    }
+
+    private Zone transformZoneDTO(ZoneDTO zoneDTO) {
+        Zone zone = new Zone(zoneDTO.getZoneId(), zoneDTO.getName());
+        zone.setArea(zoneDTO.getArea());
+        zone.setBuilding(zoneDTO.getBuilding());
+        zone.setCity(zoneDTO.getCity());
+        zone.setCountry(zoneDTO.getCountry());
+        zone.setCounty(zoneDTO.getCounty());
+        zone.setDescription(zoneDTO.getDescription());
+        zone.setFloor(zoneDTO.getFloor());
+        zone.setRoom(zoneDTO.getRoom());
+        zone.setState(zoneDTO.getState());
+
+        return zone;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Dp getDpData(Uri href) {
-        return getDpInternal(href, true);
+    public Dp getDp(UserDTO user, DpDTO dpDto) {
+        DpDTO dataPoint = null;
+
+        if (!dpCache.containsKey(dpDto.getName())) {
+            dataPoint = datapointService.getDatapoint(user, dpDto);
+            dpCache.put(dataPoint.getName(), dataPoint);
+        } else {
+            dataPoint = dpCache.get(dataPoint.getName());
+        }
+
+        return transformDpDTO(dataPoint);
     }
 
-    private Dp getDpInternal(Uri href, boolean showData) {
-        Dp dp = dpCache.get(href);
-
-        if (dp != null) {
-            Dp clone = dp.clone();
-            if (showData) {
-                clone.setShowData(true);
-                return clone;
-            }
-        }
-        return null;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public DpData getDpData(UserDTO user, DpDTO dpDto) {
+        DpDataDTO data = datapointService.getData(user, dpDto);
+        return transformDpDataDTO(transformDpDTO(dpDto), data);
     }
 
     /**
@@ -119,104 +117,21 @@ public class ObixObjectBroker implements IObjectBroker {
      */
     @Override
     public List getAllDps() {
-        return getAllDpsInternal(false);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getAllDpData() {
-        return getAllDpsInternal(true);
-    }
-
-    private List getAllDpsInternal(boolean showData) {
-        if (dpCache.isEmpty()) {
-            return null;
-        }
-
         List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
-        Dp[] values = dpCache.values().toArray(new Dp[dpCache.size()]);
 
-        for (Dp dp : values)  {
-            Dp clone = dp.clone();
-            if (showData) {
-                clone.setShowData(true);
-            }
-            list.add(clone);
+        for (DpDTO dpDto : datapointService.getDatapoints()) {
+            list.add(transformDpDTO(dpDto));
         }
         return list;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public bpi.most.obix.objects.Zone getDpsForZone(Uri href) {
-        return getDpDataForZoneInternal(href, false);
-    }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Zone getDpDataForZone(Uri href) {
-        return getDpDataForZoneInternal(href, true);
-    }
-
-    private bpi.most.obix.objects.Zone getDpDataForZoneInternal(Uri href, boolean showData) {
-        if (zoneCache.containsKey(href)) {
-            java.util.List<Dp> dpList = new ArrayList<Dp>();
-            bpi.most.obix.objects.Zone oBixZone = zoneCache.get(href);
-
-            if (oBixZone != null) {
-                bpi.most.obix.objects.Zone zoneClone = oBixZone.clone();
-                for (Uri u : (Uri[]) oBixZone.getDatapointURIs().list()) {
-                    Dp dp = dpCache.get(u);
-                    if (dp != null) {
-                        Dp cpClone = dp.clone();
-                        zoneClone.addDp(cpClone);
-                    }
-                }
-                if (showData) {
-                    zoneClone.setShowData(true);
-                }
-                return zoneClone;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getDpsForAllZones() {
-        return getAllZonesInternal(true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getAllZones() {
-        return getAllZonesInternal(false);
-    }
-
-    private List getAllZonesInternal(boolean showData) {
-        List list = new List(ZONE_LIST_NAME, new Contract(ZONE_LIST_CONTRACT_NAME));
-
-        for (Uri uri : zoneCache.keySet()) {
-            list.add(getDpDataForZoneInternal(uri, showData));
-        }
-        return list;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getDpForZone(Uri href, String from, String to) {
+    public List getDpData(UserDTO user, DpDTO dpDto, String from, String to) {
         Date fromDate = null;
         Date toDate = null;
         // TODO: ASE fromDate = DateUtils.returnNowOnNull(from);
@@ -225,61 +140,12 @@ public class ObixObjectBroker implements IObjectBroker {
             return null;
         }
 
-        long fromMillis = fromDate.getTime();
-        long toMillis =  toDate.getTime();
-        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
+        List list = new List(DP_DATA_LIST_NAME, new Contract(DP_DATA_LIST_CONTRACT_NAME));
 
-        bpi.most.obix.objects.Zone oBixZone = zoneCache.get(href);
-
-        if (oBixZone != null) {
-            for (Uri u : (Uri[]) oBixZone.getDatapointURIs().list()) {
-                Dp dp = dpCache.get(u);
-                if (dp != null) {
-                    Dp dpClone = dp.clone();
-                    for (DpData data : dp.getDpData()) {
-                        long dataMillis = data.getTimestamp().getMillis();
-                        if (dataMillis >= fromMillis && dataMillis <= toMillis) {
-                            dpClone.addDpData(data.clone(dpClone));
-                        }
-                    }
-                    dpClone.setShowData(true);
-                    list.add(dpClone);
-                }
-            }
-            return list;
+        for (DpDataDTO data : datapointService.getData(user, dpDto, fromDate, toDate)) {
+            list.add(transformDpDataDTO(getDp(user, dpDto), data));
         }
 
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getDpData(String from, String to) {
-        Date fromDate = null;
-        Date toDate = null;
-        // TODO: ASE fromDate = DateUtils.returnNowOnNull(from);
-        // TODO: ASE toDate = DateUtils.returnNowOnNull(to);
-        if (fromDate == null || toDate == null) {
-            return null;
-        }
-
-        long fromMillis = fromDate.getTime();
-        long toMillis =  toDate.getTime();
-        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
-
-        for (Dp dp : dpCache.values()) {
-            Dp dpClone = dp.clone();
-            for (DpData data : dp.getDpData()) {
-                long dataMillis = data.getTimestamp().getMillis();
-                if (dataMillis >= fromMillis && dataMillis <= toMillis) {
-                    dpClone.addDpData(data.clone(dpClone));
-                }
-            }
-            dpClone.setShowData(true);
-            list.add(dpClone);
-        }
         return list;
     }
 
@@ -287,7 +153,7 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public void addDp(Dp dp) {
+    public void addDp(UserDTO user, Dp dp) {
         Uri uri = dp.getHref();
         if (dpCache.containsKey(uri)) {
             // update data in DB (and cache)
@@ -298,6 +164,46 @@ public class ObixObjectBroker implements IObjectBroker {
             //dpCache.put(uri, dp);
         }
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public bpi.most.obix.objects.Zone getZone(UserDTO user, ZoneDTO zone) {
+        return transformZoneDTO(zoneService.getZone(user, zone));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List getDpsForZone(UserDTO user, ZoneDTO zone, int level) {
+        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
+
+        for (DpDTO dp : zoneService.getDatapoints(user, zone, level)) {
+            if (!dpCache.containsKey(dp.getName())) {
+                dpCache.put(dp.getName(), dp);
+            }
+
+            list.add(transformDpDTO(dp));
+        }
+
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List getHeadZones(UserDTO user) {
+        List list = new List(ZONE_LIST_NAME, new Contract(ZONE_LIST_CONTRACT_NAME));
+
+        for (ZoneDTO zone : zoneService.getHeadZones(user)) {
+            list.add(transformZoneDTO(zone));
+        }
+
+        return list;
     }
 
 }

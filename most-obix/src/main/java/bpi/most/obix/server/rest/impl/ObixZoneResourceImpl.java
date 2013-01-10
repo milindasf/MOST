@@ -1,11 +1,11 @@
 package bpi.most.obix.server.rest.impl;
 
+import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.server.impl.ObixServer;
 import bpi.most.obix.server.rest.ObixZoneResource;
+import bpi.most.server.services.rest.impl.BaseResImpl;
 
 import javax.inject.Inject;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +13,7 @@ import javax.ws.rs.QueryParam;
  * Date: 06.01.13
  * Time: 12:23
  */
-public class ObixZoneResourceImpl /*extends BaseResImpl*/ implements ObixZoneResource {
+public class ObixZoneResourceImpl extends BaseResImpl implements ObixZoneResource {
 
     @Inject
     ObixServer server;
@@ -22,39 +22,23 @@ public class ObixZoneResourceImpl /*extends BaseResImpl*/ implements ObixZoneRes
      * {@inheritDoc}
      */
     @Override
-    public String getDpForZone(@PathParam("id") int id) {
-        return server.getDpsForZone(id);
+    public String getZone(int id) {
+        return server.getZone(getUser(), new ZoneDTO(id));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getZone(@PathParam("id") int id) {
-        return server.getDpDataForZone(id);
+    public String getDpForZone(int id, int level) {
+        return server.getDpsForZone(getUser(), new ZoneDTO(id), level);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getDpForAllZones() {
-        return server.getDpsForAllZones();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getAllZones() {
-        return server.getAllZones();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getDpForZone(@PathParam("id") int id, @QueryParam("from") String from, @QueryParam("to") String to) {
-        return server.getDpForZone(id, from, to);
+    public String getHeadZones() {
+        return server.getHeadZones(getUser());
     }
 }
