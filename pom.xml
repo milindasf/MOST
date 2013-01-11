@@ -22,8 +22,8 @@
         <module>most-domain</module>
         <module>most-service-api</module>
         <module>most-service-impl</module>
+        <module>most-service-impl-rmi</module>
         <module>most-rmi-server</module>
-        <module>most-rmi-service-impl</module>
         <module>most-web</module>
         <module>most-rest</module>
         <module>most-opc</module>
@@ -107,17 +107,12 @@
         <dependencies>
             <dependency>
                 <groupId>bpi.most</groupId>
-                <artifactId>most-application-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>bpi.most</groupId>
                 <artifactId>most-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>bpi.most</groupId>
-                <artifactId>most-rmi-service-impl</artifactId>
+                <artifactId>most-rmi-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -128,6 +123,11 @@
             <dependency>
                 <groupId>bpi.most</groupId>
                 <artifactId>most-service-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-service-impl-rmi</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

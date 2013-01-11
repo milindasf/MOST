@@ -12,9 +12,9 @@
     </parent>
 
     <groupId>bpi.most</groupId>
-    <artifactId>most-rmi-service-impl</artifactId>
+    <artifactId>most-service-impl-rmi</artifactId>
     <packaging>jar</packaging>
-    <name>MOST RMI Service Impl Proxy</name>
+    <name>MOST Service IMPL RMI-Proxy</name>
 
     <dependencies>
         <dependency>

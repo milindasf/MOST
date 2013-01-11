@@ -28,9 +28,11 @@
         </dependency>
         <dependency>
             <groupId>bpi.most</groupId>
-            <artifactId>most-rmi-service-impl</artifactId>
+            <artifactId>most-service-impl-rmi</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- for test cases we use the service-impl directly (not via RMI) -->
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-service-impl</artifactId>

@@ -14,7 +14,7 @@
     <groupId>bpi.most</groupId>
     <artifactId>most-rmi-server</artifactId>
     <packaging>war</packaging>
-    <name>MOST Application Server</name>
+    <name>MOST RMI Service Server</name>
 
     <dependencies>
         <dependency>
