@@ -1,36 +1,36 @@
 package bpi.most.server.services.rest.impl;
 
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
 import javax.inject.Inject;
 
 /**
  * Tests for {@link bpi.most.server.services.rest.impl.ZoneResImpl}.
  *
- * @author David Bittermann
+ * @author Jakob Korherr
  */
-//TODO ASE Jakob 
-//@ContextConfiguration(locations = "/WEB-INF/service.spring.xml")
-public class ZoneResImplTest { //extends AbstractTransactionalJUnit4SpringContextTests {
+@ContextConfiguration(locations = {"classpath:META-INF/rest-cxf.spring.xml", "classpath:META-INF/most-service.spring.xml"})
+public class ZoneResImplTest extends AbstractTransactionalJUnit4SpringContextTests {
     
 	@Inject
-	ZoneResImpl zoneRes;
+	private ZoneResImpl zoneRes;
 	
 	@Before
     public void setUp() throws Exception {
-		zoneRes = new ZoneResImpl();
     }
 
     @After
     public void tearDown() throws Exception {
-
     }
 
     @Test
     public void testGetZone() throws Exception {
-//        ZoneDTO zone = zoneRes.getZone(1);
-//        Assert.assertNotNull(zone);
+        Assert.assertNotNull(zoneRes);
+        // TODO actual test case
     }
 }

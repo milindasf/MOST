@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>bpi.most</groupId>
+        <artifactId>most-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>bpi.most</groupId>
+    <artifactId>most-rmi-service-impl</artifactId>
+    <packaging>jar</packaging>
+    <name>MOST RMI Service Impl Proxy</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-service-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+    </dependencies>
+
+</project>

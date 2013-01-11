@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://cxf.apache.org/jaxrs
 http://cxf.apache.org/schemas/jaxrs.xsd">
 
@@ -47,9 +50,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
         </jaxrs:inInterceptors>
     </jaxrs:server>
 
-    <bean id="authFilter" class="bpi.most.server.services.rest.RestAuthInterceptor">
-        <!-- authorization bean properties -->
-    </bean>
+    <context:component-scan base-package="bpi.most.server.services.rest"/>
 
     <bean id="zoneResource" class="bpi.most.server.services.rest.impl.ZoneResImpl" scope="prototype"/>
     <bean id="dpResource" class="bpi.most.server.services.rest.impl.DpResImpl" scope="prototype"/>

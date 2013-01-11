@@ -28,8 +28,13 @@
         </dependency>
         <dependency>
             <groupId>bpi.most</groupId>
-            <artifactId>most-service-impl</artifactId>
+            <artifactId>most-rmi-service-impl</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-service-impl</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!-- Apache CXF as REST framework -->
@@ -88,6 +93,12 @@
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
             <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.0.7.RELEASE</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

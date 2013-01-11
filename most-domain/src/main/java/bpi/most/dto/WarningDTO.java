@@ -1,12 +1,13 @@
 package bpi.most.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Warning DTO
  * @author robert.zach@tuwien.ac.at
  */
-public class WarningDTO {
+public class WarningDTO implements Serializable {
 	private int warningID; //unique identifier
 	private int errorCode;
 	private int priority;

@@ -12,6 +12,7 @@ import org.apache.cxf.transport.Conduit;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @author harald
  *
  */
+@Component(value = "authFilter")
 public class RestAuthInterceptor extends SoapHeaderInterceptor {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestAuthInterceptor.class);

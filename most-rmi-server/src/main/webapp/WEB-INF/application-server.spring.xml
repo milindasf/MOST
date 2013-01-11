@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+              http://www.springframework.org/schema/beans
+              http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- most-service-impl spring configuration -->
+    <import resource="classpath:META-INF/most-service.spring.xml" />
+
+    <!-- RMI -->
+    <!-- AuthenticationService -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="AuthenticationService"/>
+        <property name="service" ref="authenticationServiceImpl" />
+        <property name="serviceInterface" value="bpi.most.service.api.AuthenticationService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+    <!-- ConnectorService -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="ConnectorService"/>
+        <property name="service" ref="connectorServiceImpl" />
+        <property name="serviceInterface" value="bpi.most.service.api.ConnectorService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+    <!-- DatapointService -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="DatapointService"/>
+        <property name="service" ref="datapointServiceImpl" />
+        <property name="serviceInterface" value="bpi.most.service.api.DatapointService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+    <!-- ZoneService -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="ZoneService"/>
+        <property name="service" ref="zoneServiceImpl" />
+        <property name="serviceInterface" value="bpi.most.service.api.ZoneService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+
+</beans>

@@ -6,7 +6,10 @@
               http://www.springframework.org/schema/beans
               http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!-- most-service-impl spring configuration -->
-    <import resource="classpath:META-INF/most-service.spring.xml" />
+    <!-- RMI remote service impl -->
+    <import resource="classpath:META-INF/most-rmi-service.spring.xml" />
+
+    <!-- cxf configuration -->
+    <import resource="classpath:META-INF/rest-cxf.spring.xml" />
 
 </beans>
