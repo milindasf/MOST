@@ -1614,6 +1614,9 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 * Called when a new measurement arrives
 	 */
 	public void update(Observable o, Object arg) {
+		if(!(o instanceof Datapoint)) {
+			throw new AssertionError("Unexpected type: " + o);
+		}
 		Datapoint dp = (Datapoint) o;
 		DpDataDTO measurement = (DpDataDTO) arg;
 		push(dp.getDatapointName(), measurement);

@@ -66,6 +66,9 @@ implements DpChangedEventService {
 			//create DpChangedEventListener
 			DpChangedEventListener eventListener = new DpChangedEventListener() {
 				public void update(Observable o, Object arg) {
+					if(!(o instanceof Datapoint)) {
+						throw new AssertionError("Unexpected type: " + o);
+					}
 					Datapoint targetDatapoint = (Datapoint) o;
 					DpDataDTO measurement = (DpDataDTO) arg;
 					String dpName = targetDatapoint.getDatapointName();

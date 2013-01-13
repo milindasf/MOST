@@ -126,9 +126,9 @@ public class DatapointDataFinder {
 	        }
 		}
 		// TODO ASE notify observers if value was inserted
-		if (result == 1) {
+		/*if (result == 1) {
 			//super.addData(measurement);
-		}
+		}*/
 		return result;
 	}
 

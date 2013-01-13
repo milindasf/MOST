@@ -261,7 +261,7 @@ public final class PollService {
 		}
 		return ref;
 	}
-	public static PollService getInstance(int pollIntervalDp, int pollIntervalWarning){
+	public static synchronized PollService getInstance(int pollIntervalDp, int pollIntervalWarning){
 		if (ref == null) {
 			ref = new PollService();
 			ref.pollIntervalDp = pollIntervalDp;
