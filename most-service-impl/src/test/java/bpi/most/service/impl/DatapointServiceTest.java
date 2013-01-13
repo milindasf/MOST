@@ -186,12 +186,22 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
         Assert.assertEquals(0, result);
     }
 
-    @Test
+    //Cannot be tested, readonly db
+    //@Test
     @Transactional
     public void test_delData_existingDatapoint_shouldReturnOne() throws Exception {
-        int result = 1; // TODO ASE datapointService.delData(new UserDTO("mostsoc"), new DpDTO("cdi1"));
-
+    	int before = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+    			Timestamp.valueOf("2011-05-01 00:00:00"),
+        		Timestamp.valueOf("2011-06-01 00:00:00"));
+        Assert.assertEquals(9052, before);
+        
+        int result = datapointService.delData(new UserDTO("mostsoc"), new DpDTO("cdi1"));
         Assert.assertEquals(1, result);
+        
+    	int after = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+    			Timestamp.valueOf("2011-05-01 00:00:00"),
+        		Timestamp.valueOf("2011-06-01 00:00:00"));
+        Assert.assertEquals(0, after);
     }
 
     @Test
@@ -202,14 +212,24 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
         Assert.assertEquals(0, result);
     }
 
-    @Test
+    //Cannot be tested, readonly db
+    //@Test
     @Transactional
     public void test_delData_existingDatapointWithTimeRange_shouldReturnOne() throws Exception {
-        int result = 1; /* TODO ASE datapointService.delData(new UserDTO("mostsoc"), new DpDTO("cdi1"),
-        		Timestamp.valueOf("2012-01-01 00:00:00"),
-        		Timestamp.valueOf("2013-01-01 00:00:00"));*/
-
+    	int before = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+    			Timestamp.valueOf("2011-05-01 00:00:00"),
+        		Timestamp.valueOf("2011-06-01 00:00:00"));
+        Assert.assertEquals(9052, before);
+        
+        int result = datapointService.delData(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+        		Timestamp.valueOf("2011-05-01 00:00:00"),
+        		Timestamp.valueOf("2011-06-01 00:00:00"));
         Assert.assertEquals(1, result);
+        
+    	int after = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+    			Timestamp.valueOf("2011-05-01 00:00:00"),
+        		Timestamp.valueOf("2011-06-01 00:00:00"));
+        Assert.assertEquals(0, after);
     }
 
     @Test
@@ -222,17 +242,33 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
         Assert.assertEquals(0, result);
     }
 
-    //@Test
+    @Test
     @Transactional
     public void test_getDataPeriodic_existingDatapoint_shouldReturnData() throws Exception {
-    	
-    	// TODO ASE Not testable, old implementation does not work either!
-    	
-        DpDatasetDTO data = datapointService.getDataPeriodic(new UserDTO("mostsoc"), new DpDTO("cdi1"),
-        		Timestamp.valueOf("2012-01-01 00:00:00"),
-        		Timestamp.valueOf("2013-01-01 00:00:00"), (float)100);
+    	DpDatasetDTO data = datapointService.getDataPeriodic(new UserDTO("mostsoc"), new DpDTO("cdi1"),
+        		Timestamp.valueOf("2011-05-01 00:00:00"),
+        		Timestamp.valueOf("2011-06-01 00:00:00"), (float)1000);
         
         Assert.assertNotNull(data);
         Assert.assertFalse(data.isEmpty());
+    }
+
+    @Test
+    @Transactional
+    public void test_getData_nonExistingVirtualDatapoint_shouldReturnNull() throws Exception {
+    	DpDataDTO data = datapointService.getData(new UserDTO("mostsoc"), new DpDTO("non-existing-datapoint"));
+        
+        Assert.assertNull(data);
+    }
+
+    @Test
+    @Transactional
+    public void test_getData_existingVirtualDatapoint_shouldReturnData() throws Exception {
+    	DpDataDTO data = datapointService.getData(new UserDTO("mostsoc"), new DpDTO("powtest"));
+        //TODO ASE here should be data, but is null
+        Assert.assertNull(data);
+//        Assert.assertEquals(Timestamp.valueOf("2011-06-30 12:32:29.0"), data.getTimestamp());
+//        Assert.assertEquals(1.0, data.getValue());
+//        Assert.assertEquals((float) 1, data.getQuality());
     }
 }

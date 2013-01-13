@@ -44,7 +44,7 @@ public class DatapointDataFinder {
         return null;
     }
 
-    public List<DatapointDataVO> getData(String dpName, Date starttime, Date endtime) {
+    public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         if (starttime.before(endtime)) {
 	        // noinspection unchecked
@@ -57,13 +57,15 @@ public class DatapointDataFinder {
 	                .list();
 	        
 			if(result.size() > 0){
-				return result;
+				DatapointDatasetVO ret = new DatapointDatasetVO();
+				ret.addAll(result);
+				return ret;
 	        }
 		}
         return null;
     }
 
-    public List<DatapointDataVO> getDataPeriodic(String dpName, Date starttime, Date endtime, Float period, int mode) {
+    public DatapointDatasetVO getDataPeriodic(String dpName, Date starttime, Date endtime, Float period, int mode) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         if (starttime.before(endtime)) {
 	        // noinspection unchecked
@@ -79,7 +81,9 @@ public class DatapointDataFinder {
 	                .list();
 	        
 			if(result.size() > 0){
-				return result;
+				DatapointDatasetVO ret = new DatapointDatasetVO();
+				ret.addAll(result);
+				return ret;
 	        }
 		}
         return null;
@@ -187,7 +191,7 @@ public class DatapointDataFinder {
             }
             return new DatapointDataVO((Date) tuple[timestampIndex], 
             						   (Double) tuple[valueIndex], 
-            						   (Float) (qualityIndex != -1 ? tuple[qualityIndex] : (float) 1));
+            						   new Float(qualityIndex != -1 ? (Double) tuple[qualityIndex] : 1));
         }
 
         private void initializeIndexes(String[] aliases) {

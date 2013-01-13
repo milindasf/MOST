@@ -1,3 +1,5 @@
+/* TODO: Refactor! */
+
 package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDTO;
@@ -23,21 +25,24 @@ public class DatapointVO implements Serializable {
 	private String name;
 	private String type;
 	private String description;
+	private String virtual;
 	
 	public DatapointVO() {
 		this.name = "null";
 		this.type = "null";
 		this.description = "null";
+		this.virtual = "null";
 	}
 
 	public DatapointVO(String datapointName) {
 		this.name = datapointName;
 	}
 	
-	public DatapointVO(String name, String type, String description) {
+	public DatapointVO(String name, String type, String description, String virtual) {
 		this.name = name;
 		this.type = type;
 		this.description = description;
+		this.virtual = virtual;
 	}
 	
 	@XmlAttribute
@@ -67,13 +72,25 @@ public class DatapointVO implements Serializable {
 		this.description = description;
 	}
 
-    public DpDTO getDTO(){
+    public String getVirtual() {
+		return virtual;
+	}
+
+	public void setVirtual(String virtual) {
+		this.virtual = virtual;
+	}
+	
+	public boolean isVirtual() {
+		return virtual != null && !virtual.equals("null");
+	}
+
+	public DpDTO getDTO(){
         return new DpDTO(name, type, description);
     }
 
 	@Override
 	public String toString() {
 		return "DatapointVO [name=" + name + ", type=" + type + ", description="
-				+ description + "]";
+				+ description + ", virtual=" + virtual + "]";
 	}
 }

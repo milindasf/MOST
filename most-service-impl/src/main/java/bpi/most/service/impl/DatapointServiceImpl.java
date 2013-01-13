@@ -9,6 +9,8 @@ import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
+import bpi.most.service.impl.datapoint.virtual.VirtualDatapointDataFinder;
+
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +36,13 @@ public class DatapointServiceImpl implements DatapointService {
 
     private DatapointFinder datapointFinder;
     private DatapointDataFinder datapointDataFinder;
+    private VirtualDatapointDataFinder virtualDatapointDataFinder;
 
     @PostConstruct
     protected void init() {
         datapointFinder = new DatapointFinder(em);
         datapointDataFinder = new DatapointDataFinder(em);
+        virtualDatapointDataFinder = new VirtualDatapointDataFinder(em);
     }
 
     @Override
@@ -91,8 +95,12 @@ public class DatapointServiceImpl implements DatapointService {
         DpDataDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-	        DatapointDataVO data = datapointDataFinder.getData(dp.getName());	
-	        // TODO ASE: We will need DpVirtual + DpPhysical...
+        	DatapointDataVO data = null;
+	        if(!dp.isVirtual()) {
+		        data = datapointDataFinder.getData(dp.getName());
+        	} else {
+            	data = virtualDatapointDataFinder.getData(datapointFinder.getDatapointEntity(dp.getName()));
+        	}
 	        if(data != null){
 	        	result = data.getDTO();
 	        }
@@ -105,8 +113,12 @@ public class DatapointServiceImpl implements DatapointService {
     	DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-	        List<DatapointDataVO> data = datapointDataFinder.getData(dp.getName(), starttime, endtime);	
-	        // TODO ASE: We will need DpVirtual + DpPhysical...
+        	List<DatapointDataVO> data = null;
+	        if(!dp.isVirtual()) {
+		        data = datapointDataFinder.getData(dp.getName(), starttime, endtime);	
+        	} else {
+            	data = virtualDatapointDataFinder.getData(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime);
+        	}
 	        if(data != null && data.size() > 0){
 	        	result = new DpDatasetDTO(dp.getName());
 	        	for(DatapointDataVO vo : data){
@@ -129,8 +141,12 @@ public class DatapointServiceImpl implements DatapointService {
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
             // set mode of getDataPeriodic() to 1, because other modes are
             // currently not well supported (or even not implemented)
-            List<DatapointDataVO> data = datapointDataFinder.getDataPeriodic(dp.getName(), starttime, endtime, period, mode);
-            // TODO ASE: We will need DpVirtual + DpPhysical...
+        	List<DatapointDataVO> data = null;
+	        if(!dp.isVirtual()) {
+		        data = datapointDataFinder.getDataPeriodic(dp.getName(), starttime, endtime, period, mode);
+        	} else {
+            	data = virtualDatapointDataFinder.getDataPeriodic(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime, period, mode);
+        	}
             if(data != null && data.size() > 0){
                 result = new DpDatasetDTO(dp.getName());
                 for(DatapointDataVO vo : data){
@@ -146,8 +162,12 @@ public class DatapointServiceImpl implements DatapointService {
     	int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-	        Integer number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);	
-	        // TODO ASE: We will need DpVirtual + DpPhysical...
+        	Integer number = null;
+	        if(!dp.isVirtual()) {
+	        	number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);
+        	} else {
+        		number = virtualDatapointDataFinder.getNumberOfValues(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime);
+        	}
 	        if(number != null){
 	        	result = number;
 	        }
