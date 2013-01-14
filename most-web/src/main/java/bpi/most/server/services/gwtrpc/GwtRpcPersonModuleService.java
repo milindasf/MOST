@@ -59,7 +59,7 @@ PersonModuleService {
 		try {
 			Connection con = DbPool.getInstance().getConnection();
 			Statement stmt = con.createStatement();
-			String sql = new StringBuilder("INSERT INTO personModuleData(temperature, air, air_movement, clothing) VALUES ('").
+			final String sql = new StringBuilder("INSERT INTO personModuleData(temperature, air, air_movement, clothing) VALUES ('").
 					append(ap.get("Temperatur")).
 					append("','").
 					append(ap.get("Luft")).

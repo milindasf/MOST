@@ -255,7 +255,7 @@ public final class PollService {
 	private PollService() {
 		super();
 	}	
-	public static PollService getInstance(){
+	public static synchronized PollService getInstance(){
 		if (ref == null) {
 			ref = new PollService();
 		}
