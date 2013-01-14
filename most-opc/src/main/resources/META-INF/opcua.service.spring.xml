@@ -9,7 +9,4 @@
     <!-- most-service-impl spring configuration -->
     <import resource="classpath:META-INF/most-service.spring.xml" />
 
-    <bean id="nodeManager" class="bpi.most.server.services.opcua.server.MostNodeManager" />
-
-
 </beans>

@@ -1,8 +1,9 @@
 package bpi.most.server.services.opcua.server;
 
-import bpi.most.dto.UserDTO;
 import bpi.most.server.services.opcua.server.nodes.DpNode;
 import bpi.most.server.services.opcua.server.nodes.ZoneNode;
+import bpi.most.service.api.DatapointService;
+import bpi.most.service.api.ZoneService;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
@@ -20,17 +21,21 @@ import java.util.List;
  */
 @ContextConfiguration(locations = "/META-INF/opcua.service.spring.xml")
 public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
-    @Inject
-    MostNodeManager mostNodeManager;
+
+
+    @Inject private ZoneService zService;
+    @Inject private DatapointService dpService;
+
+    private MostNodeManager mostNodeManager;
 
     @Before
     public void setUp() throws Exception {
-        mostNodeManager.setMostUser(new UserDTO("mostsoc"));
+        mostNodeManager = new MostNodeManager("mostsoc", zService, dpService);
     }
 
     @After
     public void tearDown() throws Exception {
-
+        mostNodeManager = null;
     }
 
     @Test
