@@ -1,6 +1,7 @@
 package bpi.most.obix.objects;
 
 import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.io.ObixEncoder;
@@ -71,12 +72,35 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
     public void testGetDp_fromUser_shouldReturnSameResultsAsService() throws Exception {
         UserDTO user = new UserDTO("mostsoc");
         DpDTO dpDto = new DpDTO("cdi1");
-        Dp dp = objectBroker.getDp(user, dpDto);
-
         dpDto = datapointService.getDatapoint(user, dpDto);
+
+        Dp dp = objectBroker.getDp(user, dpDto);
 
         junit.framework.Assert.assertEquals(dp.getDatapointName().get(), dpDto.getName());
         junit.framework.Assert.assertEquals(dp.getType().get(), dpDto.getType());
+    }
+
+    @Test
+    public void testGetDpData_fromUser_shouldReturnSameResultsAsService() throws Exception {
+        UserDTO user = new UserDTO("mostsoc");
+        DpDTO dpDto = new DpDTO("cdi1");
+        dpDto = datapointService.getDatapoint(user, dpDto);
+        DpDataDTO dpDataDto = datapointService.getData(user, dpDto) ;
+
+        DpData dpData = objectBroker.getDpData(user, dpDto);
+
+        junit.framework.Assert.assertEquals(dpData.getTimestamp().get(), dpDataDto.getTimestamp().getTime());
+        junit.framework.Assert.assertEquals(dpData.getValue().get(), dpDataDto.getValue());
+    }
+
+    @Test
+    public void testGetDpDataFromIntervall_fromUser_shouldReturnSameResultsAsService() throws Exception {
+        UserDTO user = new UserDTO("mostsoc");
+        DpDTO dpDto = new DpDTO("cdi1");
+        dpDto = datapointService.getDatapoint(user, dpDto);
+        DpDataDTO dpDataDto = datapointService.getData(user, dpDto);
+
+        //objectBroker.getDpData()
     }
 
 }
