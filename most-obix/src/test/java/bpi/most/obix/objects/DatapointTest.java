@@ -1,5 +1,6 @@
 package bpi.most.obix.objects;
 
+import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.io.ObixEncoder;
@@ -55,11 +56,27 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
 
     }
 
+    /**
+     * There you can find names of data points
+     * @throws Exception
+     */
     @Test
     public void testExample() throws Exception {
         bpi.most.obix.objects.List dataPoints = objectBroker.getAllDps();
 
         ObixEncoder.dump(dataPoints);
+    }
+
+    @Test
+    public void testGetDp_fromUser_shouldReturnSameResultsAsService() throws Exception {
+        UserDTO user = new UserDTO("mostsoc");
+        DpDTO dpDto = new DpDTO("cdi1");
+        Dp dp = objectBroker.getDp(user, dpDto);
+
+        dpDto = datapointService.getDatapoint(user, dpDto);
+
+        junit.framework.Assert.assertEquals(dp.getDatapointName().get(), dpDto.getName());
+        junit.framework.Assert.assertEquals(dp.getType().get(), dpDto.getType());
     }
 
 }
