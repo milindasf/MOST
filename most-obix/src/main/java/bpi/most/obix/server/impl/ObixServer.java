@@ -47,6 +47,46 @@ public class ObixServer implements IObixServer {
         return null;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addDp(UserDTO user, String encodedDp) {
+        if (encodedDp != null) {
+            Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
+            if (dp != null) {
+                objectBroker.addDp(user, dp);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addDpData(UserDTO user, DpDTO dpDto, String encodedDpData) {
+        if (encodedDpData != null) {
+            DpData dpData = (DpData) ObixDecoder.fromString(encodedDpData);
+            if (dpData != null) {
+                objectBroker.addDpData(user, dpDto, dpData);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateDp(UserDTO user, String dpName, String encodedDp) {
+        if (encodedDp != null) {
+            Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
+            if (dp != null) {
+                objectBroker.updateDp(user, dp);
+            }
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -75,13 +115,8 @@ public class ObixServer implements IObixServer {
      * {@inheritDoc}
      */
     @Override
-    public void addDp(UserDTO user, String encodedDp) {
-        if (encodedDp != null) {
-            Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
-            if (dp != null) {
-                objectBroker.addDp(user, dp);
-            }
-        }
+    public String getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type) {
+        return null;
     }
 
     /**

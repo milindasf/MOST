@@ -4,13 +4,9 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
-import bpi.most.obix.objects.Contract;
-import bpi.most.obix.objects.Dp;
-import bpi.most.obix.objects.DpData;
-import bpi.most.obix.objects.List;
-import bpi.most.obix.objects.Uri;
-import bpi.most.obix.objects.Zone;
+import bpi.most.obix.objects.*;
 import bpi.most.obix.server.IObjectBroker;
+import bpi.most.server.services.rest.utils.DateUtils;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
 import org.springframework.stereotype.Component;
@@ -70,29 +66,6 @@ public class ObixObjectBroker implements IObjectBroker {
         this.dpCache = new HashMap<String, DpDTO>();
     }
 
-    private Dp transformDpDTO(DpDTO dpDto) {
-        return new Dp(dpDto.getName(), dpDto.getType(), dpDto.getDescription());
-    }
-
-    private DpData transformDpDataDTO(Dp dp, DpDataDTO dpDataDto) {
-        return new DpData(dp, dpDataDto.getTimestamp().getTime(), dpDataDto.getValue(), dpDataDto.getQuality());
-    }
-
-    private Zone transformZoneDTO(ZoneDTO zoneDTO) {
-        Zone zone = new Zone(zoneDTO.getZoneId(), zoneDTO.getName());
-        zone.setArea(zoneDTO.getArea());
-        zone.setBuilding(zoneDTO.getBuilding());
-        zone.setCity(zoneDTO.getCity());
-        zone.setCountry(zoneDTO.getCountry());
-        zone.setCounty(zoneDTO.getCounty());
-        zone.setDescription(zoneDTO.getDescription());
-        zone.setFloor(zoneDTO.getFloor());
-        zone.setRoom(zoneDTO.getRoom());
-        zone.setState(zoneDTO.getState());
-
-        return zone;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -107,7 +80,7 @@ public class ObixObjectBroker implements IObjectBroker {
             dataPoint = dpCache.get(dataPoint.getName());
         }
 
-        return transformDpDTO(dataPoint);
+        return ObixBrokerUtils.transformDpDTO(dataPoint);
     }
 
     /**
@@ -116,55 +89,21 @@ public class ObixObjectBroker implements IObjectBroker {
     @Override
     public DpData getDpData(UserDTO user, DpDTO dpDto) {
         DpDataDTO data = datapointService.getData(user, dpDto);
-        return transformDpDataDTO(transformDpDTO(dpDto), data);
+        return ObixBrokerUtils.transformDpDataDTO(ObixBrokerUtils.transformDpDTO(dpDto), data);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getAllDps() {
-        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
-
-        for (DpDTO dpDto : datapointService.getDatapoints()) {
-            list.add(transformDpDTO(dpDto));
-        }
-        return list;
-    }
-
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List getDpData(UserDTO user, DpDTO dpDto, String from, String to) {
-        Date fromDate = null;
-        Date toDate = null;
-        // TODO: ASE fromDate = DateUtils.returnNowOnNull(from);
-        // TODO: ASE toDate = DateUtils.returnNowOnNull(to);
-        if (fromDate == null || toDate == null) {
-            return null;
-        }
-
-        List list = new List(DP_DATA_LIST_NAME, new Contract(DP_DATA_LIST_CONTRACT_NAME));
-
-        for (DpDataDTO data : datapointService.getData(user, dpDto, fromDate, toDate)) {
-            list.add(transformDpDataDTO(getDp(user, dpDto), data));
-        }
-
-        return list;
-    }
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void addDp(UserDTO user, Dp dp) {
+        // not implemented yet
+
         Uri uri = dp.getHref();
         if (dpCache.containsKey(uri)) {
             // update data in DB (and cache)
-            // TODO: datapointService.addData()
+            // some day: datapointService.addDp()
         } else {
             // add to DB (and cache)
 
@@ -177,8 +116,79 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
+    public void addDpData(UserDTO user, DpDTO dpDto, DpData dpData) {
+        datapointService.addData(user, dpDto, ObixBrokerUtils.transformDpData(dpData));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateDp(UserDTO user, Dp encodedDp) {
+        // not implemented yet
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List getAllDps() {
+        List list = new List(DP_LIST_NAME, new Contract(DP_LIST_CONTRACT_NAME));
+
+        for (DpDTO dpDto : datapointService.getDatapoints()) {
+            list.add(ObixBrokerUtils.transformDpDTO(dpDto));
+        }
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List getDpData(UserDTO user, DpDTO dpDto, String from, String to) {
+        Date fromDate = DateUtils.returnNowOnNull(from);
+        Date toDate = DateUtils.returnNowOnNull(to);
+
+        if (fromDate == null || toDate == null) {
+            return null;
+        }
+
+        List list = new List(DP_DATA_LIST_NAME, new Contract(DP_DATA_LIST_CONTRACT_NAME));
+
+        for (DpDataDTO data : datapointService.getData(user, dpDto, fromDate, toDate)) {
+            list.add(ObixBrokerUtils.transformDpDataDTO(getDp(user, dpDto), data));
+        }
+
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type) {
+        Date fromDate = DateUtils.returnNowOnNull(from);
+        Date toDate = DateUtils.returnNowOnNull(to);
+
+        if (fromDate == null || toDate == null) {
+            return null;
+        }
+
+        List list = new List(DP_DATA_LIST_NAME, new Contract(DP_DATA_LIST_CONTRACT_NAME));
+
+        for (DpDataDTO data : datapointService.getDataPeriodic(user, dpDto, fromDate, toDate, period, mode)) {
+            list.add(ObixBrokerUtils.transformDpDataDTO(getDp(user, dpDto), data));
+        }
+
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public bpi.most.obix.objects.Zone getZone(UserDTO user, ZoneDTO zone) {
-        return transformZoneDTO(zoneService.getZone(user, zone));
+        return ObixBrokerUtils.transformZoneDTO(zoneService.getZone(user, zone));
     }
 
     /**
@@ -193,7 +203,7 @@ public class ObixObjectBroker implements IObjectBroker {
                 dpCache.put(dp.getName(), dp);
             }
 
-            list.add(transformDpDTO(dp));
+            list.add(ObixBrokerUtils.transformDpDTO(dp));
         }
 
         return list;
@@ -207,7 +217,7 @@ public class ObixObjectBroker implements IObjectBroker {
         List list = new List(ZONE_LIST_NAME, new Contract(ZONE_LIST_CONTRACT_NAME));
 
         for (ZoneDTO zone : zoneService.getHeadZones(user)) {
-            list.add(transformZoneDTO(zone));
+            list.add(ObixBrokerUtils.transformZoneDTO(zone));
         }
 
         return list;

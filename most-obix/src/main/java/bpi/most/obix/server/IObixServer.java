@@ -40,6 +40,30 @@ public interface IObixServer {
     String getDpData(UserDTO user, DpDTO dpDto); // = datapointName = {name}
 
     /**
+     * Incoming HTTP-Request should be: PUT /obix/dp/{name}
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
+     *
+     * Adds the decoded Dp and its values to the server.
+     *
+     * @param encodedDp An encoded instance of Dp, which maybe contains new values
+     */
+    void addDp(UserDTO user, String encodedDp);
+
+    /**
+     * Incoming HTTP-Request should be: PUT /obix/dp/{name}
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
+     *
+     * Adds the decoded Dp and its values to the server.
+     *
+     * @param encodedDpData An encoded instance of Dp, which maybe contains new values
+     */
+    void addDpData(UserDTO user, DpDTO dpDto, String encodedDpData);
+
+    void updateDp(UserDTO user, String dpName, String encodedDp);
+
+    /**
      * Incoming HTTP-Request should be: GET /obix/dp
      * @see bpi.most.obix.server.rest.ObixDpResource
      * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
@@ -65,16 +89,7 @@ public interface IObixServer {
     // return list with all datapoint data, see DpDataDTO (!)
 
 
-    /**
-     * Incoming HTTP-Request should be: PUT /obix/dp/{name}
-     * @see bpi.most.obix.server.rest.ObixDpResource
-     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
-     *
-     * Adds the decoded Dp and its values to the server.
-     *
-     * @param encodedDp An encoded instance of Dp, which maybe contains new values
-     */
-    void addDp(UserDTO user, String encodedDp);  // TODO
+    String getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type);
 
 
     String getZone(UserDTO user, ZoneDTO zone);

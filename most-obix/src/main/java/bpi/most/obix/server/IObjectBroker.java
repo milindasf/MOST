@@ -69,6 +69,22 @@ public interface IObjectBroker {
     // return list with all data points (Dp)
 
     /**
+     * Incoming HTTP-Request should be: PUT /obix/dp/{name}
+     * @see bpi.most.obix.server.rest.ObixDpResource
+     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
+     *
+     * Adds the decoded Dp and its values to the server.
+     *
+     * @param user The user who requests it
+     * @param dp An instance of Dp, which maybe contains new values
+     */
+    void addDp(UserDTO user, Dp dp);
+
+    void addDpData(UserDTO user, DpDTO dpDto, DpData dpData);
+
+    void updateDp(UserDTO user, Dp encodedDp);
+
+    /**
      * Incoming HTTP-Request should be: GET /obix/dp/{name}/data?from={UTC datetime}&to={UTC datetime}
      * @see bpi.most.obix.server.rest.ObixDpResource
      * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
@@ -83,20 +99,7 @@ public interface IObjectBroker {
     List getDpData(UserDTO user, DpDTO dpDto, String from, String to);
     // return list with all data points + data
 
-
-    /**
-     * Incoming HTTP-Request should be: PUT /obix/dp/{name}
-     * @see bpi.most.obix.server.rest.ObixDpResource
-     * @see bpi.most.obix.server.rest.impl.ObixDpResourceImpl
-     *
-     * Adds the decoded Dp and its values to the server.
-     *
-     * @param user The user who requests it
-     * @param dp An instance of Dp, which maybe contains new values
-     */
-    void addDp(UserDTO user, Dp dp);  // TODO
-
-
+    List getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type);
 
     public bpi.most.obix.objects.Zone getZone(UserDTO user, ZoneDTO zone);
 

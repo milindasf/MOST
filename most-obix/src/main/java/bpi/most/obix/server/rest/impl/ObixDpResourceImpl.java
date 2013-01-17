@@ -6,8 +6,7 @@ import bpi.most.obix.server.rest.ObixDpResource;
 import bpi.most.server.services.rest.impl.BaseResImpl;
 
 import javax.inject.Inject;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +23,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      * {@inheritDoc}
      */
     @Override
-    public String getDp(@PathParam("name") String name) {
+    public String getDp(String name) {
         return server.getDp(getUser(), new DpDTO(name));
     }
 
@@ -32,8 +31,38 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      * {@inheritDoc}
      */
     @Override
-    public String getDpData(@PathParam("name") String name) {
+    public String getDpData(String name) {
         return server.getDpData(getUser(), new DpDTO(name));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addDp(String encodedDp) {
+        LOG.warn("should create new datapoint, but is not implemented yet.");
+        throw new WebApplicationException(NOT_IMPLEMENTED);
+
+        //server.addDp(getUser(), encodedDp);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addDpData(String dpName, String encodedDpData) {
+        server.addDpData(getUser(), new DpDTO(dpName), encodedDpData);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateDp(String dpName, String encodedDp) {
+        LOG.warn("updating datapoint " + dpName + "\n" + encodedDp + "\nbut is is not implemented yet.");
+        throw new WebApplicationException(NOT_IMPLEMENTED);
+
+        //server.updateDp(getUser(), dpName, encodedDp);
     }
 
     /**
@@ -48,7 +77,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      * {@inheritDoc}
      */
     @Override
-    public String getDpData(@PathParam("name") String name, @QueryParam("from") String from, @QueryParam("to") String to) {
+    public String getDpData(String name, String from, String to) {
         return server.getDpData(getUser(), new DpDTO(name), from, to);
     }
 
@@ -56,7 +85,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      * {@inheritDoc}
      */
     @Override
-    public void addDp(String encodedDp) {
-        server.addDp(getUser(), encodedDp);
+    public String getDpPeriodicData(String dpName, String from, String to, int period, int mode, int type) {
+        return server.getDpPeriodicData(getUser(), new DpDTO(dpName), from, to, (float) period, mode, type);
     }
 }
