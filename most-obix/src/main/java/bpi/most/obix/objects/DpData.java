@@ -18,13 +18,13 @@ public class DpData extends Obj {
     public static final String UNKNOWN_DP_NAME = "<unknown>";
 
     private Dp parent;
-    //    private String dp; // == parent
     private long timestamp;
     private double value;
     private double quality = 1;
 
     private String datapointName;
     private String type;
+    private Uri unit;
 
     /**
      * Constructor, which will be called via reflection if
@@ -35,32 +35,27 @@ public class DpData extends Obj {
     }
 
     public DpData(Dp parent, long timestamp, double value, double quality) {
+        this(parent.getDatapointName().get(), parent.getType().get(), timestamp, value, quality);
+
         if (parent == null) {
             throw new IllegalArgumentException("Parent is not allowed to be null!");
         }
 
         this.parent = parent;
-        this.datapointName = parent.getDatapointName().get();
-        this.type = parent.getType().get();
+    }
 
+    public DpData(String dataPointName, String type, long timestamp, double value, double quality) {
+
+        this.datapointName = datapointName;
+        this.type = type;
         this.timestamp = timestamp;
         this.value = value;
         this.quality = quality;
 
         this.setName(this.datapointName + "/data/" + timestamp);
 
-        add(getTimestamp());
-        add(getValue());
-        add(getQuality());
-    }
-
-    // or is this one better? No dependency to parent =)
-    public DpData(String datapointName, String type, long timestamp, double value, double quality) {
-        this.datapointName = datapointName;
-        this.type = type;                   // we should be able to get the unit out of it, right?
-        this.timestamp = timestamp;
-        this.value = value;
-        this.quality = quality;
+        // lets set that to the default-value, should use type to get there
+        this.unit = new Uri("obix:units/celsius");
 
         add(getTimestamp());
         add(getValue());
@@ -90,8 +85,7 @@ public class DpData extends Obj {
         }
 
         Real real = new Real(VALUE, value);
-        Uri unit = parent.getUnit();
-        if (unit != null) {
+        if (this.unit != null) {
             real.setUnit(unit);
         }
 
@@ -134,6 +128,12 @@ public class DpData extends Obj {
         return new Uri(this.datapointName + "/data", Dp.OBIX_DP_PREFIX + this.datapointName + "/data" + timestamp);
     }
 
+    /**
+     * Clones this object
+     *
+     * @param parent The parent (owner) of the data
+     * @return A new instance, with exact the same values
+     */
     public DpData clone(Dp parent) {
         DpData clone = new DpData(parent, this.getTimestamp().get(),
                 this.getValue().get(), this.getQuality().get());

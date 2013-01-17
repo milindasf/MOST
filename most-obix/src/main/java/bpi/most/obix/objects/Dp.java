@@ -41,6 +41,11 @@ public class Dp extends Obj {
 
     public Dp(String dataPointName, String type, String description) {
         this();
+
+        if (dataPointName == null) {
+            throw new IllegalArgumentException("Name of data point must be set!");
+        }
+
         this.dataPointName = dataPointName;
         this.type = type;
         this.description = description;
@@ -49,9 +54,14 @@ public class Dp extends Obj {
         this.unit = new Uri("obix:units/celsius");
         this.setName(this.dataPointName);
 
+
         add(getDatapointName());
-        add(getType());
-        add(getDescription());
+        if (this.type != null) {
+            add(getType());
+        }
+        if (this.description != null) {
+            add(getDescription());
+        }
     }
 
     public Dp(String dataPointName, String type, String description, DpData[] dpData) {
@@ -153,6 +163,11 @@ public class Dp extends Obj {
         return unit;
     }
 
+    /**
+     * Clones this object
+     *
+     * @return A new instance, with exact the same values
+     */
     public Dp clone() {
         Dp clone = new Dp(this.getDatapointName().get(), this.getType().get(), this.getDescription().get());
 

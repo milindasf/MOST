@@ -3,7 +3,6 @@ package bpi.most.obix.objects;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.io.ObixEncoder;
-import bpi.most.obix.objects.Uri;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
@@ -55,8 +54,6 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
         junit.framework.Assert.assertEquals(zone.getName(), oBixZone.getZoneName().get());
 
     }
-
-    // TODO: test against API: IObjectBroker
 
     @Test
     public void testExample() throws Exception {

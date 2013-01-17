@@ -116,6 +116,10 @@ public class ObixServer implements IObixServer {
      */
     @Override
     public String getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type) {
+        List dataPoints = objectBroker.getDpPeriodicData(user, dpDto, from, to, period, mode, type);
+        if (dataPoints != null) {
+            return ObixEncoder.toString(dataPoints);
+        }
         return null;
     }
 
