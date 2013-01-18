@@ -37,8 +37,8 @@ import bpi.most.obix.objects.Obj;
 import bpi.most.obix.contracts.HistoryRecord;
 
 public class HistoryRecordImpl extends Obj implements HistoryRecord {
-	protected Obj value = new Obj();
-	protected Abstime abstime = new Abstime();
+	protected Obj value;
+	protected Abstime abstime;
 	
 	public static final String HISTORY_RECORD_CONTRACT = "obix:HistoryRecord";
 	
@@ -49,6 +49,14 @@ public class HistoryRecordImpl extends Obj implements HistoryRecord {
 		add(timestamp());
 		add(value());
 	}
+
+    public HistoryRecordImpl(Obj value, Abstime timestamp) {
+        this.value = value;
+        this.abstime = timestamp;
+
+        add(timestamp());
+        add(value());
+    }
 	
 	@Override
 	public Abstime timestamp() {

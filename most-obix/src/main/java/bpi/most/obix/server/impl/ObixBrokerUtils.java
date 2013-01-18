@@ -3,9 +3,8 @@ package bpi.most.obix.server.impl;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.ZoneDTO;
-import bpi.most.obix.objects.Dp;
-import bpi.most.obix.objects.DpData;
-import bpi.most.obix.objects.Zone;
+import bpi.most.obix.history.HistoryRecordImpl;
+import bpi.most.obix.objects.*;
 
 import java.util.Date;
 
@@ -46,5 +45,12 @@ public class ObixBrokerUtils {
 
     public static DpDataDTO transformDpData(DpData dpData) {
         return new DpDataDTO(new Date(dpData.getTimestamp().get()), dpData.getValue().get(), (float) dpData.getQuality().get());
+    }
+
+    public static HistoryRecordImpl transformDpDataDTO(DpDataDTO dpDataDto) {
+        Real o = new Real("value", dpDataDto.getValue());
+        Abstime time = new Abstime("timestamp", dpDataDto.getTimestamp().getTime());
+
+        return new HistoryRecordImpl(o, time);
     }
 }

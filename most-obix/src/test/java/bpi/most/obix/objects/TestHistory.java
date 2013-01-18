@@ -1,0 +1,60 @@
+package bpi.most.obix.objects;
+
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
+import bpi.most.dto.UserDTO;
+import bpi.most.obix.history.HistoryQueryOutImpl;
+import bpi.most.obix.history.HistoryRecordImpl;
+import bpi.most.obix.io.ObixEncoder;
+import bpi.most.obix.server.IObjectBroker;
+import bpi.most.server.services.rest.utils.DateUtils;
+import bpi.most.service.api.DatapointService;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: Alexej Strelzow
+ * Date: 18.01.13
+ * Time: 10:25
+ */
+@ContextConfiguration(locations = "/META-INF/obix.spring.xml")
+public class TestHistory extends AbstractTransactionalJUnit4SpringContextTests {
+
+    @Inject
+    private DatapointService datapointService;
+
+    @Inject
+    private IObjectBroker objectBroker;
+
+    @Test
+    public void testHistoryRecord() {
+        UserDTO user = new UserDTO("mostsoc");
+        DpDTO dpDto1 = new DpDTO("cdi1");
+        dpDto1 = datapointService.getDatapoint(user, dpDto1);
+
+        String fromDateTime = "2012-08-15T00:00:00";
+        String toDateTime = "2012-08-30T09:00:00";
+
+        DpDatasetDTO data = datapointService.getData(user, dpDto1, DateUtils.returnNowOnNull(fromDateTime), DateUtils.returnNowOnNull(toDateTime));
+
+        ArrayList<HistoryRecordImpl> records = new ArrayList<HistoryRecordImpl>();
+
+        for (DpDataDTO d : data) {
+            Real o = new Real("value", d.getValue());
+            Abstime time = new Abstime("timestamp", d.getTimestamp().getTime());
+            HistoryRecordImpl r = new HistoryRecordImpl(o, time);
+            records.add(r);
+        }
+
+        HistoryQueryOutImpl query = new HistoryQueryOutImpl(records);
+
+        ObixEncoder.dump(query);
+    }
+
+}

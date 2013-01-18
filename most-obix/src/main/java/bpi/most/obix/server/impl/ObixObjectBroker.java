@@ -1,9 +1,8 @@
 package bpi.most.obix.server.impl;
 
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.DpDataDTO;
-import bpi.most.dto.UserDTO;
-import bpi.most.dto.ZoneDTO;
+import bpi.most.dto.*;
+import bpi.most.obix.history.HistoryQueryOutImpl;
+import bpi.most.obix.history.HistoryRecordImpl;
 import bpi.most.obix.objects.*;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.server.services.rest.utils.DateUtils;
@@ -12,6 +11,7 @@ import bpi.most.service.api.ZoneService;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -145,7 +145,7 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public List getDpData(UserDTO user, DpDTO dpDto, String from, String to) {
+    public HistoryQueryOutImpl getDpData(UserDTO user, DpDTO dpDto, String from, String to) {
         Date fromDate = DateUtils.returnNowOnNull(from);
         Date toDate = DateUtils.returnNowOnNull(to);
 
@@ -153,13 +153,19 @@ public class ObixObjectBroker implements IObjectBroker {
             return null;
         }
 
-        List list = new List(DP_DATA_LIST_NAME, new Contract(DP_DATA_LIST_CONTRACT_NAME));
+        DpDTO dp = datapointService.getDatapoint(user, dpDto);
 
-        for (DpDataDTO data : datapointService.getData(user, dpDto, fromDate, toDate)) {
-            list.add(ObixBrokerUtils.transformDpDataDTO(getDp(user, dpDto), data));
+        DpDatasetDTO data = datapointService.getData(user, dp, fromDate, toDate);
+
+        ArrayList<HistoryRecordImpl> records = new ArrayList<HistoryRecordImpl>();
+
+        for (DpDataDTO d : data) {
+            records.add(ObixBrokerUtils.transformDpDataDTO(d));
         }
 
-        return list;
+        HistoryQueryOutImpl query = new HistoryQueryOutImpl(records);
+
+        return query;
     }
 
     /**

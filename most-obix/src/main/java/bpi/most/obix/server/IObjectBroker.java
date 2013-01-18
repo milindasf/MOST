@@ -3,6 +3,7 @@ package bpi.most.obix.server;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
+import bpi.most.obix.history.HistoryQueryOutImpl;
 import bpi.most.obix.objects.*;
 
 /**
@@ -96,7 +97,7 @@ public interface IObjectBroker {
      *
      * @return A list of data points + data, which is in the UTC time interval: [from; to].
      */
-    List getDpData(UserDTO user, DpDTO dpDto, String from, String to);
+    HistoryQueryOutImpl getDpData(UserDTO user, DpDTO dpDto, String from, String to);
     // return list with all data points + data
 
     List getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type);

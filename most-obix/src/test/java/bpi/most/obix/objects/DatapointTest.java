@@ -4,6 +4,7 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
+import bpi.most.obix.history.HistoryQueryOutImpl;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.service.api.DatapointService;
@@ -96,11 +97,12 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
     @Test
     public void testGetDpDataFromIntervall_fromUser_shouldReturnSameResultsAsService() throws Exception {
         UserDTO user = new UserDTO("mostsoc");
-        DpDTO dpDto = new DpDTO("cdi1");
-        dpDto = datapointService.getDatapoint(user, dpDto);
-        DpDataDTO dpDataDto = datapointService.getData(user, dpDto);
+        DpDTO dpDto1 = new DpDTO("cdi1");
+        String fromDateTime = "2012-08-01T00:00:00";
+        String toDateTime = "2012-08-30T09:00:00";
 
-        //objectBroker.getDpData()
+        HistoryQueryOutImpl queryOutput = objectBroker.getDpData(user, dpDto1, fromDateTime, toDateTime);
+        ObixEncoder.dump(queryOutput);
     }
 
 }

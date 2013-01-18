@@ -3,6 +3,7 @@ package bpi.most.obix.server.impl;
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
+import bpi.most.obix.history.HistoryQueryOutImpl;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.objects.*;
@@ -104,11 +105,9 @@ public class ObixServer implements IObixServer {
      */
     @Override
     public String getDpData(UserDTO user, DpDTO dpDto, String from, String to) {
-        List dataPoints = objectBroker.getDpData(user, dpDto, from, to);
-        if (dataPoints != null) {
-            return ObixEncoder.toString(dataPoints);
-        }
-        return null;
+        HistoryQueryOutImpl queryOutput = objectBroker.getDpData(user, dpDto, from, to);
+
+        return ObixEncoder.toString(queryOutput);
     }
 
     /**
