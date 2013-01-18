@@ -104,7 +104,7 @@ public class Zone extends Obj {
     }
 
     public void setDescription(String description) {
-        if (this.description == null && description != null) {
+        if (description != null) {
             this.description = description;
             add(getDescription());
         }
@@ -123,7 +123,7 @@ public class Zone extends Obj {
     }
 
     public void setCountry(String country) {
-        if (this.country == null && country != null) {
+        if (country != null) {
             this.country = country;
             add(getCountry());
         }
@@ -142,7 +142,7 @@ public class Zone extends Obj {
     }
 
     public void setState(String state) {
-        if (this.state == null && state != null) {
+        if (state != null) {
             this.state = state;
             add(getState());
         }
@@ -161,7 +161,7 @@ public class Zone extends Obj {
     }
 
     public void setCounty(String county) {
-        if (this.county == null && county != null) {
+        if (county != null) {
             this.county = county;
             add(getCounty());
         }
@@ -180,7 +180,7 @@ public class Zone extends Obj {
     }
 
     public void setCity(String city) {
-        if (this.city == null && city != null) {
+        if (city != null) {
             this.city = city;
             add(getCity());
         }
@@ -199,7 +199,7 @@ public class Zone extends Obj {
     }
 
     public void setBuilding(String building) {
-        if (this.building == null && building != null) {
+        if (building != null) {
             this.building = building;
             add(getBuilding());
         }
@@ -218,7 +218,7 @@ public class Zone extends Obj {
     }
 
     public void setFloor(String floor) {
-        if (this.floor == null && floor != null) {
+        if (floor != null) {
             this.floor = floor;
             add(getFloor());
         }
@@ -237,48 +237,38 @@ public class Zone extends Obj {
     }
 
     public void setRoom(String room) {
-        if (this.room == room && room != null) {
+        if (room != null) {
             this.room = room;
             add(getRoom());
         }
     }
 
     public Real getArea() {
-        if (area == 0.0) {
-            Obj obj = get(AREA);
-            if (obj != null) {
-                return (Real)obj;
-            } else {
-                return null;
-            }
+        Obj obj = get(AREA);
+        if (obj != null) {
+            return (Real)obj;
+        } else {
+            return new Real(AREA, area);
         }
-        return new Real(AREA, area);
     }
 
     public void setArea(double area) {
-        if (this.area == area && area != 0.0d) {
-            this.area = area;
-            add(getArea());
-        }
+        this.area = area;
+        add(getArea());
     }
 
     public Real getVolume() {
-        if (volume == 0.0) {
-            Obj obj = get(VOLUME);
-            if (obj != null) {
-                return (Real)obj;
-            } else {
-                return null;
-            }
+        Obj obj = get(VOLUME);
+        if (obj != null) {
+            return (Real)obj;
+        } else {
+            return new Real(VOLUME, volume);
         }
-        return new Real(VOLUME, volume);
     }
 
     public void setVolume(double volume) {
-        if (this.volume == volume && volume != 0.0d) {
-            this.volume = volume;
-            add(getVolume());
-        }
+        this.volume = volume;
+        add(getVolume());
     }
 
     public void addURI(Uri uri) {

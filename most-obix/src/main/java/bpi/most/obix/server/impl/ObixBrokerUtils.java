@@ -26,15 +26,36 @@ public class ObixBrokerUtils {
 
     public static Zone transformZoneDTO(ZoneDTO zoneDTO) {
         Zone zone = new Zone(zoneDTO.getZoneId(), zoneDTO.getName());
-        zone.setArea(zoneDTO.getArea());
-        zone.setBuilding(zoneDTO.getBuilding());
-        zone.setCity(zoneDTO.getCity());
-        zone.setCountry(zoneDTO.getCountry());
-        zone.setCounty(zoneDTO.getCounty());
-        zone.setDescription(zoneDTO.getDescription());
-        zone.setFloor(zoneDTO.getFloor());
-        zone.setRoom(zoneDTO.getRoom());
-        zone.setState(zoneDTO.getState());
+        if (zoneDTO.getDescription() != null) {
+            zone.setDescription(zoneDTO.getDescription());
+        }
+        if (zoneDTO.getArea() != null) {
+            zone.setArea(zoneDTO.getArea());
+        }
+        if (zoneDTO.getCountry() != null) {
+            zone.setCountry(zoneDTO.getCountry());
+        }
+        if (zoneDTO.getState() != null) {
+            zone.setState(zoneDTO.getState());
+        }
+        if (zoneDTO.getCounty() != null) {
+            zone.setCounty(zoneDTO.getCounty());
+        }
+        if (zoneDTO.getCity() != null) {
+            zone.setCity(zoneDTO.getCity());
+        }
+        if (zoneDTO.getBuilding() != null) {
+            zone.setBuilding(zoneDTO.getBuilding());
+        }
+        if (zoneDTO.getFloor() != null) {
+            zone.setFloor(zoneDTO.getFloor());
+        }
+        if (zoneDTO.getRoom() != null) {
+            zone.setRoom(zoneDTO.getRoom());
+        }
+        if (zoneDTO.getVolume() != null) {
+            zone.setVolume(zoneDTO.getVolume());
+        }
 
         return zone;
     }
