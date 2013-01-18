@@ -63,6 +63,8 @@ public class Zone extends Obj {
         this.zoneID = zoneID;
         this.zoneName = name;
 
+        setName(this.zoneName);
+
         add(getZone());
         add(getZoneName());
     }

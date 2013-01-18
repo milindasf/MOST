@@ -1,7 +1,5 @@
 package bpi.most.obix.objects;
 
-import bpi.most.obix.objects.Dp;
-import bpi.most.obix.objects.DpData;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -9,11 +7,8 @@ import org.junit.Test;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.TimeZone;
 
 public class DatapointTimeTest extends TestCase {
 
@@ -174,6 +169,5 @@ public class DatapointTimeTest extends TestCase {
         Assert.assertTrue(expectedResult.size() == 0);
 
     }
-	
-	
+
 }

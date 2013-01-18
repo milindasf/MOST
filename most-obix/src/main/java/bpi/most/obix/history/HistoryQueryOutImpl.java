@@ -50,19 +50,18 @@ public class HistoryQueryOutImpl extends Obj implements HistoryQueryOut {
 	public HistoryQueryOutImpl(ArrayList<HistoryRecordImpl> historyRecords) {	
 	
 		count.setName("count");
-		count.setHref(new Uri("count"));
 		
 		start.setName("start");
-		start.setHref(new Uri("start"));
 		
 		end.setName("end");
-		end.setHref(new Uri("end"));
 		
-		resultList = new List();
+		resultList = new List("data");
 		resultList.setOf(new Contract(HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
 		for(HistoryRecordImpl historyRecord : historyRecords) {
 			resultList.add(historyRecord);
 		}
+
+        count.set(historyRecords.size());
 		
 		if(historyRecords.size() > 0) {
 			start.set(historyRecords.get(0).timestamp().get(), TimeZone.getDefault());
@@ -80,24 +79,63 @@ public class HistoryQueryOutImpl extends Obj implements HistoryQueryOut {
 		add(end);
 		add(resultList);
 	}
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Int count() {
 		return count;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Abstime start() {
 		return start;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Abstime end() {
 		return end;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public List data() {
 		return resultList;
 	}
+
+    /**
+     * Sets the Href of the history to <code>"http://x/" + name + "/history/query"</code>
+     * @param name The name of the data point, which contains the historic values
+     */
+    public void setDpName(String name) {
+        setHref(new Uri("http://x/" + name + "/history/query"));
+    }
+
+    // <obj href="#RecordDef" is="obix:HistoryRecord">
+    //   <real name="value" units="obix:units/fahrenheit"/>
+    //  </obj>
+
+    public void setUnits(String unit) {
+        resultList.setOf(new Contract("#RecordDef " + HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
+
+        Obj recordDef = new Obj();
+        recordDef.setHref(new Uri("#RecordDef"));
+        recordDef.setIs(new Contract(HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
+
+        Real real = new Real("value");
+        real.setUnit(new Uri("obix:units/"+unit));
+
+        recordDef.add(real);
+
+        add(recordDef);
+    }
 }

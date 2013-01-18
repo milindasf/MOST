@@ -6,6 +6,7 @@ import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.obix.history.HistoryQueryOutImpl;
 import bpi.most.obix.history.HistoryRecordImpl;
+import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.server.services.rest.utils.DateUtils;
@@ -38,8 +39,8 @@ public class TestHistory extends AbstractTransactionalJUnit4SpringContextTests {
         DpDTO dpDto1 = new DpDTO("cdi1");
         dpDto1 = datapointService.getDatapoint(user, dpDto1);
 
-        String fromDateTime = "2012-08-15T00:00:00";
-        String toDateTime = "2012-08-30T09:00:00";
+        String fromDateTime = "2012-08-29T17:24:00";
+        String toDateTime = "2012-08-29T17:25:00";
 
         DpDatasetDTO data = datapointService.getData(user, dpDto1, DateUtils.returnNowOnNull(fromDateTime), DateUtils.returnNowOnNull(toDateTime));
 
@@ -53,8 +54,15 @@ public class TestHistory extends AbstractTransactionalJUnit4SpringContextTests {
         }
 
         HistoryQueryOutImpl query = new HistoryQueryOutImpl(records);
+        query.setDpName(dpDto1.getName());
+        query.setUnits("celsius");
 
-        ObixEncoder.dump(query);
+        String history = ObixEncoder.toString(query);
+        System.out.println(history);
+        System.out.println();
+
+        Obj decodedHistory = ObixDecoder.fromString(history);
+        ObixEncoder.dump(decodedHistory);
     }
 
 }

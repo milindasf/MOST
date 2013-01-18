@@ -67,6 +67,38 @@ public class ZoneTest extends AbstractTransactionalJUnit4SpringContextTests {
     }
 
     @Test
+    public void testGetHeadZones_fromUser() throws Exception {
+        UserDTO user = new UserDTO("mostsoc");
+        java.util.List<ZoneDTO> zones = zoneService.getHeadZones(user);
+        junit.framework.Assert.assertEquals(1, zones.size());
+
+        List obixList = objectBroker.getHeadZones(user);
+
+        junit.framework.Assert.assertEquals(zones.size(), obixList.size());
+
+        for (ZoneDTO zone : zones) {
+            Obj obj = obixList.get(String.valueOf(zone.getName()));
+            junit.framework.Assert.assertNotNull(obj);
+
+            Zone obixZone = (Zone) obj;
+
+            junit.framework.Assert.assertEquals(zone.getZoneId(), (int)obixZone.getZone().get());
+            junit.framework.Assert.assertEquals(zone.getName(), obixZone.getZoneName().get());
+            junit.framework.Assert.assertEquals(zone.getDescription(), obixZone.getDescription().get());
+            junit.framework.Assert.assertEquals(zone.getCountry(), obixZone.getCountry().get());
+            junit.framework.Assert.assertEquals(zone.getState(), obixZone.getState().get());
+            junit.framework.Assert.assertEquals(zone.getCounty(), obixZone.getCounty().get());
+            junit.framework.Assert.assertEquals(zone.getCity(), obixZone.getCity().get());
+            junit.framework.Assert.assertEquals(zone.getBuilding(), obixZone.getBuilding().get());
+            junit.framework.Assert.assertEquals(zone.getRoom(), obixZone.getRoom().get());
+            junit.framework.Assert.assertEquals(zone.getFloor(), obixZone.getFloor().get());
+            junit.framework.Assert.assertEquals(zone.getArea(), obixZone.getArea().get());
+            junit.framework.Assert.assertEquals(zone.getVolume(), obixZone.getVolume().get());
+        }
+
+    }
+
+    @Test
     public void testGetDpFromZone_fromUser() throws Exception {
         UserDTO user = new UserDTO("mostsoc");
         java.util.List<ZoneDTO> zones = zoneService.getHeadZones(user);

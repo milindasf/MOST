@@ -26,6 +26,7 @@ public class ObixBrokerUtils {
 
     public static Zone transformZoneDTO(ZoneDTO zoneDTO) {
         Zone zone = new Zone(zoneDTO.getZoneId(), zoneDTO.getName());
+
         if (zoneDTO.getDescription() != null) {
             zone.setDescription(zoneDTO.getDescription());
         }
