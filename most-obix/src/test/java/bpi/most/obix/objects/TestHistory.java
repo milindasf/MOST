@@ -4,6 +4,7 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
 import bpi.most.dto.UserDTO;
+import bpi.most.obix.contracts.HistoryQueryOut;
 import bpi.most.obix.history.HistoryQueryOutImpl;
 import bpi.most.obix.history.HistoryRecordImpl;
 import bpi.most.obix.io.ObixDecoder;
@@ -11,6 +12,7 @@ import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.server.services.rest.utils.DateUtils;
 import bpi.most.service.api.DatapointService;
+import junit.framework.Assert;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -61,8 +63,12 @@ public class TestHistory extends AbstractTransactionalJUnit4SpringContextTests {
         System.out.println(history);
         System.out.println();
 
-        Obj decodedHistory = ObixDecoder.fromString(history);
-        ObixEncoder.dump(decodedHistory);
+        HistoryQueryOut decodedHistory = (HistoryQueryOut) ObixDecoder.fromString(history);
+        ObixEncoder.dump((Obj)decodedHistory);
+
+        Assert.assertEquals(query.count().get(), decodedHistory.count().get());
+        Assert.assertEquals(query.start().get(), decodedHistory.start().get());
+        Assert.assertEquals(query.end().get(), decodedHistory.end().get());
     }
 
 }
