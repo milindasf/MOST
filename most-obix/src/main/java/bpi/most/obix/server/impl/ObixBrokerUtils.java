@@ -4,8 +4,10 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.history.HistoryRecordImpl;
+import bpi.most.obix.history.HistoryRollupRecordImpl;
 import bpi.most.obix.objects.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -74,5 +76,9 @@ public class ObixBrokerUtils {
         Abstime time = new Abstime("timestamp", dpDataDto.getTimestamp().getTime());
 
         return new HistoryRecordImpl(o, time);
+    }
+
+    public static HistoryRollupRecordImpl transformDpDataDTO(ArrayList<DpData> data) {
+        return new HistoryRollupRecordImpl(data);
     }
 }

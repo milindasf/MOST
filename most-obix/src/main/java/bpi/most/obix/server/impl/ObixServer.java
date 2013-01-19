@@ -4,9 +4,13 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.history.HistoryQueryOutImpl;
+import bpi.most.obix.history.HistoryRollupOutImpl;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
-import bpi.most.obix.objects.*;
+import bpi.most.obix.objects.Dp;
+import bpi.most.obix.objects.DpData;
+import bpi.most.obix.objects.List;
+import bpi.most.obix.objects.Zone;
 import bpi.most.obix.server.IObixServer;
 import bpi.most.obix.server.IObjectBroker;
 
@@ -115,11 +119,9 @@ public class ObixServer implements IObixServer {
      */
     @Override
     public String getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type) {
-        List dataPoints = objectBroker.getDpPeriodicData(user, dpDto, from, to, period, mode, type);
-        if (dataPoints != null) {
-            return ObixEncoder.toString(dataPoints);
-        }
-        return null;
+        HistoryRollupOutImpl rollupOutput = objectBroker.getDpPeriodicData(user, dpDto, from, to, period, mode, type);
+
+        return ObixEncoder.toString(rollupOutput);
     }
 
     /**

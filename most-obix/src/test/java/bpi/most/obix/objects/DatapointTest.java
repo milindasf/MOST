@@ -4,6 +4,7 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.obix.history.HistoryQueryOutImpl;
+import bpi.most.obix.history.HistoryRollupOutImpl;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.service.api.DatapointService;
@@ -80,12 +81,14 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
     @Test
     public void testGetDpDataPeriodic_fromUser_shouldReturnSameResultsAsService() throws Exception {
         UserDTO user = new UserDTO("mostsoc");
-        DpDTO dpDto1 = new DpDTO("cdi1");
-        String fromDateTime = "2012-08-01T00:00:00";
-        String toDateTime = "2012-08-30T09:00:00";
+        DpDTO dpDto = new DpDTO("cdi1");
+        dpDto = datapointService.getDatapoint(user, dpDto);
 
-        // TODO
-        // objectBroker.getDpPeriodicData(user, dpDto1, fromDateTime, toDateTime, 60, 1, 1);
+        String fromDateTime = "2012-08-28T17:00:00";
+        String toDateTime = "2012-08-29T17:00:00";
+
+        HistoryRollupOutImpl rollupOutput = objectBroker.getDpPeriodicData(user, dpDto, fromDateTime, toDateTime, (float) 60 * 5, 1, 60*60);
+        ObixEncoder.dump(rollupOutput);
     }
 
 }

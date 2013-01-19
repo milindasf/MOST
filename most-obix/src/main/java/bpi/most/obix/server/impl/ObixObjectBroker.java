@@ -3,6 +3,8 @@ package bpi.most.obix.server.impl;
 import bpi.most.dto.*;
 import bpi.most.obix.history.HistoryQueryOutImpl;
 import bpi.most.obix.history.HistoryRecordImpl;
+import bpi.most.obix.history.HistoryRollupOutImpl;
+import bpi.most.obix.history.HistoryRollupRecordImpl;
 import bpi.most.obix.objects.*;
 import bpi.most.obix.server.IObjectBroker;
 import bpi.most.server.services.rest.utils.DateUtils;
@@ -172,7 +174,7 @@ public class ObixObjectBroker implements IObjectBroker {
      * {@inheritDoc}
      */
     @Override
-    public List getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type) {
+    public HistoryRollupOutImpl getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int interval) {
         Date fromDate = DateUtils.returnNowOnNull(from);
         Date toDate = DateUtils.returnNowOnNull(to);
 
@@ -180,13 +182,39 @@ public class ObixObjectBroker implements IObjectBroker {
             return null;
         }
 
-        List list = new List(DP_DATA_LIST_NAME, new Contract(DP_DATA_LIST_CONTRACT_NAME));
+        DpDatasetDTO data = datapointService.getDataPeriodic(user, dpDto, fromDate, toDate, period, mode);
 
-        for (DpDataDTO data : datapointService.getDataPeriodic(user, dpDto, fromDate, toDate, period, mode)) {
-            list.add(ObixBrokerUtils.transformDpDataDTO(getDp(user, dpDto), data));
+        ArrayList<HistoryRollupRecordImpl> records = new ArrayList<HistoryRollupRecordImpl>();
+        ArrayList<DpData> dpDataList = new ArrayList<DpData>();
+        Dp dp = ObixBrokerUtils.transformDpDTO(dpDto);
+
+        long intervalStart = fromDate.getTime();
+        long intervalMillis = interval*1000;
+        long intervalEnd = intervalStart + intervalMillis;
+
+        for (DpDataDTO d : data) {
+            long time = d.getTimestamp().getTime();
+            if (time > intervalStart && time <= intervalEnd) {
+                dpDataList.add(ObixBrokerUtils.transformDpDataDTO(dp, d));
+
+            } else if (time > intervalEnd) {
+                int initialSize = dpDataList.size();
+                records.add(ObixBrokerUtils.transformDpDataDTO(dpDataList));
+
+                dpDataList = new ArrayList<DpData>(initialSize);
+                intervalStart = intervalEnd;
+                intervalEnd += intervalMillis;
+
+                if (time > intervalStart && time <= intervalEnd) {
+                    dpDataList.add(ObixBrokerUtils.transformDpDataDTO(dp, d));
+                }
+            }
         }
 
-        return list;
+
+        HistoryRollupOutImpl rollupOutput = new HistoryRollupOutImpl(records, fromDate.getTime(), toDate.getTime());
+
+        return rollupOutput;
     }
 
     /**

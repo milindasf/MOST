@@ -4,6 +4,7 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
 import bpi.most.obix.history.HistoryQueryOutImpl;
+import bpi.most.obix.history.HistoryRollupOutImpl;
 import bpi.most.obix.objects.*;
 
 /**
@@ -100,7 +101,7 @@ public interface IObjectBroker {
     HistoryQueryOutImpl getDpData(UserDTO user, DpDTO dpDto, String from, String to);
     // return list with all data points + data
 
-    List getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type);
+    HistoryRollupOutImpl getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int interval);
 
     public bpi.most.obix.objects.Zone getZone(UserDTO user, ZoneDTO zone);
 

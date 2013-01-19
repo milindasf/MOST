@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -69,6 +70,20 @@ public class TestHistory extends AbstractTransactionalJUnit4SpringContextTests {
         Assert.assertEquals(query.count().get(), decodedHistory.count().get());
         Assert.assertEquals(query.start().get(), decodedHistory.start().get());
         Assert.assertEquals(query.end().get(), decodedHistory.end().get());
+    }
+
+    @Test
+    public void testHistoryRollup() {
+        UserDTO user = new UserDTO("mostsoc");
+        DpDTO dpDto = new DpDTO("cdi1");
+        dpDto = datapointService.getDatapoint(user, dpDto);
+
+        Date fromDate = DateUtils.returnNowOnNull("2012-08-28T17:00:00");
+        Date toDate = DateUtils.returnNowOnNull("2012-08-29T17:00:00");
+
+        DpDatasetDTO data = datapointService.getDataPeriodic(user, dpDto, fromDate, toDate, (float) 60*5, 1);
+
+        System.out.println();
     }
 
 }

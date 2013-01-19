@@ -57,7 +57,7 @@ public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord 
         }
 
         if (data.size() > 1) {
-            sortByTimestamp(data);
+
             start = new Abstime("start", data.get(0).getTimestamp().get());
             end = new Abstime("end", data.get(data.size()-1).getTimestamp().get());
             count = new Int("count", data.size());
@@ -75,16 +75,18 @@ public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord 
 
             this.sum = new Real("sum", sum);
             this.avg = new Real("avg", this.sum.get() / this.count.get());
+
         } else {
             DpData d = data.get(0);
+            double val = d.getValue().get();;
 
             start = new Abstime("start", d.getTimestamp().get());
             end = new Abstime("end", d.getTimestamp().get());
             count = new Int("count", data.size());
-            min = new Real("min", d.getValue().get());
-            max = new Real("max", d.getValue().get());
-            this.sum = new Real("sum", d.getValue().get());
-            this.avg = new Real("avg", d.getValue().get());
+            min = new Real("min", val);
+            max = new Real("max", val);
+            this.sum = new Real("sum", val);
+            this.avg = new Real("avg", val);
         }
 
         add(start());
@@ -95,11 +97,6 @@ public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord 
         add(avg());
         add(sum());
 	}
-
-    private void sortByTimestamp(ArrayList<DpData> data) {
-        DpDataComparator comparator = new DpDataComparator();
-        Collections.sort(data, comparator);
-    }
 
     private void sortByValue(ArrayList<DpData> data) {
         DpDataComparator comparator = new DpDataComparator();

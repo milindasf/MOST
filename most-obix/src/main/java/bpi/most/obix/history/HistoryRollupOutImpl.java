@@ -36,6 +36,7 @@ import bpi.most.obix.contracts.HistoryRollupOut;
 import bpi.most.obix.objects.*;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 public class HistoryRollupOutImpl extends Obj implements HistoryRollupOut {
 
@@ -46,13 +47,16 @@ public class HistoryRollupOutImpl extends Obj implements HistoryRollupOut {
 
 	public static final String HISTORY_ROLLUP_OUT_CONTRACT = "obix:HistoryRollupOut";
 
-	public HistoryRollupOutImpl(ArrayList<HistoryRollupRecordImpl> historyRecords) {
+	public HistoryRollupOutImpl(ArrayList<HistoryRollupRecordImpl> historyRecords, long start, long end) {
 	
-		count.setName("count");
-		
-		start.setName("start");
-		
-		end.setName("end");
+		this.count.setName("count");
+        count.set(historyRecords.size());
+
+		this.start.setName("start");
+        this.start.set(start, TimeZone.getDefault());
+
+		this.end.setName("end");
+        this.start.set(end, TimeZone.getDefault());
 		
 		resultList = new List("data");
 		resultList.setOf(new Contract(HistoryRollupOutImpl.HISTORY_ROLLUP_OUT_CONTRACT));
@@ -60,23 +64,12 @@ public class HistoryRollupOutImpl extends Obj implements HistoryRollupOut {
 			resultList.add(historyRecord);
 		}
 
-        count.set(historyRecords.size());
-		
-		if(historyRecords.size() > 0) {
-			// start.set(historyRecords.get(0).timestamp().get(), TimeZone.getDefault());
-		}
-		
-		if(historyRecords.size() > 0) {
-			// end.set(historyRecords.get(historyRecords.size()-1).timestamp().get(), TimeZone.getDefault());
-		}
-		
-		//count.setSilent(resultList.size());
 		setIs(new Contract(HISTORY_ROLLUP_OUT_CONTRACT));
 		
-		add(count);
-		add(start);
-		add(end);
-		add(resultList);
+		add(this.count);
+		add(this.start);
+		add(this.end);
+		add(this.resultList);
 	}
 
     /**
