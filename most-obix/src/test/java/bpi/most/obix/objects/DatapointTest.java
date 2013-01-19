@@ -88,6 +88,9 @@ public class DatapointTest extends AbstractTransactionalJUnit4SpringContextTests
         String toDateTime = "2012-08-29T17:00:00";
 
         HistoryRollupOutImpl rollupOutput = objectBroker.getDpPeriodicData(user, dpDto, fromDateTime, toDateTime, (float) 60 * 5, 1, 60*60);
+        rollupOutput.setDpName(dpDto.getName());
+        rollupOutput.setUnits("kilowatt");
+
         ObixEncoder.dump(rollupOutput);
     }
 
