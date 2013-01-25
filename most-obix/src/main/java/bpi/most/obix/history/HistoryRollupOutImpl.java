@@ -38,30 +38,48 @@ import bpi.most.obix.objects.*;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
+/**
+ * Implementation of the {@link HistoryRollupOut} contract.
+ *
+ * @author Alexej Strelzow
+ */
 public class HistoryRollupOutImpl extends Obj implements HistoryRollupOut {
 
 	private List resultList;
-	private Int count = new Int();
-	private Abstime start = new Abstime();
-	private Abstime end = new Abstime();
+	private Int count;
+	private Abstime start;
+	private Abstime end;
 
 	public static final String HISTORY_ROLLUP_OUT_CONTRACT = "obix:HistoryRollupOut";
+    public static final String RECORD_DEF = "#RecordDef";
 
-	public HistoryRollupOutImpl(ArrayList<HistoryRollupRecordImpl> historyRecords, long start, long end) {
-	
-		this.count.setName("count");
-        count.set(historyRecords.size());
+    /**
+     * Constructor.
+     *
+     * @param historyRollupRecords The history rollup records
+     * @param start The start time as millis (query start time)
+     * @param end The end time as millis (query end time)
+     */
+	public HistoryRollupOutImpl(ArrayList<HistoryRollupRecordImpl> historyRollupRecords, long start, long end) {
 
-		this.start.setName("start");
+        if (historyRollupRecords == null) {
+            throw new IllegalArgumentException("Data must not be null!");
+        }
+
+        count = new Int("count");
+        count.set(historyRollupRecords.size());
+
+        this.start = new Abstime("start");
         this.start.set(start, TimeZone.getDefault());
 
-		this.end.setName("end");
+        this.end = new Abstime("end");
         this.start.set(end, TimeZone.getDefault());
 		
 		resultList = new List("data");
+
 		resultList.setOf(new Contract(HistoryRollupOutImpl.HISTORY_ROLLUP_OUT_CONTRACT));
-		for(HistoryRollupRecordImpl historyRecord : historyRecords) {
-			resultList.add(historyRecord);
+		for(HistoryRollupRecordImpl historyRollupRecord : historyRollupRecords) {
+			resultList.add(historyRollupRecord);
 		}
 
 		setIs(new Contract(HISTORY_ROLLUP_OUT_CONTRACT));
@@ -112,19 +130,42 @@ public class HistoryRollupOutImpl extends Obj implements HistoryRollupOut {
         setHref(new Uri("http://x/" + name + "/history/query"));
     }
 
-    // <obj href="#RecordDef" is="obix:HistoryRecord">
-    //   <real name="value" units="obix:units/fahrenheit"/>
-    //  </obj>
-
+    /**
+     *  Sets the units of the records. Additionally an obj of #RecordDef
+     *  will be appended as a sibling of the list element.
+     *  <code>
+     *  <obj href="#RecordDef" is="obix:HistoryRecord">
+     *   <real name="value" units="obix:units/fahrenheit"/>
+     *  </obj>
+     *  </code>
+     *
+     *  @param unit The unit of each record, e.g. "farenheit"
+     */
     public void setUnits(String unit) {
-        resultList.setOf(new Contract("#RecordDef " + HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
+        setUnits(new Uri("obix:units/"+unit));
+    }
+
+    /**
+     *  Sets the units of the records. Additionally an obj of #RecordDef
+     *  will be appended as a sibling of the list element.
+     *  <code>
+     *  <obj href="#RecordDef" is="obix:HistoryRecord">
+     *   <real name="value" units="obix:units/fahrenheit"/>
+     *  </obj>
+     *  </code>
+     *
+     *  @param unit The unit of each record, e.g. "farenheit"
+     */
+    public void setUnits(Uri unit) {
+        resultList.setOf(new Contract(RECORD_DEF + " " + HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
 
         Obj recordDef = new Obj();
-        recordDef.setHref(new Uri("#RecordDef"));
+        recordDef.setHref(new Uri(RECORD_DEF));
         recordDef.setIs(new Contract(HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
 
         Real real = new Real("value");
-        real.setUnit(new Uri("obix:units/"+unit));
+
+        real.setUnit(unit);
 
         recordDef.add(real);
 

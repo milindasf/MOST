@@ -36,12 +36,22 @@ import bpi.most.obix.objects.Abstime;
 import bpi.most.obix.objects.Obj;
 import bpi.most.obix.contracts.HistoryRecord;
 
+/**
+ * Implementation of the {@link HistoryRecord} contract.
+ *
+ * @author Alexej Strelzow
+ */
 public class HistoryRecordImpl extends Obj implements HistoryRecord {
 	protected Obj value;
 	protected Abstime abstime;
 	
 	public static final String HISTORY_RECORD_CONTRACT = "obix:HistoryRecord";
-	
+
+    /**
+     * Constructor, which sets the time to the current system time.
+     *
+     * @param value The value of the record
+     */
 	public HistoryRecordImpl(Obj value) {
 		this.value = value;
 		abstime = new Abstime(System.currentTimeMillis());
@@ -50,6 +60,12 @@ public class HistoryRecordImpl extends Obj implements HistoryRecord {
 		add(timestamp());
 	}
 
+    /**
+     * Constructor.
+     *
+     * @param value The value of the record
+     * @param timestamp The timestamp of the record
+     */
     public HistoryRecordImpl(Obj value, Abstime timestamp) {
         this.value = value;
         this.abstime = timestamp;
@@ -57,12 +73,18 @@ public class HistoryRecordImpl extends Obj implements HistoryRecord {
         add(value());
         add(timestamp());
     }
-	
+
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Abstime timestamp() {
 		return abstime;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Obj value() {
 		return value;

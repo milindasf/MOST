@@ -32,6 +32,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      */
     @Override
     public String getDpData(String name) {
+        LOG.info("returning data");
         return server.getDpData(getUser(), new DpDTO(name));
     }
 
@@ -51,6 +52,8 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      */
     @Override
     public void addDpData(String dpName, String encodedDpData) {
+        LOG.info("adding new data to datapoint: " + dpName);
+        LOG.info(encodedDpData);
         server.addDpData(getUser(), new DpDTO(dpName), encodedDpData);
     }
 
@@ -78,6 +81,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      */
     @Override
     public String getDpData(String name, String from, String to) {
+        LOG.info("returning data from " + name + " with interval " + from + " - " + to);
         return server.getDpData(getUser(), new DpDTO(name), from, to);
     }
 
@@ -86,6 +90,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
      */
     @Override
     public String getDpPeriodicData(String dpName, String from, String to, int period, int mode, int type) {
+        LOG.info("returning periodic data");
         return server.getDpPeriodicData(getUser(), new DpDTO(dpName), from, to, (float) period, mode, type);
     }
 }

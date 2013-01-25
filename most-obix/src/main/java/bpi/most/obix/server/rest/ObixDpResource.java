@@ -76,22 +76,36 @@ public interface ObixDpResource {
     @GET
 //    @Path("/")
     String getAllDps();
-    // return list with all data points
 
     /**
-     * GET /obix/dp/{name}/data?from={UCT datetime}&to=
-     * {UCT datetime}
+     * GET /obix/dp/{name}/data?from={UTC datetime}&to={UTC datetime}
      *
-     * @param from
-     * @param to
+     * @param  name The name of the data point
+     * @param from The from UTC string
+     * @param to The to UTC string
      * @return
      */
     @GET
     @Path("/data")
     String getDpData(@PathParam("name") String name, @QueryParam("from") String from, @QueryParam("to") String to);
 
-
+    /**
+     * GET /obix/dp/{name}/periodicdata?from={UTC datetime}&to={UTC datetime}&period={period}
+     *      &mode={mode}&rollupInterval={rollupInterval}
+     *
+     * @param name The name of the data point
+     * @param from The from UTC string
+     * @param to The to UTC string
+     * @param period The period in seconds, e.g. 60 means: give me data [<from>; <to>] in 1 minute intervals
+     * @param mode The mode, in which the data should be retrieved
+     * @param rollupInterval The grouping interval in seconds, e.g. 60*5 means: give me
+     *          data [<from>; <to>] in <period> intervals with the mode <mode> in intervals of
+     *          <rollupInterval>, in which the data should be aggregated and so on
+     * @return The history rollup, which contains a list of aggregated intervals
+     */
     @GET
     @Path("/{name}/periodicdata")
-    String getDpPeriodicData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("period") int period, @QueryParam("mode") int mode, @QueryParam("type") int type);
+    String getDpPeriodicData(@PathParam("name") String name, @QueryParam("from") String from,
+                             @QueryParam("to") String to, @QueryParam("period") int period,
+                             @QueryParam("mode") int mode, @QueryParam("type") int rollupInterval);
 }

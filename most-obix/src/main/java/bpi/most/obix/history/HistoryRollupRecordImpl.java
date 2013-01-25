@@ -39,6 +39,11 @@ import bpi.most.obix.objects.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Implementation of the {@link HistoryRollupRecord} contract.
+ *
+ * @author Alexej Strelzow
+ */
 public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord {
 
 	protected Abstime start;
@@ -51,6 +56,11 @@ public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord 
 
     public static final String HISTORY_RECORD_CONTRACT = "obix:HistoryRollupRecord";
 
+    /**
+     * Constructor
+     *
+     * @param data The list of data
+     */
 	public HistoryRollupRecordImpl(ArrayList<DpData> data) {
         if (data == null) {
             throw new IllegalArgumentException("Data must not be null!");

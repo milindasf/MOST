@@ -38,25 +38,41 @@ import bpi.most.obix.contracts.HistoryQueryOut;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
+/**
+ * Implementation of the {@link HistoryQueryOut} contract.
+ * It contains a list of history records, which are
+ * implementations of {@link bpi.most.obix.contracts.HistoryRecord}.
+ *
+ * @author Alexej Strelzow
+ */
 public class HistoryQueryOutImpl extends Obj implements HistoryQueryOut {
 
 	private List resultList;
-	private Int count = new Int();
-	private Abstime start = new Abstime();
-	private Abstime end = new Abstime();
+	private Int count;
+	private Abstime start;
+	private Abstime end;
 	
 	public static final String HISTORY_QUERY_OUT_CONTRACT = "obix:HistoryQueryOut";
-	
-	public HistoryQueryOutImpl(ArrayList<HistoryRecordImpl> historyRecords) {	
-	
-		count.setName("count");
-		
-		start.setName("start");
-		
-		end.setName("end");
+    public static final String RECORD_DEF = "#RecordDef";
+
+    /**
+     * Constructor.
+     *
+     * @param historyRecords The history records
+     */
+	public HistoryQueryOutImpl(ArrayList<HistoryRecordImpl> historyRecords) {
+
+        if (historyRecords == null) {
+            throw new IllegalArgumentException("Data must not be null!");
+        }
+
+        count = new Int("count");
+        start = new Abstime("start");
+        end = new Abstime("end");
 		
 		resultList = new List("data");
 		resultList.setOf(new Contract(HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
+
 		for(HistoryRecordImpl historyRecord : historyRecords) {
 			resultList.add(historyRecord);
 		}
@@ -70,8 +86,7 @@ public class HistoryQueryOutImpl extends Obj implements HistoryQueryOut {
 		if(historyRecords.size() > 0) {
 			end.set(historyRecords.get(historyRecords.size()-1).timestamp().get(), TimeZone.getDefault());
 		}
-		
-		//count.setSilent(resultList.size());
+
 		setIs(new Contract(HISTORY_QUERY_OUT_CONTRACT));
 		
 		add(count);
@@ -114,25 +129,49 @@ public class HistoryQueryOutImpl extends Obj implements HistoryQueryOut {
 
     /**
      * Sets the Href of the history to <code>"http://x/" + name + "/history/query"</code>
+     *
      * @param name The name of the data point, which contains the historic values
      */
     public void setDpName(String name) {
         setHref(new Uri("http://x/" + name + "/history/query"));
     }
 
-    // <obj href="#RecordDef" is="obix:HistoryRecord">
-    //   <real name="value" units="obix:units/fahrenheit"/>
-    //  </obj>
-
+   /**
+    *  Sets the units of the records. Additionally an obj of #RecordDef
+    *  will be appended as a sibling of the list element.
+    *  <code>
+    *  <obj href="#RecordDef" is="obix:HistoryRecord">
+    *   <real name="value" units="obix:units/fahrenheit"/>
+    *  </obj>
+    *  </code>
+    *
+    *  @param unit The unit of each record, e.g. "celsius"
+    */
     public void setUnits(String unit) {
-        resultList.setOf(new Contract("#RecordDef " + HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
+        setUnits(new Uri("obix:units/"+unit));
+    }
+
+    /**
+     *  Sets the units of the records. Additionally an obj of #RecordDef
+     *  will be appended as a sibling of the list element.
+     *  <code>
+     *  <obj href="#RecordDef" is="obix:HistoryRecord">
+     *   <real name="value" units="obix:units/fahrenheit"/>
+     *  </obj>
+     *  </code>
+     *
+     *  @param unit The unit as {@link Uri}.
+     */
+    public void setUnits(Uri unit) {
+        resultList.setOf(new Contract(RECORD_DEF + " " + HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
 
         Obj recordDef = new Obj();
-        recordDef.setHref(new Uri("#RecordDef"));
+        recordDef.setHref(new Uri(RECORD_DEF));
         recordDef.setIs(new Contract(HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
 
         Real real = new Real("value");
-        real.setUnit(new Uri("obix:units/"+unit));
+
+        real.setUnit(unit);
 
         recordDef.add(real);
 
