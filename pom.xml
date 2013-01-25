@@ -247,6 +247,14 @@
             <organizationUrl>http://www.tuwien.ac.at/</organizationUrl>
             <timezone>+1</timezone>
         </developer>
+        <developer>
+            <id>astrelzow</id>
+            <name>Alexej Strelzow</name>
+            <email>alexej.strelzow@gmail.com</email>
+            <organization>Vienna University of Technology</organization>
+            <organizationUrl>http://www.tuwien.ac.at/</organizationUrl>
+            <timezone>+1</timezone>
+        </developer>
         <!-- TODO add all developers -->
     </developers>
 
