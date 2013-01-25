@@ -83,7 +83,7 @@ public class ObixServer implements IObixServer {
      * {@inheritDoc}
      */
     @Override
-    public void updateDp(UserDTO user, String dpName, String encodedDp) {
+    public void updateDp(UserDTO user, DpDTO dpDto, String encodedDp) {
         if (encodedDp != null) {
             Dp dp = (Dp) ObixDecoder.fromString(encodedDp);
             if (dp != null) {
@@ -118,8 +118,8 @@ public class ObixServer implements IObixServer {
      * {@inheritDoc}
      */
     @Override
-    public String getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int type) {
-        HistoryRollupOutImpl rollupOutput = objectBroker.getDpPeriodicData(user, dpDto, from, to, period, mode, type);
+    public String getDpPeriodicData(UserDTO user, DpDTO dpDto, String from, String to, float period, int mode, int rollupInterval) {
+        HistoryRollupOutImpl rollupOutput = objectBroker.getDpPeriodicData(user, dpDto, from, to, period, mode, rollupInterval);
 
         return ObixEncoder.toString(rollupOutput);
     }

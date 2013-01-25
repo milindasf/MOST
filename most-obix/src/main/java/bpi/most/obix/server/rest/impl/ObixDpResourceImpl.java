@@ -65,7 +65,7 @@ public class ObixDpResourceImpl extends BaseResImpl implements ObixDpResource {
         LOG.warn("updating datapoint " + dpName + "\n" + encodedDp + "\nbut is is not implemented yet.");
         throw new WebApplicationException(NOT_IMPLEMENTED);
 
-        //server.updateDp(getUser(), dpName, encodedDp);
+        //server.updateDp(getUser(), new DpDTO(dpName), encodedDp);
     }
 
     /**
