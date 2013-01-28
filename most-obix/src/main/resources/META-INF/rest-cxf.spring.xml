@@ -30,6 +30,6 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 
     <context:component-scan base-package="bpi.most.obix.server.rest"/>
 
-    <bean id="obixZoneResource" class="bpi.most.obix.server.rest.ObixZoneResource" scope="prototype"/>
-    <bean id="obixDpResource" class="bpi.most.obix.server.rest.ObixDpResource" scope="prototype"/>
+    <bean id="obixZoneResource" class="bpi.most.obix.server.rest.ObixZoneResourceImpl" scope="prototype"/>
+    <bean id="obixDpResource" class="bpi.most.obix.server.rest.ObixDpResourceImpl" scope="prototype"/>
 </beans>
