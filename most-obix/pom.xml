@@ -13,7 +13,7 @@
 
   <groupId>bpi.most</groupId>
   <artifactId>most-obix</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>MOST oBIX</name>
 
     <dependencies>

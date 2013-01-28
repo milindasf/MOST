@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <!-- oBix Zone Resource -->
+    <jaxrs:server id="zoneService" address="/obix/zones" beanNames="obixZoneResource">
+        <jaxrs:inInterceptors>
+            <ref bean="authFilter"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+
+    <!-- oBix Datapoint Resource -->
+    <jaxrs:server id="dpService" address="/obix/dp" beanNames="obixDpResource">
+        <jaxrs:inInterceptors>
+            <ref bean="authFilter"/>
+        </jaxrs:inInterceptors>
+    </jaxrs:server>
+
+    <context:component-scan base-package="bpi.most.obix.server.rest"/>
+
+    <bean id="obixZoneResource" class="bpi.most.obix.server.rest.ObixZoneResource" scope="prototype"/>
+    <bean id="obixDpResource" class="bpi.most.obix.server.rest.ObixDpResource" scope="prototype"/>
+</beans>
