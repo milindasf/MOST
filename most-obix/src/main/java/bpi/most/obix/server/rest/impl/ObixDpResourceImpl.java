@@ -3,7 +3,6 @@ package bpi.most.obix.server.rest.impl;
 import bpi.most.dto.DpDTO;
 import bpi.most.obix.server.impl.ObixServer;
 import bpi.most.obix.server.rest.ObixDpResource;
-import bpi.most.server.services.rest.impl.BaseResImpl;
 
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;

@@ -13,6 +13,7 @@ import bpi.most.obix.objects.List;
 import bpi.most.obix.objects.Zone;
 import bpi.most.obix.server.IObixServer;
 import bpi.most.obix.server.IObjectBroker;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,7 @@ import javax.inject.Inject;
  *
  * @author Alexej Strelzow
  */
+@Component
 public class ObixServer implements IObixServer {
 
     @Inject

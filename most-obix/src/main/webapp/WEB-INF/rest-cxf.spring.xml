@@ -11,25 +11,28 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://cxf.apache.org/jaxrs
 http://cxf.apache.org/schemas/jaxrs.xsd">
 
+    <!-- most-service-impl spring configuration -->
+    <import resource="classpath:META-INF/most-service.spring.xml" />
+
+    <context:component-scan base-package="bpi.most.obix"/>
+
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
     <!-- oBix Zone Resource -->
-    <jaxrs:server id="zoneService" address="/obix/zones" beanNames="obixZoneResource">
+    <jaxrs:server id="zoneService" address="/zones" beanNames="obixZoneResource">
         <jaxrs:inInterceptors>
             <ref bean="authFilter"/>
         </jaxrs:inInterceptors>
     </jaxrs:server>
 
     <!-- oBix Datapoint Resource -->
-    <jaxrs:server id="dpService" address="/obix/dp" beanNames="obixDpResource">
+    <jaxrs:server id="dpService" address="/dp" beanNames="obixDpResource">
         <jaxrs:inInterceptors>
             <ref bean="authFilter"/>
         </jaxrs:inInterceptors>
     </jaxrs:server>
 
-    <context:component-scan base-package="bpi.most.obix.server.rest"/>
-
-    <bean id="obixZoneResource" class="bpi.most.obix.server.rest.ObixZoneResourceImpl" scope="prototype"/>
-    <bean id="obixDpResource" class="bpi.most.obix.server.rest.ObixDpResourceImpl" scope="prototype"/>
+    <bean id="obixZoneResource" class="bpi.most.obix.server.rest.impl.ObixZoneResourceImpl" />
+    <bean id="obixDpResource" class="bpi.most.obix.server.rest.impl.ObixDpResourceImpl" />
 </beans>

@@ -10,7 +10,7 @@ import bpi.most.obix.history.HistoryRecordImpl;
 import bpi.most.obix.io.ObixDecoder;
 import bpi.most.obix.io.ObixEncoder;
 import bpi.most.obix.server.IObjectBroker;
-import bpi.most.server.services.rest.utils.DateUtils;
+import bpi.most.obix.utils.DateUtils;
 import bpi.most.service.api.DatapointService;
 import junit.framework.Assert;
 import org.junit.Test;

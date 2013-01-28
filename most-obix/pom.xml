@@ -29,6 +29,13 @@
             <version>2.6.2</version>
         </dependency>
 
+        <!-- Spring modules that do NOT come with cxf -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.7.RELEASE</version>
+        </dependency>
+
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-service-impl</artifactId>
@@ -36,10 +43,6 @@
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-service-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>bpi.most</groupId>
-            <artifactId>most-rest</artifactId>
         </dependency>
         <dependency>
             <groupId>bpi.most</groupId>

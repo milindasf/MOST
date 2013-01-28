@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <!-- CXF with spring configuration -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>WEB-INF/rest-cxf.spring.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/obix/*</url-pattern>
+    </servlet-mapping>
+    <!-- END cxf config -->
+
+    <!-- JNDI entries -->
+    <!-- db properties -->
+    <env-entry>
+        <env-entry-name>db/hostname</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>demo-most.bpi.tuwien.ac.at</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>db/username</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>mostsoc</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>db/password</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>demo12</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>db/database</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>mon_development</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>db/conPoolMax</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>10</env-entry-value>
+    </env-entry>
+    <env-entry>
+        <env-entry-name>db/conPoolMin</env-entry-name>
+        <env-entry-type>java.lang.Integer</env-entry-type>
+        <env-entry-value>100</env-entry-value>
+    </env-entry>
+
+
+</web-app>
