@@ -26,7 +26,10 @@ public class OpcMostServerStartServlet extends HttpServlet {
 
 
 	private MostOpcUaServer uaServer;
-	
+
+    /*
+    its gonna be awesome
+     */
 	
 	private String endpointUrl = "opc.tcp://127.0.0.1:6001/mostopcua";
 	private String keyPhrase = "mostrulez";
