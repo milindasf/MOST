@@ -1,11 +1,16 @@
 package bpi.most.server.services.opcua.server.nodes;
 
-import bpi.most.opc.uaserver.ReferenceType;
-import bpi.most.opc.uaserver.annotation.*;
 import org.opcfoundation.ua.core.NodeClass;
 
+import bpi.most.opcua.server.ReferenceType;
+import bpi.most.opcua.server.annotation.Description;
+import bpi.most.opcua.server.annotation.DisplayName;
+import bpi.most.opcua.server.annotation.ID;
+import bpi.most.opcua.server.annotation.Property;
+import bpi.most.opcua.server.annotation.Reference;
+import bpi.most.opcua.server.annotation.UaNode;
+
 /**
- * UA-Node representation of a {@link Datapoint}
  * @author harald
  *
  */

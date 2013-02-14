@@ -1,18 +1,19 @@
 package bpi.most.server.services.opcua.server;
 
-import bpi.most.server.services.opcua.server.nodes.DpNode;
-import bpi.most.server.services.opcua.server.nodes.ZoneNode;
-import bpi.most.service.api.DatapointService;
-import bpi.most.service.api.ZoneService;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import junit.framework.Assert;
+
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import javax.inject.Inject;
-import java.util.List;
+import bpi.most.domain.zone.Zone;
+import bpi.most.server.services.opcua.server.nodes.DpNode;
+import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 
 /**
  * Tests for {@link MostNodeManager}.
@@ -21,21 +22,12 @@ import java.util.List;
  */
 @ContextConfiguration(locations = "/META-INF/opcua.service.spring.xml")
 public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
-
-
-    @Inject private ZoneService zService;
-    @Inject private DatapointService dpService;
-
-    private MostNodeManager mostNodeManager;
-
-    @Before
-    public void setUp() throws Exception {
-        mostNodeManager = new MostNodeManager("mostsoc", zService, dpService);
-    }
+    @Inject
+    MostNodeManager mostNodeManager;
 
     @After
     public void tearDown() throws Exception {
-        mostNodeManager = null;
+
     }
 
     @Test
@@ -46,13 +38,13 @@ public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContex
     
     @Test
     public void testGetChildren() throws Exception {
-        List<Object> zones = (List<Object>) mostNodeManager.getChildren(ZoneNode.class.getSimpleName(), "1");
+        List<Object> zones = (List<Object>) mostNodeManager.getChildren(ZoneNode.class, "1");
         Assert.assertEquals(5, zones.size());
         
         zones = (List<Object>) mostNodeManager.getChildren(null, "1");
         Assert.assertEquals(0, zones.size());
         
-        zones = (List<Object>) mostNodeManager.getChildren("asdf", "1");
+        zones = (List<Object>) mostNodeManager.getChildren(Zone.class, "1");
         Assert.assertEquals(0, zones.size());
     }
     
@@ -61,10 +53,10 @@ public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContex
     	Object o = mostNodeManager.getObjectById(null, "1");
         Assert.assertNull(o);
         
-        o = mostNodeManager.getObjectById(ZoneNode.class.getSimpleName(), "1");
+        o = mostNodeManager.getObjectById(ZoneNode.class, "1");
         Assert.assertNotNull(o);
         
-        o = mostNodeManager.getObjectById(DpNode.class.getSimpleName(), "name5");
+        o = mostNodeManager.getObjectById(DpNode.class, "name5");
         Assert.assertNotNull(o);
     }
 }

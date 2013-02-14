@@ -8,5 +8,9 @@
 
     <!-- most-service-impl spring configuration -->
     <import resource="classpath:META-INF/most-service.spring.xml" />
-
+    
+    <bean id="mostOpcUaServer" class="bpi.most.server.services.opcua.server.MostOpcUaServer" />
+    <bean id="userAuthenticator" class="bpi.most.server.services.opcua.server.OpcUaAuthenticator" />
+    <bean id="nodeManager" class="bpi.most.server.services.opcua.server.MostNodeManager" />
+	<bean id="historyNodeManager" class="bpi.most.server.services.opcua.server.HistoryNodeManager" />
 </beans>

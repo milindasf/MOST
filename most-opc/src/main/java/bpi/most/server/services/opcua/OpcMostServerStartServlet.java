@@ -1,8 +1,10 @@
 package bpi.most.server.services.opcua;
 
-import bpi.most.server.services.opcua.server.MostOpcUaServer;
-import org.apache.log4j.Logger;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URL;
 
+import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,9 +15,12 @@ import javax.servlet.UnavailableException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
+
+import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import bpi.most.server.services.opcua.server.MostOpcUaServer;
 
 /**
  * Servlet implementation class OpcMostServer
@@ -24,20 +29,23 @@ public class OpcMostServerStartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(OpcMostServerStartServlet.class);
 
-
+	@Inject
 	private MostOpcUaServer uaServer;
-
-    /*
-    its gonna be awesome
-     */
 	
 	private String endpointUrl = "opc.tcp://127.0.0.1:6001/mostopcua";
 	private String keyPhrase = "mostrulez";
-	private String certPath = "/WEB-INF/pki/server.pem";
-	private String keyPath = "/WEB-INF/pki/server.key";
-	private String mostUserName = "mostsoc"; //used for database access. as long as the user is not retrieved from the opc client
-	
-	
+	private String certPath = "/pki/server.pem";
+	private String keyPath = "/pki/server.key";
+
+
+	private ApplicationContext appContext;
+
+/*
+	//services needed by the MostOpcUaServer
+	private AuthenticationService authService;
+	private DatapointService dpService;
+	private ZoneService zoneService;
+*/	
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -63,9 +71,39 @@ public class OpcMostServerStartServlet extends HttpServlet {
 			URL certUrl = ctx.getResource(certPath);
 			URL keyUrl= ctx.getResource(keyPath);
 			
+			if (certUrl == null || keyUrl == null){
+				throw new ServletException("Could not load server certificate");
+			}
+			
+			appContext = WebApplicationContextUtils.getWebApplicationContext(ctx);
+			
+			if (appContext == null){
+				throw new ServletException("Could not get Springs application context");
+			}
+/*		
+			//init services from spring
+			authService = appContext.getBean(AuthenticationService.class);
+			dpService = appContext.getBean(DatapointService.class);
+			zoneService = appContext.getBean(ZoneService.class);
+			
+			
+			if (authService == null || zoneService == null || dpService == null){
+				StringBuilder sb = new StringBuilder("At least one services could not been loaded:  ");
+				sb.append("[AuthenticationService:" + (authService != null) + "], ");
+				sb.append("[DatapointService:" + (dpService != null) + "], ");
+				sb.append("[ZoneService:" + (zoneService != null) + "]");
+				throw new ServletException(sb.toString());
+			}
+*/			
 			//create and start the most opc ua server
-			uaServer = new MostOpcUaServer(endpointUrl, certUrl, keyUrl, keyPhrase, mostUserName);
-            uaServer.initServer(ctx);
+			
+//			uaServer = new MostOpcUaServer(endpointUrl, certUrl, keyUrl, keyPhrase, authService, dpService, zoneService);
+//			uaServer.start();
+			
+			uaServer = appContext.getBean(MostOpcUaServer.class);
+			
+			uaServer.init(endpointUrl, certUrl, keyUrl, keyPhrase);
+			
 			uaServer.start();
 			
 		} catch (Exception e) {
@@ -85,7 +123,6 @@ public class OpcMostServerStartServlet extends HttpServlet {
 			keyPhrase = (String) opcCtx.lookup("keyphrase");
 			certPath = (String) opcCtx.lookup("certpath");
 			keyPath = (String) opcCtx.lookup("keypath");
-			mostUserName = (String) opcCtx.lookup("mostusername");
 		} catch (NamingException e) {
 			LOG.error(e.getMessage(), e);
 		}

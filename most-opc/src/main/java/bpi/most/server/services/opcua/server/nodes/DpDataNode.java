@@ -1,12 +1,14 @@
 package bpi.most.server.services.opcua.server.nodes;
 
-import bpi.most.opc.uaserver.annotation.DisplayName;
-import bpi.most.opc.uaserver.annotation.Property;
-import bpi.most.opc.uaserver.annotation.UaNode;
-import bpi.most.opc.uaserver.annotation.Value;
+import java.util.Date;
+
 import org.opcfoundation.ua.core.NodeClass;
 
-import java.util.Date;
+import bpi.most.opcua.server.annotation.DisplayName;
+import bpi.most.opcua.server.annotation.HistoryRead;
+import bpi.most.opcua.server.annotation.Property;
+import bpi.most.opcua.server.annotation.UaNode;
+import bpi.most.opcua.server.annotation.Value;
 
 @UaNode(nodeClass=NodeClass.Variable)
 /*
@@ -15,6 +17,8 @@ import java.util.Date;
  * @Monitorable
  */
 public class DpDataNode {
+	
+	private static final String HISTORY_QUALIFIER_VALUE = "valueHistory";
 	
 	@DisplayName
 	private String displName = "Datapoint Value";
@@ -30,6 +34,7 @@ public class DpDataNode {
 	 * the current value of the datapoint
 	 */
 	@Value
+	@HistoryRead(qualifier=HISTORY_QUALIFIER_VALUE)
 	private Double value;
 	
 	/**

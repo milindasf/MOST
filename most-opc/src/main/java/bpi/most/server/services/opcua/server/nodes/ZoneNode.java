@@ -1,9 +1,14 @@
 package bpi.most.server.services.opcua.server.nodes;
 
-import bpi.most.opc.uaserver.annotation.*;
+import java.util.List;
+
 import org.opcfoundation.ua.core.NodeClass;
 
-import java.util.List;
+import bpi.most.opcua.server.annotation.Description;
+import bpi.most.opcua.server.annotation.DisplayName;
+import bpi.most.opcua.server.annotation.ID;
+import bpi.most.opcua.server.annotation.Property;
+import bpi.most.opcua.server.annotation.UaNode;
 
 @UaNode(nodeClass = NodeClass.Object)
 public class ZoneNode {
@@ -241,10 +246,11 @@ public class ZoneNode {
 		this.dataPoints = dataPoints;
 	}
 
-    /**
-     * @param subZones the subZones to set
-     */
-    public void setSubZones(List<ZoneNode> subZones) {
-        this.subZones = subZones;
-    }
+	/**
+	 * @param subZones the subZones to set
+	 */
+	public void setSubZones(List<ZoneNode> subZones) {
+		this.subZones = subZones;
+	}
+	
 }

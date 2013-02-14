@@ -1,26 +1,5 @@
 package bpi.most.server.services.opcua.server;
 
-import bpi.most.opc.uaserver.annotation.AnnotationNodeManager;
-import bpi.most.opc.uaserver.core.UAServer;
-import bpi.most.server.services.opcua.server.nodes.DpDataNode;
-import bpi.most.server.services.opcua.server.nodes.DpNode;
-import bpi.most.server.services.opcua.server.nodes.ZoneNode;
-import bpi.most.service.api.DatapointService;
-import bpi.most.service.api.ZoneService;
-import org.apache.log4j.Logger;
-import org.bouncycastle.openssl.PEMReader;
-import org.bouncycastle.openssl.PasswordFinder;
-import org.opcfoundation.ua.common.ServiceResultException;
-import org.opcfoundation.ua.core.ApplicationDescription;
-import org.opcfoundation.ua.transport.Endpoint;
-import org.opcfoundation.ua.transport.security.Cert;
-import org.opcfoundation.ua.transport.security.KeyPair;
-import org.opcfoundation.ua.transport.security.PrivKey;
-import org.opcfoundation.ua.transport.security.SecurityMode;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import javax.servlet.ServletContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,9 +8,32 @@ import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
+import org.bouncycastle.openssl.PEMReader;
+import org.bouncycastle.openssl.PasswordFinder;
+import org.opcfoundation.ua.common.ServiceResultException;
+import org.opcfoundation.ua.core.ApplicationDescription;
+import org.opcfoundation.ua.core.UserTokenPolicy;
+import org.opcfoundation.ua.transport.Endpoint;
+import org.opcfoundation.ua.transport.security.Cert;
+import org.opcfoundation.ua.transport.security.KeyPair;
+import org.opcfoundation.ua.transport.security.PrivKey;
+import org.opcfoundation.ua.transport.security.SecurityMode;
+
+import bpi.most.opcua.server.annotation.AnnotationNodeManager;
+import bpi.most.opcua.server.annotation.IAnnotatedNodeSource;
+import bpi.most.opcua.server.annotation.IAnnotationHistoryManager;
+import bpi.most.opcua.server.core.UAServer;
+import bpi.most.opcua.server.core.auth.IUserPasswordAuthenticator;
+import bpi.most.server.services.opcua.server.nodes.DpDataNode;
+import bpi.most.server.services.opcua.server.nodes.DpNode;
+import bpi.most.server.services.opcua.server.nodes.ZoneNode;
+
 /**
  * an OPC-UA Server for the Most database. it lets opc ua clients access zones
- * and datapoints. for datapoints the last (= current) value can be retrieved. <br/>
+ * and datapoints. for datapoints the last (= current) value and history values can be retrieved. <br/>
  * 
  * @author hare
  * 
@@ -44,42 +46,57 @@ public class MostOpcUaServer {
 	private URL certUrl;
 	private URL keyUrl;
 	private String keyPhrase; // keyphrase for the keyFile
-	private String mostUserName;
+/*	
+	private AuthenticationService authService;
+	private DatapointService dpService;
+	private ZoneService zoneService;
+*/
+	@Inject
+	private IUserPasswordAuthenticator authenticator;
+	
+	@Inject
+	private IAnnotatedNodeSource mostNodeManager;
+	
+	@Inject
+	private IAnnotationHistoryManager mostHistoryManager;
 	
 	/**
 	 * the creates {@link UAServer} instance which can be started and stopped
 	 */
 	private UAServer uaServer;
+	
+	public MostOpcUaServer() {
+		System.out.println("mostopcuaserver created");
+	}
 
 	/**
-	 * creates the server object
+	 * inits the server object
 	 * 
 	 * @param endpointUrl
 	 * @param certUrl
 	 * @param keyUrl
+	 * @param keyPhrase
 	 * @throws Exception 
 	 */
-	public MostOpcUaServer(String endpointUrl, URL certUrl, URL keyUrl,
-			String keyPhrase, String mostUserName) throws Exception {
+	public void init(String endpointUrl, URL certUrl, URL keyUrl, String keyPhrase) throws Exception {
 		this.endpointUrl = endpointUrl;
 		this.certUrl = certUrl;
 		this.keyUrl = keyUrl;
 		this.keyPhrase = keyPhrase;
-		this.mostUserName = mostUserName;
 	}
-
-	public void initServer(ServletContext servletContext) throws Exception {
+	
+	
+	
+	private void initServer() throws Exception {
 		try {
 			// create a UAServer instance
 			UAServer uaServerInstance = new UAServer();
 
 			/*
 			 * set the allowed authentication policies. here we support
-			 * username+password and anonymous sessions. the policy is important
-			 * for activateservice request
+			 * username+password.
 			 */
-			uaServerInstance.addAnonymousTokenPolicy();
-			uaServerInstance.addUserTokenPolicy();
+			uaServerInstance.addUserTokenPolicy(authenticator, UserTokenPolicy.SECURE_USERNAME_PASSWORD, UserTokenPolicy.SECURE_USERNAME_PASSWORD_BASIC256);
 
 			// Set some applicationdescriptions
 			ApplicationDescription appDesc = new ApplicationDescription();
@@ -92,22 +109,21 @@ public class MostOpcUaServer {
 			// set a X.509 certificate for the server - this is mandatory
 			uaServerInstance.addApplicationInstanceCertificate(getApplicationInstanceCertificate());
 
-            // find Spring services to use
-            WebApplicationContext spring = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-            ZoneService zService = spring.getBean(ZoneService.class);
-            DatapointService dpService = spring.getBean(DatapointService.class);
-
 			// set nodemanger
 			AnnotationNodeManager annoNMgr = new AnnotationNodeManager(
-					new MostNodeManager(mostUserName, zService, dpService), "Zones",
+					mostNodeManager, "Zones",
 					"root node for all most zones", "mostzones");
 			// add nodes to get introspected at startup -> this is a good
 			// practice
 			annoNMgr.addObjectToIntrospect(new ZoneNode());
 			annoNMgr.addObjectToIntrospect(new DpNode());
 			annoNMgr.addObjectToIntrospect(new DpDataNode());
+			
+			//add a history manager
+//			HistoryNodeManager myHistNMgr = new HistoryNodeManager(dpService);
+			annoNMgr.setHistoryManager(mostHistoryManager);
+			
 			uaServerInstance.addNodeManager(annoNMgr);
-
 			
 			uaServer = uaServerInstance;
 		} catch (Exception e) {
@@ -141,11 +157,11 @@ public class MostOpcUaServer {
 
 	/**
 	 * loads the server certificate with the given key.
-	 * 
+	 *
 	 * @return
 	 * @throws ServiceResultException
-	 * @throws java.io.IOException
-	 * @throws java.security.cert.CertificateException
+	 * @throws IOException
+	 * @throws CertificateException
 	 */
 	private KeyPair getApplicationInstanceCertificate()
 			throws ServiceResultException, IOException, CertificateException {
@@ -218,4 +234,6 @@ public class MostOpcUaServer {
 		return kp;
 */		
 	}
+	
+	
 }

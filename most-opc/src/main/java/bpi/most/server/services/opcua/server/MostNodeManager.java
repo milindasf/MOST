@@ -1,19 +1,22 @@
 package bpi.most.server.services.opcua.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.UserDTO;
 import bpi.most.dto.ZoneDTO;
-import bpi.most.opc.uaserver.annotation.IAnnotatedNodeSource;
+import bpi.most.opcua.server.annotation.IAnnotatedNodeSource;
+import bpi.most.opcua.server.core.RequestContext;
+import bpi.most.opcua.server.core.Session;
 import bpi.most.server.services.opcua.server.nodes.DpDataNode;
 import bpi.most.server.services.opcua.server.nodes.DpNode;
 import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.ZoneService;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * manages all nodes of the most-namespace which includes
@@ -24,36 +27,42 @@ import java.util.List;
  */
 public class MostNodeManager implements IAnnotatedNodeSource{
 
+	@Inject
+	private ZoneService zService;
+
+	@Inject
+    private DatapointService dpService;
+
+	public MostNodeManager(){
+	}
 	
-	private final String ZONE_NODE = ZoneNode.class.getSimpleName();
-	private final String DP_NODE = DpNode.class.getSimpleName();
+    /**
+	 * @param zService
+	 * @param dpService
+	 */
+	public MostNodeManager(ZoneService zService, DatapointService dpService) {
+		this.zService = zService;
+		this.dpService = dpService;
+	}
 
-	private final ZoneService zService;
-    private final DatapointService dpService;
-
-    private UserDTO mostUser;
-
-    public MostNodeManager(String mostUserName, ZoneService zService, DatapointService dpService){
-        mostUser = new UserDTO(mostUserName);
-        this.zService = zService;
-        this.dpService = dpService;
-    }
-
-    public void setMostUser(UserDTO mostUser) {
-        this.mostUser = mostUser;
-    }
-
-    @Override
-	public Object getObjectById(String className, String id){
+	/**
+	 * reads the most user who authenticated himself from the {@link Session}.
+	 * @return
+	 */
+	private UserDTO getUser(){
+		Session s = RequestContext.get().getSession();
+		return (UserDTO) s.getCustomObj();
+	}
+	
+	@Override
+	public Object getObjectById(Class<?> clazz, String id){
 		Object result = null;
 		
 		//distinguish which class we want to fetch by id
-		if (className != null){
-			if (ZONE_NODE.equals(className)){
-				result = getZoneById(id);
-			}else if (DP_NODE.equals(className)){
-				result = getDpById(id);
-			}
+		if (ZoneNode.class.equals(clazz)){
+			result = getZoneById(id);
+		}else if (DpNode.class.equals(clazz)){
+			result = getDpById(id);
 		}
 		
 		return result;
@@ -61,61 +70,62 @@ public class MostNodeManager implements IAnnotatedNodeSource{
 	
 	private ZoneNode getZoneById(String id){
 		int zoneId = Integer.parseInt(id);
-        ZoneDTO zone = zService.getZone(mostUser, new ZoneDTO(zoneId));
-        return mapZoneToZoneNode(zone);
-
-    }
+		ZoneDTO zone = zService.getZone(getUser(), new ZoneDTO(zoneId));
+		return mapZoneToZoneNode(zone);
+	}
 	
 	private DpNode getDpById(String dpName){
-        DpDTO dp = dpService.getDatapoint(mostUser, new DpDTO(dpName));
-        DpDataDTO dpData = dpService.getData(mostUser, dp);
+		DpDTO dp = dpService.getDatapoint(getUser(), new DpDTO(dpName));
+		DpDataDTO dpData = dpService.getData(getUser(), dp);
 		
 		/*
 		 * here we also have to fetch the last datapoint value because
 		 * the current value of the datapoint is annotated as variable
 		 * on the DpNode object. 
 		 */
-        DpNode dpNode = mapDpToDpNode(dp);
-        dpNode.setData(mapDpDataToDpDataNode(dpData));
+		DpNode dpNode = mapDpToDpNode(dp);
+		dpNode.setData(mapDpDataToDpDataNode(dpData));
 		
 		//TODO remove mock data. used it because i do not understand the database and why do some points do not have any valuesS
-        dpNode.setData(new DpDataNode("temperature", new Date(), 23.33, 1f));
-
-        return dpNode;
-    }
+//		dpNode.setData(new DpDataNode("temperature", new Date(), 23.33, 1f));
+		
+		return dpNode ;
+	}
 	
 	@Override
 	public List<?> getTopLevelElements() {
-        List<ZoneDTO> headZones = zService.getHeadZones(mostUser);
-        return mapZoneToZoneNode(headZones);
-   	}
+		List<ZoneDTO> headZones = zService.getHeadZones(getUser());
+		return mapZoneToZoneNode(headZones);
+	}
 	
 	
 	@Override
-	public List<?> getChildren(String className, String parentId) {
+	public List<?> getChildren(Class<?> parentClazz, String parentId) {
 		List<Object> result = new ArrayList<Object>();
 		
 		//distinguish which class we want to fetch children from
-		if (className != null && ZONE_NODE.equals(className)){
+		if (ZoneNode.class.equals(parentClazz)){
 			int parentZoneId = Integer.parseInt(parentId);
 			ZoneDTO parentZone = new ZoneDTO(parentZoneId);
 			//zones have subzones and datapoints as children
 			result.addAll(getSubZones(parentZone));
 			result.addAll(getDatapoints(parentZone));
+		}else if (DpNode.class.equals(parentClazz)){
+			
 		}
 		
 		return result;
 	}
 	
 	private List<?> getSubZones(ZoneDTO parentZone){
-        List<ZoneDTO> subZones = zService.getSubzones(mostUser, parentZone, 1);
-        return mapZoneToZoneNode(subZones);
-    }
+		List<ZoneDTO> subZones = zService.getSubzones(getUser(), parentZone, 1);
+		return mapZoneToZoneNode(subZones);
+	}
 	
 	private List<?> getDatapoints(ZoneDTO parentZone){
-        List<DpDTO> datapoints = zService.getDatapoints(mostUser, parentZone, 1);
-        return mapDpToDpNode(datapoints);
-    }
+		List<DpDTO> datapoints = zService.getDatapoints(getUser(), parentZone, 1);
+		return mapDpToDpNode(datapoints);
+	}
 	
 	private List<DpNode> mapDpToDpNode(List<DpDTO> dpList){
 		List<DpNode> dpNodeList = new ArrayList<DpNode>();
