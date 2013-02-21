@@ -3,6 +3,7 @@ package bpi.most.service.impl;
 import bpi.most.domain.connector.ConnectorFinder;
 import bpi.most.domain.connector.ConnectorVO;
 import bpi.most.domain.user.User;
+import bpi.most.dto.UserDTO;
 import bpi.most.service.api.ConnectorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,8 @@ public class ConnectorServiceImpl implements ConnectorService {
 
     @Override
     @Transactional
-    public List<ConnectorVO> getConnection(User user) {
+    public List<ConnectorVO> getConnection(UserDTO user) {
+        //TODO check permission
         return connectorFinder.findConnections();
     }
 

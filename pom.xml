@@ -27,6 +27,7 @@
         <module>most-web</module>
         <module>most-rest</module>
         <module>most-opc</module>
+        <module>most-connector</module>
     </modules>
 
     <profiles>

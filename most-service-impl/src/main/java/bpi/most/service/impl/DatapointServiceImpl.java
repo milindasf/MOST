@@ -175,6 +175,11 @@ public class DatapointServiceImpl implements DatapointService {
         return result;
     }
 
+    @Override
+    public void addObserver(String dpName, Object connector) {
+        // TODO
+    }
+
     private List<DpDTO> transformToDpDTOList(List<DatapointVO> dpList){
         List<DpDTO> dpDTOList = null;
 
