@@ -101,13 +101,24 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 				starttime, endtime, period);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * bpi.most.client.rpc.DatapointService#getNumberOfValues(java.lang.String,
-	 * java.util.Date, java.util.Date)
-	 */
+    @Override
+    public DpDatasetDTO getDataPeriodic(String datapointName, Date starttime, Date endtime, Float period, int mode) {
+        UserDTO user;
+        // get user of session
+        HttpSession session = this.getThreadLocalRequest().getSession(true);
+        user = (UserDTO) session.getAttribute("mostUser");
+
+        return dpService.getDataPeriodic(user, new DpDTO(datapointName),
+                starttime, endtime, period, mode);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * bpi.most.client.rpc.DatapointService#getNumberOfValues(java.lang.String,
+     * java.util.Date, java.util.Date)
+     */
 	public int getNumberOfValues(String datapointName, Date starttime,
 			Date endtime) {
 		User user;

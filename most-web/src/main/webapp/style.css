@@ -1436,7 +1436,19 @@ font-weight:bold !important;
 	margin-left:2px !important;
 	margin-right:2px !important;
 }
+.cddw {
+    border: 1px solid black;
+    width: 500px;
+    height: 200px;
+}
 
-
+.tddw {
+    border: 1px solid black;
+    width: 200px;
+    height: 200px;
+    background-image: url(public/img/trash.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 

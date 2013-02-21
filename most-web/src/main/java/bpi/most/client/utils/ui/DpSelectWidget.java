@@ -22,33 +22,12 @@ public class DpSelectWidget extends Composite {
 	interface DpSelectWidgetUiBinder extends UiBinder<Widget, DpSelectWidget> {
 	}
 
+	// TODO when highlighting is reworked, create another constructor with
+	// StyleNames for the DpWidget that should be added in the different select
+	// widgets.
 	public DpSelectWidget() {
 		initWidget(uiBinder.createAndBindUi(this));
-	//	tabPan.selectTab(0);
-//		for (int i = 0; i < tabPan.getWidgetCount(); i++) {
-//			final int temp = i;
-//			tabPan.getTabWidget(i).addDomHandler(new ClickHandler() {
-//				int value = temp;
-//				@Override
-//				public void onClick(ClickEvent event) {
-//					if (value == oldSelection) {
-//						if (tabPan.getWidget(value)
-//								.isVisible()) {
-//							tabPan.getWidget(value)
-//									.setVisible(false);
-//						} else {
-//							tabPan.getWidget(value)
-//									.setVisible(true);
-//						}
-//					} else {
-//						for (int i = 0; i < tabPan.getWidgetCount(); i++) {
-//							tabPan.getWidget(i).setVisible(true);
-//						}
-//					}
-//					oldSelection = value;
-//				}
-//			}, ClickEvent.getType());
-//		}
+		tabPan.selectTab(0, true);
 	}
 
 	@UiHandler("tabPan")

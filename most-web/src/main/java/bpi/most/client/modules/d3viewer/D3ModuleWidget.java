@@ -1,8 +1,11 @@
 package bpi.most.client.modules.d3viewer;
 
+import java.util.ArrayList;
+import java.util.Date;
 import bpi.most.client.mainlayout.RootModule;
 import bpi.most.client.model.Datapoint;
 import bpi.most.client.model.DatapointHandler;
+import bpi.most.client.model.ZoneHandler;
 import bpi.most.client.modules.ModuleController;
 import bpi.most.client.modules.ModuleInterface;
 import bpi.most.client.modules.ModuleWidget;
@@ -20,7 +23,14 @@ import bpi.most.dto.DpDatasetDTO;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DragOverEvent;
+import com.google.gwt.event.dom.client.DragOverHandler;
+import com.google.gwt.event.dom.client.DropEvent;
+import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Event;
@@ -29,9 +39,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * 
@@ -65,6 +72,8 @@ public final class D3ModuleWidget extends ModuleWidget {
 			TRANSPARANCY_BAR_MAX_VALUE);
 	private static Slider exposeBar = new Slider("exposeBar", 0, EXPOSE_BAR_MAX_VALUE);
 	private boolean injected = false;
+
+	private static String bimModel;
 
 	/**
 	 * The unique module panel. everything is rendered in this panel. originally
@@ -134,6 +143,14 @@ public final class D3ModuleWidget extends ModuleWidget {
 	private D3ModuleWidget(ModuleInterface module) {
 		super(module);
 
+		ModuleController.ZONE_CTRL.getBimModel(new ZoneHandler(){
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onSuccess(String result) {
+				bimModel = result;
+			}
+		});
+		
 		initWidget(BINDER.createAndBindUi(this));
 		initZoomLevel();
 		initClickEventDatapointMarked();
@@ -141,6 +158,9 @@ public final class D3ModuleWidget extends ModuleWidget {
 		initControls();
 		initClickEventDatapointMove();
 		initcallbackAddDpWidget();
+		initCallbackExposeLevel();
+		initCallbackTransparentLevel();
+		initCallbackImportObject();
 
 		zoomBar.setWidth("400px");
 		zoomBar.setHorizontal();
@@ -349,6 +369,10 @@ public final class D3ModuleWidget extends ModuleWidget {
 			JavaScriptInjector.inject(js.scenejsMathExtra().getText());
 			JavaScriptInjector.inject(js.scenejs().getText());
 			JavaScriptInjector.inject(js.bimSurfer().getText());
+			JavaScriptInjector.inject(js.utils().getText());
+			JavaScriptInjector.inject(js.jqueryCookie().getText());
+			JavaScriptInjector.inject(js.sha256().getText());
+			
 			injected = true;
 			setZoomLevelAbsolute(ZOOM_LEVEL_ABSOLUTE);
 		}
@@ -405,6 +429,17 @@ public final class D3ModuleWidget extends ModuleWidget {
 	 */
 	public static native void setView(int level) /*-{
 		$wnd.setView(level);
+
+	}-*/;
+	
+	/**
+	 * The native fileImport function
+	 * 
+	 * @param level
+	 *            default, top, side, bottom
+	 */
+	public static native void fileImport(String path) /*-{
+		$wnd.fileImport(path);
 
 	}-*/;
 
@@ -467,7 +502,20 @@ public final class D3ModuleWidget extends ModuleWidget {
 	// slider
 	// callbackZoomLevelAbsolute (0-20)
 	public static void callbackZoomLevelAbsolute(int factor) {
-
+		zoomBar.setValue(factor);
+	}
+	
+	public static void callbackExposeLevel(int factor) {
+		exposeBar.setValue(factor);
+	}
+	
+	public static void callbackTransparentLevel(int factor) {
+		transparencyBar.setValue(factor);
+	}
+	
+	public static void callbackImportObject(){
+		//Window.alert(bimModel);
+		fileImport(bimModel);
 	}
 
 	/**
@@ -478,7 +526,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	}-*/;
 
 	public static void callbackZoomLevel(int level) {
-		// zoomBar.setValue(level);
+		//zoomBar.setValue(level);
 	}
 
 	public static native void setZoomLevelAbsolute(int level) /*-{
@@ -560,7 +608,7 @@ public final class D3ModuleWidget extends ModuleWidget {
 	 * @param dpName
 	 */
 	public static native void setViewToDatapoint(String dpName) /*-{
-		$wnd.setViewToDatapoint(dpName);
+		$wnd.setViewToObject(dpName);
 	}-*/;
 
 	public static native void triggerJSMouseUpEvent() /*-{
@@ -573,7 +621,20 @@ public final class D3ModuleWidget extends ModuleWidget {
 	public static native void initClickEventDatapointMove() /*-{
 															$wnd.callbackClickEventDatapointMove = $entry(@bpi.most.client.modules.d3viewer.D3ModuleWidget::callbackClickEventDatapointMove(Ljava/lang/String;));
 															}-*/;
-
+	/**
+	 *
+	 */
+	public static native void initCallbackExposeLevel() /*-{
+		$wnd.callbackExposeLevel = $entry(@bpi.most.client.modules.d3viewer.D3ModuleWidget::callbackExposeLevel(I));
+	}-*/;
+	
+	public static native void initCallbackTransparentLevel() /*-{
+		$wnd.callbackTransparentLevel = $entry(@bpi.most.client.modules.d3viewer.D3ModuleWidget::callbackTransparentLevel(I));
+	}-*/;
+	
+	public static native void initCallbackImportObject() /*-{
+	$wnd.callbackImportObject = $entry(@bpi.most.client.modules.d3viewer.D3ModuleWidget::callbackImportObject());
+	}-*/;
 	// public static native void initMouseMoveCallback() /*-{
 	// $wnd.callbackMouseMove =
 	// $entry(@bpi.most.client.modules.d3viewer.D3ModuleWidget::callbackMouseMove(II));

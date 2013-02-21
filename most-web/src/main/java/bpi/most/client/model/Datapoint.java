@@ -1,5 +1,7 @@
 package bpi.most.client.model;
 
+import java.util.Date;
+
 import bpi.most.client.model.eventservice.EventManager;
 import bpi.most.client.rpc.DpChangedEventService;
 import bpi.most.client.rpc.DpChangedEventServiceAsync;
@@ -11,8 +13,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import java.util.Date;
-
 /**
  * don't use synchronous methods on the client side
  */
@@ -21,7 +21,7 @@ public class Datapoint extends Observable {
 	 * identifier of the datapoint
 	 */
 	private String datapointName;
-	
+
 	public static final DpChangedEventServiceAsync EVENT_SERVICE = GWT.create(DpChangedEventService.class);
 	
 	/**
@@ -172,6 +172,50 @@ public class Datapoint extends Observable {
 		return null;
 	}
 
+	/**
+	 * A method used to get data between a start and end time with a specific
+	 * period. This can be useful if the normal amount of data you get with the
+	 * selected start and end time is too much.
+	 * 
+	 * @param starttime
+	 *            Start time of the period you want the data.
+	 * @param endtime
+	 *            End time of the period you want the data.
+	 * @param period
+	 *            The period in seconds, with which you want the data.
+	 * @param mode
+	 *            The mode with which the data get generated.<BR>
+	 *            mode 1 = weighted average/linear interpolation <BR>
+	 *            mode 2 = weighted average/sample & hold <BR>
+	 *            mode 3 = difference value / zero
+	 * @param dpHandler
+	 *            A custom Handler, with which you can handle the asynchronous
+	 *            RPC call.
+	 * @return Returns a DpDataset with the values between start and end time
+	 *         with the selected period.
+	 */
+	public DpDatasetDTO getDataPeriodic(Date starttime, Date endtime,
+			Float period, int mode, final DatapointHandler dpHandler) {
+		// set corresponding dp reference in dpHandler
+		dpHandler.setDatapoint(this);
+		// start RPC
+		DpController.DP_SERVICE.getDataPeriodic(getDatapointName(), starttime,
+				endtime, period, mode, new AsyncCallback<DpDatasetDTO>() {
+
+					@Override
+					public void onSuccess(DpDatasetDTO result) {
+						dpHandler.onSuccess(result);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO: implement better error handling
+						Window.alert("getDataPeriodic(getDatapointName(), starttime, endtime, period) RPC-Error");
+					}
+				});
+		return null;
+	}
+
 	// getters and setters
 	public String getDatapointName() {
 		return datapointName;
@@ -213,7 +257,8 @@ public class Datapoint extends Observable {
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO: implement better error handling
-						Window.alert("getNumberOfValues(getDatapointName(), starttime, endtime) RPC-Error");
+						dpHandler.onFailure(caught, "getNumberOfValues(Date starttime, Date endtime)");
+//						Window.alert("getNumberOfValues(getDatapointName(), starttime, endtime) RPC-Error");
 					}
 				});
 		return null;

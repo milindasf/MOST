@@ -30,4 +30,7 @@ public interface ZoneService {
     Zone getZone(ZoneDTO zone);
 
     void resetCache();
+
+    String getBimModel(UserDTO user);
+
 }

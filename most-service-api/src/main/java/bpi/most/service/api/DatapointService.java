@@ -105,7 +105,8 @@ public interface DatapointService {
 	 */
     int delData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime);
 
-    DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, Integer mode);
+    DpDatasetDTO getDataPeriodic(UserDTO user, DpDTO dpDTO, Date starttime, Date endtime, Float period, int mode);
 
     void addObserver(String dpName, Object connector);  // TODO
+    
 }

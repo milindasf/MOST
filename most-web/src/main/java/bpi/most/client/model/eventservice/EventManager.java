@@ -1,17 +1,19 @@
 package bpi.most.client.model.eventservice;
 
+import java.util.ArrayList;
+
 import bpi.most.client.model.Datapoint;
 import bpi.most.client.model.DpController;
 import bpi.most.client.rpc.DpChangedEventService;
 import bpi.most.client.rpc.DpChangedEventServiceAsync;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.novanic.eventservice.client.event.RemoteEventService;
 import de.novanic.eventservice.client.event.RemoteEventServiceFactory;
 import de.novanic.eventservice.client.event.domain.Domain;
 import de.novanic.eventservice.client.event.domain.DomainFactory;
-
-import java.util.ArrayList;
 
 /**
  * The EventManager handes all objects which are required for using the GWT EventService

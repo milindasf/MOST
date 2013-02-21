@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -84,7 +85,7 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     /**
-     * latest measurement see {@link bpi.most.server.model.Datapoint#getData()}
+     * latest measurement
      *
      * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
      *         throw exceptions if no permissions, etc.
@@ -109,6 +110,7 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     @Override
+    @Transactional
     public DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
     	DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -130,12 +132,14 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     @Override
+    @Transactional
     public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period) {
         return getDataPeriodic(userDTO, dpDTO, starttime, endtime, period, 1);
     }
 
     @Override
-    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, Integer mode) {
+    @Transactional
+    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, int mode) {
         DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
@@ -157,7 +161,9 @@ public class DatapointServiceImpl implements DatapointService {
         return result;
     }
 
+
     @Override
+    @Transactional
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
     	int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -194,12 +200,13 @@ public class DatapointServiceImpl implements DatapointService {
     }
     
     /**
-	 * add new measurement see {@link bpi.most.server.model.Datapoint#addData()}
+	 * add new measurement
 	 * 
 	 * @return 1 = inserted; < 0 constraints violated or procedure error TODO:
 	 *         throw exceptions if no permissions, etc.
 	 */
     @Override
+    @Transactional
     public int addData(UserDTO userDTO, DpDTO dpDTO, DpDataDTO measurement) {
 		int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -214,6 +221,7 @@ public class DatapointServiceImpl implements DatapointService {
 	 * Deletes all stored data of datapoint. Use with caution!!
 	 */
     @Override
+    @Transactional
     public int delData(UserDTO userDTO, DpDTO dpDTO) {
 		int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -228,6 +236,7 @@ public class DatapointServiceImpl implements DatapointService {
 	 * Deletes data of a given timeslot
 	 */
     @Override
+    @Transactional
     public int delData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
 		int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -237,4 +246,5 @@ public class DatapointServiceImpl implements DatapointService {
 		}
 		return result;
 	}
+
 }

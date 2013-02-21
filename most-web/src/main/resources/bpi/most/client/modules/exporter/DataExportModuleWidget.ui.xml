@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:myd="urn:import:bpi.most.client.utils.ui" xmlns:g='urn:import:com.google.gwt.user.client.ui' >
+	xmlns:myd="urn:import:bpi.most.client.utils.ui" xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:mye="urn:import:bpi.most.client.modules.exporter.filter">
 	<ui:style>
 		.bg {
 			background-color: white;
@@ -21,8 +21,12 @@
 			<!-- styleName="dropWidget-desktopModule red floatLeft"> -->
 			<!-- </myd:DropWidget> -->
 		</g:FlowPanel>
-		<myd:GeneralDropWidget  ui:field="dropField1"
+		<myd:DpSelectWidget ui:field="dpselect"></myd:DpSelectWidget>
+		<myd:DpCollectorWidget ui:field="dpcollect"></myd:DpCollectorWidget>
+		<mye:ExportFilterWidget ui:field="exportFilter"></mye:ExportFilterWidget>
+		<myd:GeneralDropWidget ui:field="dropField1"
 			styleName="dropWidget dropWidget-desktopModule dWidget-uid-desktop dWidget-uid-export">
-			</myd:GeneralDropWidget>
+		</myd:GeneralDropWidget>
+		<g:Button ui:field="downCSV">download csv format</g:Button>
 	</g:AbsolutePanel>
 </ui:UiBinder>

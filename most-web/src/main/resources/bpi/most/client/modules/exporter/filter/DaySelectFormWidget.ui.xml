@@ -1,0 +1,100 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:my="urn:import:bpi.most.client.utils.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:FlowPanel>
+		<g:VerticalPanel>
+			<g:Label>Select the days of the week you want data from:</g:Label>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="monday" value="true">Monday</g:CheckBox>
+				<g:CheckBox ui:field="montime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="mon" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="monfrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="monto"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="tuesday" value="true">Tuesday</g:CheckBox>
+				<g:CheckBox ui:field="tuetime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="tue" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="tuefrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="tueto"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="wednesday" value="true">Wednesday</g:CheckBox>
+				<g:CheckBox ui:field="wedtime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="wed" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="wedfrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="wedto"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="thursday" value="true">Thursday</g:CheckBox>
+				<g:CheckBox ui:field="thutime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="thu" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="thufrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="thuto"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="friday" value="true">Friday</g:CheckBox>
+				<g:CheckBox ui:field="fritime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="fri" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="frifrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="frito"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="saturday" value="true">Saturday</g:CheckBox>
+				<g:CheckBox ui:field="sattime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="sat" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="satfrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="satto"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="sunday" value="true">Sunday</g:CheckBox>
+				<g:CheckBox ui:field="suntime">select time</g:CheckBox>
+				<g:FlowPanel ui:field="sun" visible="false">
+					<g:HorizontalPanel>
+						<g:Label>from:</g:Label>
+						<my:TimeSelectWidget ui:field="sunfrom"></my:TimeSelectWidget>
+						<g:Label>to:</g:Label>
+						<my:TimeSelectWidget ui:field="sunto"></my:TimeSelectWidget>
+					</g:HorizontalPanel>
+				</g:FlowPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:Button ui:field="save">Save</g:Button>
+				<g:Button ui:field="revert">Revert</g:Button>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 
