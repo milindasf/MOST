@@ -7,7 +7,12 @@
               http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- RMI remote service impl -->
+    <!-- RMI server is only relevant if we implement distributed observers
     <import resource="classpath:META-INF/most-rmi-service.spring.xml" />
+    -->
+
+    <!-- most-service-impl spring configuration -->
+    <import resource="classpath:META-INF/most-service.spring.xml" />
 
     <!-- cxf configuration -->
     <import resource="classpath:META-INF/rest-cxf.spring.xml" />
