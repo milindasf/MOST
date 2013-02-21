@@ -35,13 +35,18 @@ public class DatapointFinder {
     public DatapointVO getDatapoint(String dpName) {
         LOG.debug("Fetching datapoint: {}", dpName);
         // noinspection unchecked
-        List<DatapointVO> result = ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:name)}")
+        List<DatapointVO> result = null;
+        try{
+            Session session = (Session) em.getDelegate();
+            result = session.createSQLQuery("{CALL getDatapoint(:name)}")
                 .setParameter("name", dpName)
                 .setReadOnly(true)
                 .setResultTransformer(new DatapointVOResultTransformer())
                 .list();
-
-        if(result.size() > 0){
+        }catch(Exception e){
+            LOG.error(e.getMessage(), e);
+        }
+        if(result != null && result.size() > 0){
             return result.get(0);
         }
 

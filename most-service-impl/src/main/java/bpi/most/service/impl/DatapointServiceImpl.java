@@ -109,6 +109,7 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     @Override
+    @Transactional
     public DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
     	DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -130,11 +131,13 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     @Override
+    @Transactional
     public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period) {
         return getDataPeriodic(userDTO, dpDTO, starttime, endtime, period, 1);
     }
 
     @Override
+    @Transactional
     public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, Integer mode) {
         DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -158,6 +161,7 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     @Override
+    @Transactional
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
     	int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -195,6 +199,7 @@ public class DatapointServiceImpl implements DatapointService {
 	 *         throw exceptions if no permissions, etc.
 	 */
     @Override
+    @Transactional
     public int addData(UserDTO userDTO, DpDTO dpDTO, DpDataDTO measurement) {
 		int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -209,6 +214,7 @@ public class DatapointServiceImpl implements DatapointService {
 	 * Deletes all stored data of datapoint. Use with caution!!
 	 */
     @Override
+    @Transactional
     public int delData(UserDTO userDTO, DpDTO dpDTO) {
 		int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
@@ -223,6 +229,7 @@ public class DatapointServiceImpl implements DatapointService {
 	 * Deletes data of a given timeslot
 	 */
     @Override
+    @Transactional
     public int delData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
 		int result = 0;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
