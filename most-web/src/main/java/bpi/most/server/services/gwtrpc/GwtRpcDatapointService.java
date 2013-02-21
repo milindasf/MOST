@@ -39,6 +39,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 	 * @see bpi.most.client.rpc.DatapointService#getData(java.lang.String,
 	 * java.util.Date, java.util.Date)
 	 */
+    @Override
 	public DpDatasetDTO getData(String datapointName, Date starttime,
 			Date endtime) {
 		User user;
@@ -58,6 +59,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 	 * 
 	 * @see bpi.most.client.rpc.DatapointService#getDatapoints()
 	 */
+    @Override
 	public List<DpDTO> getDatapoints() {
 		// no user checking here yet
 		return dpService.getDatapoints(null);
@@ -68,6 +70,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 	 * 
 	 * @see bpi.most.client.rpc.DatapointService#getDatapoints(java.lang.String)
 	 */
+    @Override
 	public List<DpDTO> getDatapoints(String searchstring) {
 		// no user checking here yet
 		return dpService.getDatapoints(null, searchstring);
@@ -77,6 +80,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 	/* (non-Javadoc)
 	 * @see bpi.most.client.rpc.DatapointService#getDatapoints(java.lang.String, java.lang.String)
 	 */
+    @Override
 	@SuppressWarnings("deprecation")
 	public List<DpDTO> getDatapoints(String searchstring, String zone) {
 		// no user checking here yet
@@ -90,6 +94,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 	 * bpi.most.client.rpc.DatapointService#getDataPeriodic(java.lang.String,
 	 * java.util.Date, java.util.Date, java.lang.Float)
 	 */
+    @Override
 	public DpDatasetDTO getDataPeriodic(String datapointName, Date starttime,
 			Date endtime, Float period) {
 		User user;
@@ -119,6 +124,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
      * bpi.most.client.rpc.DatapointService#getNumberOfValues(java.lang.String,
      * java.util.Date, java.util.Date)
      */
+    @Override
 	public int getNumberOfValues(String datapointName, Date starttime,
 			Date endtime) {
 		User user;
