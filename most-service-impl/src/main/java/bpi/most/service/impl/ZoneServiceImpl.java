@@ -19,7 +19,6 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
-import com.google.gwt.user.client.*;
 
 /**
  * Implementation of {@link bpi.most.service.api.ZoneService}.
