@@ -99,7 +99,9 @@ public class OpcMostServerStartServlet extends HttpServlet {
 			
 //			uaServer = new MostOpcUaServer(endpointUrl, certUrl, keyUrl, keyPhrase, authService, dpService, zoneService);
 //			uaServer.start();
-			
+
+            LOG.debug("starting server");
+
 			uaServer = appContext.getBean(MostOpcUaServer.class);
 			
 			uaServer.init(endpointUrl, certUrl, keyUrl, keyPhrase);

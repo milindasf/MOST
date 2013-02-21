@@ -83,6 +83,8 @@ public class MostOpcUaServer {
 		this.certUrl = certUrl;
 		this.keyUrl = keyUrl;
 		this.keyPhrase = keyPhrase;
+
+        initServer();
 	}
 	
 	
