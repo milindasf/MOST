@@ -2,16 +2,11 @@ package bpi.most.domain.datapoint;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.ejb.EntityManagerImpl;
-import org.hibernate.impl.SessionFactoryImpl;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
-
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;

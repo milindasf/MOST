@@ -4,9 +4,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import bpi.most.dto.UserDTO;
+import bpi.most.opcua.server.core.RequestContext;
+import bpi.most.opcua.server.core.Session;
 import junit.framework.Assert;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -24,6 +28,13 @@ import bpi.most.server.services.opcua.server.nodes.ZoneNode;
 public class MostNodeManagerTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Inject
     MostNodeManager mostNodeManager;
+
+    @Before
+    public void setUp() throws Exception{
+        Session s = new Session();
+        s.setCustomObj(new UserDTO("mostsoc"));
+        RequestContext.get().setSession(s);
+    }
 
     @After
     public void tearDown() throws Exception {
