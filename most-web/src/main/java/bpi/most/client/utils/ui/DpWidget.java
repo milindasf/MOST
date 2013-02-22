@@ -1,9 +1,22 @@
 package bpi.most.client.utils.ui;
 
-import bpi.most.client.utils.dnd.*;
+import bpi.most.client.utils.dnd.DNDController;
+import bpi.most.client.utils.dnd.DpWidgetDropEvent;
+import bpi.most.client.utils.dnd.DragInterface;
+import bpi.most.client.utils.dnd.DropWidget;
+import bpi.most.client.utils.dnd.MostDragEndEvent;
+import bpi.most.client.utils.dnd.MostDragStartEvent;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.dom.client.DragEndEvent;
+import com.google.gwt.event.dom.client.DragEndHandler;
+import com.google.gwt.event.dom.client.DragOverEvent;
+import com.google.gwt.event.dom.client.DragOverHandler;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.dom.client.DropEvent;
+import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 

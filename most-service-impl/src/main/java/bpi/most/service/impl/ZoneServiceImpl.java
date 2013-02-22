@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
@@ -56,8 +59,36 @@ public class ZoneServiceImpl implements ZoneService {
         cachedZones.clear();
     }
 
+    @Override
+    public String getBimModel(UserDTO user) {
+        //TODO: how to get ServletContext?
+        //InputStream input = ServletConfig.getServletContext().getResourceAsStream("/testfile.json");
+//		InputStream json = null;
+//		try {
+//				json = new FileInputStream("testFile.json");
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return json;
+        Context initCtx;
+        String modelPath = "models/BPI_archicad.json";
+        try {
+            initCtx = new InitialContext();
+            Context bimCtx = (Context) initCtx.lookup("java:comp/env/bim");
+            modelPath = (String) bimCtx.lookup("modelPath");
+            System.out.println("BimModel");
+            System.out.println("modelPath: " + modelPath);
+        } catch (NamingException e) {
+            System.out.println("getBimModel no context supported!");
+        }
+
+        return modelPath;
+    }
+
     /**
      * searches for instance of zone in cache
+     *
      * @return return Zone if cached, null if emtpy
      */
     Zone lookupZoneInCache(int zoneId) {
@@ -66,10 +97,11 @@ public class ZoneServiceImpl implements ZoneService {
 
     /**
      * add zone object to the cache
+     *
      * @param zone Zone object which should be cached
      */
-    private void cacheZone(Zone zone){
-        if(zone != null){
+    private void cacheZone(Zone zone) {
+        if (zone != null) {
             cachedZones.put(zone.getZoneId(), zone);
         }
     }
@@ -79,6 +111,7 @@ public class ZoneServiceImpl implements ZoneService {
      * @return returns the respective Zone object, zoneID is used as identifier
      */
     @Override
+    @Transactional
     public Zone getZone(ZoneDTO zone) {
         Zone result = lookupZoneInCache(zone.getZoneId());
         if (result != null) {
@@ -91,11 +124,11 @@ public class ZoneServiceImpl implements ZoneService {
     }
 
     /**
-     *
      * @param zoneId Unique ID of the zone
      * @return Requested Zone, null if not valid
      */
     @Override
+    @Transactional
     public Zone getZone(int zoneId) {
         Zone result = lookupZoneInCache(zoneId);
         if (result != null) {
@@ -111,6 +144,7 @@ public class ZoneServiceImpl implements ZoneService {
      * returns a single {@link ZoneDTO} which is identified by the given
      * {@link ZoneDTO#getName()}. this is used so that clients can fetch a
      * fully filled DpDTO object by only having the datapoints name.
+     *
      * @param user
      * @param zoneDto
      * @return
@@ -121,7 +155,7 @@ public class ZoneServiceImpl implements ZoneService {
         ZoneDTO result = null;
         Zone requestedZone = zoneFinder.getZone(zoneDto.getZoneId());
         //TODO move permission definition
-        if (requestedZone != null){
+        if (requestedZone != null) {
             user.hasPermission(requestedZone, DpDTO.Permissions.READ);
             result = requestedZone.getDTO();
         }
@@ -131,6 +165,7 @@ public class ZoneServiceImpl implements ZoneService {
 
     /**
      * Search for a zone using a String search pattern
+     *
      * @param searchPattern String search pattern
      * @return List of Zones matching the searchPattern, null if empty
      */
@@ -139,7 +174,7 @@ public class ZoneServiceImpl implements ZoneService {
     public List<ZoneDTO> getZone(String searchPattern) {
         List<ZoneDTO> resultDTOs = null;
         List<Zone> results = zoneFinder.getZone(searchPattern);
-        if(results != null){
+        if (results != null) {
             resultDTOs = new ArrayList<ZoneDTO>();
             for (Zone result : results) {
                 cacheZone(result);
@@ -167,7 +202,7 @@ public class ZoneServiceImpl implements ZoneService {
     public List<ZoneDTO> getHeadZones(UserDTO userDTO) {
         User user = null;
 
-        if(userDTO != null){
+        if (userDTO != null) {
             user = new User();
             user.setName(userDTO.getUserName());
         }
@@ -175,7 +210,7 @@ public class ZoneServiceImpl implements ZoneService {
         List<Integer> results = zoneFinder.getHeadZoneIds(user);
 
         // Retrieve the corresponding zone for each zoneId in the result
-        for(Integer zoneId:results){
+        for (Integer zoneId : results) {
             resultDTOs.add(getZone(zoneId).getDTO());
         }
 
@@ -185,6 +220,7 @@ public class ZoneServiceImpl implements ZoneService {
 
     /**
      * adds permission check
+     *
      * @return A List of ZoneDTOs of requested subzones
      */
     @Override
@@ -197,7 +233,7 @@ public class ZoneServiceImpl implements ZoneService {
         user.hasPermission(requestedZone, DpDTO.Permissions.READ);
 
         List<Integer> subzoneIds = zoneFinder.getSubZoneIds(zoneEntity.getZoneId(), sublevels);
-        if(subzoneIds != null){
+        if (subzoneIds != null) {
             //convert to DTOs
             for (Integer subzoneId : subzoneIds) {
                 result.add(getZone(subzoneId).getDTO());
@@ -217,7 +253,7 @@ public class ZoneServiceImpl implements ZoneService {
         user.hasPermission(requestedZone, DpDTO.Permissions.READ);
 
         List<DatapointVO> datapoints = datapointFinder.getDpFromSubZones(zoneEntity.getZoneId(), sublevels);
-        if(datapoints != null){
+        if (datapoints != null) {
             //convert to DTOs
             for (DatapointVO iterateDp : datapoints) {
                 result.add(iterateDp.getDTO());

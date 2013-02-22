@@ -1,5 +1,7 @@
 package bpi.most.client.model;
 
+import com.google.gwt.user.client.Window;
+
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
 
@@ -35,6 +37,14 @@ public abstract class DatapointHandler {
     public void onSuccess(Double result){
     }
     public void onSuccess(int result){
+    }
+    //handle failures as well in the handler
+    public void onFailure(Throwable caught, String function){
+    	if(caught.getMessage().equalsIgnoreCase(caught.getLocalizedMessage())){
+    		Window.alert("" + function + "-RPC-Error: " + caught.getMessage());
+    	} else {
+        	Window.alert("" + function + "-RPC-Error: " + caught.getMessage() + " ; " + caught.getLocalizedMessage());
+    	}
     }
     
     //getter and setter

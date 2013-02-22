@@ -56,5 +56,27 @@ public interface BimSurferInjection extends ClientBundle {
 	 */
 	@Source("bimsurfer/app.js")
 	TextResource bimSurfer();
-
+	
+	/**
+	 * Utils.
+	 * @return the text resource
+	 */
+	@Source("bimsurfer/utils.js")
+	TextResource utils();
+	
+	/**
+	 * Jquery cookie.
+	 * @return the text resource
+	 */
+	//TODO: place file in lib folder
+	@Source("bimsurfer/jquery.cookie.js")
+	TextResource jqueryCookie();
+	
+	/**
+	 * sha256.
+	 * @return the text resource
+	 */
+	//TODO: place file in lib folder
+	@Source("bimsurfer/sha256.js")
+	TextResource sha256();
 }

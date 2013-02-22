@@ -1,7 +1,10 @@
 package bpi.most.client.utils.dnd;
 
+import java.util.ArrayList;
+
 import bpi.most.client.GConfig;
 import bpi.most.client.utils.ui.GeneralDropWidget;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -10,8 +13,6 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.ArrayList;
 
 /**
  * The Class DNDController.

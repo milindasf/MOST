@@ -2,6 +2,9 @@ package bpi.most.domain.datapoint;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.ejb.EntityManagerImpl;
+import org.hibernate.impl.SessionFactoryImpl;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,18 +38,14 @@ public class DatapointFinder {
     public DatapointVO getDatapoint(String dpName) {
         LOG.debug("Fetching datapoint: {}", dpName);
         // noinspection unchecked
-        List<DatapointVO> result = null;
-        try{
-            Session session = (Session) em.getDelegate();
-            result = session.createSQLQuery("{CALL getDatapoint(:name)}")
+        Session tempses = ((Session) em.getDelegate());
+        List<DatapointVO> result = tempses.createSQLQuery("{CALL getDatapoint(:name)}")
                 .setParameter("name", dpName)
                 .setReadOnly(true)
                 .setResultTransformer(new DatapointVOResultTransformer())
                 .list();
-        }catch(Exception e){
-            LOG.error(e.getMessage(), e);
-        }
-        if(result != null && result.size() > 0){
+
+        if(result.size() > 0){
             return result.get(0);
         }
 
@@ -62,7 +61,7 @@ public class DatapointFinder {
                 .setResultTransformer(new DatapointResultTransformer())
                 .list();
 
-        if(result.size() > 0){
+        if (result.size() > 0) {
             return result.get(0);
         }
 
@@ -80,7 +79,7 @@ public class DatapointFinder {
     }
 
     public List<DatapointVO> getDatapoints(String searchstring, String zone) {
-    	LOG.debug("Fetching datapoints with searchstring {} for zone {}", searchstring, zone);
+        LOG.debug("Fetching datapoints with searchstring {} for zone {}", searchstring, zone);
         // noinspection unchecked
         return ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:searchstring)}")
                 .setParameter("searchstring", prepareSearchParameter(searchstring))
@@ -92,15 +91,15 @@ public class DatapointFinder {
 
     /**
      * Datapoints in a sub zone.
-     * @param zoneId Unique ID of the zone
+     *
+     * @param zoneId    Unique ID of the zone
      * @param sublevels Level of the subzones
-
      * @return List of Datapoints in the sub zone, null if empty
      */
     public List<DatapointVO> getDpFromSubZones(int zoneId, int sublevels) {
         //get zone info from db
         LOG.debug("Fetching datpoints form sub zone: {}, sublevels: {}", zoneId, sublevels);
-        try{
+        try {
             // noinspection unchecked
             List<DatapointVO> zoneList = ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapointsInSubzones(:p,:level)}")
                     .setParameter("p", zoneId)
@@ -109,12 +108,12 @@ public class DatapointFinder {
                     .setResultTransformer(new DatapointVOResultTransformer())
                     .list();
 
-            if(zoneList.size() == 0){
+            if (zoneList.size() == 0) {
                 return null;
-            }else{
+            } else {
                 return zoneList;
             }
-        }catch(HibernateException e){
+        } catch (HibernateException e) {
             LOG.warn(e.getMessage());
             return null;
         }
@@ -153,6 +152,7 @@ public class DatapointFinder {
     }
 
     //TODO ASE
+
     /**
      * Transforms a result of the stored procedure getDatapoint() into a {@link DatapointVO}.
      */

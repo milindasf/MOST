@@ -1,5 +1,18 @@
 package bpi.most.client.modules.charts.Highchart;
 
+import java.util.ArrayList;
+import java.util.Date;
+import org.moxieapps.gwt.highcharts.client.Axis;
+import org.moxieapps.gwt.highcharts.client.Chart;
+import org.moxieapps.gwt.highcharts.client.Legend;
+import org.moxieapps.gwt.highcharts.client.Point;
+import org.moxieapps.gwt.highcharts.client.Series;
+import org.moxieapps.gwt.highcharts.client.Legend.Align;
+import org.moxieapps.gwt.highcharts.client.events.SeriesLegendItemClickEvent;
+import org.moxieapps.gwt.highcharts.client.events.SeriesLegendItemClickEventHandler;
+import org.moxieapps.gwt.highcharts.client.plotOptions.LinePlotOptions;
+import org.moxieapps.gwt.highcharts.client.plotOptions.SeriesPlotOptions;
+
 import bpi.most.client.modules.charts.ChartInterface;
 import bpi.most.client.modules.charts.ChartWrapper;
 import bpi.most.client.modules.charts.Curve;
@@ -13,15 +26,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import org.moxieapps.gwt.highcharts.client.*;
-import org.moxieapps.gwt.highcharts.client.Legend.Align;
-import org.moxieapps.gwt.highcharts.client.events.SeriesLegendItemClickEvent;
-import org.moxieapps.gwt.highcharts.client.events.SeriesLegendItemClickEventHandler;
-import org.moxieapps.gwt.highcharts.client.plotOptions.LinePlotOptions;
-import org.moxieapps.gwt.highcharts.client.plotOptions.SeriesPlotOptions;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * This is the chart implementation of the GWT Highcharts project

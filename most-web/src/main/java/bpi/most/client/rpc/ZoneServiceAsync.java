@@ -18,4 +18,6 @@ public interface ZoneServiceAsync {
 	void getDatapoints(ZoneDTO zoneEntity, int sublevels,
 			AsyncCallback<List<DpDTO>> callback);
 
+	void getBimModel(AsyncCallback<String> asyncCallback);
+
 }

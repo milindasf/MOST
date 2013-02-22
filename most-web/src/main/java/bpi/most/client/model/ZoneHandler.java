@@ -37,6 +37,9 @@ public abstract class ZoneHandler {
 	}
 	public void onSuccess(ZoneDTO result){
 	}
+	public void onSuccess(String result){
+		
+	}
 	
 	
 	public Object getTmpRef() {

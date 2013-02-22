@@ -1,0 +1,26 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:my="urn:import:bpi.most.client.utils.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:FlowPanel>
+		<g:HorizontalPanel>
+			<g:Label>Value of data point&nbsp;&nbsp;</g:Label>
+			<g:ListBox ui:field="compare">
+				<g:item value="smallerThan">SMALLER THAN</g:item>
+				<g:item value="greaterThan">GREATER THAN</g:item>
+				<g:item value="equalTo">EQUAL TO</g:item>
+				<g:item value="notEqualTo">NOT EQUAL</g:item>
+				<g:item value="smallerOrEqual">SMALLER OR EQUAL TO</g:item>
+				<g:item value="greaterOrEqual">GREATER OR EQUAL TO</g:item>
+			</g:ListBox>
+			<g:Label>&nbsp;&nbsp;</g:Label>
+			<my:DropTextbox ui:field="conddp"></my:DropTextbox>
+		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+				<g:Button ui:field="save">Save</g:Button>
+				<g:Button ui:field="revert">Revert</g:Button>
+			</g:HorizontalPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 

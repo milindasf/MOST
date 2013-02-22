@@ -1,5 +1,6 @@
 package bpi.most.client.utils.ui;
 
+import java.util.ArrayList;
 import bpi.most.client.model.DpController;
 import bpi.most.dto.DpDTO;
 import com.google.gwt.core.client.GWT;
@@ -10,12 +11,15 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.*;
-
-import java.util.ArrayList;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DpSearchWidget extends Composite {
-	
+
 	private static DpSearchWidgetUiBinder uiBinder = GWT
 			.create(DpSearchWidgetUiBinder.class);
 
@@ -86,6 +90,7 @@ public class DpSearchWidget extends Composite {
 					@Override
 					public void onFailure(Throwable caught) {
 						// Window.alert("Failure on get Entities!");
+						caught.printStackTrace();
 					}
 				});
 
@@ -244,6 +249,7 @@ public class DpSearchWidget extends Composite {
 								@Override
 								public void onFailure(Throwable caught) {
 									// Window.alert("Failure on get Entities!");
+									caught.printStackTrace();
 								}
 							});
 				}

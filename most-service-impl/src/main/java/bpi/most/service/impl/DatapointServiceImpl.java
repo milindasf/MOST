@@ -84,7 +84,7 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     /**
-     * latest measurement see {@link bpi.most.server.model.Datapoint#getData()}
+     * latest measurement
      *
      * @return DatapointDatasetVO of requested timeframe, null if no permissions TODO:
      *         throw exceptions if no permissions, etc.
@@ -138,7 +138,7 @@ public class DatapointServiceImpl implements DatapointService {
 
     @Override
     @Transactional
-    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, Integer mode) {
+    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period, int mode) {
         DpDatasetDTO result = null;
         DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
@@ -160,6 +160,7 @@ public class DatapointServiceImpl implements DatapointService {
         return result;
     }
 
+
     @Override
     @Transactional
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
@@ -179,6 +180,11 @@ public class DatapointServiceImpl implements DatapointService {
         return result;
     }
 
+    @Override
+    public void addObserver(String dpName, Object connector) {
+        // TODO
+    }
+
     private List<DpDTO> transformToDpDTOList(List<DatapointVO> dpList){
         List<DpDTO> dpDTOList = null;
 
@@ -193,7 +199,7 @@ public class DatapointServiceImpl implements DatapointService {
     }
     
     /**
-	 * add new measurement see {@link bpi.most.server.model.Datapoint#addData()}
+	 * add new measurement
 	 * 
 	 * @return 1 = inserted; < 0 constraints violated or procedure error TODO:
 	 *         throw exceptions if no permissions, etc.
@@ -239,4 +245,5 @@ public class DatapointServiceImpl implements DatapointService {
 		}
 		return result;
 	}
+
 }

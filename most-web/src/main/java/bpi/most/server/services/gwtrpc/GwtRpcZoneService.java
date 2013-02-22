@@ -61,4 +61,14 @@ public class GwtRpcZoneService extends SpringGwtServlet implements
 		return zoneService.getDatapoints(new UserDTO(user.getUserName()), zoneEntity, sublevels);
 	}
 
+    @Override
+    public String getBimModel() {
+        User user;
+        // get user of session
+        HttpSession session = this.getThreadLocalRequest().getSession(true);
+        user = (User) session.getAttribute("mostUser");
+        //TODO implement
+        return zoneService.getBimModel(new UserDTO(user.getUserName()));
+    }
+
 }

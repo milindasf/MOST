@@ -1,14 +1,15 @@
 package bpi.most.client.model;
 
-import bpi.most.client.rpc.ZoneService;
-import bpi.most.client.rpc.ZoneServiceAsync;
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.ZoneDTO;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import java.util.List;
+import bpi.most.client.rpc.ZoneService;
+import bpi.most.client.rpc.ZoneServiceAsync;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.ZoneDTO;
 
 /**
  * Client-side implementation of the
@@ -105,6 +106,23 @@ public final class ZoneController {
 						Window.alert("getDatapoints(ZoneDTO zoneEntity, int sublevels) RPC-Error");
 					}
 				});
+		return null;
+	}
+	
+	public String getBimModel(final ZoneHandler zoneHandler) {
+        ZONE_SERVICE.getBimModel(new AsyncCallback<String>() {
+
+			@Override
+			public void onSuccess(String result) {
+				zoneHandler.onSuccess(result);
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO: implement better error handling
+				Window.alert("getBimModel() RPC-Error");
+			}
+		});
 		return null;
 	}
 

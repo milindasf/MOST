@@ -17,5 +17,13 @@ public interface ZoneService extends RemoteService {
 	ZoneDTO getZone(ZoneDTO zoneDto);
 	
 	List<DpDTO> getDatapoints(ZoneDTO zoneEntity, int sublevels);
+	
+	//TODO use right return type
+	//options
+	//A)get URL
+	//B)get all JSON objects 
+	//C)get BIM login info
+	//D)all communication with "gwt" --> server side  connects to BIMserver 
+	public String getBimModel();
 
 }
