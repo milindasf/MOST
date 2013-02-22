@@ -232,7 +232,7 @@ public class DatapointServiceImpl implements DatapointService {
 	}
 
 	/**
-	 * Deletes data of a given timeslot
+	 * Deletes data of a given time slot
 	 */
     @Override
     @Transactional
