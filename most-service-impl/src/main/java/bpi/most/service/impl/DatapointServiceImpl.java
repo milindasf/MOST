@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -168,20 +169,22 @@ public class DatapointServiceImpl implements DatapointService {
     @Override
     @Transactional
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
+        LOG.debug("blu");
     	int result = 0;
         try{
-        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
-        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-        	Integer number = null;
-	        if(!dp.isVirtual()) {
-	        	number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);
-        	} else {
-        		number = virtualDatapointDataFinder.getNumberOfValues(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime);
-        	}
-	        if(number != null){
-	        	result = number;
-	        }
-        }
+            LOG.debug("bla");
+            DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+            if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+                Integer number = null;
+                if(!dp.isVirtual()) {
+                    number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);
+                } else {
+                    number = virtualDatapointDataFinder.getNumberOfValues(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime);
+                }
+                if(number != null){
+                    result = number;
+                }
+            }
         }catch (Exception e){
             LOG.error(e.getMessage(), e);
         }

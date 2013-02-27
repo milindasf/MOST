@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.sql.rowset.spi.TransactionalWriter;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,10 +31,12 @@ public class DatapointFinder {
         this.em = em;
     }
 
+
     public DatapointVO getDatapoint(String dpName) {
-        LOG.debug("Fetching datapoint: {}", dpName);
+        LOG.info("Fetching datapoint: {} NOW", dpName);
         // noinspection unchecked
         Session tempses = ((Session) em.getDelegate());
+        System.out.print("la");
         List<DatapointVO> result = tempses.createSQLQuery("{CALL getDatapoint(:name)}")
                 .setParameter("name", dpName)
                 .setReadOnly(true)
@@ -41,6 +44,7 @@ public class DatapointFinder {
                 .list();
 
         if(result.size() > 0){
+            LOG.debug("Found datapoint: {}", dpName);
             return result.get(0);
         }
 
@@ -48,8 +52,9 @@ public class DatapointFinder {
     }
 
     public Datapoint getDatapointEntity(String dpName) {
-        LOG.debug("Fetching datapoint: {}", dpName);
+        LOG.info("Fetching fucking datapoint: {}", dpName);
         // noinspection unchecked
+        System.out.print("la");
         List<Datapoint> result = ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:name)}")
                 .setParameter("name", dpName)
                 .setReadOnly(true)
@@ -66,6 +71,7 @@ public class DatapointFinder {
     public List<DatapointVO> getDatapoints(String searchstring) {
         LOG.debug("Fetching datapoints with searchstring {}", searchstring);
         // noinspection unchecked
+        System.out.print("la");
         return ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:searchstring)}")
                 .setParameter("searchstring", prepareSearchParameter(searchstring))
                 .setReadOnly(true)

@@ -7,6 +7,7 @@ import bpi.most.server.services.User;
 import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -139,6 +140,7 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 
         int result = 0;
         try{
+            LOG.debug("what the fuck");
 		    result = dpService.getNumberOfValues(new UserDTO(user.getUserName()), new DpDTO(datapointName),
 				starttime, endtime);
         }catch (Exception e){
