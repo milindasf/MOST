@@ -140,7 +140,6 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 
         int result = 0;
         try{
-            LOG.debug("what the fuck");
 		    result = dpService.getNumberOfValues(new UserDTO(user.getUserName()), new DpDTO(datapointName),
 				starttime, endtime);
         }catch (Exception e){

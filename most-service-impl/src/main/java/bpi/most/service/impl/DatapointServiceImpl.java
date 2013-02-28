@@ -169,10 +169,8 @@ public class DatapointServiceImpl implements DatapointService {
     @Override
     @Transactional
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
-        LOG.debug("blu");
     	int result = 0;
         try{
-            LOG.debug("bla");
             DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
             if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
                 Integer number = null;

@@ -33,10 +33,9 @@ public class DatapointFinder {
 
 
     public DatapointVO getDatapoint(String dpName) {
-        LOG.info("Fetching datapoint: {} NOW", dpName);
+        LOG.debug("Fetching datapoint: {}", dpName);
         // noinspection unchecked
         Session tempses = ((Session) em.getDelegate());
-        System.out.print("la");
         List<DatapointVO> result = tempses.createSQLQuery("{CALL getDatapoint(:name)}")
                 .setParameter("name", dpName)
                 .setReadOnly(true)
@@ -44,7 +43,7 @@ public class DatapointFinder {
                 .list();
 
         if(result.size() > 0){
-            LOG.debug("Found datapoint: {}", dpName);
+//            LOG.debug("Found datapoint: {}", dpName);
             return result.get(0);
         }
 
@@ -52,9 +51,8 @@ public class DatapointFinder {
     }
 
     public Datapoint getDatapointEntity(String dpName) {
-        LOG.info("Fetching fucking datapoint: {}", dpName);
+        LOG.debug("Fetching datapoint: {}", dpName);
         // noinspection unchecked
-        System.out.print("la");
         List<Datapoint> result = ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:name)}")
                 .setParameter("name", dpName)
                 .setReadOnly(true)
@@ -71,7 +69,6 @@ public class DatapointFinder {
     public List<DatapointVO> getDatapoints(String searchstring) {
         LOG.debug("Fetching datapoints with searchstring {}", searchstring);
         // noinspection unchecked
-        System.out.print("la");
         return ((Session) em.getDelegate()).createSQLQuery("{CALL getDatapoint(:searchstring)}")
                 .setParameter("searchstring", prepareSearchParameter(searchstring))
                 .setReadOnly(true)
