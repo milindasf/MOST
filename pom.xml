@@ -28,6 +28,7 @@
         <module>most-rest</module>
         <module>most-opc</module>
         <module>most-connector</module>
+        <module>most-calibration</module>
     </modules>
 
     <profiles>
