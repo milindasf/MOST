@@ -114,12 +114,12 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 
     @Override
     public DpDatasetDTO getDataPeriodic(String datapointName, Date starttime, Date endtime, Float period, int mode) {
-        UserDTO user;
+        User user;
         // get user of session
         HttpSession session = this.getThreadLocalRequest().getSession(true);
-        user = (UserDTO) session.getAttribute("mostUser");
+        user = (User) session.getAttribute("mostUser");
 
-        return dpService.getDataPeriodic(user, new DpDTO(datapointName),
+        return dpService.getDataPeriodic(new UserDTO(user.getUserName()), new DpDTO(datapointName),
                 starttime, endtime, period, mode);
     }
 

@@ -47,7 +47,7 @@ public class DpWidget extends HTML implements DragInterface {
 		getElement().setDraggable(Element.DRAGGABLE_TRUE);
 		
 		//TODO set DpWidget style and let the modules chose which styles to "support" (-->dropable)
-		addStyleName("gwt-SensorLabel dWidget-uid-livechart dWidget-uid-3d");
+		addStyleName("gwt-SensorLabel dWidget-uid-livechart dWidget-uid-3d dWidget-uid-export");
 		setTitle(name);
 		addDragStartHandler(new DragStartHandler() {
 

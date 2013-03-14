@@ -33,7 +33,7 @@ public class DatapointFinder {
 
 
     public DatapointVO getDatapoint(String dpName) {
-        LOG.debug("Fetching datapoint: {}", dpName);
+        LOG.debug("Fetching the awesome datapoint: {}", dpName);
         // noinspection unchecked
         Session tempses = ((Session) em.getDelegate());
         List<DatapointVO> result = tempses.createSQLQuery("{CALL getDatapoint(:name)}")
