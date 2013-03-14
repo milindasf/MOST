@@ -4,7 +4,7 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:FlowPanel width="100%" height="500px">
+	<g:FlowPanel width="100%" height="300px">
 		<g:HorizontalPanel>
 			<g:ListBox ui:field="listBox">
 				<g:item value="selectFilter">select filter</g:item>

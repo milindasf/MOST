@@ -7,6 +7,7 @@ import bpi.most.server.services.User;
 import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -47,9 +48,14 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
 
-		return dpService.getData(new UserDTO(user.getUserName()), new DpDTO(datapointName), starttime,
+        DpDatasetDTO result = null;
+		try{
+            result = dpService.getData(new UserDTO(user.getUserName()), new DpDTO(datapointName), starttime,
 				endtime);
-
+        }catch(Exception e){
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
 	}
 
 	// TODO: add user checking like in the other methods
@@ -108,12 +114,12 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 
     @Override
     public DpDatasetDTO getDataPeriodic(String datapointName, Date starttime, Date endtime, Float period, int mode) {
-        UserDTO user;
+        User user;
         // get user of session
         HttpSession session = this.getThreadLocalRequest().getSession(true);
-        user = (UserDTO) session.getAttribute("mostUser");
+        user = (User) session.getAttribute("mostUser");
 
-        return dpService.getDataPeriodic(user, new DpDTO(datapointName),
+        return dpService.getDataPeriodic(new UserDTO(user.getUserName()), new DpDTO(datapointName),
                 starttime, endtime, period, mode);
     }
 
@@ -132,8 +138,14 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
 		HttpSession session = this.getThreadLocalRequest().getSession(true);
 		user = (User) session.getAttribute("mostUser");
 
-		return dpService.getNumberOfValues(new UserDTO(user.getUserName()), new DpDTO(datapointName),
+        int result = 0;
+        try{
+		    result = dpService.getNumberOfValues(new UserDTO(user.getUserName()), new DpDTO(datapointName),
 				starttime, endtime);
+        }catch (Exception e){
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
 	}
 
 }
