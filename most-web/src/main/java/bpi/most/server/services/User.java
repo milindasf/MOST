@@ -1,8 +1,7 @@
 package bpi.most.server.services;
 
 import bpi.most.dto.DpDTO;
-import bpi.most.server.model.Datapoint;
-import bpi.most.server.model.Zone;
+import bpi.most.dto.ZoneDTO;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class User {
 	}
 	
 	//TODO: implement, permissions are hierarchical! ro,rw,admin
-	public boolean hasPermission(Datapoint dp, DpDTO.Permissions permissions) {
+	public boolean hasPermission(DpDTO dp, DpDTO.Permissions permissions) {
 			return true;
 	}
 	//TODO: implement
@@ -31,7 +30,7 @@ public class User {
 	 * @param permissions
 	 * @return
 	 */
-	public boolean hasPermission(Zone zone, DpDTO.Permissions permissions) {
+	public boolean hasPermission(ZoneDTO zone, DpDTO.Permissions permissions) {
 				return true;
 	}
 		

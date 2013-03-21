@@ -2,16 +2,12 @@ package bpi.most.domain.datapoint;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.ejb.EntityManagerImpl;
-import org.hibernate.impl.SessionFactoryImpl;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
-
+import javax.sql.rowset.spi.TransactionalWriter;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,8 +31,9 @@ public class DatapointFinder {
         this.em = em;
     }
 
+
     public DatapointVO getDatapoint(String dpName) {
-        LOG.debug("Fetching datapoint: {}", dpName);
+        LOG.debug("Fetching the awesome datapoint: {}", dpName);
         // noinspection unchecked
         Session tempses = ((Session) em.getDelegate());
         List<DatapointVO> result = tempses.createSQLQuery("{CALL getDatapoint(:name)}")
@@ -46,6 +43,7 @@ public class DatapointFinder {
                 .list();
 
         if(result.size() > 0){
+//            LOG.debug("Found datapoint: {}", dpName);
             return result.get(0);
         }
 

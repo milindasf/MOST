@@ -31,6 +31,4 @@ public interface ZoneService {
 
     void resetCache();
 
-    String getBimModel(UserDTO user);
-
 }
