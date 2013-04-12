@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.net.URL;
 
 /**
  * Simplified POJO instance of a datapoint.
@@ -38,7 +37,7 @@ public class DpDTO implements Serializable {
      * address of server which implements the datapoint.
      * this is used for dynamically bind to the correct DatapointService
      */
-    private URL providerAddress;
+    private String providerAddress;
 	
 	public DpDTO() {
 		this.name = "null";
@@ -83,11 +82,11 @@ public class DpDTO implements Serializable {
 		this.description = description;
 	}
 
-    public URL getProviderAddress() {
+    public String getProviderAddress() {
         return providerAddress;
     }
 
-    public void setProviderAddress(URL providerAddress) {
+    public void setProviderAddress(String providerAddress) {
         this.providerAddress = providerAddress;
     }
 
