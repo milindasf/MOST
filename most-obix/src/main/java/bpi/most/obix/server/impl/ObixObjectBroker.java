@@ -99,6 +99,8 @@ public class ObixObjectBroker implements IObjectBroker {
     @Override
     public DpData getDpData(UserDTO user, DpDTO dpDto) {
         DpDataDTO data = datapointService.getData(user, dpDto);
+        // TODO update dpDto with valid unit
+        dpDto.setType("unit");
         return ObixBrokerUtils.transformDpDataDTO(ObixBrokerUtils.transformDpDTO(dpDto), data);
     }
 
