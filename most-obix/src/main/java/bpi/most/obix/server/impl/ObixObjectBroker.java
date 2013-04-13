@@ -87,7 +87,7 @@ public class ObixObjectBroker implements IObjectBroker {
             dataPoint = datapointService.getDatapoint(user, dpDto);
             dpCache.put(dataPoint.getName(), dataPoint);
         } else {
-            dataPoint = dpCache.get(dataPoint.getName());
+            dataPoint = dpCache.get(dpDto.getName());
         }
 
         return ObixBrokerUtils.transformDpDTO(dataPoint);
