@@ -40,6 +40,9 @@ public class ZoneResImpl extends BaseResImpl implements ZoneResource {
 
 	@Override
 	public List<ZoneDTO> getSubZones(int id, int level) {
+        if (level <= 0){
+            level = 1;
+        }
 		return service.getSubzones(getUser(), new ZoneDTO(id), level);
 	}
 
