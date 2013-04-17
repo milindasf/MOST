@@ -19,6 +19,7 @@ import java.util.List;
 public class DatapointServiceRmiClient implements DatapointService{
 
     //TODO do not implement, but extend database DatapointServiceImpl --> update maven dependencies
+    //create branch for virtual datapoint registry
 
     @Override
     public boolean isValidDp(String dpName) {
