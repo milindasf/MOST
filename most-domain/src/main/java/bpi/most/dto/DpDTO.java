@@ -30,12 +30,11 @@ public class DpDTO implements Serializable {
 	private String name;
 	private String type;
 	private String description;
-
-    //TODO add all other fields of Datapoint here
+    private boolean virtual;
 
     /**
      * address of server which implements the datapoint.
-     * this is used for dynamically bind to the correct DatapointService
+     * this is used for dynamically bind to the correct DatapointService.
      */
     private String providerAddress;
 	
@@ -53,6 +52,13 @@ public class DpDTO implements Serializable {
         this.name = name;
         this.type = type;
         this.description = description;
+    }
+
+    public DpDTO(String name, String type, String description, boolean isVirtual) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.virtual = isVirtual;
     }
 	
 	@XmlAttribute
@@ -81,6 +87,14 @@ public class DpDTO implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+    public boolean isVirtual() {
+        return virtual;
+    }
+
+    public void setVirtual(boolean virtual) {
+        this.virtual = virtual;
+    }
 
     public String getProviderAddress() {
         return providerAddress;

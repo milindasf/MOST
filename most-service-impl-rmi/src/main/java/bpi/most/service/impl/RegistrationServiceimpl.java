@@ -14,8 +14,7 @@ import java.util.List;
  */
 public class RegistrationServiceimpl implements RegistrationService{
 
-
-
+    //TODO move this into module most-rmi-server cause he has to implement this.
 
     @Override
     public void register(String vdpType, URI serviceEndpoint) {
