@@ -20,11 +20,22 @@
         <property name="serviceInterface" value="bpi.most.service.api.ConnectorService"/>
     </bean>
 
-    <!-- DatapointService -->
-    <bean id="datapointServiceImpl" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+    <!-- DatapointService
+
+    this is used from the "datapointServiceImpl" bean for rmi calls to the central service-impl instance.
+
+    -->
+    <bean id="datapointServiceRmiClient" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
         <property name="serviceUrl" value="rmi://localhost:1199/DatapointService"/>
         <property name="serviceInterface" value="bpi.most.service.api.DatapointService"/>
     </bean>
+
+    <!--
+
+    this impl should be used by clients to transparently access real datapoints and virtual ones
+
+    -->
+    <bean id="datapointServiceImpl" class="bpi.most.client.rmi.DatapointServiceRmiClient"/>
 
     <!-- ZoneService -->
     <bean id="zoneServiceImpl" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">

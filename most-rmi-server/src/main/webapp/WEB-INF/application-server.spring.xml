@@ -42,4 +42,12 @@
         <property name="registryPort" value="1199"/>
     </bean>
 
+
+    <!-- ZoneService -->
+    <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="RegistrationService"/>
+        <property name="service" ref="registrationServiceImpl" />
+        <property name="serviceInterface" value="bpi.most.service.api.RegistrationService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
 </beans>
