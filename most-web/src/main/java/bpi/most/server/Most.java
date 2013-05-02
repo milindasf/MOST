@@ -1,6 +1,5 @@
 package bpi.most.server;
 
-import bpi.most.server.utils.PollService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +20,12 @@ public class Most implements ServletContextListener{
 	//create service to poll and notify DP with new measurements
 	//only used for DPs not using the Java abstraction layer for adding new values.
 	//set 10 seconds poll interval
-	PollService pollService = PollService.getInstance(POLL_INTERVAL, POLL_INTERVAL);
+	//PollService pollService = PollService.getInstance(POLL_INTERVAL, POLL_INTERVAL);
 	
 	//ServletContext context;
 	public void contextInitialized(ServletContextEvent contextEvent) {
 		LOG.info("Context Created");
-		pollService.start();
+		//pollService.start();
 		
 		//context = contextEvent.getServletContext();
 		// set variable to servlet context
@@ -36,7 +35,7 @@ public class Most implements ServletContextListener{
 	public void contextDestroyed(ServletContextEvent contextEvent) {
 		//context = contextEvent.getServletContext();
 		LOG.info("Context Destroyed");
-		pollService.stop();
+		//pollService.stop();
 	}
 
 }

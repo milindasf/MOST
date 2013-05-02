@@ -2,16 +2,11 @@ package bpi.most.domain.datapoint;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.ejb.EntityManagerImpl;
-import org.hibernate.impl.SessionFactoryImpl;
 import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
-
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,8 +30,9 @@ public class DatapointFinder {
         this.em = em;
     }
 
+
     public DatapointVO getDatapoint(String dpName) {
-        LOG.debug("Fetching datapoint: {}", dpName);
+        LOG.debug("Fetching the awesome datapoint: {}", dpName);
         // noinspection unchecked
         Session tempses = ((Session) em.getDelegate());
         List<DatapointVO> result = tempses.createSQLQuery("{CALL getDatapoint(:name)}")
@@ -46,6 +42,7 @@ public class DatapointFinder {
                 .list();
 
         if(result.size() > 0){
+//            LOG.debug("Found datapoint: {}", dpName);
             return result.get(0);
         }
 
@@ -127,20 +124,57 @@ public class DatapointFinder {
         private boolean initialized = false;
         private int typeIndex;
         private int nameIndex;
+        private int descIndex;
         private int virtualIndex;
+        private int unitIndex;
+        private int minIndex;
+        private int maxIndex;
+        private int accuracyIndex;
+        private int deadbandIndex;
+        private int sampleIntIndex;
+        private int sampleIntMinIndex;
+        private int watchdogIndex;
+        private int custAttrIndex;
+        private int zoneIdZoneIndex;
 
         @Override
         public DatapointVO transformTuple(Object[] tuple, String[] aliases) {
             if (!initialized) {
                 initializeIndexes(aliases);
             }
-            return new DatapointVO((String) tuple[nameIndex], (String) tuple[typeIndex], (String) tuple[nameIndex], (String) tuple[virtualIndex]);
+            return new DatapointVO(
+                    (String) tuple[nameIndex],
+                    (String) tuple[typeIndex],
+                    (String) tuple[descIndex],
+                    (String) tuple[virtualIndex],
+                    (String) tuple[unitIndex],
+                    (BigDecimal) tuple[minIndex],
+                    (BigDecimal) tuple[maxIndex],
+                    (BigDecimal) tuple[accuracyIndex],
+                    (BigDecimal) tuple[deadbandIndex],
+                    (BigDecimal) tuple[sampleIntIndex],
+                    (BigDecimal) tuple[sampleIntMinIndex],
+                    (BigDecimal) tuple[watchdogIndex],
+                    (String) tuple[custAttrIndex],
+                    (Integer) tuple[zoneIdZoneIndex]);
         }
 
         private void initializeIndexes(String[] aliases) {
             nameIndex = findIndex(aliases, "datapoint_name");
+            descIndex = findIndex(aliases, "description");
             typeIndex = findIndex(aliases, "type");
             virtualIndex = findIndex(aliases, "virtual");
+            unitIndex = findIndex(aliases, "unit");
+            minIndex = findIndex(aliases, "min");
+            maxIndex = findIndex(aliases, "max");
+            accuracyIndex = findIndex(aliases, "accuracy");
+            deadbandIndex = findIndex(aliases, "deadband");
+            sampleIntIndex = findIndex(aliases, "sample_interval");
+            sampleIntMinIndex = findIndex(aliases, "sample_interval_min");
+            watchdogIndex = findIndex(aliases, "watchdog");
+            custAttrIndex = findIndex(aliases, "custom_attr");
+            zoneIdZoneIndex = findIndex(aliases, "zone_idzone");
+
             initialized = true;
         }
 

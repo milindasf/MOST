@@ -7,6 +7,9 @@ import bpi.most.server.services.User;
 import bpi.most.service.api.ZoneService;
 
 import javax.inject.Inject;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -68,7 +71,31 @@ public class GwtRpcZoneService extends SpringGwtServlet implements
         HttpSession session = this.getThreadLocalRequest().getSession(true);
         user = (User) session.getAttribute("mostUser");
         //TODO implement
-        return zoneService.getBimModel(new UserDTO(user.getUserName()));
+        //TODO: how to get ServletContext?
+        //InputStream input = ServletConfig.getServletContext().getResourceAsStream("/testfile.json");
+//		InputStream json = null;
+//		try {
+//				json = new FileInputStream("testFile.json");
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return json;
+        Context initCtx;
+        //default demo model
+        String modelPath = "models/BPI_archicad.json";
+        try {
+            initCtx = new InitialContext();
+            Context bimCtx = (Context) initCtx.lookup("java:comp/env/bim");
+            modelPath = (String) bimCtx.lookup("modelPath");
+            System.out.println("BimModel");
+            System.out.println("modelPath: " + modelPath);
+        } catch (NamingException e) {
+            System.out.println("getBimModel no context supported!");
+        }
+
+        return modelPath;
+        //return zoneService.getBimModel(new UserDTO(user.getUserName()));
     }
 
 }

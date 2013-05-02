@@ -12,7 +12,10 @@ import bpi.most.service.api.DatapointService;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointDataFinder;
 
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +33,8 @@ import java.util.List;
  */
 @Service
 public class DatapointServiceImpl implements DatapointService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DatapointServiceImpl.class);
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;
@@ -165,17 +170,21 @@ public class DatapointServiceImpl implements DatapointService {
     @Transactional
     public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
     	int result = 0;
-        DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
-        if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-        	Integer number = null;
-	        if(!dp.isVirtual()) {
-	        	number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);
-        	} else {
-        		number = virtualDatapointDataFinder.getNumberOfValues(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime);
-        	}
-	        if(number != null){
-	        	result = number;
-	        }
+        try{
+            DatapointVO dp = datapointFinder.getDatapoint(dpDTO.getName());
+            if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
+                Integer number = null;
+                if(!dp.isVirtual()) {
+                    number = datapointDataFinder.getNumberOfValues(dp.getName(), starttime, endtime);
+                } else {
+                    number = virtualDatapointDataFinder.getNumberOfValues(datapointFinder.getDatapointEntity(dp.getName()), starttime, endtime);
+                }
+                if(number != null){
+                    result = number;
+                }
+            }
+        }catch (Exception e){
+            LOG.error(e.getMessage(), e);
         }
         return result;
     }
@@ -232,7 +241,7 @@ public class DatapointServiceImpl implements DatapointService {
 	}
 
 	/**
-	 * Deletes data of a given timeslot
+	 * Deletes data of a given time slot
 	 */
     @Override
     @Transactional

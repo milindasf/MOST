@@ -1,7 +1,6 @@
 package bpi.most.server.services.gwtrpc;
 
 import bpi.most.client.rpc.PersonModuleService;
-import bpi.most.server.utils.DbPool;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import javax.servlet.ServletException;
@@ -56,24 +55,24 @@ PersonModuleService {
 	public boolean savePersonModuleDataSetIntoDb(HashMap<String, String> ap) {
 
 		// TODO write stored procedures
-		try {
-			Connection con = DbPool.getInstance().getConnection();
-			Statement stmt = con.createStatement();
-			final String sql = new StringBuilder("INSERT INTO personModuleData(temperature, air, air_movement, clothing) VALUES ('").
-					append(ap.get("Temperatur")).
-					append("','").
-					append(ap.get("Luft")).
-					append("','").
-					append(ap.get("Luftbewegung")).
-					append("','").
-					append(ap.get("Kleidung")).
-					append("');").toString();
-			stmt.executeUpdate(sql);
-			stmt.close();
-			con.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Connection con = DbPool.getInstance().getConnection();
+//			Statement stmt = con.createStatement();
+//			final String sql = new StringBuilder("INSERT INTO personModuleData(temperature, air, air_movement, clothing) VALUES ('").
+//					append(ap.get("Temperatur")).
+//					append("','").
+//					append(ap.get("Luft")).
+//					append("','").
+//					append(ap.get("Luftbewegung")).
+//					append("','").
+//					append(ap.get("Kleidung")).
+//					append("');").toString();
+//			stmt.executeUpdate(sql);
+//			stmt.close();
+//			con.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		return false;
 	}
 }

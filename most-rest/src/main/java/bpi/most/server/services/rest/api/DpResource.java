@@ -64,7 +64,7 @@ public interface DpResource {
 	
 	@GET
 	@Path("/{name}/periodicdata")
-	List<DpDataDTO> getDpPeriodicData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("period") int period, @QueryParam("mode") int mode, @QueryParam("type") int type);
+	List<DpDataDTO> getDpPeriodicData(@PathParam("name") String dpName, @QueryParam("from") String from, @QueryParam("to") String to, @QueryParam("period") int period, @QueryParam("mode") int mode);
 
 	
 }

@@ -59,33 +59,6 @@ public class ZoneServiceImpl implements ZoneService {
         cachedZones.clear();
     }
 
-    @Override
-    public String getBimModel(UserDTO user) {
-        //TODO: how to get ServletContext?
-        //InputStream input = ServletConfig.getServletContext().getResourceAsStream("/testfile.json");
-//		InputStream json = null;
-//		try {
-//				json = new FileInputStream("testFile.json");
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return json;
-        Context initCtx;
-        String modelPath = "models/BPI_archicad.json";
-        try {
-            initCtx = new InitialContext();
-            Context bimCtx = (Context) initCtx.lookup("java:comp/env/bim");
-            modelPath = (String) bimCtx.lookup("modelPath");
-            System.out.println("BimModel");
-            System.out.println("modelPath: " + modelPath);
-        } catch (NamingException e) {
-            System.out.println("getBimModel no context supported!");
-        }
-
-        return modelPath;
-    }
-
     /**
      * searches for instance of zone in cache
      *

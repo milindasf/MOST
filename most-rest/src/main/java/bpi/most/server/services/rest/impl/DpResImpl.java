@@ -75,13 +75,13 @@ public class DpResImpl extends BaseResImpl implements DpResource {
 
 	@Override
 	public List<DpDataDTO> getDpPeriodicData(String dpName, String sFrom, String sTo, int period,
-			int mode, int type) {
+			int mode) {
 		LOG.info("returning periodic data");
 		List<DpDataDTO> result = null;
 		DpDTO dp = new DpDTO(dpName);
         Date from = DateUtils.returnNowOnNull(sFrom);
         Date to = DateUtils.returnNowOnNull(sTo);
-        result = dpService.getDataPeriodic(getUser(), dp, from, to, (float)period);
+        result = dpService.getDataPeriodic(getUser(), dp, from, to, (float)period, mode);
 		return result;
 	}
 }

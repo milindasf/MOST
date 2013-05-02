@@ -4,11 +4,13 @@ package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDTO;
 
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Simplified POJO instance of a datapoint.
@@ -26,6 +28,17 @@ public class DatapointVO implements Serializable {
 	private String type;
 	private String description;
 	private String virtual;
+
+    private String unit;
+    private BigDecimal min;
+    private BigDecimal max;
+    private BigDecimal accuracy;
+    private BigDecimal deadband;
+    private BigDecimal sample_interval;
+    private BigDecimal sample_interval_min;
+    private BigDecimal watchdog;
+    private String custom_attr;
+    private Integer zone_idzone;
 	
 	public DatapointVO() {
 		this.name = "null";
@@ -44,8 +57,26 @@ public class DatapointVO implements Serializable {
 		this.description = description;
 		this.virtual = virtual;
 	}
-	
-	@XmlAttribute
+
+
+    public DatapointVO(String name, String type, String description, String virtual, String unit, BigDecimal min, BigDecimal max, BigDecimal accuracy, BigDecimal deadband, BigDecimal sample_interval, BigDecimal sample_interval_min, BigDecimal watchdog, String custom_attr, Integer zone_idzone) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.virtual = virtual;
+        this.unit = unit;
+        this.min = min;
+        this.max = max;
+        this.accuracy = accuracy;
+        this.deadband = deadband;
+        this.sample_interval = sample_interval;
+        this.sample_interval_min = sample_interval_min;
+        this.watchdog = watchdog;
+        this.custom_attr = custom_attr;
+        this.zone_idzone = zone_idzone;
+    }
+
+    @XmlAttribute
 	public String getName() {
 		return name;
 	}
@@ -85,7 +116,7 @@ public class DatapointVO implements Serializable {
 	}
 
 	public DpDTO getDTO(){
-        return new DpDTO(name, type, description);
+        return new DpDTO(name, type, description, isVirtual());
     }
 
 	@Override

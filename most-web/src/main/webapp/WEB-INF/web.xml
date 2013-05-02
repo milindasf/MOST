@@ -67,16 +67,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>DpChangedEventServiceImpl</servlet-name>
-        <servlet-class>bpi.most.server.services.gwtrpc.GwtRpcDpChangedEventService</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>DpChangedEventServiceImpl</servlet-name>
-        <url-pattern>/most/services/gwtrpc/dp-event-service</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>EventService</servlet-name>
         <servlet-class>de.novanic.eventservice.service.EventServiceImpl</servlet-class>
     </servlet>
@@ -86,6 +76,7 @@
         <url-pattern>/most/gwteventservice</url-pattern>
     </servlet-mapping>
 
+    <!-- spring configuration -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>WEB-INF/service.spring.xml</param-value>

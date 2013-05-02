@@ -85,7 +85,7 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
 
         Assert.assertEquals("con1", dpDTO.getName());
         Assert.assertEquals("con", dpDTO.getType());
-        Assert.assertEquals("con1", dpDTO.getDescription());
+        Assert.assertEquals(null , dpDTO.getDescription());
     }
 
     @Test
