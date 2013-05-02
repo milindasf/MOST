@@ -1,0 +1,48 @@
+/* GenOpt example command file
+   MWetter@lbl.gov, 06/18/2003
+*/
+Vary{
+
+Parameter{   // Thermal conductivity
+    Name    = landa;
+    Min     = 0.03;
+    Ini     =     0.1;
+    Max     =   0.2;
+    Step    =    0.002;
+}
+
+Parameter{   // G-Value
+    Name    = G;
+    Min     = 0.56;
+    Ini     =     0.84;
+    Max     =   0.84;
+    Step    =    0.08;
+}
+
+}
+
+OptimizationSettings{
+  MaxIte = 2000;
+  MaxEqualResults = 100;
+  WriteStepNumber = false;
+  UnitsOfExecution = 0;
+}
+
+Algorithm{
+  Main = GPSPSOCCHJ;
+  NeighborhoodTopology = vonNeumann;
+  NeighborhoodSize = 5;
+  NumberOfParticle = 10;
+  NumberOfGeneration = 10;
+  Seed = 1;
+  CognitiveAcceleration = 2.8;
+  SocialAcceleration = 1.3;
+  MaxVelocityGainContinuous = 0.5;
+  MaxVelocityDiscrete = 4;
+  ConstrictionGain = 0.5;
+  MeshSizeDivider = 2;
+  InitialMeshSizeExponent = 0;
+  MeshSizeExponentIncrement = 1;
+  NumberOfStepReduction = 4;
+}
+
