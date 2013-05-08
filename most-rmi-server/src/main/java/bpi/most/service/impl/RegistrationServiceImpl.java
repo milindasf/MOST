@@ -1,7 +1,11 @@
 package bpi.most.service.impl;
 
+import bpi.most.dto.VdpProviderDTO;
 import bpi.most.service.api.RegistrationService;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
@@ -15,63 +19,40 @@ import java.util.Set;
  *
  * @author hare
  */
+@Service
 public class RegistrationServiceImpl implements RegistrationService{
 
-    //TODO implement this
+    //TODO implement this service
 
-    /**
-     * maps types of virtual datapoints to server addresses which implement them. One type of
-     * a virtual datapoint can be implemented by several server, hence the Set of addresses.
-     */
-    private Map<String, Set<String>> vdpProviders = new HashMap<String, Set<String>>();
-
-    /**
-     * adds a service endpoint for the vdp type
-     * @param vdpType
-     * @param serviceEndpoint
-     */
-    private void addProvider(String vdpType, String serviceEndpoint){
-
-    }
+    @Inject
+    IVdpRegistry registry;
 
     /**
      * returns a service endpoint for the given vdp type
      * @param vdpType
      * @return
      */
-    private String getProvider(String vdpType){
-        return null;
-    }
-
-    /**
-     * removes registration for a vdp type for the particular endpoint
-     * @param vdpType
-     * @param serviceEndpoint
-     */
-    private void removeProvider(String vdpType, String serviceEndpoint){
-
-    }
-
-    /**
-     * removes all registrations for a serviceEndpoint
-     * @param serviceEndpoint
-     */
-    private void removeProvider(String serviceEndpoint){
-
+    private VdpProviderDTO getProvider(String vdpType){
+        return registry.getProvider(vdpType);
     }
 
     @Override
-    public void register(String vdpType, URI serviceEndpoint) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void register(VdpProviderDTO provider) {
+        registry.addProvider(provider);
     }
 
     @Override
     public void unregister(String vdpType, URI serviceEndpoint) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        registry.removeProvider(vdpType, serviceEndpoint);
     }
 
     @Override
-    public List<URI> getServiceProvider(String vdpType) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public void unregister(URI serviceEndpoint) {
+        registry.removeProvider(serviceEndpoint);
+    }
+
+    @Override
+    public List<VdpProviderDTO> getServiceProvider(String vdpType) {
+        return registry.getProviders(vdpType);
     }
 }
