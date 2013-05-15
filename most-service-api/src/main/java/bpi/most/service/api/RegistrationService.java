@@ -22,25 +22,37 @@ public interface RegistrationService {
     /**
      * registers an service for ability to calculate virtual datapoints of the given type.
      */
-    void register(VdpProviderDTO provider);
+    public void register(VdpProviderDTO provider);
 
     /**
      * unregisters a service by vdp type and endpoint
      * @param vdpType
      * @param serviceEndpoint
      */
-    void unregister(String vdpType, URI serviceEndpoint);
+    public void unregister(String vdpType, URI serviceEndpoint);
 
     /**
      * unregisters all providers for a given endpoint
      * @param serviceEndpoint
      */
-    void unregister(URI serviceEndpoint);
+    public void unregister(URI serviceEndpoint);
+
+    /**
+     * returns one registered service provider for a given virtual datapoint type
+     * @param vdpType
+     * @return
+     */
+    public VdpProviderDTO getServiceProvider(String vdpType);
 
     /**
      * returns all registered service providers for a given virtual datapoint type
      * @param vdpType
      * @return
      */
-    List<VdpProviderDTO> getServiceProvider(String vdpType);
+    public List<VdpProviderDTO> getServiceProviders(String vdpType);
+
+    /**
+     * clears the whole registry
+     */
+    public void clear();
 }

@@ -108,4 +108,11 @@ public class InMemoryVdpRegistry implements IVdpRegistry{
             }
         }
     }
+
+    @Override
+    public void clear() {
+        vdpProviders.clear();
+    }
+
+
 }

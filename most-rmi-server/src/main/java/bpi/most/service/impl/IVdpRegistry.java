@@ -46,4 +46,9 @@ public interface IVdpRegistry {
      */
     void removeProvider(URI serviceEndpoint);
 
+    /**
+     * removes all registry entries
+     */
+    void clear();
+
 }

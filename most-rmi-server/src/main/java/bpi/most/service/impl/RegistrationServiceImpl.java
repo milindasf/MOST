@@ -22,8 +22,6 @@ import java.util.Set;
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
 
-    //TODO implement this service
-
     @Inject
     IVdpRegistry registry;
 
@@ -52,7 +50,17 @@ public class RegistrationServiceImpl implements RegistrationService{
     }
 
     @Override
-    public List<VdpProviderDTO> getServiceProvider(String vdpType) {
+    public VdpProviderDTO getServiceProvider(String vdpType) {
+        return registry.getProvider(vdpType);
+    }
+
+    @Override
+    public List<VdpProviderDTO> getServiceProviders(String vdpType) {
         return registry.getProviders(vdpType);
+    }
+
+    @Override
+    public void clear() {
+        registry.clear();
     }
 }
