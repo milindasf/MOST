@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface IVdpRegistry {
 
+    //TODO - move into most-service-impl or own most-registry-impl module
+
     /**
      * adds a service endpoint for the vdp type
      */

@@ -17,6 +17,8 @@ import java.util.*;
 @Scope(value = "singleton") //default, but excplicitly here so that nobody changes it because we want only ONE registry!
 public class InMemoryVdpRegistry implements IVdpRegistry{
 
+    //TODO - move into most-service-impl or own most-registry-impl module
+
     /**
      * maps types of virtual datapoints to server addresses which implement them. One type of
      * a virtual datapoint can be implemented by several servers, hence the Set of addresses.

@@ -22,6 +22,8 @@ import java.util.Set;
 @Service
 public class RegistrationServiceImpl implements RegistrationService{
 
+    //TODO - move into most-service-impl or own most-registry-impl module
+
     @Inject
     IVdpRegistry registry;
 
