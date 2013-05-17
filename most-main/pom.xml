@@ -10,54 +10,51 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>most-main</artifactId>
-    <packaging>jar</packaging>
+    <groupId>bpi.most</groupId>
+    <packaging>war</packaging>
+    <name>MOST Main Module</name>
 
     <dependencies>
-    <dependency>
-        <groupId>bpi.most</groupId>
-        <artifactId>most-domain</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>bpi.most</groupId>
-        <artifactId>most-service-api</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>bpi.most</groupId>
-        <artifactId>most-service-impl</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>3.0.7.RELEASE</version>
-    </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-service-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-service-impl</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <artifactId>spring-web</artifactId>
             <version>3.0.7.RELEASE</version>
         </dependency>
 
-    <!-- test dependencies -->
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.10</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.easymock</groupId>
-        <artifactId>easymock</artifactId>
-        <version>3.0</version>
-        <scope>test</scope>
-    </dependency>
 
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
-        <version>3.0.7.RELEASE</version>
-        <scope>test</scope>
-    </dependency>
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.0.7.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

@@ -18,11 +18,11 @@ import java.util.List;
  *
  * User: harald
  *
- *
+ * tests the registration service over RMI
  */
 
 @ContextConfiguration(locations = {"file:most-rmi-server/src/main/webapp/WEB-INF/application-server.spring.xml"})
-public class RegistrationServiceImplTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class RegistrationServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     private static final String SERVER1 = "rmi://10.0.0.1:1199/DatapointService";
     private static final String SERVER2 = "rmi://10.0.0.2:1199/DatapointService";
