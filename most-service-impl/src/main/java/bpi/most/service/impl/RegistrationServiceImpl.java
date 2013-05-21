@@ -2,6 +2,8 @@ package bpi.most.service.impl;
 
 import bpi.most.dto.VdpProviderDTO;
 import bpi.most.service.api.RegistrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ public class RegistrationServiceImpl implements RegistrationService{
 
     //TODO - move into most-service-impl or own most-registry-impl module
 
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationServiceImpl.class);
+
     @Inject
     IVdpRegistry registry;
 
@@ -38,16 +42,19 @@ public class RegistrationServiceImpl implements RegistrationService{
 
     @Override
     public void register(VdpProviderDTO provider) {
+        LOG.debug("registering new provider: " + provider);
         registry.addProvider(provider);
     }
 
     @Override
     public void unregister(String vdpType, URI serviceEndpoint) {
+        LOG.debug("unregistering " + serviceEndpoint + " for vdptype " + vdpType);
         registry.removeProvider(vdpType, serviceEndpoint);
     }
 
     @Override
     public void unregister(URI serviceEndpoint) {
+        LOG.debug("unregistering " + serviceEndpoint + " for all vdp types");
         registry.removeProvider(serviceEndpoint);
     }
 

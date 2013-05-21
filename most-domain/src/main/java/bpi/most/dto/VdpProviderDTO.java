@@ -1,5 +1,6 @@
 package bpi.most.dto;
 
+import java.io.Serializable;
 import java.net.URI;
 
 /**
@@ -7,7 +8,7 @@ import java.net.URI;
  *
  * Identifies a virtual datapoint provider - i.e it provides an implementation for a specific virtual datapoint type
  */
-public class VdpProviderDTO {
+public class VdpProviderDTO implements Serializable {
 
     /**
      * type of the virtual datapoint (e.g "radiance")
@@ -24,6 +25,9 @@ public class VdpProviderDTO {
         this.endpoint = endpoint;
     }
 
+    public VdpProviderDTO() {
+    }
+
     public String getVdpType() {
         return vdpType;
     }
@@ -38,5 +42,13 @@ public class VdpProviderDTO {
 
     public void setEndpoint(URI endpoint) {
         this.endpoint = endpoint;
+    }
+
+    @Override
+    public String toString() {
+        return "VdpProviderDTO{" +
+                "vdpType='" + vdpType + '\'' +
+                ", endpoint=" + endpoint +
+                '}';
     }
 }

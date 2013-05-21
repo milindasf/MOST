@@ -6,8 +6,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import java.net.URI;
@@ -19,10 +21,12 @@ import java.util.List;
  * User: harald
  *
  * tests the registration service over RMI
+ *
  */
 
-@ContextConfiguration(locations = {"file:most-rmi-server/src/main/webapp/WEB-INF/application-server.spring.xml"})
-public class RegistrationServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:most-main.test.spring.xml"})
+public class RegistrationServiceTest{
 
     private static final String SERVER1 = "rmi://10.0.0.1:1199/DatapointService";
     private static final String SERVER2 = "rmi://10.0.0.2:1199/DatapointService";
