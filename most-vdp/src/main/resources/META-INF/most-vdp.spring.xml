@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation= "http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <!-- most-service-impl spring configuration -->
+    <import resource="classpath:META-INF/most-service.spring.xml" />
+
+    <context:component-scan base-package="bpi.most.vdp" />
+    <!--
+    <context:component-scan base-package="bpi.most.service.impl" />
+    -->
+    <context:annotation-config />
+
+
+    <!-- RegistrationService RMI client to most-main -->
+    <bean id="registrationService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost:1199/RegistrationService"/>
+        <property name="serviceInterface" value="bpi.most.service.api.RegistrationService"/>
+    </bean>
+
+    <!-- provide the DatapointService over RMI -->
+    <bean id="dpService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="serviceName" value="DatapointService"/>
+        <property name="service" ref="datapointServiceImpl" />
+        <property name="serviceInterface" value="bpi.most.service.api.DatapointService"/>
+        <property name="registryPort" value="1199"/>
+    </bean>
+    <!-- this property has to be the endpoint of dpService bean -->
+    <bean id="providerRegistration" class="bpi.most.vdp.VdpProviderRegistration">
+        <!-- TODO find a dynamic way of getting this endpoint -->
+
+        <property name="myEndpoint" value="rmi://localhost:1199/DatapointService" />
+    </bean>
+
+</beans>
