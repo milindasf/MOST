@@ -1,45 +1,97 @@
 package bpi.most.vdp;
 
+import bpi.most.domain.datapoint.Datapoint;
+import bpi.most.domain.datapoint.DatapointDataVO;
+import bpi.most.dto.VdpProviderDTO;
 import bpi.most.service.api.RegistrationService;
+import bpi.most.service.impl.datapoint.virtual.VirtualDatapoint;
+import bpi.most.service.impl.datapoint.virtual.VirtualDatapointDataFinder;
+import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ServiceLoader;
 
 /**
  * Created with IntelliJ IDEA.
  * User: harald
- * Date: 22.05.13
- * Time: 15:51
- * To change this template use File | Settings | File Templates.
+ *
+ * takes care of registering virtual datapoint implementations on startup and unregistering on stopping.
+ * it uses Java Service Loader to find implementations.
+ *
  */
 
 public class VdpProviderRegistration {
 
+    private static final Logger LOG = LoggerFactory.getLogger(VdpProviderRegistration.class);
+
+    /**
+     * rmi client to vdp-registry
+     */
     @Inject
     RegistrationService registrationService;
 
+    @PersistenceContext(unitName = "most")
+    private EntityManager em;
+
+    /**
+     * TODO: find out rmi url of our datapoint service
+     */
+    private String myEndpoint;
     @Inject
     RmiServiceExporter dpService;
 
-    private String myEndpoint;
-
+    /**
+     * registers all found virtual datapoint implementations
+     */
     @PostConstruct
     public void register(){
-        System.out.println("registering services: " + myEndpoint);
+        System.out.println("registering virtual datapoints for endpoint: " + myEndpoint);
 
-       /*
-       1. find out rmi url of our datapoint service
-       2. get all implementations via the service loader
-       3. register them and their type
-        */
+        try {
+            URI endpoint = new URI(myEndpoint);
+
+            ServiceLoader<VirtualDatapointFactory> virtualDpLoader = ServiceLoader
+                    .load(VirtualDatapointFactory.class);
+            // loop through all DpVirtualFactory implementations
+            for (VirtualDatapointFactory vdpFact : virtualDpLoader) {
+                LOG.debug("registering type: " + vdpFact.getVirtualType());
+
+                registrationService.register(new VdpProviderDTO(vdpFact.getVirtualType(), endpoint));
+            }
+
+            //get data from virtual datapoint "example"
+            Datapoint dp = new Datapoint();
+            dp.setVirtual("exampleVdp");
+            VirtualDatapointDataFinder vdpDataFinder = new VirtualDatapointDataFinder(em);
+            DatapointDataVO data = vdpDataFinder.getData(dp);
+            System.out.println(data.getValue());
+        } catch (URISyntaxException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
+    /**
+     * unregisters all virtual datapoints for this endpoint
+     */
     @PreDestroy
     public void unregister(){
-        System.out.println("unregistering services");
+        //unregister all services for our datapoint service rmi url
+        try {
+            LOG.debug("unregistering all virtual datapoints");
+            registrationService.unregister(new URI(myEndpoint));
+        } catch (URISyntaxException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
     public String getMyEndpoint() {

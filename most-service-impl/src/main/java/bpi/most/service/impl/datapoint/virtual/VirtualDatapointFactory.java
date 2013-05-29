@@ -15,4 +15,10 @@ public abstract class VirtualDatapointFactory {
 	 * @return returns a Datapoint object or null if the requested type (string id) is not support
 	 */
 	public abstract VirtualDatapoint getVirtualDp(Datapoint dpEntity, EntityManager em);
+
+    /**
+     * returns the name of the virtual datapoint the implementation provides
+     * @return the virtual datapoint type. this correlates with the "virtual" column in the database.
+     */
+    public abstract String getVirtualType();
 }

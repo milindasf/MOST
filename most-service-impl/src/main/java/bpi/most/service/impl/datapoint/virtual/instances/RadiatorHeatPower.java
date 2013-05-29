@@ -34,6 +34,8 @@ import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
  */
 public class RadiatorHeatPower extends VirtualDatapointFactory {
 
+    private static final String VIRTUAL_TYPE = "RadiatorHeatPower";
+
 	private static final double ROOM_TEMP_CELSIUS = 20.0;
 	private static final double HEAT_POWER_COEFF1 = 0.0062;
 	private static final double HEAT_POWER_COEFF2 = 1.2998;
@@ -41,15 +43,20 @@ public class RadiatorHeatPower extends VirtualDatapointFactory {
 	@Override
 	public VirtualDatapoint getVirtualDp(Datapoint dpEntity, EntityManager em) {
 		// if virtualDpId is yours --> return a Datapoint instance
-		if (dpEntity != null && "RadiatorHeatPower".equals(dpEntity.getVirtual())) {
+		if (dpEntity != null && VIRTUAL_TYPE.equals(dpEntity.getVirtual())) {
 			VirtualDatapoint vd = new RadiatorHeatPowerImplementation(dpEntity);
 			vd.setEntityManager(em);
 			return vd;
 		}
 		return null;
 	}
-	
-	/**
+
+    @Override
+    public String getVirtualType() {
+        return VIRTUAL_TYPE;
+    }
+
+    /**
 	 * Inner Class with the actual Implementation.
 	 */
 	public class RadiatorHeatPowerImplementation implements VirtualDatapoint {

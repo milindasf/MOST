@@ -23,16 +23,23 @@ import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
  */
 public class DpVirtualExample extends VirtualDatapointFactory {
 
+    private static final String VIRTUAL_TYPE = "example";
+
 	private static final int NUMBER_OF_VALUES = 10;
 	
 	@Override
 	public VirtualDatapoint getVirtualDp(Datapoint dpEntity, EntityManager em) {
 		// if virtualDpId is yours --> return a Datapoint instance
-		if (dpEntity != null && "example".equals(dpEntity.getVirtual())) {
+		if (dpEntity != null && VIRTUAL_TYPE.equals(dpEntity.getVirtual())) {
 			return new DpVirtualExampleImplementation();
 		}
 		return null;
 	}
+
+    @Override
+    public String getVirtualType() {
+        return VIRTUAL_TYPE;
+    }
 	
 	/*
 	 * Inner Class with the Implementation of the DpVirtualExample

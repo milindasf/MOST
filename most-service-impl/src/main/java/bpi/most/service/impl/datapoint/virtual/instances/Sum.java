@@ -32,19 +32,26 @@ import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
  * @return A Datapoint Instance or null if the requested type (string id) is not support 
  */
 public class Sum extends VirtualDatapointFactory {
+
+    private static final String VIRTUAL_TYPE = "Sum";
 	
 	private static final int NUMBER_OF_DATAPOINTS = 10000;
 	
 	@Override
 	public VirtualDatapoint getVirtualDp(Datapoint dpEntity, EntityManager em) {
 		// if virtualDpId is yours --> return a Datapoint instance
-		if (dpEntity != null && "Sum".equals(dpEntity.getVirtual())) {
+		if (dpEntity != null && VIRTUAL_TYPE.equals(dpEntity.getVirtual())) {
 			VirtualDatapoint vd = new SumImplementation(dpEntity);
 			vd.setEntityManager(em);
 			return vd;
 		}
 		return null;
 	}
+
+    @Override
+    public String getVirtualType() {
+        return VIRTUAL_TYPE;
+    }
 	
 	/**
 	 * Inner Class with the actual Implementation.

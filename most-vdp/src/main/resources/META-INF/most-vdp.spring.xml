@@ -19,9 +19,17 @@
 
 
     <!-- RegistrationService RMI client to most-main -->
+
     <bean id="registrationService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
         <property name="serviceUrl" value="rmi://localhost:1199/RegistrationService"/>
         <property name="serviceInterface" value="bpi.most.service.api.RegistrationService"/>
+    </bean>
+
+    <!-- this property has to be the endpoint of dpService bean -->
+    <bean id="providerRegistration" class="bpi.most.vdp.VdpProviderRegistration">
+        <!-- TODO find a dynamic way of getting this endpoint -->
+
+        <property name="myEndpoint" value="rmi://localhost:1299/DatapointService" />
     </bean>
 
     <!-- provide the DatapointService over RMI -->
@@ -29,13 +37,8 @@
         <property name="serviceName" value="DatapointService"/>
         <property name="service" ref="datapointServiceImpl" />
         <property name="serviceInterface" value="bpi.most.service.api.DatapointService"/>
-        <property name="registryPort" value="1199"/>
+        <property name="registryPort" value="1299"/>
     </bean>
-    <!-- this property has to be the endpoint of dpService bean -->
-    <bean id="providerRegistration" class="bpi.most.vdp.VdpProviderRegistration">
-        <!-- TODO find a dynamic way of getting this endpoint -->
 
-        <property name="myEndpoint" value="rmi://localhost:1199/DatapointService" />
-    </bean>
 
 </beans>
