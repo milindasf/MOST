@@ -3,12 +3,11 @@
 
 package bpi.most.domain.datapoint;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * Entity specifying a datapoint.
