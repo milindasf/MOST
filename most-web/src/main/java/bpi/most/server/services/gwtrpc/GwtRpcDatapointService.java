@@ -7,7 +7,6 @@ import bpi.most.server.services.User;
 import bpi.most.service.api.DatapointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -19,6 +18,7 @@ import java.util.List;
  * 
  * @author robert.zach@tuwien.ac.at
  */
+
 public class GwtRpcDatapointService extends SpringGwtServlet implements
 		bpi.most.client.rpc.DatapointService {
 	
@@ -79,7 +79,8 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
     @Override
 	public List<DpDTO> getDatapoints(String searchstring) {
 		// no user checking here yet
-		return dpService.getDatapoints(null, searchstring);
+		//return dpService.getDatapoints(null, searchstring);
+        return dpService.getDatapoints(searchstring);
 	}
 
 	
