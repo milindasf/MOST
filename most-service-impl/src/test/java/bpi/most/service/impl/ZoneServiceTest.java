@@ -93,7 +93,7 @@ public class ZoneServiceTest extends AbstractTransactionalJUnit4SpringContextTes
     @Test
     public void testGetDatapoints_shouldReturnDPsFromSubZones() throws Exception {
         List<DpDTO> zones = zoneService.getDatapoints(new UserDTO("mostsoc"), new ZoneDTO(10), 5);
-        Assert.assertEquals(9, zones.size());
+        Assert.assertEquals(3, zones.size());
 
     }
 }

@@ -1,11 +1,10 @@
 package bpi.most.client.model;
 
-import java.util.ArrayList;
-
 import bpi.most.client.rpc.DatapointService;
 import bpi.most.client.rpc.DatapointServiceAsync;
-
 import com.google.gwt.core.client.GWT;
+
+import java.util.ArrayList;
 
 public class DpController {
 

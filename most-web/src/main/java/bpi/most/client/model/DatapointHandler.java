@@ -1,9 +1,8 @@
 package bpi.most.client.model;
 
-import com.google.gwt.user.client.Window;
-
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
+import com.google.gwt.user.client.Window;
 
 /*
  * provides async handlers for some Datapoint methods 

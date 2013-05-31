@@ -1,39 +1,44 @@
 package bpi.most.client.modules.charts.Highchart;
 
-import java.util.ArrayList;
-import java.util.Date;
-import org.moxieapps.gwt.highcharts.client.Axis;
-import org.moxieapps.gwt.highcharts.client.Chart;
-import org.moxieapps.gwt.highcharts.client.Legend;
-import org.moxieapps.gwt.highcharts.client.Point;
-import org.moxieapps.gwt.highcharts.client.Series;
+import bpi.most.client.model.Datapoint;
+import bpi.most.client.model.DpController;
+import bpi.most.client.modules.charts.ChartInterface;
+import bpi.most.client.modules.charts.ChartWrapper;
+import bpi.most.client.modules.charts.Curve;
+import bpi.most.dto.DpDTO;
+import bpi.most.dto.DpDataDTO;
+import bpi.most.dto.DpDatasetDTO;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
+import org.moxieapps.gwt.highcharts.client.*;
 import org.moxieapps.gwt.highcharts.client.Legend.Align;
 import org.moxieapps.gwt.highcharts.client.events.SeriesLegendItemClickEvent;
 import org.moxieapps.gwt.highcharts.client.events.SeriesLegendItemClickEventHandler;
 import org.moxieapps.gwt.highcharts.client.plotOptions.LinePlotOptions;
 import org.moxieapps.gwt.highcharts.client.plotOptions.SeriesPlotOptions;
 
-import bpi.most.client.modules.charts.ChartInterface;
-import bpi.most.client.modules.charts.ChartWrapper;
-import bpi.most.client.modules.charts.Curve;
-import bpi.most.dto.DpDataDTO;
-import bpi.most.dto.DpDatasetDTO;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This is the chart implementation of the GWT Highcharts project
  * (http://www.moxiegroup.com/moxieapps/gwt-highcharts/) that based on the
  * JavaScript chart libraries Highcharts and Highstock.
- * 
+ *
  * @author mike
- * 
+ *
  */
 public class HighchartStandart extends Composite implements ChartInterface {
 
@@ -42,6 +47,9 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	 * contains one {@link Curve}-object for every series in the chart.
 	 */
 	ArrayList<Curve> curveList = new ArrayList<Curve>();
+    private ArrayList<Datapoint> datapointList = new ArrayList<Datapoint>();
+    private ArrayList<String> datapointTypesList = new ArrayList<String>();
+    private ArrayList<HashMap<String,JSONValue>> chartOptions = new ArrayList<HashMap<String,JSONValue>>();
 
 	private static HighchartStandartUiBinder uiBinder = GWT
 			.create(HighchartStandartUiBinder.class);
@@ -49,7 +57,11 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	private static final int Z_INDEX = 500;
 	private static final int LOADING_TIMER_SCHEDULE = 10000;
 	private static final int PARENT_WIDGETS = 10;
-	
+    private int countYaxis = 0;
+    private List<DpDTO> activeDPs = new ArrayList<DpDTO>();
+
+
+
 	interface HighchartStandartUiBinder extends
 			UiBinder<Widget, HighchartStandart> {
 	}
@@ -70,11 +82,17 @@ public class HighchartStandart extends Composite implements ChartInterface {
 		}
 	};
 
+    public Chart getChart(){
+        return chart;
+    }
+
 	/**
 	 * Creates a new instance of Highcharts with all necessary options.
 	 */
 	public HighchartStandart() {
 		initWidget(uiBinder.createAndBindUi(this));
+
+
 		chart = new Chart()
 				.setType(Series.Type.SPLINE)
 				.setLinePlotOptions(new LinePlotOptions().setZIndex(Z_INDEX))
@@ -88,7 +106,8 @@ public class HighchartStandart extends Composite implements ChartInterface {
 								.setVerticalAlign(Legend.VerticalAlign.MIDDLE));
 		chart.setPersistent(true);
 
-		chart.getYAxis().setAxisTitleText("Value");
+
+
 		chart.getXAxis().setType(Axis.Type.DATE_TIME);
 		// add a new SeriesLegendItemClickEventHandler to the chart to delete
 		// the series from the chart instead of hiding it
@@ -123,7 +142,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/**
 	 * Check if the series with the given name is in the {@link #curveList}.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the series that should be checked.
 	 * @return Returns true if the series with the given name is in the chart,
@@ -140,19 +159,83 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#getCurveList()
 	 */
 	public ArrayList<Curve> getCurveList() {
 		return curveList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * bpi.most.client.modules.charts.ChartInterface#addCurve(java.lang.String)
-	 */
+    public void addYAxis(final String dpName) {
+        //Window.alert(chart.getYAxis(0).getOptions().toString());
+        // List<DpDTO> dpDTOs = getCurrentDatapoint(dpName);
+        DpController.DP_SERVICE.getDatapoints(dpName.trim().toLowerCase(), new AsyncCallback<List<DpDTO>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onSuccess(List<DpDTO> dpDTOs) {
+                if (!dpDTOs.isEmpty()) {
+
+                    for (final DpDTO entity : dpDTOs) {
+                        if (dpName.trim().toLowerCase().equals(entity.getName().trim())) {
+                            Datapoint temp = new Datapoint(entity.getName(), entity.getType(), entity.getUnit());
+                            if (!datapointList.contains(temp)) {
+                                datapointList.add(temp);
+                                if (!datapointTypesList.contains(temp.getType())) {
+                                    if (getChartOptions().size() > 0) {
+                                        //Window.alert(getChartOptions().size() +"");
+//                                        chart.getYAxis(getChartOptions().size())
+//                                                .setLabels(new YAxisLabels()
+//                                                        .setFormatter(new AxisLabelsFormatter() {
+//                                                            public String format(AxisLabelsData axisLabelsData) {
+//                                                                return axisLabelsData.getValueAsLong() + entity.getUnit();
+//                                                            }
+//                                                        })).setAxisTitle(new AxisTitle().setText(entity.getUnit().toString())).setOpposite(true);
+                                        addAxis(chart.getNativeChart(), entity.getType(), entity.getUnit(), true);
+                                        setChartOptions(chart.getOptions());
+//                                        chart.redraw();
+                                    } else {
+                                        addAxis(chart.getNativeChart(), entity.getType(), entity.getUnit(), false);
+                                        setChartOptions(chart.getOptions());
+
+
+                                    }
+                                    datapointTypesList.add(temp.getType());
+                                }
+                            } else {
+                                Window.alert("schon drin");
+                            }
+                        }
+//
+                    }
+                }
+            }
+        });
+
+
+    }
+
+
+
+
+
+    public int getCountYaxis() {
+        return countYaxis;
+    }
+
+    public void setCountYaxis(int countYaxis) {
+        this.countYaxis = countYaxis;
+    }
+
+    /*
+         * (non-Javadoc)
+         *
+         * @see
+         * bpi.most.client.modules.charts.ChartInterface#addCurve(java.lang.String)
+         */
 	@Override
 	public void addCurve(String name) {
 		if (!checkCurveList(name)) {
@@ -167,7 +250,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/**
 	 * Get the reference to this {@link HighchartStandart}-object.
-	 * 
+	 *
 	 * @return Returns the reference to this object.
 	 */
 	private HighchartStandart getThis() {
@@ -176,61 +259,96 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#addCurve(bpi.most.shared
 	 * .DpDatasetDTO)
 	 */
-	@Override
-	public void addCurve(DpDatasetDTO dpdataset) {
-		if (dpdataset != null) {
-			if (!checkCurveList(dpdataset.getDatapointName())) {
-				Series series = chart.createSeries().setName(
-						dpdataset.getDatapointName());
-				curveList.add(new Curve(dpdataset.getDatapointName(), series));
-				chart.addSeries(series, true, false);
-				// add Values to the series
-				for (DpDataDTO i : dpdataset) {
-					series.addPoint(i.getTimestamp().getTime(), i.getValue(),
-							false, false, false);
-				}
-				chart.redraw();
+    @Override
+    public void addCurve(final DpDatasetDTO dpdataset) {
+        if (dpdataset != null) {
+            if (!checkCurveList(dpdataset.getDatapointName())) {
+                //               List<DpDTO> dpDTOs = getCurrentDatapoint(dpdataset.getDatapointName());
+                DpController.DP_SERVICE.getDatapoints(dpdataset.getDatapointName().trim().toLowerCase(), new AsyncCallback<List<DpDTO>>() {
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
 
-			} else {
-				Window.alert("Already in Window.");
-			}
-		} else {
-			Window.alert("No Values for the choosen data point between the start and end time!");
-		}
+                    @Override
+                    public void onSuccess(List<DpDTO> dpDTOs) {
+                        if (!dpDTOs.isEmpty()) {
+                            for (final DpDTO entity : dpDTOs) {
+                                if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim())) {
+                                    Series series = chart.createSeries().setName(
+                                            entity.getName()).setYAxis(entity.getType());
+                                    curveList.add(new Curve(entity.getName(), series));
+                                    chart.addSeries(series, true, false);
+                                    // add Values to the series
+                                    for (DpDataDTO i : dpdataset) {
+                                        series.addPoint(i.getTimestamp().getTime(), i.getValue(),
+                                                false, false, false);
+                                    }
+                                    chart.redraw();
 
-	}
+                                }
+                            }
+                        }
+
+                    }
+                });
+
+
+            } else {
+                Window.alert("Already in Window.");
+            }
+        } else {
+            Window.alert("No Values for the choosen data point between the start and end time!");
+        }
+
+    }
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#addCurve(bpi.most.shared
 	 * .DpDatasetDTO, boolean)
 	 */
-	@Override
-	public void addCurve(DpDatasetDTO dpdataset, boolean periodicFlag) {
-		if (dpdataset != null) {
-			if (!checkCurveList(dpdataset.getDatapointName())) {
-				Series series = chart.createSeries().setName(
-						dpdataset.getDatapointName());
-				curveList.add(new Curve(dpdataset.getDatapointName(), series,
-						periodicFlag));
-				chart.addSeries(series, true, false);
-				// add Values to the series
-				for (DpDataDTO i : dpdataset) {
-					series.addPoint(i.getTimestamp().getTime(), i.getValue(),
-							false, false, false);
-				}
+    @Override
+    public void addCurve(final DpDatasetDTO dpdataset, final boolean periodicFlag) {
+        if (dpdataset != null) {
+            if (!checkCurveList(dpdataset.getDatapointName())) {
+                DpController.DP_SERVICE.getDatapoints(dpdataset.getDatapointName().trim().toLowerCase(), new AsyncCallback<List<DpDTO>>() {
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
 
-				chart.redraw();
+                    @Override
+                    public void onSuccess(List<DpDTO> dpDTOs) {
+                        if (!dpDTOs.isEmpty()) {
+                            for (final DpDTO entity : dpDTOs) {
+                                if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim())) {
+                                    Series series = chart.createSeries().setName(
+                                            entity.getName()).setYAxis(entity.getType());
+                                    curveList.add(new Curve(entity.getName(), series,
+                                            periodicFlag));
+                                    chart.addSeries(series, true, false);
+                                    // add Values to the series
+                                    for (DpDataDTO i : dpdataset) {
+                                        series.addPoint(i.getTimestamp().getTime(), i.getValue(),
+                                                false, false, false);
+                                    }
+                                    chart.redraw();
 
-			} else {
-				Window.alert("Already in Window.");
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                Window.alert("Already in Window.");
 			}
 		} else {
 			Window.alert("No Values for the choosen data point between the start and end time!");
@@ -240,7 +358,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#addSingleDatapoint(java
 	 * .lang.String, java.util.Date, java.lang.Double)
@@ -258,7 +376,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#removeSeries(java.lang.
 	 * String)
@@ -274,7 +392,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#removeSeries(java.lang.
 	 * String, boolean)
@@ -290,7 +408,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#removeAllSeries()
 	 */
 	public void removeAllSeries() {
@@ -302,7 +420,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#removeAllSeries(boolean)
 	 */
@@ -315,7 +433,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#getStartDate(java.lang.
 	 * String)
@@ -335,7 +453,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#getEndDate(java.lang.String
 	 * )
@@ -356,7 +474,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/**
 	 * Get the series representation of this chart type.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the series.
 	 * @return Returns the series with the given name if it's in the chart.
@@ -372,7 +490,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/**
 	 * Get the {@link Curve} element of a series from the list.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the series.
 	 * @return Returns the {@link Curve} element of the series with the given
@@ -389,7 +507,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#appendDataset(bpi.most.
 	 * shared.DpDatasetDTO)
@@ -410,7 +528,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#prependDataset(bpi.most
 	 * .shared.DpDatasetDTO)
@@ -441,7 +559,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#appendData(java.lang.String
 	 * , bpi.most.shared.DpDataDTO)
@@ -454,7 +572,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#prependData(java.lang.String
 	 * , bpi.most.shared.DpDataDTO)
@@ -468,7 +586,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#delDataset(java.lang.String
 	 * , java.util.Date, java.util.Date)
@@ -494,7 +612,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#setDataset(bpi.most.shared
 	 * .DpDatasetDTO, boolean)
@@ -518,7 +636,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#delDp(java.lang.String)
 	 */
@@ -539,7 +657,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#getPointCount(java.lang
 	 * .String)
@@ -556,7 +674,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#setPeriodicFlag(java.lang
 	 * .String, boolean)
@@ -568,7 +686,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#getPeriodicFlag(java.lang
 	 * .String)
@@ -580,7 +698,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#isInChart(java.lang.String)
 	 */
@@ -596,7 +714,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#isPeriodic()
 	 */
 	@Override
@@ -611,7 +729,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#getZoomStart()
 	 */
 	@Override
@@ -630,7 +748,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#getZoomEnd()
 	 */
 	@Override
@@ -648,7 +766,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#showLoading(java.lang.String
 	 * )
@@ -665,7 +783,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#hideLoading()
 	 */
 	@Override
@@ -681,7 +799,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see bpi.most.client.modules.charts.ChartInterface#redraw()
 	 */
 	@Override
@@ -703,7 +821,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#isPeriodic(java.lang.String
 	 * )
@@ -715,7 +833,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#removeValuesAtStart(java
 	 * .lang.String, int)
@@ -741,7 +859,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#removeValuesAtEnd(java.
 	 * lang.String, int)
@@ -767,7 +885,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * bpi.most.client.modules.charts.ChartInterface#getDataset(java.lang.String
 	 * )
@@ -786,4 +904,54 @@ public class HighchartStandart extends Composite implements ChartInterface {
 		}
 		return tempdataset;
 	}
+
+    public void setChartOptions(JSONObject json) {
+        HashMap<String,JSONValue> map = new HashMap<String,JSONValue>();
+        for(String key : json.keySet()) {
+            map.put(key,json.get(key));
+        }
+        chartOptions.add(map);
+
+    }
+
+    public ArrayList<HashMap<String, JSONValue>> getChartOptions() {
+        return chartOptions;
+
+    }
+
+    public native void addAxis(JavaScriptObject obj, String id, String title, Boolean opposite) /*-{
+            //$wnd.alert($wnd.$(obj).toString());
+
+            obj.addAxis({
+            id: id,
+            title: {
+                text: title
+            },
+            lineWidth: 2,
+            lineColor: '#08F',
+            opposite: opposite
+        });
+        obj.redraw();
+    }-*/;
+
+
+    private List<DpDTO> getCurrentDatapoint(String dpname) {
+
+        DpController.DP_SERVICE.getDatapoints(dpname.trim().toLowerCase(), new AsyncCallback<List<DpDTO>>() {
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onSuccess(List<DpDTO> dpDTOs) {
+                   activeDPs = dpDTOs;
+            }
+
+        });
+         return activeDPs;
+    }
+
+
 }

@@ -160,18 +160,18 @@ public class DatapointServiceTest extends AbstractTransactionalJUnit4SpringConte
     @Test
     @Transactional
     public void test_addData_existingDatapoint_shouldReturnOne() throws Exception {
-    	int before = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi2"),
+    	int before = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
         		Timestamp.valueOf("2012-12-31 00:00:00"),
         		new Date());
-        int result = datapointService.addData(new UserDTO("mostsoc"), new DpDTO("cdi2"), new DpDataDTO(
+        int result = datapointService.addData(new UserDTO("mostsoc"), new DpDTO("cdi1"), new DpDataDTO(
         		new Date(),
         		5.0,
         		(float) 1));
-        int after = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi2"),
+        int after = datapointService.getNumberOfValues(new UserDTO("mostsoc"), new DpDTO("cdi1"),
         		Timestamp.valueOf("2012-12-31 00:00:00"),
         		new Date());
 
-        Assert.assertEquals(1, result);
+        Assert.assertEquals(2, result);
         Assert.assertEquals(before + 1, after);
     }
 
