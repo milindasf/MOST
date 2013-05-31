@@ -167,6 +167,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	}
 
     public void addYAxis(final String dpName) {
+        Window.alert("addaxis");
         //Window.alert(chart.getYAxis(0).getOptions().toString());
         // List<DpDTO> dpDTOs = getCurrentDatapoint(dpName);
         DpController.DP_SERVICE.getDatapoints(dpName.trim().toLowerCase(), new AsyncCallback<List<DpDTO>>() {
@@ -183,9 +184,14 @@ public class HighchartStandart extends Composite implements ChartInterface {
                         if (dpName.trim().toLowerCase().equals(entity.getName().trim())) {
                             Datapoint temp = new Datapoint(entity.getName(), entity.getType(), entity.getUnit());
                             if (!datapointList.contains(temp)) {
-                                datapointList.add(temp);
+
                                 if (!datapointTypesList.contains(temp.getType())) {
-                                    if (getChartOptions().size() > 0) {
+                                    addAxis(chart.getNativeChart(), entity.getType(), entity.getUnit(), false);
+                                    chart.redraw();
+                                   /* if (getChartOptions().size() == 0) {
+                                        addAxis(chart.getNativeChart(), entity.getType(), entity.getUnit(), true);
+                                        setChartOptions(chart.getOptions());
+
                                         //Window.alert(getChartOptions().size() +"");
 //                                        chart.getYAxis(getChartOptions().size())
 //                                                .setLabels(new YAxisLabels()
@@ -194,17 +200,20 @@ public class HighchartStandart extends Composite implements ChartInterface {
 //                                                                return axisLabelsData.getValueAsLong() + entity.getUnit();
 //                                                            }
 //                                                        })).setAxisTitle(new AxisTitle().setText(entity.getUnit().toString())).setOpposite(true);
+
+//                                        chart.redraw();
+
+                                    } else {
+
                                         addAxis(chart.getNativeChart(), entity.getType(), entity.getUnit(), true);
                                         setChartOptions(chart.getOptions());
-//                                        chart.redraw();
-                                    } else {
-                                        addAxis(chart.getNativeChart(), entity.getType(), entity.getUnit(), false);
-                                        setChartOptions(chart.getOptions());
 
-
-                                    }
+                                    }*/
                                     datapointTypesList.add(temp.getType());
+
                                 }
+                                datapointList.add(temp);
+
                             } else {
                                 Window.alert("schon drin");
                             }
@@ -238,6 +247,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
          */
 	@Override
 	public void addCurve(String name) {
+        //Window.alert("test2");
 		if (!checkCurveList(name)) {
 			Series series = chart.createSeries().setName(name);
 			chart.addSeries(series);
@@ -266,6 +276,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	 */
     @Override
     public void addCurve(final DpDatasetDTO dpdataset) {
+        //Window.alert("test1");
         if (dpdataset != null) {
             if (!checkCurveList(dpdataset.getDatapointName())) {
                 //               List<DpDTO> dpDTOs = getCurrentDatapoint(dpdataset.getDatapointName());
@@ -317,6 +328,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
 	 */
     @Override
     public void addCurve(final DpDatasetDTO dpdataset, final boolean periodicFlag) {
+        //Window.alert("test");
         if (dpdataset != null) {
             if (!checkCurveList(dpdataset.getDatapointName())) {
                 DpController.DP_SERVICE.getDatapoints(dpdataset.getDatapointName().trim().toLowerCase(), new AsyncCallback<List<DpDTO>>() {
@@ -920,8 +932,6 @@ public class HighchartStandart extends Composite implements ChartInterface {
     }
 
     public native void addAxis(JavaScriptObject obj, String id, String title, Boolean opposite) /*-{
-            //$wnd.alert($wnd.$(obj).toString());
-
             obj.addAxis({
             id: id,
             title: {
