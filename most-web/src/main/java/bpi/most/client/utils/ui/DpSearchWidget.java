@@ -1,6 +1,5 @@
 package bpi.most.client.utils.ui;
 
-import java.util.ArrayList;
 import bpi.most.client.model.DpController;
 import bpi.most.dto.DpDTO;
 import com.google.gwt.core.client.GWT;
@@ -11,12 +10,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DpSearchWidget extends Composite {
 
@@ -71,10 +68,10 @@ public class DpSearchWidget extends Composite {
 		searcharea.add(chkboxstate);
 		searcharea.add(chkboxtemp);
 		DpController.DP_SERVICE
-				.getDatapoints(new AsyncCallback<ArrayList<DpDTO>>() {
+				.getDatapoints(new AsyncCallback<List<DpDTO>>() {
 
 					@Override
-					public void onSuccess(ArrayList<DpDTO> result) {
+					public void onSuccess(List<DpDTO> result) {
 						if (!result.isEmpty()) {
 							contentArea.clear();
 							DpWidget sl;
@@ -131,10 +128,11 @@ public class DpSearchWidget extends Composite {
 				if (checked) {
 					DpController.DP_SERVICE.getDatapoints(sugbox.getText().trim()
 							.toLowerCase(),
-							new AsyncCallback<ArrayList<DpDTO>>() {
+							new AsyncCallback<List<DpDTO>>() {
 
 								@Override
-								public void onSuccess(ArrayList<DpDTO> result) {
+								public void onSuccess(List<DpDTO> result) {
+
 									if (!result.isEmpty()) {
 										contentArea.clear();
 										DpWidget sl;

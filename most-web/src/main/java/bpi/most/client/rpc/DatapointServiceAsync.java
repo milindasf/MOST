@@ -4,8 +4,8 @@ import bpi.most.dto.DpDTO;
 import bpi.most.dto.DpDatasetDTO;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public interface DatapointServiceAsync {
 
@@ -58,7 +58,7 @@ public interface DatapointServiceAsync {
      * </code>
      * </pre>
      */
-    void getDatapoints(AsyncCallback<ArrayList<DpDTO>> callback);
+    void getDatapoints(AsyncCallback<List<DpDTO>> callback);
 
     /**
      * A method used to get all data points that contains the search string as a
@@ -84,7 +84,7 @@ public interface DatapointServiceAsync {
      * </pre>
      */
     void getDatapoints(String searchstring,
-                       AsyncCallback<ArrayList<DpDTO>> callback);
+                       AsyncCallback<List<DpDTO>> callback);
 
     /**
      * A method used to get all data points that contains the search string and
@@ -114,7 +114,7 @@ public interface DatapointServiceAsync {
      *             of a string.
      */
     void getDatapoints(String searchstring, String zone,
-                       AsyncCallback<ArrayList<DpDTO>> callback);
+                       AsyncCallback<List<DpDTO>> callback);
 
     /**
      *
