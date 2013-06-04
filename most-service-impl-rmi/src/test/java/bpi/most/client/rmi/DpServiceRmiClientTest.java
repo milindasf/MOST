@@ -49,7 +49,7 @@ public class DpServiceRmiClientTest{
 
     @Test
     public void testGetDpData() throws Exception {
-        DpDataDTO data = dpService.getData(user, new DpDTO("rhu1"));
+        DpDataDTO data = dpService.getData(user, new DpDTO("exampleVdp"));
         Assert.assertNotNull(data);
         Assert.assertNotNull(data.getValue());
         System.out.println(data.getValue());

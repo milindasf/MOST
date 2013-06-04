@@ -40,7 +40,7 @@ public class DatapointServiceRmiClient implements DatapointService{
     public DpDataDTO getData(UserDTO userDTO, DpDTO dpDTO) {
         //TODO call getDpService if virtualDatapoint == true
 
-        DatapointService dpService = getDpService("rmi://localhost:1199/DatapointService");
+        DatapointService dpService = getDpService("rmi://localhost:1299/DatapointService");
 
         System.out.println("using own RMI client ...");
 
