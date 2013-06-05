@@ -16,10 +16,10 @@ import java.util.Date;
  * Time: 11:28
  * To change this template use File | Settings | File Templates.
  */
-public class DpVirtualExample  extends VirtualDatapointFactory {
+public class RandomDataDatapoint extends VirtualDatapointFactory {
 
     private static final int NUMBER_OF_VALUES = 10;
-    private static final String VIRTUAL_TYPE = "exampleVdp";
+    private static final String VIRTUAL_TYPE = "randomDataVdp";
 
     @Override
     public VirtualDatapoint getVirtualDp(Datapoint dpEntity, EntityManager em) {

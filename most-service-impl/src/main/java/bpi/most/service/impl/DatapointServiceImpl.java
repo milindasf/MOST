@@ -4,21 +4,22 @@ import bpi.most.domain.datapoint.DatapointDataFinder;
 import bpi.most.domain.datapoint.DatapointDataVO;
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DatapointVO;
-import bpi.most.dto.DpDTO;
-import bpi.most.dto.DpDataDTO;
-import bpi.most.dto.DpDatasetDTO;
-import bpi.most.dto.UserDTO;
+import bpi.most.dto.*;
 import bpi.most.service.api.DatapointService;
+import bpi.most.service.api.RegistrationService;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointDataFinder;
 
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -38,6 +39,10 @@ public class DatapointServiceImpl implements DatapointService {
 
     @PersistenceContext(unitName = "most")
     private EntityManager em;
+
+    @Inject
+    @Qualifier("registrationServiceImpl")
+    private RegistrationService registry;
 
     private DatapointFinder datapointFinder;
     private DatapointDataFinder datapointDataFinder;
@@ -80,12 +85,23 @@ public class DatapointServiceImpl implements DatapointService {
     @Override
     @Transactional
     public DpDTO getDatapoint(UserDTO userDTO, DpDTO dpDto) {
+        DpDTO dto = null;
         // Fetch all data from DB
         DatapointVO dp = datapointFinder.getDatapoint(dpDto.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
-            return dp.getDTO();
+            dto = dp.getDTO();
+
+            //if virtual datapoint: augment dto with correct address of virtual datapoint provider
+            if (dto.isVirtual()){
+                LOG.debug("fetching provider for virtual datapoint " + dp.getVirtual());
+                VdpProviderDTO vdp = registry.getServiceProvider(dp.getVirtual());
+                if (vdp != null){
+                    LOG.debug("found provider at " + vdp.getEndpoint().toString());
+                    dto.setProviderAddress(vdp.getEndpoint().toString());
+                }
+            }
         }
-        return null;
+        return dto;
     }
 
     /**

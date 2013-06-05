@@ -7,8 +7,10 @@ import bpi.most.service.api.RegistrationService;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapoint;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointDataFinder;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
+import bpi.most.vdp.instance.RandomDataDatapoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,7 @@ public class VdpProviderRegistration {
      * rmi client to vdp-registry
      */
     @Inject
+    @Qualifier("registrationServiceRemote")
     RegistrationService registrationService;
 
     @PersistenceContext(unitName = "most")
@@ -69,12 +72,16 @@ public class VdpProviderRegistration {
                 registrationService.register(new VdpProviderDTO(vdpFact.getVirtualType(), endpoint));
             }
 
-            //get data from virtual datapoint "example"
-            Datapoint dp = new Datapoint();
-            dp.setVirtual("exampleVdp");
-            VirtualDatapointDataFinder vdpDataFinder = new VirtualDatapointDataFinder(em);
-            DatapointDataVO data = vdpDataFinder.getData(dp);
-            System.out.println(data.getValue());
+            //try to get data from virtual datapoint "randomDataVdp"
+            try{
+                Datapoint dp = new Datapoint();
+                dp.setVirtual("randomDataVdp");
+                VirtualDatapointDataFinder vdpDataFinder = new VirtualDatapointDataFinder(em);
+                DatapointDataVO data = vdpDataFinder.getData(dp);
+                System.out.println(data.getValue());
+            }catch(Exception e){
+                LOG.error(e.getMessage(), e);
+            }
         } catch (URISyntaxException e) {
             LOG.error(e.getMessage(), e);
         }

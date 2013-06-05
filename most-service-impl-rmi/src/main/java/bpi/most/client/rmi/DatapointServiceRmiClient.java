@@ -38,11 +38,22 @@ public class DatapointServiceRmiClient implements DatapointService{
 
     @Override
     public DpDataDTO getData(UserDTO userDTO, DpDTO dpDTO) {
-        //TODO call getDpService if virtualDatapoint == true
+        DatapointService dpService = null;
 
-        DatapointService dpService = getDpService("rmi://localhost:1299/DatapointService");
-
-        System.out.println("using own RMI client ...");
+        if (dpDTO.isVirtual()){
+            //use special server for virtual datapoints
+            if (dpDTO.getProviderAddress() == null){
+                LOG.error("no virtual datapoint providers registered for the requested type");
+                //TODO throw exception that not suitable provider was found
+                return null;
+            }else{
+                LOG.debug("getData for virtual datapoint, using provider at " + dpDTO.getProviderAddress());
+                dpService = getDpService(dpDTO.getProviderAddress());
+            }
+        }else{
+            //use default server
+            dpService = rmiClient;
+        }
 
         return dpService.getData(userDTO, dpDTO);
     }
@@ -98,8 +109,6 @@ public class DatapointServiceRmiClient implements DatapointService{
     private void close(DatapointService dpService){
         //is this even possible??
     }
-
-
 
 
     @Override

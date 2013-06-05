@@ -227,7 +227,9 @@ public class DatapointFinder {
             dp.setWatchdog((BigDecimal) tuple[watchdogIndex]);
             dp.setCustom_attr((String) tuple[custom_attrIndex]);
             dp.setDescription((String) tuple[descriptionIndex]);
-            dp.setZone_idzone((Integer) tuple[zone_idzoneIndex]);
+            if (tuple[zone_idzoneIndex] != null){
+                dp.setZone_idzone((Integer) tuple[zone_idzoneIndex]);
+            }
             return dp;
         }
 
