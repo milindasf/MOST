@@ -16,6 +16,14 @@
     <packaging>war</packaging>
     <name>MOST RMI Service Server</name>
 
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/main/webapp/WEB-INF</directory>
+            </testResource>
+        </testResources>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>bpi.most</groupId>

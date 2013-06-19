@@ -26,11 +26,21 @@
             <groupId>bpi.most</groupId>
             <artifactId>most-service-api</artifactId>
         </dependency>
+
+        <!--
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-service-impl</artifactId>
             <scope>runtime</scope>
         </dependency>
+        -->
+
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-service-impl-rmi</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
 
         <!-- Apache CXF as REST framework -->
         <!-- TODO not include whole cxf-bundle, but only the modules that are really needed, see the following sites:

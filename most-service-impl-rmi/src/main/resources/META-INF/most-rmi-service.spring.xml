@@ -7,6 +7,9 @@
               http://www.springframework.org/schema/context
               http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+    <context:annotation-config />
+
+
     <!-- RMI remote services -->
     <!-- AuthenticationService -->
     <bean id="authenticationServiceImpl" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
@@ -35,7 +38,7 @@
     this impl should be used by clients to transparently access real datapoints and virtual ones
 
     -->
-    <bean id="datapointServiceImpl" class="bpi.most.client.rmi.DatapointServiceRmiClient"/>
+    <bean id="datapointServiceImpl" class="bpi.most.client.rmi.DatapointServiceRmiClient" primary="true"/>
 
     <!-- ZoneService -->
     <bean id="zoneServiceImpl" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">

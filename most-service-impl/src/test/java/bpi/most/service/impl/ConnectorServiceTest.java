@@ -25,6 +25,6 @@ public class ConnectorServiceTest extends AbstractTransactionalJUnit4SpringConte
 
     @Test
     public void testGetConnection_withNullAsUser_shouldReturnConnectors(){
-        Assert.assertEquals(182, (connectorServiceService.getConnection(null).size()));
+        Assert.assertFalse(connectorServiceService.getConnection(null).isEmpty());
     }
 }

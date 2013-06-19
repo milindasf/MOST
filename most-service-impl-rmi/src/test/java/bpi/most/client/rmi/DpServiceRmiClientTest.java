@@ -49,6 +49,18 @@ public class DpServiceRmiClientTest{
 
     @Test
     public void testGetDpData() throws Exception {
+        //fetch datapoint and last value
+        DpDTO dpReq = new DpDTO("con1");
+        DpDTO dpResp = dpService.getDatapoint(user, dpReq);
+
+        DpDataDTO data = dpService.getData(user, dpResp);
+        Assert.assertNotNull(data);
+        Assert.assertNotNull(data.getValue());
+        System.out.println(data.getValue());
+    }
+
+    @Test
+    public void testVirtualDatapointRandom1() throws Exception{
         //fetch datapoint to get correct virtual datapoint provider URL
         DpDTO dpReq = new DpDTO("dpRandom1");
         DpDTO dpResp = dpService.getDatapoint(user, dpReq);
