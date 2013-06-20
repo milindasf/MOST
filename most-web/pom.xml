@@ -26,6 +26,7 @@
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-domain</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>bpi.most</groupId>
@@ -41,26 +42,36 @@
 
         <dependency>
             <groupId>bpi.most</groupId>
-            <artifactId>most-service-impl</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>bpi.most</groupId>
             <artifactId>most-service-impl-rmi</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-atinject_1.0_spec</artifactId>
             <version>1.0</version>
         </dependency>
+        -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
+
+
+
+
+
+        <!--
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>4.1.0.Final</version>
             <scope>runtime</scope>
         </dependency>
+        -->
+
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
@@ -99,21 +110,29 @@
             <version>1.5.0</version>
             <classifier>modified</classifier>
         </dependency>
+        <!--
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.17</version>
         </dependency>
+        -->
+        <!--
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-bundle</artifactId>
             <version>2.6.2</version>
         </dependency>
+        -->
+        <!--
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
             <version>7.0.30</version>
         </dependency>
+        -->
+
+        <!--
         <dependency>
             <groupId>com.googlecode</groupId>
             <artifactId>open-opc-ua-server</artifactId>
@@ -125,6 +144,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        -->
+
+
         <!-- need to use xerxes 2.9.1 instead of 2.6.2 that comes with jaxen,
            b/c GWT compile will fail otherwise (GWT compile also uses xerces) -->
         <dependency>

@@ -27,14 +27,6 @@
             <artifactId>most-service-api</artifactId>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>bpi.most</groupId>
-            <artifactId>most-service-impl</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        -->
-
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-service-impl-rmi</artifactId>
