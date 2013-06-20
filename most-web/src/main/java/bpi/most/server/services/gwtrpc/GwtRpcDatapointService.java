@@ -18,6 +18,7 @@ import java.util.List;
  * 
  * @author robert.zach@tuwien.ac.at
  */
+
 public class GwtRpcDatapointService extends SpringGwtServlet implements
 		bpi.most.client.rpc.DatapointService {
 	
@@ -78,7 +79,8 @@ public class GwtRpcDatapointService extends SpringGwtServlet implements
     @Override
 	public List<DpDTO> getDatapoints(String searchstring) {
 		// no user checking here yet
-		return dpService.getDatapoints(null, searchstring);
+		//return dpService.getDatapoints(null, searchstring);
+        return dpService.getDatapoints(searchstring);
 	}
 
 	

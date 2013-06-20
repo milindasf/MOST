@@ -1,7 +1,5 @@
 package bpi.most.client.model;
 
-import java.util.Date;
-
 import bpi.most.client.model.eventservice.EventManager;
 import bpi.most.client.rpc.DpChangedEventService;
 import bpi.most.client.rpc.DpChangedEventServiceAsync;
@@ -13,6 +11,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import java.util.Date;
+
 /**
  * don't use synchronous methods on the client side
  */
@@ -21,6 +21,9 @@ public class Datapoint extends Observable {
 	 * identifier of the datapoint
 	 */
 	private String datapointName;
+    private String type;
+    private String unit;
+
 
 	public static final DpChangedEventServiceAsync EVENT_SERVICE = GWT.create(DpChangedEventService.class);
 	
@@ -35,6 +38,17 @@ public class Datapoint extends Observable {
 		super();
 		this.datapointName = datapointName;
 	}
+
+    public Datapoint(String datapointName, String type, String unit) {
+		super();
+		this.datapointName = datapointName;
+        this.type = type;
+        this.unit = unit;
+
+	}
+
+
+
 
 	/**
 	 * Add a new measurement 
@@ -276,7 +290,7 @@ public class Datapoint extends Observable {
 
 	public String getUnit() {
 		// TODO Auto-generated method stub
-		return null;
+		return unit;
 	}
 
 	public Double getMin() {
@@ -291,7 +305,7 @@ public class Datapoint extends Observable {
 
 	public String getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
 	public String getMathOperations() {
@@ -338,5 +352,7 @@ public class Datapoint extends Observable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

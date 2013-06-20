@@ -1,8 +1,5 @@
 package bpi.most.client.modules.charts;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import bpi.most.client.model.Datapoint;
 import bpi.most.client.model.DatapointHandler;
 import bpi.most.client.modules.ModuleController;
@@ -16,12 +13,7 @@ import bpi.most.client.utils.ui.DpWidget;
 import bpi.most.dto.DpDataDTO;
 import bpi.most.dto.DpDatasetDTO;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.DragOverEvent;
-import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -30,12 +22,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class handles the interaction with the chart independently from which
@@ -44,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mike
  * 
  */
+@SuppressWarnings("ALL")
 public class ChartWrapper extends Composite implements ChartInterface, Observer {
 
 	/**
@@ -225,6 +216,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	 * Initialize the ChartWrapper.
 	 */
 	private void initChartWrapper() {
+
 		setChoosenChart(new HighchartStandart());
 		startDate = new Date((new Date().getTime() - 3600000));
 		startTime = new DateTimePickerBox(startDate) {
@@ -290,6 +282,23 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 		};
 		timerEstBut.scheduleRepeating(1500);
 		checkEstimatedButton();
+
+//        ((HighchartStandart) chosenChart).getChart().getYAxis(0)
+//                .setLabels(new YAxisLabels()
+//                        .setFormatter(new AxisLabelsFormatter() {
+//                            public String format(AxisLabelsData axisLabelsData) {
+//                                return axisLabelsData.getValueAsLong() + "test";
+//                            }
+//                        })).setAxisTitle(new AxisTitle().setText("test")).setOpposite(true);
+//        ((HighchartStandart) chosenChart).getChart().getYAxis(1)
+//                .setLabels(new YAxisLabels()
+//                        .setFormatter(new AxisLabelsFormatter() {
+//                            public String format(AxisLabelsData axisLabelsData) {
+//                                return axisLabelsData.getValueAsLong() + "test";
+//                            }
+//                        })).setAxisTitle(new AxisTitle().setText("test")).setOpposite(true);
+
+
 	}
 
 	/**
@@ -711,7 +720,7 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 	/**
 	 * Handles what happens if a {@link SensorLabel} is dropped at this
 	 * {@link ChartWrapper}.
-	 * 
+	 *
 	 * @param event
 	 *            The {@link DropEvent} that is handed over by the
 	 *            {@link DropHandler} of this class.
@@ -728,7 +737,11 @@ public class ChartWrapper extends Composite implements ChartInterface, Observer 
 				Window.alert(dptemp.getDatapointName()
 						+ " is already in chart!");
 			} else {
+
+               ((HighchartStandart) chosenChart).addYAxis(dptemp.getDatapointName());
+               // ((HighchartStandart)chosenChart).addYAxis(2, dptemp);
 				if (!chkBox.getValue()) {
+
 					showLoading("get data");
 					((Datapoint) dptemp).getNumberOfValues(startDate, endDate,
 							new DatapointHandler((Object) getThis(),

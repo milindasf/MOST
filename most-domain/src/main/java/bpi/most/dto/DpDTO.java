@@ -31,6 +31,7 @@ public class DpDTO implements Serializable {
 	private String type;
 	private String description;
     private boolean virtual;
+    private String unit;
 
     /**
      * address of server which implements the datapoint.
@@ -42,6 +43,7 @@ public class DpDTO implements Serializable {
 		this.name = "null";
 		this.type = "null";
 		this.description = "null";
+        this.unit = "null";
 	}
 
 	public DpDTO(String datapointName) {
@@ -59,6 +61,14 @@ public class DpDTO implements Serializable {
         this.type = type;
         this.description = description;
         this.virtual = isVirtual;
+    }
+
+    public DpDTO(String name, String type, String description, boolean isVirtual, String unit) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.virtual = isVirtual;
+        this.unit = unit;
     }
 	
 	@XmlAttribute
@@ -103,10 +113,18 @@ public class DpDTO implements Serializable {
     public void setProviderAddress(String providerAddress) {
         this.providerAddress = providerAddress;
     }
+    @XmlAttribute
+    public String getUnit() {
+        return unit;
+    }
 
-	@Override
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    @Override
 	public String toString() {
 		return "DpDTO [name=" + name + ", type=" + type + ", description="
-				+ description + "]";
+				+ description + ", unit=" + unit + "]";
 	}
 }

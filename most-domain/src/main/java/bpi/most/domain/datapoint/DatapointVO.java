@@ -4,7 +4,6 @@ package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDTO;
 
-import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -28,8 +27,8 @@ public class DatapointVO implements Serializable {
 	private String type;
 	private String description;
 	private String virtual;
-
     private String unit;
+
     private BigDecimal min;
     private BigDecimal max;
     private BigDecimal accuracy;
@@ -56,6 +55,14 @@ public class DatapointVO implements Serializable {
 		this.type = type;
 		this.description = description;
 		this.virtual = virtual;
+	}
+
+    public DatapointVO(String name, String type, String description, String virtual, String unit) {
+		this.name = name;
+		this.type = type;
+		this.description = description;
+		this.virtual = virtual;
+        this.unit = unit;
 	}
 
 
@@ -116,12 +123,20 @@ public class DatapointVO implements Serializable {
 	}
 
 	public DpDTO getDTO(){
-        return new DpDTO(name, type, description, isVirtual());
+        return new DpDTO(name, type, description, isVirtual(), unit);
     }
 
 	@Override
 	public String toString() {
 		return "DatapointVO [name=" + name + ", type=" + type + ", description="
-				+ description + ", virtual=" + virtual + "]";
+				+ description + ", virtual=" + virtual + ", unit=" + unit +"]";
 	}
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 }
