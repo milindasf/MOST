@@ -1,6 +1,7 @@
 package bpi.most.client.modules.exporter.filter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -130,10 +131,10 @@ public class ExternalConditionsFilter extends Filter implements FilterInterface 
 			// set cond2fetched to true
 			cond2fetched = true;
 			// test if cond1 is a data point
-			DpController.DP_SERVICE.getDatapoints(condition1, new AsyncCallback<ArrayList<DpDTO>>() {
+			DpController.DP_SERVICE.getDatapoints(condition1, new AsyncCallback<List<DpDTO>>() {
 
 				@Override
-				public void onSuccess(ArrayList<DpDTO> result) {
+				public void onSuccess(List<DpDTO> result) {
 					// TODO Auto-generated method stub
 					// fetch data and save in position 0 of the
 					// getFetched-List
@@ -189,7 +190,7 @@ public class ExternalConditionsFilter extends Filter implements FilterInterface 
 			});
 		} else {
 			// test if cond2 is a data point
-			DpController.DP_SERVICE.getDatapoints(condition2, new AsyncCallback<ArrayList<DpDTO>>() {
+			DpController.DP_SERVICE.getDatapoints(condition2, new AsyncCallback<List<DpDTO>>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -197,14 +198,14 @@ public class ExternalConditionsFilter extends Filter implements FilterInterface 
 				}
 
 				@Override
-				public void onSuccess(ArrayList<DpDTO> result) {
+				public void onSuccess(List<DpDTO> result) {
 					// fetch data and save both to the list on the right place
 					// (cond1 -> index 0; cond2 -> index 1)
 					if (result.size() == 1) {
 						datapoint.remove(1);
 						datapoint.add(1, ModuleController.DPCC.getDatapoint(result.get(0).getName()));
 						// test if cond1 is a data point
-						DpController.DP_SERVICE.getDatapoints(condition1, new AsyncCallback<ArrayList<DpDTO>>() {
+						DpController.DP_SERVICE.getDatapoints(condition1, new AsyncCallback<List<DpDTO>>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -212,7 +213,7 @@ public class ExternalConditionsFilter extends Filter implements FilterInterface 
 							}
 
 							@Override
-							public void onSuccess(ArrayList<DpDTO> result) {
+							public void onSuccess(List<DpDTO> result) {
 								if (result.size() == 1) {
 									datapoint.remove(0);
 									datapoint.add(0, ModuleController.DPCC.getDatapoint(result.get(0).getName()));

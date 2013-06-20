@@ -1,6 +1,8 @@
 package bpi.most.client.modules.exporter.filter;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -82,10 +84,10 @@ public class InternalConditionsFilter extends Filter implements FilterInterface 
 			getParent().fetchReady();
 		} else {
 			// check if it's a valid data point and get it's data
-			DpController.DP_SERVICE.getDatapoints(condition, new AsyncCallback<ArrayList<DpDTO>>() {
+			DpController.DP_SERVICE.getDatapoints(condition, new AsyncCallback<List<DpDTO>>() {
 
 				@Override
-				public void onSuccess(ArrayList<DpDTO> result) {
+				public void onSuccess(List<DpDTO> result) {
 					if (result.size() == 1) {
 						Datapoint datapoint = ModuleController.DPCC.getDatapoint(result.get(0).getName());
 						if (timeFilter.period <= 0) {
