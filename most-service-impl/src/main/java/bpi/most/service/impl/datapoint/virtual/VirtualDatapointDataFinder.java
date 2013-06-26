@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import bpi.most.domain.datapoint.Datapoint;
 import bpi.most.domain.datapoint.DatapointDataVO;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Finds {@link DatapointDataVO}s from virtual datapoints.
@@ -23,8 +24,11 @@ public class VirtualDatapointDataFinder {
 
     private final EntityManager em;
 
-    public VirtualDatapointDataFinder(EntityManager em) {
+    private ApplicationContext ctx;
+
+    public VirtualDatapointDataFinder(EntityManager em, ApplicationContext ctx) {
         this.em = em;
+        this.ctx = ctx;
     }
     
     private VirtualDatapoint getDatapoint(Datapoint dpEntity){
@@ -34,6 +38,12 @@ public class VirtualDatapointDataFinder {
 		for (VirtualDatapointFactory virtualDp : virtualDpLoader) {
 			VirtualDatapoint requestedDp = virtualDp.getVirtualDp(dpEntity, em);
 			if (requestedDp != null) {
+
+                if (ctx != null){
+                    //inject fields if we have a spring application context
+                    ctx.getAutowireCapableBeanFactory().autowireBean(requestedDp);
+                }
+
 				return requestedDp;
 			}
 		}

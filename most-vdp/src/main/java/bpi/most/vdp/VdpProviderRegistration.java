@@ -11,6 +11,7 @@ import bpi.most.vdp.instance.RandomDataDatapoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,9 @@ import java.util.ServiceLoader;
 public class VdpProviderRegistration {
 
     private static final Logger LOG = LoggerFactory.getLogger(VdpProviderRegistration.class);
+
+    @Inject
+    ApplicationContext ctx;
 
     /**
      * rmi client to vdp-registry
@@ -74,9 +78,12 @@ public class VdpProviderRegistration {
 
             //try to get data from virtual datapoint "randomDataVdp"
             try{
+
+                System.out.println("got the context " + (ctx != null));
+
                 Datapoint dp = new Datapoint();
                 dp.setVirtual("randomDataVdp");
-                VirtualDatapointDataFinder vdpDataFinder = new VirtualDatapointDataFinder(em);
+                VirtualDatapointDataFinder vdpDataFinder = new VirtualDatapointDataFinder(em, ctx);
                 DatapointDataVO data = vdpDataFinder.getData(dp);
                 System.out.println(data.getValue());
             }catch(Exception e){

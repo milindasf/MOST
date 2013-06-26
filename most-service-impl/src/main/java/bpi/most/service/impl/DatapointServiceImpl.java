@@ -13,6 +13,7 @@ import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,9 @@ public class DatapointServiceImpl implements DatapointService {
     @Qualifier("registrationServiceImpl")
     private RegistrationService registry;
 
+    @Inject
+    private ApplicationContext ctx;
+
     private DatapointFinder datapointFinder;
     private DatapointDataFinder datapointDataFinder;
     private VirtualDatapointDataFinder virtualDatapointDataFinder;
@@ -52,7 +56,7 @@ public class DatapointServiceImpl implements DatapointService {
     protected void init() {
         datapointFinder = new DatapointFinder(em);
         datapointDataFinder = new DatapointDataFinder(em);
-        virtualDatapointDataFinder = new VirtualDatapointDataFinder(em);
+        virtualDatapointDataFinder = new VirtualDatapointDataFinder(em, ctx);
     }
 
     @Override

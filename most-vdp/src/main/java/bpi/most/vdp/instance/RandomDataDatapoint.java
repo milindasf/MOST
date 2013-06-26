@@ -3,9 +3,11 @@ package bpi.most.vdp.instance;
 import bpi.most.domain.datapoint.Datapoint;
 import bpi.most.domain.datapoint.DatapointDataVO;
 import bpi.most.domain.datapoint.DatapointDatasetVO;
+import bpi.most.service.api.DatapointService;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapoint;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.Date;
 
@@ -40,6 +42,11 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
      * Extend DpPhysical if you want to be able to store and fetch values from the DB
      */
     public class DpVirtualExampleImplementation implements VirtualDatapoint {
+
+        @Inject
+        private DatapointService dpService;
+
+
 		/*
 		 * Overwrite getValues, getValuesPeriodic, etc.
 		 */
@@ -80,6 +87,7 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
 
         @Override
         public DatapointDataVO getData() {
+            System.out.println("have datapoint service: " + (dpService != null));
             return new DatapointDataVO(new Date(), Math.random()*10);
         }
 

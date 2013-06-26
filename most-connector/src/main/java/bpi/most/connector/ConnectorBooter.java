@@ -5,6 +5,7 @@ import bpi.most.dto.UserDTO;
 import bpi.most.service.api.ConnectorService;
 import bpi.most.service.api.DatapointService;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -22,6 +23,9 @@ public class ConnectorBooter {
 
     @Inject
     private ConnectorService connService;
+
+    @Inject
+    private ApplicationContext ctx;
 
     public void boot() throws Exception {
         //#### service abstraction objects for MOST access
