@@ -25,6 +25,14 @@ public class ConnectorServiceTest extends AbstractTransactionalJUnit4SpringConte
 
     @Test
     public void testGetConnection_withNullAsUser_shouldReturnConnectors(){
+
+        /*
+        Its a bad idea to use absolute numbers in testcases. this is only useful to prepare tests in some developing
+        environment before deploying to production environment
+
         Assert.assertEquals(168, (connectorServiceService.getConnection(null).size()));
+         */
+
+        Assert.assertFalse((connectorServiceService.getConnection(null).isEmpty()));
     }
 }

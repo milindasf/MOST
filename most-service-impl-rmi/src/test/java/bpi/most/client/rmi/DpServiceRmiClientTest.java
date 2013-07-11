@@ -7,6 +7,7 @@ import bpi.most.service.api.DatapointService;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,10 +22,17 @@ import javax.annotation.Resource;
  *
  * test classes only work if RMI server (most-rmi-server) is running.
  *
+ * this tests are actually integration tests (most-rmi-server has to run as well as a virtual datapoint provider for dpRandom1.
+ * this may not be the case when doing a maven build. therefore this testcases are ignored (notice the @Ignore annotation)
+ * to get only invoked by hand if the environment is set up correctly --> may use puppet and vagrant for automatic test calls.
+ *
+ *
+ *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:META-INF/most-rmi-service.spring.xml"})
+@Ignore
 public class DpServiceRmiClientTest{
 
     @Resource(name = "datapointServiceImpl")
@@ -59,6 +67,10 @@ public class DpServiceRmiClientTest{
         System.out.println(data.getValue());
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void testVirtualDatapointRandom1() throws Exception{
         //fetch datapoint to get correct virtual datapoint provider URL

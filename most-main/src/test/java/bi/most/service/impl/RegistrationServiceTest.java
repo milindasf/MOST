@@ -20,7 +20,7 @@ import java.util.List;
  *
  * User: harald
  *
- * tests the registration service over RMI
+ * tests the registration service over RMI; that means this testcase acts as RMI client.
  *
  */
 

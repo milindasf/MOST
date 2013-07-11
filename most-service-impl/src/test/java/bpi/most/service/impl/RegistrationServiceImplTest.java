@@ -24,8 +24,9 @@ import java.util.List;
  *
  */
 
-@ContextConfiguration(locations = {"file:most-rmi-server/src/main/webapp/WEB-INF/application-server.spring.xml"})
-public class RegistrationServiceImplTest extends AbstractTransactionalJUnit4SpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/META-INF/most-service.spring.xml"})
+public class RegistrationServiceImplTest{
 
     private static final String SERVER1 = "rmi://10.0.0.1:1199/DatapointService";
     private static final String SERVER2 = "rmi://10.0.0.2:1199/DatapointService";
