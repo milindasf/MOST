@@ -19,6 +19,6 @@ public abstract class ConnectorFactory {
 	 * @param connectorMetadata information about requested connector 
 	 * @return returns a Connector object or null if the requested type (driver) is not support
 	 */
-	public abstract Connector getConnector(DatapointService dpService, ConnectorVO connectorMetadata, UserDTO user);
+	public abstract Connector getConnector(ConnectorVO connectorMetadata, UserDTO user);
 
 }

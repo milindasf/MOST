@@ -13,8 +13,9 @@ import bpi.most.service.api.DatapointService;
  * @see ConnectorJdbc
  */
 public class JdbcDavis extends ConnectorJdbc{
+
 	@Override
-	public Connector getConnector(DatapointService dpService, ConnectorVO connectorMetadata, UserDTO user) {
+	public Connector getConnector(ConnectorVO connectorMetadata, UserDTO user) {
 		//check for null first to avoid null pointer exceptions
 		if (connectorMetadata.getConnectionType() != null &&
 			connectorMetadata.getConnectionType().equals("jdbc") &&
@@ -25,7 +26,7 @@ public class JdbcDavis extends ConnectorJdbc{
 			if (connectorMetadata.getVariable(SQL_DRIVER_MANAGER) != null) {
 				//create ConnectionFactory with provided values
 				DbConnectionFactory connFactory = new DbConnectionFactoryDriverManager(connectorMetadata.getVariable(SQL_DRIVER_MANAGER), connectorMetadata.getVariable(SQL_DRIVER_MANAGER_URL));
-				return new JdbcDavisImpl(dpService, connectorMetadata, connFactory, user);
+				return new JdbcDavisImpl(connectorMetadata, connFactory, user);
 			}
 			
 			//TODO implement DataSource ConnectionFactory
@@ -39,8 +40,8 @@ public class JdbcDavis extends ConnectorJdbc{
 	
 	private class JdbcDavisImpl extends ConnectorJdbcImpl{
 
-		public JdbcDavisImpl(DatapointService dpService, ConnectorVO connectorVO, DbConnectionFactory jdbcConnectionFactory, UserDTO user) {
-			super(dpService, connectorVO, jdbcConnectionFactory, user);
+		public JdbcDavisImpl(ConnectorVO connectorVO, DbConnectionFactory jdbcConnectionFactory, UserDTO user) {
+			super(connectorVO, jdbcConnectionFactory, user);
 			// TODO Auto-generated constructor stub
 		}
 	

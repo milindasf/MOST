@@ -7,6 +7,8 @@ import bpi.most.dto.UserDTO;
 import bpi.most.service.api.DatapointService;
 import junit.framework.Assert;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import java.util.Date;
 
@@ -19,14 +21,48 @@ import java.util.Date;
  */
 public class DummyConnector extends Connector{
 
-    @Inject
-    DatapointService dpService;
+    private boolean initialized = false;
+    private boolean anotherInit = false;
+
+    private boolean preDestroyCalled = false;
+    private boolean anotherPreDestroyCalled = false;
+
+    /**
+     * @PostConstruct lets this method be called after all dependency injection has happened.
+     * as for all annotated methods: the name of the method is not important.
+     */
+    @PostConstruct
+    public void initMe(){
+        initialized = true;
+    }
+
+    /**
+     * you can have several postconstruct methods
+     */
+    @PostConstruct
+    public void anotherInit(){
+        anotherInit = true;
+    }
+
+    /**
+     * preDestroy methods should theoretically be called before they are destroyed; this happens when springs
+     * application context is closed (app closed)
+     */
+    @PreDestroy
+    public void beforeClose(){
+        preDestroyCalled = true;
+    }
+
+    @PreDestroy
+    public void AnotherBeforeCloseMethod(){
+        anotherPreDestroyCalled = true;
+    }
 
     /**
      * connect the connector to a datapoint
      */
-    public DummyConnector(DatapointService dpService, ConnectorVO connectorDTO, UserDTO user) {
-        super(dpService, connectorDTO, user);
+    public DummyConnector(ConnectorVO connectorDTO, UserDTO user) {
+        super(connectorDTO, user);
     }
 
     @Override
@@ -36,16 +72,31 @@ public class DummyConnector extends Connector{
 
     @Override
     public DpDataDTO getSourceData() {
-
-        Assert.assertNotNull(dpService);
-        //TODO change this to the actual test implementation
-        Assert.assertTrue(dpService instanceof  DatapointService);
-
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public DpDatasetDTO getSourceData(Date starttime) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public DatapointService getDpService(){
+        return dpService;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public boolean isAnotherInit() {
+        return anotherInit;
+    }
+
+    public boolean isPreDestroyCalled() {
+        return preDestroyCalled;
+    }
+
+    public boolean isAnotherPreDestroyCalled() {
+        return anotherPreDestroyCalled;
     }
 }

@@ -20,15 +20,9 @@
     <!-- most-service-impl spring configuration -->
     <import resource="classpath:META-INF/most-service.spring.xml" />
 
-    <!--
 
-    TODO
-
-    1. own DatapointService impl
-    2. own ConnectorService impl
-
-
-    -->
+    <bean id="dummyConService" class="bpi.most.connector.DummyConService" primary="true"/>
+    <bean id="dummyDpService" class="bpi.most.connector.DummyDpService" primary="true"/>
 
 </beans>
 

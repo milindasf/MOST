@@ -27,7 +27,7 @@ public class ConnectorJdbc extends ConnectorFactory{
 	protected final String SQL_DATA_SOURCE = "sqlDataSource";
 	
 	@Override
-	public Connector getConnector(DatapointService dpService, ConnectorVO connectorMetadata, UserDTO user) {
+	public Connector getConnector(ConnectorVO connectorMetadata, UserDTO user) {
 		//Check if type is "jdbc" and vendor and model are null or "".
 		//check for null first to avoid null pointer exceptions
 		if (connectorMetadata.getConnectionType() != null &&
@@ -39,7 +39,7 @@ public class ConnectorJdbc extends ConnectorFactory{
 			if (connectorMetadata.getVariable(SQL_DRIVER_MANAGER) != null) {
 				//create ConnectionFactory with provided values
 				DbConnectionFactory connFactory = new DbConnectionFactoryDriverManager(connectorMetadata.getVariable(SQL_DRIVER_MANAGER), connectorMetadata.getVariable(SQL_DRIVER_MANAGER_URL));
-				return new ConnectorJdbcImpl(dpService, connectorMetadata, connFactory, user);
+				return new ConnectorJdbcImpl(connectorMetadata, connFactory, user);
 			}
 			
 			//TODO implement DataSource ConnectionFactory

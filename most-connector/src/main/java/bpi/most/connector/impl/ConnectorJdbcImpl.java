@@ -70,8 +70,8 @@ public class ConnectorJdbcImpl extends Connector{
 	/**
 	 * JdbcConnectionFactory provides connections 
 	 */
-	public ConnectorJdbcImpl(DatapointService dpService, ConnectorVO connectorDTO, DbConnectionFactory jdbcConnectionFactory, UserDTO user) {
-		super(dpService, connectorDTO, user);
+	public ConnectorJdbcImpl(ConnectorVO connectorDTO, DbConnectionFactory jdbcConnectionFactory, UserDTO user) {
+		super(connectorDTO, user);
 		jdbcConnFactory = jdbcConnectionFactory;
 		//TODO check date format
 		if (getConnectionVariable(SQL_DATE_FORMAT_PATTERN) == null) {

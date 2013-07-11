@@ -16,7 +16,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ConnectorStartup{
 	private final static Logger log = Logger.getLogger( ConnectorStartup.class );
 
-
     public static void main(String[] args) throws Exception {
         ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/connector.spring.xml");
         ConnectorBooter connectorBooter = context.getAutowireCapableBeanFactory().createBean(ConnectorBooter.class);

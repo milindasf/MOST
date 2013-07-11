@@ -5,6 +5,7 @@ import bpi.most.dto.UserDTO;
 import bpi.most.service.api.ConnectorService;
 import bpi.most.service.api.DatapointService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -18,20 +19,30 @@ public class ConnectorBooter {
 
     private final static Logger log = Logger.getLogger( ConnectorBooter.class );
 
-    @Inject
-    private DatapointService dpService;
+//      is now directly injected into the Connector implementation
+//    @Inject
+//    private DatapointService dpService;
 
     @Inject
     private ConnectorService connService;
 
+    /**
+     * is used to autowire connectors after creation. This way, connectors created by the serviceloader
+     * can use dependency injection.
+     */
     @Inject
     private ApplicationContext ctx;
+
+    /**
+     * holds all active connectors
+     */
+    List<Connector> activeConnectors;
 
     public void boot() throws Exception {
         //#### service abstraction objects for MOST access
         //TODO use local service implementation
         List<ConnectorVO> selectedConnectors = null;
-        List<Connector> activeConnectors = new LinkedList<Connector>();    //currently active Connectors
+        activeConnectors = new LinkedList<Connector>();    //currently active Connectors
 
         //Class.forName("org.sqlite.JDBC");
         //create connection to sqlite DB
@@ -67,8 +78,17 @@ public class ConnectorBooter {
             Connector currentConnector = null;
             for (ConnectorFactory connector : connectorLoader) {
                 //creating requested connector object
-                currentConnector = connector.getConnector(dpService, connectionMetadata, user);
+                currentConnector = connector.getConnector(connectionMetadata, user);
                 if (currentConnector != null) {
+
+                    try{
+                        //inject spring services into connection; we catch the error so that one connection does not break the whole initialization loop
+                        ctx.getAutowireCapableBeanFactory().autowireBean(currentConnector);
+                        ctx.getAutowireCapableBeanFactory().initializeBean(currentConnector, null);
+                    }catch(BeansException e){
+                        log.error(e.getMessage(), e);
+                    }
+
                     //add connector to running connector list
                     activeConnectors.add(currentConnector);
                     log.info("Connector for " + connectionMetadata.getDpName() + " registered - " + connectionMetadata.toString());
@@ -116,5 +136,9 @@ public class ConnectorBooter {
 //		
 //		sqlConn.close();
 //		myMonEngine.close();
+    }
+
+    public List<Connector> getActiveConnectors() {
+        return activeConnectors;
     }
 }

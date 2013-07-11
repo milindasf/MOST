@@ -41,7 +41,13 @@ public abstract class Connector implements Observer{
 	protected final String POLL_INTERVAL = "pollInterval";
 	//"connected" dp
 
+    /**
+     * gets injected by spring.
+     * WARNING: the dpService is only set (and hence available) after the constructor
+     */
+    @Inject
 	protected DatapointService dpService;
+
     private UserDTO user;
 	protected String dpName = null;
 	private String deviceName = null;
@@ -53,14 +59,12 @@ public abstract class Connector implements Observer{
 
 	//latest values which were read from the sensor/actor and added to the database
 	protected List<DpDataDTO> valueHistory = new LimitedQueue<DpDataDTO>(100);		//stores the last 100 measurements, uses UTC!
-	
-	
+
 	/**
 	 * connect the connector to a datapoint
 	 */
-	public Connector(DatapointService dpService, ConnectorVO connectorDTO, UserDTO user) {
+	public Connector(ConnectorVO connectorDTO, UserDTO user) {
         this.user = user;
-        this.dpService = dpService;
         dpName = connectorDTO.getDpName();
 		deviceName = connectorDTO.getDeviceName();
 		connectionType = connectorDTO.getConnectionType();
@@ -73,7 +77,7 @@ public abstract class Connector implements Observer{
 		if (pollInterval != null) {
 			int pollIntervalInt = 900; //set default (15 min) if pollInterval is defined without argument
 			try {
-				pollIntervalInt = Integer.parseInt(pollInterval); 
+				pollIntervalInt = Integer.parseInt(pollInterval);
 			} catch (NumberFormatException n) {
 				log.info("Datapoint " + dpName + " does not provide a valid pollInterval: " + pollInterval + " Using 900s (15min).");
 				pollIntervalInt = 900;
@@ -82,11 +86,11 @@ public abstract class Connector implements Observer{
 		}
 		//register connector to value changes if connector is writeable
 		if (isWriteable()) {
-			//TODO prevent update (observer) to be called before connector initializaiton (construcors of childs) is finished  
+			//TODO prevent update (observer) to be called before connector initializaiton (construcors of childs) is finished
 			dpService.addObserver(dpName, this);
 		}
 	}
-	
+
 	/**
 	 * write value to device, return false if not supported
 	 * timestamp with connector specific timezone
