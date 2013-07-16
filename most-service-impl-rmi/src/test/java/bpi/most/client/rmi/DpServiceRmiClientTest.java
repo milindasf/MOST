@@ -15,15 +15,16 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 
 /**
  *
  * User: harald
  *
- * test classes only work if RMI server (most-rmi-server) is running.
+ * test classes only work if RMI server (most-main) is running.
  *
- * this tests are actually integration tests (most-rmi-server has to run as well as a virtual datapoint provider for dpRandom1.
- * this may not be the case when doing a maven build. therefore this testcases are ignored (notice the @Ignore annotation)
+ * this tests are actually integration tests (most-main has to run as well as a virtual datapoint provider for dpRandom1.
+ * this may not be the case when doing a maven build. therefore this testcases are ignored (notice build configuration in pom file)
  * to get only invoked by hand if the environment is set up correctly --> may use puppet and vagrant for automatic test calls.
  *
  *
@@ -32,10 +33,9 @@ import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:META-INF/most-rmi-service.spring.xml"})
-@Ignore
 public class DpServiceRmiClientTest{
 
-    @Resource(name = "datapointServiceImpl")
+    @Inject
     DatapointService dpService;
 
     private UserDTO user;

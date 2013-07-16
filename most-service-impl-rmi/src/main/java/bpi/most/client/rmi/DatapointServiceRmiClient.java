@@ -12,7 +12,9 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -41,26 +43,75 @@ public class DatapointServiceRmiClient implements DatapointService{
     DatapointService rmiClient;
 
 
-    @Override
-    public DpDataDTO getData(UserDTO userDTO, DpDTO dpDTO) {
-        DatapointService dpService = null;
+    /*
+     * TODO use some cache for providerAddress per datapoint cause client may only use
+     * the datapoint-name in its DpDTO to query its value. therefore we have to cache the
+     * provider address for the client
+     *
+     * which expiration time? should we use any at all?
+     *
+     * which cache impl?
+     * https://code.google.com/p/guava-libraries/wiki/CachesExplained
+     * http://ehcache.org/
+     * VS just using a hashmap (does not have to support concurrency, cause very client uses its own one)
+     *
+     */
 
-        if (dpDTO.isVirtual()){
+    /**
+     * quick and dirty solution for testing
+     */
+    Map<String, DpDTO> dpCache = new HashMap<String, DpDTO>();
+
+    /**
+     * caches the given dp object
+     * @param dp
+     */
+    private void cacheDp(DpDTO dp){
+        if (dp != null){
+            dpCache.put(dp.getName(), dp);
+        }
+    }
+
+    private void cacheDpList(List<DpDTO> dps){
+        if (dps != null){
+            for(DpDTO dp: dps){
+                cacheDp(dp);
+            }
+        }
+    }
+
+    private DpDTO getDp(String name){
+        DpDTO dp = dpCache.get(name);
+        if (dp == null){
+            //build a simple dpDTO with only name set; we do not have more informatin here
+            dp = new DpDTO(name);
+        }
+        return dp;
+    }
+
+    @Override
+    public DpDataDTO getData(UserDTO userDTO, DpDTO clientDpDTO) {
+        DatapointService dpService = null;
+        DpDTO dp = getDp(clientDpDTO.getName());
+
+        //TODO: apply this to all getData methods!!
+
+        if (dp.isVirtual()){
             //use special server for virtual datapoints
-            if (dpDTO.getProviderAddress() == null){
+            if (dp.getProviderAddress() == null){
                 LOG.error("no virtual datapoint providers registered for the requested type");
                 //TODO throw exception that not suitable provider was found
                 return null;
             }else{
-                LOG.debug("getData for virtual datapoint, using provider at " + dpDTO.getProviderAddress());
-                dpService = getDpService(dpDTO.getProviderAddress());
+                LOG.debug("getData for virtual datapoint, using provider at " + dp.getProviderAddress());
+                dpService = getDpService(dp.getProviderAddress());
             }
         }else{
             //use default server
             dpService = rmiClient;
         }
 
-        return dpService.getData(userDTO, dpDTO);
+        return dpService.getData(userDTO, dp);
     }
 
     @Override
@@ -187,25 +238,31 @@ public class DatapointServiceRmiClient implements DatapointService{
 
     @Override
     public List<DpDTO> getDatapoints() {
-        return rmiClient.getDatapoints();
+        List<DpDTO> dpList = rmiClient.getDatapoints();
+        cacheDpList(dpList);
+        return dpList;
     }
 
     @Override
     public List<DpDTO> getDatapoints(String searchstring) {
-        return rmiClient.getDatapoints();
+        List<DpDTO> dpList = rmiClient.getDatapoints(searchstring);
+        cacheDpList(dpList);
+        return dpList;
     }
 
     @Override
     public List<DpDTO> getDatapoints(String searchstring, String zone) {
-        return rmiClient.getDatapoints(searchstring, zone);
+        List<DpDTO> dpList = rmiClient.getDatapoints(searchstring, zone);
+        cacheDpList(dpList);
+        return dpList;
     }
 
     @Override
     public DpDTO getDatapoint(UserDTO user, DpDTO dpDto) {
-        return rmiClient.getDatapoint(user, dpDto);
+        DpDTO dp = rmiClient.getDatapoint(user, dpDto);
+        cacheDp(dp);
+        return dp;
     }
-
-
 
     @Override
     public int addData(UserDTO userDTO, DpDTO dpDTO, DpDataDTO measurement) {
