@@ -6,6 +6,8 @@ import bpi.most.domain.datapoint.DatapointDatasetVO;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapoint;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,7 +22,7 @@ import java.util.Date;
  */
 public class RandomDataDatapoint extends VirtualDatapointFactory {
 
-    private static final int NUMBER_OF_VALUES = 10;
+    private static final Logger LOG = LoggerFactory.getLogger(RandomDataDatapoint.class);
     private static final String VIRTUAL_TYPE = "randomDataVdp";
 
     @Override
@@ -46,6 +48,7 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
         @Inject
         private DatapointService dpService;
 
+        private static final int RANDOM_VALUE_COUNT = 10;
 
 		/*
 		 * Overwrite getValues, getValuesPeriodic, etc.
@@ -87,20 +90,33 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
 
         @Override
         public DatapointDataVO getData() {
-            System.out.println("have datapoint service: " + (dpService != null));
-            return new DatapointDataVO(new Date(), Math.random()*10);
+            LOG.debug("returning random data");
+            return new DatapointDataVO(new Date(), getRandomValueBetween10And20());
         }
 
         @Override
         public DatapointDatasetVO getData(Date starttime, Date endtime) {
-            // TODO Auto-generated method stub
-            return null;
+            LOG.debug("returning random dataset");
+            DatapointDatasetVO dataset = new DatapointDatasetVO();
+
+            long diff = starttime.getTime() - endtime.getTime();
+
+            for (int i = 0; i < RANDOM_VALUE_COUNT; i++){
+                // create timestamps so that the datavalues are equally distributed
+                // over the requested time range
+                Date date = new Date(diff / (RANDOM_VALUE_COUNT - 1) * i + starttime.getTime());
+                dataset.add(new DatapointDataVO(date, getRandomValueBetween10And20())) ;
+            }
+            return dataset;
         }
 
         @Override
         public DatapointDatasetVO getDataPeriodic(Date starttime, Date endtime,
                                                   Float period, int mode) {
-            // TODO Auto-generated method stub
+            /**
+             * TODO call data preprocessing module when it exists
+             */
+
             return null;
         }
 
@@ -109,8 +125,12 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
          */
         @Override
         public int getNumberOfValues(Date starttime, Date endtime) {
-            // TODO Auto-generated method stub
-            return NUMBER_OF_VALUES;
+            return RANDOM_VALUE_COUNT;
+        }
+
+        private double getRandomValueBetween10And20(){
+            int min = 10, max = 20;
+            return min + (int)(Math.random() * ((max - min) + 1));
         }
     }
 }

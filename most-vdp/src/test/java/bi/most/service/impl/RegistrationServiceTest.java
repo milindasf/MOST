@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:most-main.test.spring.xml"})
+@ContextConfiguration(locations = {"classpath:META-INF/most-vdp.spring.xml"})
 public class RegistrationServiceTest{
 
     private static final String SERVER1 = "rmi://10.0.0.1:1199/DatapointService";

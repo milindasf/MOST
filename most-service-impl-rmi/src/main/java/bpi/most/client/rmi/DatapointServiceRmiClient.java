@@ -68,6 +68,7 @@ public class DatapointServiceRmiClient implements DatapointService{
      */
     private void cacheDp(DpDTO dp){
         if (dp != null){
+            LOG.debug("added dp to cache: " + dp.getName() + "; vdp: " + dp.getProviderAddress());
             dpCache.put(dp.getName(), dp);
         }
     }
@@ -85,6 +86,9 @@ public class DatapointServiceRmiClient implements DatapointService{
         if (dp == null){
             //build a simple dpDTO with only name set; we do not have more informatin here
             dp = new DpDTO(name);
+            LOG.debug("using simple dpDTO with only dp name set: " + name);
+        }else{
+            LOG.debug("using server dpDto for dp " + dp.getName() + "with provider address: " + dp.getProviderAddress());
         }
         return dp;
     }
@@ -115,91 +119,95 @@ public class DatapointServiceRmiClient implements DatapointService{
     }
 
     @Override
-    public DpDatasetDTO getData(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
+    public DpDatasetDTO getData(UserDTO userDTO, DpDTO clientDpDTO, Date starttime, Date endtime) {
         DatapointService dpService = null;
+        DpDTO dp = getDp(clientDpDTO.getName());
 
-        if (dpDTO.isVirtual()){
+        if (dp.isVirtual()){
             //use special server for virtual datapoints
-            if (dpDTO.getProviderAddress() == null){
+            if (dp.getProviderAddress() == null){
                 LOG.error("no virtual datapoint providers registered for the requested type");
                 //TODO throw exception that not suitable provider was found
                 return null;
             }else{
-                LOG.debug("getData for virtual datapoint, using provider at " + dpDTO.getProviderAddress());
-                dpService = getDpService(dpDTO.getProviderAddress());
+                LOG.debug("getData for virtual datapoint, using provider at " + dp.getProviderAddress());
+                dpService = getDpService(dp.getProviderAddress());
             }
         }else{
             //use default server
             dpService = rmiClient;
         }
 
-        return dpService.getData(userDTO, dpDTO, starttime, endtime);
+        return dpService.getData(userDTO, dp, starttime, endtime);
     }
 
     @Override
-    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime, Float period) {
+    public DpDatasetDTO getDataPeriodic(UserDTO userDTO, DpDTO clientDpDTO, Date starttime, Date endtime, Float period) {
         DatapointService dpService = null;
+        DpDTO dp = getDp(clientDpDTO.getName());
 
-        if (dpDTO.isVirtual()){
+        if (dp.isVirtual()){
             //use special server for virtual datapoints
-            if (dpDTO.getProviderAddress() == null){
+            if (dp.getProviderAddress() == null){
                 LOG.error("no virtual datapoint providers registered for the requested type");
                 //TODO throw exception that not suitable provider was found
                 return null;
             }else{
-                LOG.debug("getData for virtual datapoint, using provider at " + dpDTO.getProviderAddress());
-                dpService = getDpService(dpDTO.getProviderAddress());
+                LOG.debug("getData for virtual datapoint, using provider at " + dp.getProviderAddress());
+                dpService = getDpService(dp.getProviderAddress());
             }
         }else{
             //use default server
             dpService = rmiClient;
         }
 
-        return dpService.getDataPeriodic(userDTO, dpDTO, starttime, endtime, period);
+        return dpService.getDataPeriodic(userDTO, dp, starttime, endtime, period);
     }
 
     @Override
-    public DpDatasetDTO getDataPeriodic(UserDTO user, DpDTO dpDTO, Date starttime, Date endtime, Float period, int mode) {
+    public DpDatasetDTO getDataPeriodic(UserDTO user, DpDTO clientDpDTO, Date starttime, Date endtime, Float period, int mode) {
         DatapointService dpService = null;
+        DpDTO dp = getDp(clientDpDTO.getName());
 
-        if (dpDTO.isVirtual()){
+        if (dp.isVirtual()){
             //use special server for virtual datapoints
-            if (dpDTO.getProviderAddress() == null){
+            if (dp.getProviderAddress() == null){
                 LOG.error("no virtual datapoint providers registered for the requested type");
                 //TODO throw exception that not suitable provider was found
                 return null;
             }else{
-                LOG.debug("getData for virtual datapoint, using provider at " + dpDTO.getProviderAddress());
-                dpService = getDpService(dpDTO.getProviderAddress());
+                LOG.debug("getData for virtual datapoint, using provider at " + dp.getProviderAddress());
+                dpService = getDpService(dp.getProviderAddress());
             }
         }else{
             //use default server
             dpService = rmiClient;
         }
 
-        return dpService.getDataPeriodic(user, dpDTO, starttime, endtime, period, mode);
+        return dpService.getDataPeriodic(user, dp, starttime, endtime, period, mode);
     }
 
     @Override
-    public int getNumberOfValues(UserDTO userDTO, DpDTO dpDTO, Date starttime, Date endtime) {
+    public int getNumberOfValues(UserDTO userDTO, DpDTO clientDpDTO, Date starttime, Date endtime) {
         DatapointService dpService = null;
+        DpDTO dp = getDp(clientDpDTO.getName());
 
-        if (dpDTO.isVirtual()){
+        if (dp.isVirtual()){
             //use special server for virtual datapoints
-            if (dpDTO.getProviderAddress() == null){
+            if (dp.getProviderAddress() == null){
                 LOG.error("no virtual datapoint providers registered for the requested type");
                 //TODO throw exception that not suitable provider was found
                 return -1;
             }else{
-                LOG.debug("getData for virtual datapoint, using provider at " + dpDTO.getProviderAddress());
-                dpService = getDpService(dpDTO.getProviderAddress());
+                LOG.debug("getData for virtual datapoint, using provider at " + dp.getProviderAddress());
+                dpService = getDpService(dp.getProviderAddress());
             }
         }else{
             //use default server
             dpService = rmiClient;
         }
 
-        return dpService.getNumberOfValues(userDTO, dpDTO, starttime, endtime);
+        return dpService.getNumberOfValues(userDTO, dp, starttime, endtime);
     }
 
     /**

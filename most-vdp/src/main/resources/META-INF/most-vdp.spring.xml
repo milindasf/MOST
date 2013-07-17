@@ -20,7 +20,7 @@
 
     <!-- RegistrationService RMI client to most-main -->
 
-    <bean id="registrationServiceRemote" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+    <bean id="registrationServiceRemote" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" primary="true">
         <property name="serviceUrl" value="rmi://localhost:1199/RegistrationService"/>
         <property name="serviceInterface" value="bpi.most.service.api.RegistrationService"/>
     </bean>
