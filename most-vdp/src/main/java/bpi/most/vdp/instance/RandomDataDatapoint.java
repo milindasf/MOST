@@ -99,7 +99,7 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
             LOG.debug("returning random dataset");
             DatapointDatasetVO dataset = new DatapointDatasetVO();
 
-            long diff = starttime.getTime() - endtime.getTime();
+            long diff = endtime.getTime() - starttime.getTime();
 
             for (int i = 0; i < RANDOM_VALUE_COUNT; i++){
                 // create timestamps so that the datavalues are equally distributed

@@ -123,7 +123,7 @@ public class DatapointVO implements Serializable {
 	}
 
 	public DpDTO getDTO(){
-        return new DpDTO(name, type, description, isVirtual(), unit);
+        return new DpDTO(name, type, description, getVirtual(), unit);
     }
 
 	@Override

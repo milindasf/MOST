@@ -30,7 +30,7 @@ public class DpDTO implements Serializable {
 	private String name;
 	private String type;
 	private String description;
-    private boolean virtual;
+    private String virtual;
     private String unit;
 
     /**
@@ -56,18 +56,18 @@ public class DpDTO implements Serializable {
         this.description = description;
     }
 
-    public DpDTO(String name, String type, String description, boolean isVirtual) {
+    public DpDTO(String name, String type, String description, String virtual) {
         this.name = name;
         this.type = type;
         this.description = description;
-        this.virtual = isVirtual;
+        this.virtual = virtual;
     }
 
-    public DpDTO(String name, String type, String description, boolean isVirtual, String unit) {
+    public DpDTO(String name, String type, String description, String virtual, String unit) {
         this.name = name;
         this.type = type;
         this.description = description;
-        this.virtual = isVirtual;
+        this.virtual = virtual;
         this.unit = unit;
     }
 	
@@ -99,10 +99,14 @@ public class DpDTO implements Serializable {
 	}
 
     public boolean isVirtual() {
+        return virtual != null && !virtual.equals("null");
+    }
+
+    public String getVirtual() {
         return virtual;
     }
 
-    public void setVirtual(boolean virtual) {
+    public void setVirtual(String virtual) {
         this.virtual = virtual;
     }
 

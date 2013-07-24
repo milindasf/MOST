@@ -77,13 +77,17 @@ public class DatapointServiceImpl implements DatapointService {
     @Override
     @Transactional
     public List<DpDTO> getDatapoints(String searchstring) {
-        return transformToDpDTOList(datapointFinder.getDatapoints(searchstring));
+        List<DpDTO> datapoints = transformToDpDTOList(datapointFinder.getDatapoints(searchstring));
+        addVdp(datapoints);
+        return datapoints;
     }
 
     @Override
     @Transactional
     public List<DpDTO> getDatapoints(String searchstring, String zone) {
-        return transformToDpDTOList(datapointFinder.getDatapoints(searchstring, zone));
+        List<DpDTO> datapoints = transformToDpDTOList(datapointFinder.getDatapoints(searchstring, zone));
+        addVdp(datapoints);
+        return datapoints;
     }
 
     @Override
@@ -94,18 +98,37 @@ public class DatapointServiceImpl implements DatapointService {
         DatapointVO dp = datapointFinder.getDatapoint(dpDto.getName());
         if(dp != null && userDTO.hasPermission(dp, DpDTO.Permissions.READ)){
             dto = dp.getDTO();
-
-            //if virtual datapoint: augment dto with correct address of virtual datapoint provider
-            if (dto.isVirtual()){
-                LOG.debug("fetching provider for virtual datapoint " + dp.getVirtual());
-                VdpProviderDTO vdp = registry.getServiceProvider(dp.getVirtual());
-                if (vdp != null){
-                    LOG.debug("found provider at " + vdp.getEndpoint().toString());
-                    dto.setProviderAddress(vdp.getEndpoint().toString());
-                }
-            }
+            addVdp(dto);
         }
         return dto;
+    }
+
+    /**
+     * for all virtual datapoints in the given list, a virtual datapoint provider is fetched from the
+     * registry and set into the particular DpDTO
+     * @param dps
+     */
+    private void addVdp(List<DpDTO> dps){
+        for (DpDTO dp: dps){
+            addVdp(dp);
+        }
+    }
+
+    /**
+     * if the given datapoint is a virtual one, the address of an virtual datapoint provider (vdp) is
+     * fetched from the registry and set into the given DpDTO
+     * @param dp
+     */
+    private void addVdp(DpDTO dp){
+        //if virtual datapoint: augment dto with correct address of virtual datapoint provider
+        if (dp.isVirtual()){
+            LOG.debug("fetching provider for virtual datapoint " + dp.getName() + "; type: " + dp.getType() + "; virtual: " + dp.getVirtual());
+            VdpProviderDTO vdp = registry.getServiceProvider(dp.getVirtual());
+            if (vdp != null){
+                LOG.debug("found provider at " + vdp.getEndpoint().toString());
+                dp.setProviderAddress(vdp.getEndpoint().toString());
+            }
+        }
     }
 
     /**
@@ -215,10 +238,9 @@ public class DatapointServiceImpl implements DatapointService {
     }
 
     private List<DpDTO> transformToDpDTOList(List<DatapointVO> dpList){
-        List<DpDTO> dpDTOList = null;
+        List<DpDTO> dpDTOList = new ArrayList<DpDTO>();
 
         if(dpList != null){
-            dpDTOList = new ArrayList<DpDTO>();
             for (DatapointVO datapointVO : dpList) {
                 dpDTOList.add(datapointVO.getDTO());
             }
