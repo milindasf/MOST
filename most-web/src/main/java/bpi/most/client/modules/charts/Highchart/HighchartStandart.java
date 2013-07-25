@@ -291,7 +291,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
                         if (!dpDTOs.isEmpty()) {
                             int j=0;
                             for (final DpDTO entity : dpDTOs) {
-                                if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim())) {
+                                if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim().toLowerCase())) {
                                     Series series = chart.createSeries().setName(
                                             entity.getName()).setYAxis(j++); //instead of j++ there was entity.getType() but String cannot work!?
                                     curveList.add(new Curve(entity.getName(), series));
@@ -343,7 +343,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
                         if (!dpDTOs.isEmpty()) {
                             int j=0;
                             for (final DpDTO entity : dpDTOs) {
-                                if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim())) {
+                                if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim().toLowerCase())) {
                                     Series series = chart.createSeries().setName(
                                             entity.getName()).setYAxis(j++);    //instead of j++ there was entity.getType()!???
                                     curveList.add(new Curve(entity.getName(), series,

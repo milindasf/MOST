@@ -105,6 +105,7 @@ public class RandomDataDatapoint extends VirtualDatapointFactory {
                 // create timestamps so that the datavalues are equally distributed
                 // over the requested time range
                 Date date = new Date(diff / (RANDOM_VALUE_COUNT - 1) * i + starttime.getTime());
+               // java.sql.Timestamp date = new java.sql.Timestamp(oDate.getTime());
                 dataset.add(new DatapointDataVO(date, getRandomValueBetween10And20())) ;
             }
             return dataset;
