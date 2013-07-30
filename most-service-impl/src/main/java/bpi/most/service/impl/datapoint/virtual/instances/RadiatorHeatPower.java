@@ -4,12 +4,8 @@ import java.util.Date;
 
 import javax.persistence.EntityManager;
 
-import bpi.most.domain.datapoint.Datapoint;
-import bpi.most.domain.datapoint.DatapointDataFinder;
-import bpi.most.domain.datapoint.DatapointDataVO;
-import bpi.most.domain.datapoint.DatapointDatasetVO;
-import bpi.most.domain.datapoint.DatapointFinder;
-import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.domain.datapoint.*;
+import bpi.most.domain.datapoint.DpDataFinderHibernate;
 import bpi.most.infra.db.DbUtils;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapoint;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
@@ -65,7 +61,7 @@ public class RadiatorHeatPower extends VirtualDatapointFactory {
 		private static final String ID_STANDART_HEAT_OUTPUT = "standartHeatOutput";
 		private static final String ID_DP_ROOM_TEMP = "dpRoomTemp";
 		private DatapointFinder datapointFinder;
-		private DatapointDataFinder datapointDataFinder;
+		private IDatapointDataFinder datapointDataFinder;
 		private DatapointDatasetVO defaultRoomTemp; 
 		//db entity
 		Datapoint dpEntity;
@@ -80,7 +76,7 @@ public class RadiatorHeatPower extends VirtualDatapointFactory {
 	    @Override
 	    public void setEntityManager(EntityManager em) {
 	    	datapointFinder = new DatapointFinder(em);
-	    	datapointDataFinder = new DatapointDataFinder(em);
+	    	datapointDataFinder = new DpDataFinderHibernate(em);
 	    }
 		
 		/*

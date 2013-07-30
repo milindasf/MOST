@@ -1,9 +1,6 @@
 package bpi.most.service.impl;
 
-import bpi.most.domain.datapoint.DatapointDataFinder;
-import bpi.most.domain.datapoint.DatapointDataVO;
-import bpi.most.domain.datapoint.DatapointFinder;
-import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.domain.datapoint.*;
 import bpi.most.dto.*;
 import bpi.most.service.api.DatapointService;
 import bpi.most.service.api.RegistrationService;
@@ -15,11 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,14 +44,21 @@ public class DatapointServiceImpl implements DatapointService {
     private ApplicationContext ctx;
 
     private DatapointFinder datapointFinder;
-    private DatapointDataFinder datapointDataFinder;
     private VirtualDatapointDataFinder virtualDatapointDataFinder;
+
+    /**
+     * datapoint data is fetched either from relational database or from any NoSql solution, hence
+     * we are injecting the desired strategy here.
+     */
+    @Inject                         //FIXME: check why this injection does not work if we remove primary=true from the xml configuration
+    private IDatapointDataFinder datapointDataFinder;
 
     @PostConstruct
     protected void init() {
         datapointFinder = new DatapointFinder(em);
-        datapointDataFinder = new DatapointDataFinder(em);
+        //datapointDataFinder = new DpDataFinderHibernate(em);
         virtualDatapointDataFinder = new VirtualDatapointDataFinder(em, ctx);
+        LOG.debug("got datapointDataFinder:" + datapointDataFinder);
     }
 
     @Override

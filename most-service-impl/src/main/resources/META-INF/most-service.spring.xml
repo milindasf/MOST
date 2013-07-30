@@ -45,4 +45,14 @@
         <property name="defaultPersistenceUnitName" value="most"/>
     </bean>
 
+
+    <bean id="datapointDataFinder" class="bpi.most.domain.datapoint.DpDataFinderHibernate" primary="true">
+        <constructor-arg>
+            <bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+                <property name="entityManagerFactory" ref="entityManagerFactory"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+
 </beans>

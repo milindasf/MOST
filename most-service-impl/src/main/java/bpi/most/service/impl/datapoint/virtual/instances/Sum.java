@@ -6,12 +6,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import bpi.most.domain.datapoint.Datapoint;
-import bpi.most.domain.datapoint.DatapointDataFinder;
-import bpi.most.domain.datapoint.DatapointDataVO;
-import bpi.most.domain.datapoint.DatapointDatasetVO;
-import bpi.most.domain.datapoint.DatapointFinder;
-import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.domain.datapoint.*;
+import bpi.most.domain.datapoint.DpDataFinderHibernate;
 import bpi.most.infra.db.DbUtils;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapoint;
 import bpi.most.service.impl.datapoint.virtual.VirtualDatapointFactory;
@@ -69,7 +65,7 @@ public class Sum extends VirtualDatapointFactory {
 		Datapoint dpEntity;
 				
 		private DatapointFinder datapointFinder;
-		private DatapointDataFinder datapointDataFinder;
+		private IDatapointDataFinder datapointDataFinder;
 
 	    public SumImplementation(Datapoint dpEntity) {
 	    	this.dpEntity = dpEntity;
@@ -80,7 +76,7 @@ public class Sum extends VirtualDatapointFactory {
 	    @Override
 	    public void setEntityManager(EntityManager em) {
 	    	datapointFinder = new DatapointFinder(em);
-	    	datapointDataFinder = new DatapointDataFinder(em);
+	    	datapointDataFinder = new DpDataFinderHibernate(em);
 	    }
 		
 		/*

@@ -15,20 +15,23 @@ import java.util.List;
 import static bpi.most.infra.db.DbUtils.findIndex;
 
 /**
- * Finds {@link DatapointDataVO}s from a given {@link javax.persistence.EntityManager}.
+ * Finds {@link DatapointDataVO}s from a given {@link javax.persistence.EntityManager} using Hibernate
+ * as database access. Ergo some RDBMS is used for data storage.
  *
  * @author Christoph Lauscher
+ *
  */
-public class DatapointDataFinder {
+public class DpDataFinderHibernate implements IDatapointDataFinder {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DatapointDataFinder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderHibernate.class);
 
     private final EntityManager em;
 
-    public DatapointDataFinder(EntityManager em) {
+    public DpDataFinderHibernate(EntityManager em) {
         this.em = em;
     }
 
+    @Override
     public DatapointDataVO getData(String dpName) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         // noinspection unchecked
@@ -44,6 +47,7 @@ public class DatapointDataFinder {
         return null;
     }
 
+    @Override
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         if (starttime.before(endtime)) {
@@ -65,6 +69,7 @@ public class DatapointDataFinder {
         return null;
     }
 
+    @Override
     public DatapointDatasetVO getDataPeriodic(String dpName, Date starttime, Date endtime, Float period, int mode) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         if (starttime.before(endtime)) {
@@ -89,6 +94,7 @@ public class DatapointDataFinder {
         return null;
     }
 
+    @Override
     public Integer getNumberOfValues(String dpName, Date starttime, Date endtime) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         if (starttime.before(endtime)) {
@@ -108,7 +114,8 @@ public class DatapointDataFinder {
         return null;
     }
     
-	public int addData(String dpName, DpDataDTO measurement) {
+	@Override
+    public int addData(String dpName, DpDataDTO measurement) {
 		int result = 0;
 		if (measurement != null) {
 			// call addData SP
@@ -135,7 +142,8 @@ public class DatapointDataFinder {
 	/**
 	 * Deletes all data of datapoint. Use with caution!!
 	 */
-	public int delData(String dpName) {
+	@Override
+    public int delData(String dpName) {
 		int result = 0;
 
 		// call emptyDatapoint SP
@@ -155,7 +163,8 @@ public class DatapointDataFinder {
 	/**
 	 * Deletes data of given timeslot
 	 */
-	public int delData(String dpName, Date starttime, Date endtime) {
+	@Override
+    public int delData(String dpName, Date starttime, Date endtime) {
 		int result = 0;
 
 		// call emtpyDatapointTimeslot SP
