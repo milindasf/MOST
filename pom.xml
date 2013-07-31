@@ -31,6 +31,7 @@
         <module>most-calibration</module>
         <module>most-main</module>
         <module>most-vdp</module>
+        <module>most-cassandra</module>
     </modules>
 
     <profiles>
