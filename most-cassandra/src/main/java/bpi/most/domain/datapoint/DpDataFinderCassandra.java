@@ -19,6 +19,8 @@ import java.util.Date;
 @Service
 public class DpDataFinderCassandra implements IDatapointDataFinder {
 
+
+
     /**
      * connects to cassandra
      * @throws Exception
