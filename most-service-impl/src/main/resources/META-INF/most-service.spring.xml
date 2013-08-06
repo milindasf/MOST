@@ -46,7 +46,7 @@
     </bean>
 
 
-    <bean id="datapointDataFinder" class="bpi.most.domain.datapoint.DpDataFinderHibernate">
+    <bean id="datapointDataFinder" class="bpi.most.domain.datapoint.DpDataFinderHibernate" primary="true">
         <constructor-arg>
             <bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
                 <property name="entityManagerFactory" ref="entityManagerFactory"/>
