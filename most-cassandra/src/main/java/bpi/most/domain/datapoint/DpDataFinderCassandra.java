@@ -10,11 +10,7 @@ import javax.annotation.PreDestroy;
 import java.util.Date;
 
 /**
- * Created with IntelliJ IDEA.
- * User: harald
- * Date: 31.07.13
- * Time: 16:35
- * To change this template use File | Settings | File Templates.
+ *
  */
 @Service
 public class DpDataFinderCassandra implements IDatapointDataFinder {
