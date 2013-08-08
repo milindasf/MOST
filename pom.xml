@@ -32,6 +32,7 @@
         <module>most-main</module>
         <module>most-vdp</module>
         <module>most-cassandra</module>
+        <module>most-preproc</module>
     </modules>
 
     <profiles>
