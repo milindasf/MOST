@@ -1,4 +1,4 @@
-package bpi.most.domain.datapoint.bpi.most.migration;
+package bpi.most.migration;
 
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DpDataFinderCassandra;
