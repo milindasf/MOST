@@ -10,6 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>most-cassandra</artifactId>
+    <groupId>bpi.most</groupId>
+    <packaging>jar</packaging>
+    <name>MOST module for readings datapoint values from Cassandra</name>
 
     <dependencies>
         <dependency>
