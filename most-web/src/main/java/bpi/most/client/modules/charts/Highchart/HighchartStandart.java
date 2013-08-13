@@ -293,7 +293,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
                             for (final DpDTO entity : dpDTOs) {
                                 if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim().toLowerCase())) {
                                     Series series = chart.createSeries().setName(
-                                            entity.getName()).setYAxis(j++); //instead of j++ there was entity.getType() but String cannot work!?
+                                            entity.getName()).setYAxis(entity.getType()); //instead of j++ there was entity.getType() but String cannot work!?
                                     curveList.add(new Curve(entity.getName(), series));
                                     chart.addSeries(series, true, false);
                                     // add Values to the series
@@ -345,7 +345,7 @@ public class HighchartStandart extends Composite implements ChartInterface {
                             for (final DpDTO entity : dpDTOs) {
                                 if (dpdataset.getDatapointName().trim().toLowerCase().equals(entity.getName().trim().toLowerCase())) {
                                     Series series = chart.createSeries().setName(
-                                            entity.getName()).setYAxis(j++);    //instead of j++ there was entity.getType()!???
+                                            entity.getName()).setYAxis(entity.getType());    //instead of j++ there was entity.getType()!???
                                     curveList.add(new Curve(entity.getName(), series,
                                             periodicFlag));
                                     chart.addSeries(series, true, false);

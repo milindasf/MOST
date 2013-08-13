@@ -12,12 +12,18 @@
     <artifactId>most-cassandra</artifactId>
     <groupId>bpi.most</groupId>
     <packaging>jar</packaging>
-    <name>MOST module for readings datapoint values from Cassandra</name>
+    <name>MOST Cassandra</name>
+    <description>MOST module for readings datapoint values from Cassandra</description>
 
     <dependencies>
         <dependency>
             <groupId>bpi.most</groupId>
             <artifactId>most-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>bpi.most</groupId>
+            <artifactId>most-preproc</artifactId>
         </dependency>
 
         <dependency>

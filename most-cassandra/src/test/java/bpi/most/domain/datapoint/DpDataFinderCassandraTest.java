@@ -26,6 +26,7 @@ public class DpDataFinderCassandraTest {
     @Test
     public void testExistence(){
         Assert.assertNotNull(dpDataFinder);
+        Assert.assertTrue(dpDataFinder instanceof DpDataFinderCassandra);
     }
 
     //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)

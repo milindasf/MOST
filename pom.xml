@@ -23,7 +23,6 @@
         <module>most-service-api</module>
         <module>most-service-impl</module>
         <module>most-service-impl-rmi</module>
-        <module>most-rmi-server</module>
         <module>most-web</module>
         <module>most-rest</module>
         <module>most-opc</module>
@@ -33,6 +32,7 @@
         <module>most-vdp</module>
         <module>most-cassandra</module>
         <module>most-preproc</module>
+        <module>most-neo4j</module>
     </modules>
 
     <profiles>
@@ -118,11 +118,6 @@
             </dependency>
             <dependency>
                 <groupId>bpi.most</groupId>
-                <artifactId>most-rmi-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>bpi.most</groupId>
                 <artifactId>most-service-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -154,6 +149,41 @@
             <dependency>
                 <groupId>bpi.most</groupId>
                 <artifactId>most-obix</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-preproc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-calibration</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-connector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-cassandra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-neo4j</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-main</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bpi.most</groupId>
+                <artifactId>most-vdp</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
