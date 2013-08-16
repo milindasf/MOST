@@ -97,6 +97,11 @@
             <version>3.0.7.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.genopt</groupId>
+            <artifactId>go-plugin-ext</artifactId>
+            <version>3.1.1</version>
+        </dependency>
     </dependencies>
 
 
