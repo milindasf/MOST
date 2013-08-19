@@ -1,10 +1,11 @@
 package bpi.most.migration;
 
-import bpi.most.domain.datapoint.DatapointFinder;
-import bpi.most.domain.datapoint.DpDataFinderCassandra;
-import bpi.most.domain.datapoint.DpDataFinderHibernate;
-import bpi.most.domain.datapoint.IDatapointDataFinder;
+import bpi.most.domain.datapoint.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sun.util.LocaleServiceProviderPool;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -18,6 +19,8 @@ import javax.persistence.PersistenceContext;
  */
 @Service
 public class DataToCassandraMigrator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DataToCassandraMigrator.class);
 
     /**
      * access to Cassandra cluster
@@ -47,8 +50,11 @@ public class DataToCassandraMigrator {
     /**
      * migrates all data of all datapoints
      */
+    @Transactional
     public void migrateData(){
         //TODO implement
+        DatapointDataVO data = dpDfHibernate.getData("tem1");
+        LOG.debug("last value from tem1:" + data.getValue());
     }
 
     /**
@@ -57,5 +63,18 @@ public class DataToCassandraMigrator {
      */
     public void migrateData(String dpName){
         //TODO implement
+    }
+
+
+    public DatapointFinder getDpFinder() {
+        return dpFinder;
+    }
+
+    public DpDataFinderHibernate getDpDfHibernate() {
+        return dpDfHibernate;
+    }
+
+    public DpDataFinderCassandra getDpDfCass() {
+        return dpDfCass;
     }
 }

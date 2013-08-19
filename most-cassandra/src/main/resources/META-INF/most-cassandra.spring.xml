@@ -10,6 +10,8 @@
               http://www.springframework.org/schema/context
               http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+    <import resource="most-service.spring.xml" />
+
     <context:component-scan base-package="bpi.most.domain.datapoint"/>
     <context:component-scan base-package="bpi.most.migration"/>
     <context:annotation-config />

@@ -23,6 +23,11 @@
 
         <dependency>
             <groupId>bpi.most</groupId>
+            <artifactId>most-service-impl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>bpi.most</groupId>
             <artifactId>most-preproc</artifactId>
         </dependency>
 

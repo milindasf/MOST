@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 
@@ -28,4 +29,14 @@ public class DataToCassandraMigratorTest {
         Assert.assertTrue(migrator.initSuccessful());
     }
 
+    @Test
+    @Transactional
+    public void testGetDataFromHibernate(){
+         Assert.assertNotNull(migrator.getDpDfHibernate().getData("tem1"));
+    }
+
+    @Test
+    public void testMigration(){
+        migrator.migrateData();
+    }
 }
