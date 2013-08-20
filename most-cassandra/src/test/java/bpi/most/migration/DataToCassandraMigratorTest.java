@@ -24,7 +24,7 @@ public class DataToCassandraMigratorTest {
     @Inject
     DataToCassandraMigrator migrator;
 
-    @Test
+    /*@Test
     public void testInit(){
         Assert.assertTrue(migrator.initSuccessful());
     }
@@ -33,7 +33,7 @@ public class DataToCassandraMigratorTest {
     @Transactional
     public void testGetDataFromHibernate(){
          Assert.assertNotNull(migrator.getDpDfHibernate().getData("tem1"));
-    }
+    } */
 
     @Test
     public void testMigration(){

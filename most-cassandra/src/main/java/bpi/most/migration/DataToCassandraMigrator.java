@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  *
@@ -53,8 +54,14 @@ public class DataToCassandraMigrator {
     @Transactional
     public void migrateData(){
         //TODO implement
-        DatapointDataVO data = dpDfHibernate.getData("tem1");
-        LOG.debug("last value from tem1:" + data.getValue());
+        DatapointDatasetVO result=dpDfHibernate.getData();
+        System.out.println("Priniting result");
+        System.out.println(result);
+        /*if(result!=null)
+        {
+            System.out.println("The size of dataset is => "+result.size()+" and its the latest");
+        }  */
+
     }
 
     /**
@@ -63,6 +70,7 @@ public class DataToCassandraMigrator {
      */
     public void migrateData(String dpName){
         //TODO implement
+
     }
 
 

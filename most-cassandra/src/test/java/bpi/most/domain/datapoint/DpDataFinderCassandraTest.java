@@ -21,12 +21,15 @@ import javax.inject.Inject;
 public class DpDataFinderCassandraTest {
 
     @Inject
-    private IDatapointDataFinder dpDataFinder;
-
-    @Test
+    private DpDataFinderCassandra dpFinder;
+    /*@Test
     public void testExistence(){
-        Assert.assertNotNull(dpDataFinder);
-        Assert.assertTrue(dpDataFinder instanceof DpDataFinderCassandra);
+        Assert.assertNotNull(dpFinder);
+
+    } */
+   @Test
+    public void testgetData() throws Exception {
+      dpFinder.getData("con1");
     }
 
     //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)
