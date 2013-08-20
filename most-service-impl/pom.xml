@@ -98,7 +98,6 @@
             <version>3.6.0.Final</version>
             <exclusions>
                 <exclusion>
-                    <!-- we use geronimo jpa 2.0 spec -->
                     <groupId>org.hibernate.javax.persistence</groupId>
                     <artifactId>hibernate-jpa-2.0-api</artifactId>
                 </exclusion>
@@ -126,7 +125,6 @@
             <version>1.0.7</version>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
 
 </project>
