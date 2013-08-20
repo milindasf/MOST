@@ -46,6 +46,23 @@ public class DpDataFinderHibernate implements IDatapointDataFinder {
         return null;
     }
 
+    public DatapointDatasetVO getallData(String dpName) {
+        LOG.debug("Fetching datapoint data: {}", dpName);
+        // noinspection unchecked
+        List<DatapointDataVO> result = ((Session) em.getDelegate()).createSQLQuery("{CALL getValues(:name, null, null)}")
+                .setParameter("name", dpName)
+                .setReadOnly(true)
+                .setResultTransformer(new DatapointDataVOResultTransformer())
+                .list();
+
+        if(result.size() > 0){
+            DatapointDatasetVO ret = new DatapointDatasetVO();
+            ret.addAll(result);
+            return ret;
+        }
+        return null;
+    }
+
     @Override
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime) {
         LOG.debug("Fetching datapoint data: {}", dpName);

@@ -1,27 +1,35 @@
 package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDataDTO;
+import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.CqlQuery;
 import me.prettyprint.cassandra.model.CqlRows;
 import me.prettyprint.cassandra.serializers.DateSerializer;
 import me.prettyprint.cassandra.serializers.DoubleSerializer;
 import me.prettyprint.cassandra.serializers.LongSerializer;
+import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.beans.ColumnSlice;
 import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.OrderedRows;
 import me.prettyprint.hector.api.beans.Row;
+import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
+import me.prettyprint.hector.api.ddl.ColumnIndexType;
+import me.prettyprint.hector.api.ddl.ComparatorType;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.exceptions.HectorException;
 import me.prettyprint.hector.api.factory.HFactory;
+import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
+import org.hibernate.type.DoubleType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -41,17 +49,73 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
      */
     private KeyspaceDefinition ksdef=null;
     private static String keyspaceName= "most1";
-    public static Keyspace keyspace=null;
-
+    private static Keyspace keyspace=null;
+    private ColumnFamilyDefinition cfdef=null;
+    private Cluster myCluster=null;
+    private static StringSerializer stringSerializer = StringSerializer.get();
     @PostConstruct
     public void initIt() throws Exception {
         try{
-            Cluster myCluster = HFactory.getOrCreateCluster("test-cluster", "localhost:9160");
+            myCluster = HFactory.getOrCreateCluster("test-cluster", "localhost:9160");
             ksdef=myCluster.describeKeyspace(keyspaceName);
             keyspace=HFactory.createKeyspace(keyspaceName, myCluster);
         }catch(HectorException e){
             LOG.error(e.getMessage(), e);
         }
+    }
+    public void addColumnFamily(String cfname)
+    {
+        if(cfname.equals("") || cfname.trim().equals(null))
+        {
+
+            return;
+        }
+        else
+        {
+            cfname= cfname.toLowerCase();
+            if(checkExist(cfname)==false)
+            {
+                cfdef=HFactory.createColumnFamilyDefinition(keyspaceName, cfname);
+                myCluster.addColumnFamily(cfdef, true);
+            }
+
+        }
+
+    }
+    boolean checkExist(String cfname)
+    {
+        try
+        {
+            List<ColumnFamilyDefinition> lcf=ksdef.getCfDefs();
+            Iterator<ColumnFamilyDefinition> it=lcf.iterator();
+            while(it.hasNext())
+            {
+                ColumnFamilyDefinition cf=it.next();
+                if(cf.getName().equals(cfname))
+                return true;
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+    public void insertDatatoColumnFamily(String dpname,Date d,Long ts,Double value)
+    {
+        try
+        {
+            DateSerializer ds=new DateSerializer();
+            Mutator<Date> mu=HFactory.createMutator(keyspace, ds);
+            mu.insert(d, dpname, HFactory.createColumn(ts, value));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     /**
