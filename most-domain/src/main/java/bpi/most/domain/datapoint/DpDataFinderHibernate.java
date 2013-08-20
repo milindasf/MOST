@@ -30,26 +30,6 @@ public class DpDataFinderHibernate implements IDatapointDataFinder {
     public DpDataFinderHibernate(EntityManager em) {
         this.em = em;
     }
-
-
-    public DatapointDatasetVO getData()
-    {
-        LOG.debug("Fetching all datapoint data: {}");
-               // noinspection unchecked
-        Session s=(Session)em.getDelegate();
-        List<DatapointDataVO> result = s.createSQLQuery("select * from data ")
-                .setReadOnly(true)
-                .setResultTransformer(new DatapointDataVOResultTransformer())
-                .list();
-
-        if(result.size() > 0){
-            DatapointDatasetVO ret = new DatapointDatasetVO();
-            ret.addAll(result);
-            return ret;
-        }
-        return null;
-
-    }
     @Override
     public DatapointDataVO getData(String dpName) {
         LOG.debug("Fetching datapoint data: {}", dpName);

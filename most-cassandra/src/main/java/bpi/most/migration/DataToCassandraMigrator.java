@@ -19,7 +19,7 @@ import java.util.List;
  *
  */
 @Service
-public class DataToCassandraMigrator {
+public class DataToCassandraMigrator  {
 
     private static final Logger LOG = LoggerFactory.getLogger(DataToCassandraMigrator.class);
 
