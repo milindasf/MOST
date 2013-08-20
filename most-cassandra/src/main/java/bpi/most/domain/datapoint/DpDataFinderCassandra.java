@@ -31,7 +31,7 @@ import java.util.Map;
  *
  */
 @Service
-public class DpDataFinderCassandra{
+public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderCassandra.class);
 
@@ -48,7 +48,7 @@ public class DpDataFinderCassandra{
         try{
             Cluster myCluster = HFactory.getOrCreateCluster("test-cluster", "localhost:9160");
             ksdef=myCluster.describeKeyspace(keyspaceName);
-            keyspace=HFactory.createKeyspace("most1", myCluster);
+            keyspace=HFactory.createKeyspace(keyspaceName, myCluster);
         }catch(HectorException e){
             LOG.error(e.getMessage(), e);
         }
@@ -63,8 +63,9 @@ public class DpDataFinderCassandra{
 
     }
 
-    //@Override
+    @Override
     public DatapointDataVO getData(String dpName) {
+
         DateSerializer dt=new DateSerializer();
         LongSerializer ls=new LongSerializer();
         DoubleSerializer ds=new DoubleSerializer();
@@ -72,39 +73,19 @@ public class DpDataFinderCassandra{
         qry.setQuery("Select * from "+dpName);
         QueryResult<CqlRows<Date, Long, Double>> result = qry.execute();
         OrderedRows<Date, Long, Double> rows = result.get();
-        Iterator<Row<Date, Long, Double>> rowsIterator = rows.iterator();
-        while (rowsIterator.hasNext()) {
-            Row<Date, Long, Double> row = rowsIterator.next();
-            if (row.getColumnSlice().getColumns().isEmpty()) {
-                continue;
-            }
-            else
-            {
-                ColumnSlice<Long,Double> csl=row.getColumnSlice();
-                List<HColumn<Long,Double>> rsltlist = csl.getColumns();
-                boolean skiprow=true;
-                Iterator<HColumn<Long,Double>> lit=rsltlist.iterator();
-                while (lit.hasNext())
-                {
-                    HColumn<Long,Double> hc=lit.next();
-                    if(skiprow)
-                    {
-                        skiprow=false;
-                        continue;
-                    }
-                    else
-                    {
-                        System.out.println(new Date(hc.getName().longValue())+"\t\t->"+hc.getValue());
-                    }
+        Row<Date, Long, Double> row=rows.peekLast();
+        ColumnSlice<Long,Double> csl=row.getColumnSlice();
+        List<HColumn<Long,Double>> rsltlist = csl.getColumns();
+        HColumn<Long,Double> hc=rsltlist.get(rsltlist.size()-1);
+        DatapointDataVO dtpnt=new DatapointDataVO();
+        dtpnt.setTimestamp(new Date(hc.getName().longValue()));
+        dtpnt.setValue(hc.getValue());
+        return dtpnt;
 
-                }
-            }
-            //System.out.println(row.getColumnSlice().getColumns().get(1).getValue()+" "+new Date(row.getColumnSlice().getColumns().get(1).getName().longValue()));
-        }
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //return null;  //To change body of implemented methods use File | Settings | File Templates.
 
     }
-    /*
+
     @Override
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -133,5 +114,5 @@ public class DpDataFinderCassandra{
     @Override
     public int delData(String dpName, Date starttime, Date endtime) {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }  */
+    }
 }
