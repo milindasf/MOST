@@ -13,8 +13,11 @@ import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.OrderedRows;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
+import me.prettyprint.hector.api.exceptions.HectorException;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.query.QueryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -30,6 +33,8 @@ import java.util.Map;
 @Service
 public class DpDataFinderCassandra{
 
+    private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderCassandra.class);
+
     /**
      * connects to cassandra
      * @throws Exception
@@ -37,12 +42,16 @@ public class DpDataFinderCassandra{
     private KeyspaceDefinition ksdef=null;
     private static String keyspaceName= "most1";
     public static Keyspace keyspace=null;
+
     @PostConstruct
     public void initIt() throws Exception {
-        Cluster myCluster = HFactory.getOrCreateCluster("test-cluster", "localhost:9160");
-        ksdef=myCluster.describeKeyspace(keyspaceName);
-        keyspace=HFactory.createKeyspace("most1", myCluster);
-
+        try{
+            Cluster myCluster = HFactory.getOrCreateCluster("test-cluster", "localhost:9160");
+            ksdef=myCluster.describeKeyspace(keyspaceName);
+            keyspace=HFactory.createKeyspace("most1", myCluster);
+        }catch(HectorException e){
+            LOG.error(e.getMessage(), e);
+        }
     }
 
     /**

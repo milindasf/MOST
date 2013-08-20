@@ -54,9 +54,12 @@ public class DataToCassandraMigrator {
     @Transactional
     public void migrateData(){
         //TODO implement
-        DatapointDatasetVO result=dpDfHibernate.getData();
-        System.out.println("Priniting result");
-        System.out.println(result);
+        List<DatapointVO> dps = dpFinder.getDatapoints(null);
+        LOG.debug(String.format("migrating %d datapoints from Hibernate to Cassandra", dps.size()));
+        for(DatapointVO dp: dps){
+            LOG.debug(String.format("migrating data of datapoint %s...", dp.getName()));
+        }
+
         /*if(result!=null)
         {
             System.out.println("The size of dataset is => "+result.size()+" and its the latest");
