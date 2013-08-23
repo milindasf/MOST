@@ -22,7 +22,7 @@ public class DpDataFinderCassandraTest {
 
     @Inject
     private DpDataFinderCassandra dpFinder;
-    @Test
+   @Test
     public void testExistence(){
         Assert.assertNotNull(dpFinder);
 
@@ -32,6 +32,11 @@ public class DpDataFinderCassandraTest {
       DatapointDataVO ds=dpFinder.getData("con1");
       Assert.assertEquals("It is working fine",ds.getTimestamp(),dpFinder.getData("con1").getTimestamp());
 
+    }
+    @Test
+    public void testdelData()
+    {
+        Assert.assertEquals(0,dpFinder.delData("con9"));
     }
 
     //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)

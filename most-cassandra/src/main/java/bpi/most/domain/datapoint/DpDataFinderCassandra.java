@@ -216,8 +216,22 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     }
 
     @Override
-    public int delData(String dpName) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    public int delData(String cfname) {
+        if(cfname.equals("") || cfname.trim().equals(null))
+        {
+            System.out.println("Null Value");
+            return 1;
+        }
+        else
+        {
+            cfname= cfname.toLowerCase();
+            if(checkExist(cfname))
+            myCluster.dropColumnFamily(keyspaceName,cfname);
+            return 0;
+
+        }
+
+
     }
 
     @Override
