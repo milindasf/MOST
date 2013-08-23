@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.xml.crypto.Data;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
@@ -63,6 +64,12 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             LOG.error(e.getMessage(), e);
         }
     }
+
+    /*
+     * Adds new columnfamily to the cassandra keyspace
+     * @param cfname : columnfamily name to add
+     * Author : Nikunj Thakkar
+     */
     public void addColumnFamily(String cfname)
     {
         if(cfname.equals("") || cfname.trim().equals(null))
@@ -82,6 +89,12 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         }
 
     }
+
+    /*
+    * Checks if columnfamily alredy exist in the keyspace
+    * @param cfname : columnfamily name to add
+    * Author : Nikunj Thakkar
+    */
     boolean checkExist(String cfname)
     {
         try
@@ -103,20 +116,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         }
         return false;
     }
-    public void insertDatatoColumnFamily(String dpname,Date d,Long ts,Double value)
-    {
-        try
-        {
-            DateSerializer ds=new DateSerializer();
-            Mutator<Date> mu=HFactory.createMutator(keyspace, ds);
-            mu.insert(d, dpname, HFactory.createColumn(ts, value));
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
 
-    }
 
     /**
      * gracefully releases connections to Cassandra
@@ -127,19 +127,41 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     }
 
+    /**
+     * This funtion returns the latest value for the given datapoint
+     * @param dpName
+     * @return DatapointDataVo
+     * Author : Nikunj Thakkar
+     */
     @Override
     public DatapointDataVO getData(String dpName) {
 
+        // Define serializers to insert the data into columnfamily
         DateSerializer dt=new DateSerializer();
         LongSerializer ls=new LongSerializer();
         DoubleSerializer ds=new DoubleSerializer();
+
+        //Create Cqlquery to insert the data into columnfamily
         CqlQuery<Date,Long,Double> qry=new CqlQuery<Date, Long, Double>(keyspace,dt,ls,ds);
         qry.setQuery("Select * from "+dpName);
+
+        //Executing the query
         QueryResult<CqlRows<Date, Long, Double>> result = qry.execute();
+
+        //Extracting the resultant rows from the result
         OrderedRows<Date, Long, Double> rows = result.get();
+
+        //Peeking last row from the rows
         Row<Date, Long, Double> row=rows.peekLast();
+
+        //row contains number of columns
+        //Columnslice is used to extract the columns from rows
         ColumnSlice<Long,Double> csl=row.getColumnSlice();
+
+        //Extracting columns from columnslice
         List<HColumn<Long,Double>> rsltlist = csl.getColumns();
+
+        //Getting the value of last column which is latest value in that column
         HColumn<Long,Double> hc=rsltlist.get(rsltlist.size()-1);
         DatapointDataVO dtpnt=new DatapointDataVO();
         dtpnt.setTimestamp(new Date(hc.getName().longValue()));
@@ -165,8 +187,31 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /*
+     * addData adds data to the cassndra columnfamily
+     * @param dpName : columnfamily name
+     * @param measurement: measurements to insert
+     * Author : Nikunj Thakkar
+     */
     @Override
     public int addData(String dpName, DpDataDTO measurement) {
+        try
+        {
+            Date d=measurement.getTimestamp();
+            Long ts=measurement.getTimestamp().getTime();
+            Double value=measurement.getValue();
+            //Create serialize object
+            DateSerializer ds=new DateSerializer();
+            //Create Mutator object to insert data to columnfamily
+            Mutator<Date> mu=HFactory.createMutator(keyspace, ds);
+
+            //Here d act as a row key and columns are added to single row
+            mu.insert(d, dpName, HFactory.createColumn(ts, value));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

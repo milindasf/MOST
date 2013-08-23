@@ -1,6 +1,7 @@
 package bpi.most.migration;
 
 import bpi.most.domain.datapoint.*;
+import bpi.most.dto.DpDataDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -73,19 +74,26 @@ public class DataToCassandraMigrator  {
     /**
      * migrates data of given datapoint
      * @param dpName
+     * Author : Nikunj Thakkar
      */
     public void migrateData(String dpName){
-        //TODO implement
+
         String cfname=dpName.replaceAll("[^A-Za-z0-9]", "");
+        //Add new columnfamily to keyspace to add data into it
         dpDfCass.addColumnFamily(cfname);
+
+        //Get the data from MySql
         DatapointDatasetVO ds=dpDfHibernate.getallData(dpName);
         System.out.println("Migrating "+ds.size()+"Rows from "+dpName+" to Cassandra");
+
+        //Adds data to the cassandra columnfamily
         for(DatapointDataVO dp:ds)
         {
-            Long timeInMicroSeconds=dp.getTimestamp().getTime();
-            Date d=new Date(timeInMicroSeconds);
-            Double value=dp.getValue();
-            dpDfCass.insertDatatoColumnFamily(cfname,d,timeInMicroSeconds,value);
+            DpDataDTO insertData =new DpDataDTO();
+            insertData.setValue(dp.getValue());
+            insertData.setTimestamp(dp.getTimestamp());
+            dpDfCass.addData(cfname,insertData);
+            //insertDatatoColumnFamily(cfname,d,timeInMicroSeconds,value);
         }
 
     }
