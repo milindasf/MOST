@@ -36,6 +36,14 @@ public class DataToCassandraMigratorTest {
     }
 
     @Test
+    @Transactional
+    public void testMigrationSimpleDatapoint(){
+        migrator.migrateData("occ1");
+
+        //TODO: do some assertions if data was migrated.
+    }
+
+    //@Test
     public void testMigration(){
         migrator.migrateData();
     }

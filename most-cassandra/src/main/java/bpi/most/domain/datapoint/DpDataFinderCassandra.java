@@ -44,6 +44,9 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderCassandra.class);
 
+    private static final String CASSANDRA_ADDRESS = "128.130.110.94";
+ //   private static final String CASSANDRA_ADDRESS = "localhost";
+
     /**
      * connects to cassandra
      * @throws Exception
@@ -57,7 +60,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     @PostConstruct
     public void initIt() throws Exception {
         try{
-            myCluster = HFactory.getOrCreateCluster("test-cluster", "localhost:9160");
+            myCluster = HFactory.getOrCreateCluster("test-cluster", CASSANDRA_ADDRESS + ":9160");
             ksdef=myCluster.describeKeyspace(keyspaceName);
             keyspace=HFactory.createKeyspace(keyspaceName, myCluster);
         }catch(HectorException e){
