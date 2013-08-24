@@ -22,6 +22,7 @@ import me.prettyprint.hector.api.exceptions.HectorException;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
+import me.prettyprint.hector.api.query.RangeSlicesQuery;
 import org.hibernate.type.DoubleType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,6 +167,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         DatapointDataVO dtpnt=new DatapointDataVO();
         dtpnt.setTimestamp(new Date(hc.getName().longValue()));
         dtpnt.setValue(hc.getValue());
+        LOG.debug("TimeStamp :"+dtpnt.getTimestamp()+" Value :"+dtpnt.getValue());
         return dtpnt;
 
         //return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -174,6 +176,78 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     @Override
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime) {
+
+        //First check if columnfamily exist or not
+        if(checkExist(dpName))
+        {
+            DatapointDatasetVO returnData=new DatapointDatasetVO();
+            //Required to specify row_count to fetch for row slice queries
+            //Keep it the count higher than expected rows so it will not effect on result
+            int row_count = 1000;
+
+            LOG.debug("Reading data from " + dpName + " table");
+
+            // Define serializers to read the data from columnfamily
+            DateSerializer dt=new DateSerializer();
+            LongSerializer ls=new LongSerializer();
+            DoubleSerializer ds=new DoubleSerializer();
+
+            //We have stored long values of timestamp in columns so dates are converted to timestamp
+            Long st=new Timestamp(starttime.getTime()).getTime();
+            Long et=new Timestamp(endtime.getTime()).getTime();
+            LOG.debug("Start time: "+st);
+            LOG.debug("End time: "+et);
+
+            //RangesliceQuery is used to fetch the rows in range from columnfamily
+            RangeSlicesQuery<Date, Long, Double> sl=HFactory.createRangeSlicesQuery(keyspace, dt, ls,ds);
+            sl.setColumnFamily(dpName).setRange(et,st,true,row_count)
+            .setRowCount(row_count);
+
+            //Used for fetching the row keys
+            Date Lastkey=null;
+
+            while (true) {
+
+                sl.setKeys(Lastkey,null);
+
+                QueryResult<OrderedRows<Date, Long, Double>> result = sl.execute();
+                OrderedRows<Date, Long, Double> rows = result.get();
+                Iterator<Row<Date, Long, Double>> rowsIterator = rows.iterator();
+
+                // we'll skip this first one, since it is the same as the last one from previous time we executed
+                if (Lastkey != null && rowsIterator != null) rowsIterator.next();
+
+                while (rowsIterator.hasNext()) {
+                    Row<Date, Long, Double> row = rowsIterator.next();
+                    Lastkey = row.getKey();
+
+                    if (row.getColumnSlice().getColumns().isEmpty()) {
+                        continue;
+                    }
+
+                    //Extracting columnslice from row
+                    ColumnSlice<Long, Double> cs=row.getColumnSlice();
+
+                    //Extracting columns from the columnslice
+                    List<HColumn<Long, Double>> hc=cs.getColumns();
+                    Iterator<HColumn<Long, Double>> hcit=hc.iterator();
+                    while(hcit.hasNext())
+                    {
+                        HColumn<Long, Double> h=hcit.next();
+                        DatapointDataVO data=new DatapointDataVO();
+                        data.setTimestamp(new Date(h.getName()));
+                        data.setValue(h.getValue());
+                        returnData.add(data);
+                        LOG.debug("Data :" + new Date(h.getName()) + "\t\t" + h.getValue());
+                    }
+                }
+
+                if (rows.getCount() < row_count)
+                    break;
+            }
+            return returnData;
+        }
+
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
