@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,21 +23,28 @@ public class DpDataFinderCassandraTest {
 
     @Inject
     private DpDataFinderCassandra dpFinder;
-   @Test
+   /*@Test
     public void testExistence(){
         Assert.assertNotNull(dpFinder);
 
-    }
+    }   */
    @Test
     public void testgetData() throws Exception {
-      DatapointDataVO ds=dpFinder.getData("con1");
-      Assert.assertEquals("It is working fine",ds.getTimestamp(),dpFinder.getData("con1").getTimestamp());
+      DatapointDataVO ds=dpFinder.getData("elepow7");
+      Assert.assertEquals("It is working fine",ds.getTimestamp(),dpFinder.getData("elepow7").getTimestamp());
 
-    }
+    }     /*
     @Test
     public void testdelData()
     {
         Assert.assertEquals(0,dpFinder.delData("con9"));
+    }*/
+    @Test
+    public void testgetDatainRange()
+    {
+        Date st=new Date(111,5,29);
+        Date et=new Date(111,5,31);
+        dpFinder.getData("elepow7",st,et);
     }
 
     //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)
