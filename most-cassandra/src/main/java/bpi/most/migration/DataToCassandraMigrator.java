@@ -59,11 +59,11 @@ public class DataToCassandraMigrator  {
         //TODO implement
         List<DatapointVO> dps = dpFinder.getDatapoints(null);
         LOG.debug(String.format("migrating %d datapoints from Hibernate to Cassandra", dps.size()));
-        int i=0;
+
         for(DatapointVO dp: dps)
         //for(int j=0;j<5;j++)
         {
-            String dName=dps.get(i).getName();
+            //String dName=dps.get(i).getName();
             LOG.debug(String.format("migrating data of datapoint %s...",dp.getName()));
             migrateData(dp.getName());
             LOG.debug(String.format("Data migration complete for datapoint %s...", dp.getName()));
@@ -87,14 +87,17 @@ public class DataToCassandraMigrator  {
         System.out.println("Migrating "+ds.size()+"Rows from "+dpName+" to Cassandra");
 
         //Adds data to the cassandra columnfamily
-        for(DatapointDataVO dp:ds)
-        {
-            DpDataDTO insertData =new DpDataDTO();
-            insertData.setValue(dp.getValue());
-            insertData.setTimestamp(dp.getTimestamp());
-            dpDfCass.addData(cfname,insertData);
-            //insertDatatoColumnFamily(cfname,d,timeInMicroSeconds,value);
-        }
+       int i=1;
+       for(DatapointDataVO dp:ds)
+       {
+           DpDataDTO insertData =new DpDataDTO();
+           insertData.setValue(dp.getValue());
+           insertData.setTimestamp(dp.getTimestamp());
+           dpDfCass.addData(cfname,insertData);
+           i++;
+           if(i>=20)
+               break;
+       }
 
     }
     public DatapointFinder getDpFinder() {
