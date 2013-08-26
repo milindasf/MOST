@@ -36,8 +36,8 @@ public class DataToCassandraMigratorTest {
     @Test
     @Transactional
     public void testMigrationSimpleDatapoint(){
-        migrator.migrateData("voc1");
-        Assert.assertEquals(migrator.getDpDfHibernate().getData("voc1"),migrator.getDpDfCass().getData("voc1"));
+        migrator.migrateData("con1");
+        Assert.assertEquals(migrator.getDpDfHibernate().getData("con1"),migrator.getDpDfCass().getData("con1"));
 
         //TODO: do some assertions if data was migrated.
     }
