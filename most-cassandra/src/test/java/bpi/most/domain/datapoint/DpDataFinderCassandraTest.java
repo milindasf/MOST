@@ -7,8 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import sun.util.LocaleServiceProviderPool;
 
 import javax.inject.Inject;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -58,10 +60,31 @@ public class DpDataFinderCassandraTest {
         Assert.assertEquals(1,dpFinder.delData("con9"));
     }
     @Test
+    @Transactional
     public void testgetDataRange()
     {
-        Assert.assertEquals(dpFinder.getData("elepow6"),migrator.getDpDfHibernate().getData("elepow6"));
+        Assert.assertEquals(dpFinder.getData("con1"),migrator.getDpDfHibernate().getData("con1"));
     }
+
+    /**
+     * this is no real testcase. I (hare) used it to call getData and look at the returned values.
+     */
+    @Test
+    @Transactional
+    public void testgetDataRange1()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 04, 29, 12, 00, 00);
+        Date start = cal.getTime();
+        cal.set(2011, 05, 21, 11, 22, 00);
+        Date end = cal.getTime();
+        DatapointDatasetVO dataset = dpFinder.getData("con1", start, end);
+        System.out.println("data from " + start + " to " + end);
+        for (DatapointDataVO data: dataset){
+            System.out.println(data.getTimestamp() + ": " + data.getValue());
+        }
+    }
+
     /*@Test
     public void testdelDataRange()
     {
