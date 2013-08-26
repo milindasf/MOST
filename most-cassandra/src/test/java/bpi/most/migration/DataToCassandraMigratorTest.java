@@ -28,22 +28,20 @@ public class DataToCassandraMigratorTest {
     public void testInit(){
         Assert.assertTrue(migrator.initSuccessful());
     }
-
     @Test
     @Transactional
     public void testGetDataFromHibernate(){
          Assert.assertNotNull(migrator.getDpDfHibernate().getData("tem1"));
     }
-
     @Test
     @Transactional
     public void testMigrationSimpleDatapoint(){
-        migrator.migrateData("occ1");
+        migrator.migrateData("voc1");
+        Assert.assertEquals(migrator.getDpDfHibernate().getData("voc1"),migrator.getDpDfCass().getData("voc1"));
 
         //TODO: do some assertions if data was migrated.
     }
-
-    //@Test
+    @Test
     public void testMigration(){
         migrator.migrateData();
     }

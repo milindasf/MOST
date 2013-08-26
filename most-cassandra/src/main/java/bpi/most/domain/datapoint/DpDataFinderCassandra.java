@@ -23,6 +23,7 @@ import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
 import me.prettyprint.hector.api.query.QueryResult;
 import me.prettyprint.hector.api.query.RangeSlicesQuery;
+import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +33,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.xml.crypto.Data;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -45,15 +43,15 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderCassandra.class);
 
-    private static final String CASSANDRA_ADDRESS = "128.130.110.94";
- //   private static final String CASSANDRA_ADDRESS = "localhost";
+    //private static final String CASSANDRA_ADDRESS = "128.130.110.94";
+    private static final String CASSANDRA_ADDRESS = "localhost";
 
     /**
      * connects to cassandra
      * @throws Exception
      */
     private KeyspaceDefinition ksdef=null;
-    private static String keyspaceName= "most1";
+    private static String keyspaceName= "most";
     private static Keyspace keyspace=null;
     private ColumnFamilyDefinition cfdef=null;
     private Cluster myCluster=null;
@@ -87,6 +85,8 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             if(checkExist(cfname)==false)
             {
                 cfdef=HFactory.createColumnFamilyDefinition(keyspaceName, cfname);
+                cfdef.setComparatorType(ComparatorType.DATETYPE);
+                cfdef.setKeyValidationClass(ComparatorType.DATETYPE.getClassName());
                 myCluster.addColumnFamily(cfdef, true);
             }
 
@@ -122,6 +122,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     }
 
 
+
     /**
      * gracefully releases connections to Cassandra
      * @throws Exception
@@ -140,6 +141,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     @Override
     public DatapointDataVO getData(String dpName) {
 
+        LOG.debug("Running GetData Method Cassandra");
         // Define serializers to insert the data into columnfamily
         DateSerializer dt=new DateSerializer();
         LongSerializer ls=new LongSerializer();
@@ -149,12 +151,14 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         CqlQuery<Date,Long,Double> qry=new CqlQuery<Date, Long, Double>(keyspace,dt,ls,ds);
         qry.setQuery("Select * from "+dpName);
 
+        LOG.debug("Executing the query");
         //Executing the query
         QueryResult<CqlRows<Date, Long, Double>> result = qry.execute();
 
         //Extracting the resultant rows from the result
         OrderedRows<Date, Long, Double> rows = result.get();
 
+        LOG.debug("Peeking last row from the rows");
         //Peeking last row from the rows
         Row<Date, Long, Double> row=rows.peekLast();
 
@@ -165,6 +169,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         //Extracting columns from columnslice
         List<HColumn<Long,Double>> rsltlist = csl.getColumns();
 
+        LOG.debug("Getting the value of last column which is latest value in that column");
         //Getting the value of last column which is latest value in that column
         HColumn<Long,Double> hc=rsltlist.get(rsltlist.size()-1);
         DatapointDataVO dtpnt=new DatapointDataVO();
@@ -176,10 +181,9 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         //return null;  //To change body of implemented methods use File | Settings | File Templates.
 
     }
-
     @Override
-    public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime) {
-
+    public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime)
+    {
         //First check if columnfamily exist or not
         if(checkExist(dpName))
         {
@@ -188,7 +192,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             //Keep it the count higher than expected rows so it will not effect on result
             int row_count = 1000;
 
-            LOG.debug("Reading data from " + dpName + " table");
+            LOG.debug("Operating on " + dpName + " table");
 
             // Define serializers to read the data from columnfamily
             DateSerializer dt=new DateSerializer();
@@ -209,8 +213,8 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             //Used for fetching the row keys
             Date Lastkey=null;
 
-            while (true) {
-
+            while (true)
+            {
                 sl.setKeys(Lastkey,null);
 
                 QueryResult<OrderedRows<Date, Long, Double>> result = sl.execute();
@@ -220,15 +224,10 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
                 // we'll skip this first one, since it is the same as the last one from previous time we executed
                 if (Lastkey != null && rowsIterator != null) rowsIterator.next();
 
-                while (rowsIterator.hasNext()) {
+                while (rowsIterator.hasNext())
+                {
                     Row<Date, Long, Double> row = rowsIterator.next();
                     Lastkey = row.getKey();
-
-                    if (row.getColumnSlice().getColumns().isEmpty()) {
-                        continue;
-                    }
-
-                    //Extracting columnslice from row
                     ColumnSlice<Long, Double> cs=row.getColumnSlice();
 
                     //Extracting columns from the columnslice
@@ -243,15 +242,14 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
                         returnData.add(data);
                         LOG.debug("Data :" + new Date(h.getName()) + "\t\t" + h.getValue());
                     }
-                }
 
-                if (rows.getCount() < row_count)
-                    break;
+                }
+                return returnData;
             }
-            return returnData;
         }
 
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
+
     }
 
     @Override
@@ -259,10 +257,76 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /*
+     * Returns the number of values for given datapoint in available in the given range
+     * Author : Nikunj Thakkar
+     */
     @Override
-    public Integer getNumberOfValues(String dpName, Date starttime, Date endtime) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Integer getNumberOfValues(String dpName, Date starttime, Date endtime)
+    {
+        int result_count=0;
+        //First check if columnfamily exist or not
+       if(checkExist(dpName))
+        {
+
+            //Required to specify row_count to fetch for row slice queries
+            //Keep it the count higher than expected rows so it will not effect on result
+            int row_count = 1000;
+
+            LOG.debug("Operating on " + dpName + " table");
+
+            // Define serializers to read the data from columnfamily
+            DateSerializer dt=new DateSerializer();
+            LongSerializer ls=new LongSerializer();
+            DoubleSerializer ds=new DoubleSerializer();
+
+            //We have stored long values of timestamp in columns so dates are converted to timestamp
+            Long st=new Timestamp(starttime.getTime()).getTime();
+            Long et=new Timestamp(endtime.getTime()).getTime();
+            LOG.debug("Start time: "+st);
+            LOG.debug("End time: "+et);
+
+            //RangesliceQuery is used to fetch the rows in range from columnfamily
+            RangeSlicesQuery<Date, Long, Double> sl=HFactory.createRangeSlicesQuery(keyspace, dt, ls,ds);
+            sl.setColumnFamily(dpName).setRange(et,st,true,row_count)
+                    .setRowCount(row_count);
+
+            //Used for fetching the row keys
+            Date Lastkey=null;
+
+            while (true)
+            {
+                sl.setKeys(Lastkey,null);
+
+                QueryResult<OrderedRows<Date, Long, Double>> result = sl.execute();
+                OrderedRows<Date, Long, Double> rows = result.get();
+                Iterator<Row<Date, Long, Double>> rowsIterator = rows.iterator();
+
+                // we'll skip this first one, since it is the same as the last one from previous time we executed
+                if (Lastkey != null && rowsIterator != null) rowsIterator.next();
+
+                while (rowsIterator.hasNext())
+                {
+                    Row<Date, Long, Double> row = rowsIterator.next();
+                    Lastkey = row.getKey();
+                    ColumnSlice<Long, Double> cs=row.getColumnSlice();
+
+                    //Extracting columns from the columnslice
+                    List<HColumn<Long, Double>> hc=cs.getColumns();
+                    Iterator<HColumn<Long, Double>> hcit=hc.iterator();
+                    while(hcit.hasNext())
+                    {
+                        HColumn<Long, Double> h=hcit.next();
+                        LOG.debug("Deleted Data :" + new Date(h.getName()) + "\t\t" + h.getValue());
+                        result_count++;
+                    }
+                }
+                return new Integer(result_count);
+            }
+          //To change body of implemented methods use File | Settings | File Templates.
     }
+    return null;
+  }
 
     /*
      * addData adds data to the cassndra columnfamily
@@ -271,10 +335,17 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
      * Author : Nikunj Thakkar
      */
     @Override
-    public int addData(String dpName, DpDataDTO measurement) {
+    public int addData(String dpName,DpDataDTO measurement) {
         try
         {
             Date d=measurement.getTimestamp();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(d);
+            calendar.set(Calendar.HOUR_OF_DAY,0);
+            calendar.clear(Calendar.MINUTE);
+            calendar.clear(Calendar.SECOND);
+            calendar.clear(Calendar.MILLISECOND);
+            Date truncatedDate = calendar.getTime();
             Long ts=measurement.getTimestamp().getTime();
             Double value=measurement.getValue();
             //Create serialize object
@@ -283,7 +354,8 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             Mutator<Date> mu=HFactory.createMutator(keyspace, ds);
 
             //Here d act as a row key and columns are added to single row
-            mu.insert(d, dpName, HFactory.createColumn(ts, value));
+            mu.insert(truncatedDate, dpName, HFactory.createColumn(ts, value));
+            return 1;
         }
         catch(Exception e)
         {
@@ -292,27 +364,110 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /*
+     * Deleting all data of given datapoint
+     * Author : Nikunj Thakkar
+     */
     @Override
     public int delData(String cfname) {
+
+        //Check if string value is null or not
         if(cfname.equals("") || cfname.trim().equals(null))
         {
-            System.out.println("Null Value");
-            return 1;
+            LOG.debug("Null Value");
+            return 0;
         }
         else
         {
             cfname= cfname.toLowerCase();
             if(checkExist(cfname))
+            {
             myCluster.dropColumnFamily(keyspaceName,cfname);
-            return 0;
+            return 1;
+            }
+
 
         }
+        return 0;
 
 
     }
 
+    /*
+     * Deleting range of data from cilumnfamily
+     * Author : Nikunj Thakkar
+     */
+
     @Override
-    public int delData(String dpName, Date starttime, Date endtime) {
+    public int delData(String dpName, Date starttime, Date endtime)
+    {
+        int del_count=0;
+        //First check if columnfamily exist or not
+        Iterator<HColumn<Long, Double>> hcit=null;
+        if(checkExist(dpName))
+        {
+
+            //Required to specify row_count to fetch for row slice queries
+            //Keep it the count higher than expected rows so it will not effect on result
+            int row_count = 1000;
+
+            LOG.debug("Operating on " + dpName + " table");
+
+            // Define serializers to read the data from columnfamily
+            DateSerializer dt=new DateSerializer();
+            LongSerializer ls=new LongSerializer();
+            DoubleSerializer ds=new DoubleSerializer();
+
+            //We have stored long values of timestamp in columns so dates are converted to timestamp
+            Long st=new Timestamp(starttime.getTime()).getTime();
+            Long et=new Timestamp(endtime.getTime()).getTime();
+            LOG.debug("Start time: "+st);
+            LOG.debug("End time: "+et);
+
+            //RangesliceQuery is used to fetch the rows in range from columnfamily
+            RangeSlicesQuery<Date, Long, Double> sl=HFactory.createRangeSlicesQuery(keyspace, dt, ls,ds);
+            sl.setColumnFamily(dpName).setRange(et,st,true,row_count)
+                    .setRowCount(row_count);
+
+            //Used for fetching the row keys
+            Date Lastkey=null;
+
+            while (true)
+            {
+                sl.setKeys(Lastkey,null);
+
+                QueryResult<OrderedRows<Date, Long, Double>> result = sl.execute();
+                OrderedRows<Date, Long, Double> rows = result.get();
+                Iterator<Row<Date, Long, Double>> rowsIterator = rows.iterator();
+
+                // we'll skip this first one, since it is the same as the last one from previous time we executed
+                if (Lastkey != null && rowsIterator != null) rowsIterator.next();
+
+                while (rowsIterator.hasNext())
+                {
+                    Row<Date, Long, Double> row = rowsIterator.next();
+                    Lastkey = row.getKey();
+                    ColumnSlice<Long, Double> cs=row.getColumnSlice();
+
+                    //Extracting columns from the columnslice
+                    List<HColumn<Long, Double>> hc=cs.getColumns();
+                    hcit=hc.iterator();
+                    DateSerializer dser=new DateSerializer();
+                    LongSerializer lser=new LongSerializer();
+                    Mutator<Date> mu=HFactory.createMutator(keyspace, dser);
+                    while(hcit.hasNext())
+                    {
+                        HColumn<Long, Double> h=hcit.next();
+                        System.out.println("Deleted Data :" + new Date(h.getName()) + "\t\t" + h.getValue());
+                        del_count++;
+                        mu.delete(Lastkey, dpName,h.getName() ,lser );
+                    }
+
+                }
+                return del_count;
+            }
+        }
+
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
