@@ -78,11 +78,16 @@ public class DpDataFinderCassandraTest {
         Date start = cal.getTime();
         cal.set(2011, 05, 21, 11, 22, 00);
         Date end = cal.getTime();
-        DatapointDatasetVO dataset = dpFinder.getData("con1", start, end);
+        DatapointDatasetVO dataset = dpFinder.getDataSorted("con1", start, end);
         System.out.println("data from " + start + " to " + end);
         for (DatapointDataVO data: dataset){
             System.out.println(data.getTimestamp() + ": " + data.getValue());
         }
+    }
+
+    @Test
+    public void testDataSortedCon1(){
+        dpFinder.getDataSortedCon1();
     }
 
     /*@Test
