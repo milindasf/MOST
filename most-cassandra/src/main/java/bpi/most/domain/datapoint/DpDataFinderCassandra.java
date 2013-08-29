@@ -1,6 +1,10 @@
 package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDataDTO;
+import com.datastax.driver.core.Host;
+import com.datastax.driver.core.Metadata;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Session;
 import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.CqlQuery;
 import me.prettyprint.cassandra.model.CqlRows;
@@ -43,8 +47,8 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderCassandra.class);
 
-    //private static final String CASSANDRA_ADDRESS = "128.130.110.94";
-    private static final String CASSANDRA_ADDRESS = "localhost";
+    private static final String CASSANDRA_ADDRESS = "128.130.110.94";
+    //private static final String CASSANDRA_ADDRESS = "localhost";
 
     /**
      * connects to cassandra
@@ -181,6 +185,70 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         //return null;  //To change body of implemented methods use File | Settings | File Templates.
 
     }
+
+    /**
+     *
+     * uses datastax Cassandra java driver:
+     * http://www.datastax.com/documentation/developer/java-driver/1.0/webhelp/index.html#java-driver/quick_start/qsSimpleClientCreate_t.html
+     *
+     * does a hardcoded query to test range queries and sort them.
+     * did work on my machine!
+     *
+     */
+    public void getDataSortedCon1() {
+        com.datastax.driver.core.Cluster cluster = com.datastax.driver.core.Cluster.builder()
+                .addContactPoint(CASSANDRA_ADDRESS).build();
+        Metadata metadata = cluster.getMetadata();
+        System.out.printf("Connected to cluster: %s\n",
+                metadata.getClusterName());
+        for ( Host host : metadata.getAllHosts() ) {
+            System.out.printf("Datacenter: %s; Host: %s; Rack: %s\n",
+                    host.getDatacenter(), host.getAddress(), host.getRack());
+        }
+        Session session = cluster.connect();
+        session.execute("use most");
+        ResultSet results = session.execute("select * from con1 where KEY IN ('2011-06-20 00:00:00+0200', '2011-06-21 00:00:00+0200') AND column1 > '2011-06-20 16:00:00+0200' AND column1 < '2011-06-21 11:21:50+0200' order by column1 desc");
+        for (com.datastax.driver.core.Row row : results) {
+            System.out.println(String.format("at %s; value: %s", row.getDate("column1"), row.getBytes("value")));
+        }
+    }
+
+    public DatapointDatasetVO getDataSorted(String dpName, Date starttime, Date endtime){
+        DatapointDatasetVO values = new DatapointDatasetVO();
+
+        LOG.debug("Running GetData Method Cassandra");
+        // Define serializers to insert the data into columnfamily
+        DateSerializer dt=new DateSerializer();
+        LongSerializer ls=new LongSerializer();
+        DoubleSerializer ds=new DoubleSerializer();
+
+        //Create Cqlquery to insert the data into columnfamily
+        CqlQuery<Date,Long,Double> qry=new CqlQuery<Date, Long, Double>(keyspace,dt,ls,ds);
+        qry.setQuery("select * from con1 where KEY IN ('2011-06-20 00:00:00+0200', '2011-06-21 00:00:00+0200') AND column1 > '2011-06-20 16:00:00+0200' AND column1 < '2011-06-21 11:21:50+0200'");
+
+        LOG.debug("Executing the query");
+        //Executing the query
+        QueryResult<CqlRows<Date, Long, Double>> result = qry.execute();
+
+        //Extracting the resultant rows from the result
+        OrderedRows<Date, Long, Double> rows = result.get();
+
+        for (Row<Date, Long, Double> row: rows){
+            //row contains number of columns
+            //Columnslice is used to extract the columns from rows
+            ColumnSlice<Long,Double> csl=row.getColumnSlice();
+
+            //Extracting columns from columnslice
+            List<HColumn<Long,Double>> columns = csl.getColumns();
+            for (HColumn<Long,Double> col: columns){
+                if (col.getName() != null){
+                    LOG.debug(String.format("at %s; value: %f", new Date(col.getName()), col.getValue()));
+                }
+            }
+        }
+        return values;
+    }
+
     @Override
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime)
     {
