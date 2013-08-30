@@ -1,10 +1,7 @@
 package bpi.most.domain.datapoint;
 
 import bpi.most.dto.DpDataDTO;
-import com.datastax.driver.core.Host;
-import com.datastax.driver.core.Metadata;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Session;
+import com.datastax.driver.core.*;
 import me.prettyprint.cassandra.model.BasicColumnDefinition;
 import me.prettyprint.cassandra.model.CqlQuery;
 import me.prettyprint.cassandra.model.CqlRows;
@@ -36,6 +33,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.xml.crypto.Data;
+import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -207,10 +205,27 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         }
         Session session = cluster.connect();
         session.execute("use most");
-        ResultSet results = session.execute("select * from con1 where KEY IN ('2011-06-20 00:00:00+0200', '2011-06-21 00:00:00+0200') AND column1 > '2011-06-20 16:00:00+0200' AND column1 < '2011-06-21 11:21:50+0200' order by column1 desc");
+        StringBuffer sb = new StringBuffer();
+
+        /**
+         * create the IN CLAUSE for one year (from 1.1.2011 to 28.12.2011)
+         */
+        for (int m=1; m<=12; m++){
+            //28 here to not create an error on february
+            for (int d=1; d<=28; d++){
+                sb.append(String.format("'2011-%d-%d 00:00:00+0200',", m, d));
+            }
+        }
+        sb.deleteCharAt(sb.length()-1);
+        LOG.debug("IN CLAUSE: " + sb.toString());
+        ResultSet results = session.execute("select * from con1 where KEY IN (" + sb.toString() + ") AND column1 > '2011-01-1 16:00:00+0200' AND column1 < '2011-12-31 11:21:50+0200' order by column1 desc");
+        int i=0;
         for (com.datastax.driver.core.Row row : results) {
             System.out.println(String.format("at %s; value: %s", row.getDate("column1"), row.getBytes("value")));
+            i++              ;
         }
+        System.out.println("values:" + i);
+
     }
 
     public DatapointDatasetVO getDataSorted(String dpName, Date starttime, Date endtime){
