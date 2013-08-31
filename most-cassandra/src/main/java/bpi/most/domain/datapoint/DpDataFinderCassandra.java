@@ -209,6 +209,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
 
         /**
          * create the IN CLAUSE for one year (from 1.1.2011 to 28.12.2011)
+         * blabla
          */
         for (int m=1; m<=12; m++){
             //28 here to not create an error on february
