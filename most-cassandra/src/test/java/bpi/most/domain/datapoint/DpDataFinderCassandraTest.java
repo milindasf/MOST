@@ -31,27 +31,20 @@ public class DpDataFinderCassandraTest {
     DpDataFinderCassandra dpFinder;
     @Inject
     DataToCassandraMigrator migrator;
-    /*@Test
+    @Test
     public void testExistence(){
 
         Assert.assertNotNull(dpFinder);
         Assert.assertTrue(migrator.initSuccessful());
-    }  */
-    @Test
-    public void testAddColumnfamily()
-    {
-        dpFinder.addColumnFamily("testcf2");
     }
+
     @Test
     @Transactional
-    public void testgetData() throws Exception {
+    public void testgetData(){
+      System.out.println(dpFinder.getData("con1"));
+      System.out.println(migrator.getDpDfHibernate().getData("con1"));
+      Assert.assertEquals(dpFinder.getData("con1"),migrator.getDpDfHibernate().getData("con1"));
 
-       Double dc=dpFinder.getData("cdi3").getValue();
-       Double dm=migrator.getDpDfHibernate().getData("cdi3").getValue();
-       Date tc=dpFinder.getData("tem1").getTimestamp();
-       Date tm=migrator.getDpDfHibernate().getData("tem1").getTimestamp();
-       Assert.assertEquals(dc,dm);
-       Assert.assertEquals(tc,tm);
 
     }
     @Test
@@ -63,7 +56,12 @@ public class DpDataFinderCassandraTest {
     @Transactional
     public void testgetDataRange()
     {
-        Assert.assertEquals(dpFinder.getData("con1"),migrator.getDpDfHibernate().getData("con1"));
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 04, 19, 12, 00, 00);
+        Date start = cal.getTime();
+        cal.set(2011, 05, 19, 11, 22, 00);
+        Date end = cal.getTime();
+        Assert.assertEquals(dpFinder.getData("con1",start,end),migrator.getDpDfHibernate().getData("con1",start,end));
     }
 
     /**
@@ -73,31 +71,29 @@ public class DpDataFinderCassandraTest {
     @Transactional
     public void testgetDataRange1()
     {
+
         Calendar cal = Calendar.getInstance();
-        cal.set(2011, 05, 19, 12, 00, 00);
+        cal.set(2011, 04, 19, 12, 00, 00);
         Date start = cal.getTime();
-        cal.set(2011, 05, 22, 11, 22, 00);
+        cal.set(2011, 05, 19, 11, 22, 00);
         Date end = cal.getTime();
-        DatapointDatasetVO dataset = dpFinder.getData("con1", start, end);
+        DatapointDatasetVO dataset =dpFinder.getData("con1",start,end);
         System.out.println("data from " + start + " to " + end);
         for (DatapointDataVO data: dataset){
             System.out.println(data.getTimestamp() + ": " + data.getValue());
         }
     }
-
     @Test
-    public void testDataSortedCon1(){
-        dpFinder.getDataSortedCon1();
-    }
-
-    /*@Test
     public void testdelDataRange()
     {
-        Date st=new Date(111,5,29);
-        Date et=new Date(111,5,31);
-        Assert.assertNotSame(0,dpFinder.delData("elepow7",st,et));
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 04, 19, 12, 00, 00);
+        Date start = cal.getTime();
+        cal.set(2011, 05, 19, 11, 22, 00);
+        Date end = cal.getTime();
+        Assert.assertNotSame(0,dpFinder.delData("con1",start,end));
 
-    } */
+    }
 
 
     //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)

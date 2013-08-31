@@ -46,12 +46,12 @@ public class DpDataFinderHibernate implements IDatapointDataFinder {
         return null;
     }
 
-    public DatapointDatasetVO getallData(String dpName) {
+       public DatapointDatasetVO getallData(String dpName) {
         LOG.debug("Fetching datapoint data: {}", dpName);
         // noinspection unchecked
 
 
-        List result = ((Session) em.getDelegate()).createSQLQuery("Select * from data where datapoint_name='"+dpName+"'").setResultTransformer(new DatapointDataVOResultTransformer())
+        List result = ((Session) em.getDelegate()).createSQLQuery("Select * from data where datapoint_name='"+dpName+"' order by timestamp ASC").setResultTransformer(new DatapointDataVOResultTransformer())
          .setReadOnly(true)
         .list();
         if(result.size() > 0){

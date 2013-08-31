@@ -1,35 +1,11 @@
 package bpi.most.domain.datapoint;
-
 import bpi.most.dto.DpDataDTO;
 import com.datastax.driver.core.*;
-import me.prettyprint.cassandra.model.BasicColumnDefinition;
-import me.prettyprint.cassandra.model.CqlQuery;
-import me.prettyprint.cassandra.model.CqlRows;
-import me.prettyprint.cassandra.serializers.DateSerializer;
-import me.prettyprint.cassandra.serializers.DoubleSerializer;
-import me.prettyprint.cassandra.serializers.LongSerializer;
-import me.prettyprint.cassandra.serializers.StringSerializer;
-import me.prettyprint.hector.api.Cluster;
-import me.prettyprint.hector.api.Keyspace;
-import me.prettyprint.hector.api.beans.ColumnSlice;
-import me.prettyprint.hector.api.beans.HColumn;
-import me.prettyprint.hector.api.beans.OrderedRows;
-import me.prettyprint.hector.api.beans.Row;
-import me.prettyprint.hector.api.ddl.ColumnFamilyDefinition;
-import me.prettyprint.hector.api.ddl.ColumnIndexType;
-import me.prettyprint.hector.api.ddl.ComparatorType;
-import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
-import me.prettyprint.hector.api.exceptions.HectorException;
-import me.prettyprint.hector.api.factory.HFactory;
-import me.prettyprint.hector.api.mutation.Mutator;
-import me.prettyprint.hector.api.query.QueryResult;
-import me.prettyprint.hector.api.query.RangeSlicesQuery;
 import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.xml.crypto.Data;
@@ -44,31 +20,34 @@ import java.util.*;
 public class DpDataFinderCassandra implements IDatapointDataFinder{
 
     private static final Logger LOG = LoggerFactory.getLogger(DpDataFinderCassandra.class);
-
     private static final String CASSANDRA_ADDRESS = "128.130.110.94";
     //private static final String CASSANDRA_ADDRESS = "localhost";
 
+    private static final String keyspace="most";
+    private String query;
     /**
      * connects to cassandra
      * @throws Exception
      */
-    private KeyspaceDefinition ksdef=null;
-    private static String keyspaceName= "most";
-    private static Keyspace keyspace=null;
-    private ColumnFamilyDefinition cfdef=null;
-    private Cluster myCluster=null;
-    private static StringSerializer stringSerializer = StringSerializer.get();
+    public Cluster cluster=null;
+    public Metadata metadata;
+    public Session session;
     @PostConstruct
     public void initIt() throws Exception {
-        try{
-            myCluster = HFactory.getOrCreateCluster("test-cluster", CASSANDRA_ADDRESS + ":9160");
-            ksdef=myCluster.describeKeyspace(keyspaceName);
-            keyspace=HFactory.createKeyspace(keyspaceName, myCluster);
-        }catch(HectorException e){
+        try
+        {
+            cluster = com.datastax.driver.core.Cluster.builder().addContactPoint(CASSANDRA_ADDRESS).build();
+            /*metadata = cluster.getMetadata();
+            System.out.printf("Connected to cluster: %s\n",metadata.getClusterName());
+            for ( Host host : metadata.getAllHosts() )
+            {
+                System.out.printf("Datacenter: %s; Host: %s; Rack: %s\n",host.getDatacenter(), host.getAddress(), host.getRack());
+            }*/
+        }
+        catch(Exception e){
             LOG.error(e.getMessage(), e);
         }
     }
-
     /*
      * Adds new columnfamily to the cassandra keyspace
      * @param cfname : columnfamily name to add
@@ -77,43 +56,36 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     public void addColumnFamily(String cfname)
     {
         if(cfname.equals("") || cfname.trim().equals(null))
-        {
-
-            return;
-        }
+        return;
         else
         {
             cfname= cfname.toLowerCase();
             if(checkExist(cfname)==false)
             {
-                cfdef=HFactory.createColumnFamilyDefinition(keyspaceName, cfname);
-                cfdef.setComparatorType(ComparatorType.DATETYPE);
-                cfdef.setKeyValidationClass(ComparatorType.DATETYPE.getClassName());
-                myCluster.addColumnFamily(cfdef, true);
+                session=cluster.connect();
+                session.execute("use "+keyspace);
+                session.execute("CREATE TABLE "+cfname+"(day timestamp,ts timestamp,value double, PRIMARY KEY(day,ts))");
             }
-
         }
 
     }
-
     /*
     * Checks if columnfamily alredy exist in the keyspace
-    * @param cfname : columnfamily name to add
+    * @param cfname : columnfamily name to check
     * Author : Nikunj Thakkar
     */
     boolean checkExist(String cfname)
     {
         try
         {
-            List<ColumnFamilyDefinition> lcf=ksdef.getCfDefs();
-            Iterator<ColumnFamilyDefinition> it=lcf.iterator();
-            while(it.hasNext())
+            metadata=cluster.getMetadata();
+            KeyspaceMetadata kspm=metadata.getKeyspace("most");
+            for(TableMetadata tableMetadatas : kspm.getTables())
             {
-                ColumnFamilyDefinition cf=it.next();
-                if(cf.getName().equals(cfname))
+                if(tableMetadatas.getName().equals(cfname))
                 return true;
-
             }
+
         }
         catch (Exception e)
         {
@@ -122,19 +94,15 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         }
         return false;
     }
-
-
-
     /**
      * gracefully releases connections to Cassandra
      * @throws Exception
      */
     @PreDestroy
     public void cleanUp() throws Exception {
-
+           cluster.shutdown();
     }
-
-    /**
+     /**
      * This funtion returns the latest value for the given datapoint
      * @param dpName
      * @return DatapointDataVo
@@ -142,13 +110,47 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
      */
     @Override
     public DatapointDataVO getData(String dpName) {
+        if(!checkExist(dpName))
+        {
+            LOG.error("Column Family doesn't exist for datapoint : "+dpName);
+            return null;
+        }
+        session = cluster.connect();  //Connect to the cassandra cluster
+        session.execute("use most");  //Specifying keysapce name
 
+        //Prepare select query to execute
+        long rowkey=0;
+        query="Select * FROM "+dpName+" where day="+rowkey;
+
+        //Executing query.....
+        ResultSet results = session.execute(query);
+
+        //Returning results....
+        Row r=results.one();
+        System.out.println(r);
+        System.out.println(" Value : " + r.getDouble("value"));
+        System.out.println("Timestamp : "+r.getDate("ts"));
+        DatapointDataVO ds=new DatapointDataVO();
+        ds.setTimestamp(r.getDate("ts"));
+        ds.setValue(r.getDouble("value"));
+
+        return ds;
+    }
+        /*
         LOG.debug("Running GetData Method Cassandra");
         // Define serializers to insert the data into columnfamily
-        DateSerializer dt=new DateSerializer();
+        StringSerializer st=new StringSerializer();
         LongSerializer ls=new LongSerializer();
         DoubleSerializer ds=new DoubleSerializer();
 
+        SliceQuery<String, Long, Double> sliceQuery = HFactory.createSliceQuery(keyspace, st,ls,ds);
+        sliceQuery.setColumnFamily(dpName).setKey("latestva");
+        sliceQuery.setRange(null, null, false, 4);
+
+        QueryResult<ColumnSlice<Long, Double>> result = sliceQuery.execute();
+        System.out.println("\nInserted data is as follows:\n" + result.get());
+        System.out.println();
+        /*
         //Create Cqlquery to insert the data into columnfamily
         CqlQuery<Date,Long,Double> qry=new CqlQuery<Date, Long, Double>(keyspace,dt,ls,ds);
         qry.setQuery("Select * from "+dpName);
@@ -180,92 +182,83 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         LOG.debug("TimeStamp :"+dtpnt.getTimestamp()+" Value :"+dtpnt.getValue());
         return dtpnt;
 
-        //return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 
     }
+
 
     /**
      *
-     * uses datastax Cassandra java driver:
-     * http://www.datastax.com/documentation/developer/java-driver/1.0/webhelp/index.html#java-driver/quick_start/qsSimpleClientCreate_t.html
+     * Prepares select statement for the range queries
+     * used repeatedly in many functions so generalized method is created
+     * Author: Nikunj Thakkar
      *
-     * does a hardcoded query to test range queries and sort them.
-     * did work on my machine!
      *
      */
-    public void getDataSortedCon1() {
-        com.datastax.driver.core.Cluster cluster = com.datastax.driver.core.Cluster.builder()
-                .addContactPoint(CASSANDRA_ADDRESS).build();
-        Metadata metadata = cluster.getMetadata();
-        System.out.printf("Connected to cluster: %s\n",
-                metadata.getClusterName());
-        for ( Host host : metadata.getAllHosts() ) {
-            System.out.printf("Datacenter: %s; Host: %s; Rack: %s\n",
-                    host.getDatacenter(), host.getAddress(), host.getRack());
-        }
-        Session session = cluster.connect();
-        session.execute("use most");
-        StringBuffer sb = new StringBuffer();
+    public String getSelectQuery(String dpName, Date starttime, Date endtime){
 
-        /**
-         * create the IN CLAUSE for one year (from 1.1.2011 to 28.12.2011)
-         * blabla
-         */
-        for (int m=1; m<=12; m++){
-            //28 here to not create an error on february
-            for (int d=1; d<=28; d++){
-                sb.append(String.format("'2011-%d-%d 00:00:00+0200',", m, d));
-            }
+
+        //Getting row key from the starttime
+        Calendar stime=Calendar.getInstance();
+        stime.setTime(starttime);
+        stime.set(Calendar.DAY_OF_MONTH,1);
+        stime.set(Calendar.HOUR_OF_DAY,0);
+        stime.clear(Calendar.MINUTE);
+        stime.clear(Calendar.SECOND);
+        stime.clear(Calendar.MILLISECOND);
+
+        //Getting row key from the endtime
+        Calendar etime=Calendar.getInstance();
+        etime.setTime(endtime);
+        etime.set(Calendar.DAY_OF_MONTH,1);
+        etime.set(Calendar.HOUR_OF_DAY,0);
+        etime.set(Calendar.MINUTE,0);
+        etime.set(Calendar.SECOND,0);
+        etime.set(Calendar.MILLISECOND,0);
+
+        //Counting month difference between starttime and endtime to generate rowkey sequence
+        int diffYear = etime.get(Calendar.YEAR) - stime.get(Calendar.YEAR);
+        int diffMonth = diffYear * 12 + etime.get(Calendar.MONTH) - stime.get(Calendar.MONTH);
+
+        //Generating rowkey sequence to be used to fetch the data from cassandra
+        Calendar temp=stime;
+        temp.add(Calendar.MONTH,-1);
+
+        StringBuffer sb = new StringBuffer();
+        for(int i=0;i<=diffMonth;i++)
+        {
+            temp.add(Calendar.MONTH,1);
+            sb.append(String.format("'%s',",temp.getTimeInMillis()));
+            System.out.println(temp.getTime());
         }
         sb.deleteCharAt(sb.length()-1);
-        LOG.debug("IN CLAUSE: " + sb.toString());
-        ResultSet results = session.execute("select * from con1 where KEY IN (" + sb.toString() + ") AND column1 > '2011-01-1 16:00:00+0200' AND column1 < '2011-12-31 11:21:50+0200' order by column1 desc");
+
+        //Preparing query for the execution
+        query="select * from "+dpName+" where day IN ("+sb+") and ts >= "+starttime.getTime()+" and ts <= "+endtime.getTime()+" order by ts desc";
+        return query;
+    }
+    @Override
+    public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime){
+        if(!starttime.before(endtime) || !checkExist(dpName))
+        return null;
+
+        //Initializing the session object used to interact with the cassandra
+        session = cluster.connect();  //Connect to the cassandra cluster
+        session.execute("use most");  //Specifying keysapce name
+
+        query=getSelectQuery(dpName,starttime,endtime);
+        ResultSet results = session.execute(query);
         int i=0;
         for (com.datastax.driver.core.Row row : results) {
-            System.out.println(String.format("at %s; value: %s", row.getDate("column1"), row.getBytes("value")));
+            System.out.println(String.format("at %s; value: %s", row.getDate("ts"),row.getDouble("value")));
             i++              ;
         }
         System.out.println("values:" + i);
+        return null;
 
     }
+    /*
 
-    public DatapointDatasetVO getDataSorted(String dpName, Date starttime, Date endtime){
-        DatapointDatasetVO values = new DatapointDatasetVO();
-
-        LOG.debug("Running GetData Method Cassandra");
-        // Define serializers to insert the data into columnfamily
-        DateSerializer dt=new DateSerializer();
-        LongSerializer ls=new LongSerializer();
-        DoubleSerializer ds=new DoubleSerializer();
-
-        //Create Cqlquery to insert the data into columnfamily
-        CqlQuery<Date,Long,Double> qry=new CqlQuery<Date, Long, Double>(keyspace,dt,ls,ds);
-        qry.setQuery("select * from con1 where KEY IN ('2011-06-20 00:00:00+0200', '2011-06-21 00:00:00+0200') AND column1 > '2011-06-20 16:00:00+0200' AND column1 < '2011-06-21 11:21:50+0200'");
-
-        LOG.debug("Executing the query");
-        //Executing the query
-        QueryResult<CqlRows<Date, Long, Double>> result = qry.execute();
-
-        //Extracting the resultant rows from the result
-        OrderedRows<Date, Long, Double> rows = result.get();
-
-        for (Row<Date, Long, Double> row: rows){
-            //row contains number of columns
-            //Columnslice is used to extract the columns from rows
-            ColumnSlice<Long,Double> csl=row.getColumnSlice();
-
-            //Extracting columns from columnslice
-            List<HColumn<Long,Double>> columns = csl.getColumns();
-            for (HColumn<Long,Double> col: columns){
-                if (col.getName() != null){
-                    LOG.debug(String.format("at %s; value: %f", new Date(col.getName()), col.getValue()));
-                }
-            }
-        }
-        return values;
-    }
-
-    @Override
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime)
     {
         //First check if columnfamily exist or not
@@ -335,7 +328,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         return null;
 
     }
-
+    */
     @Override
     public DatapointDatasetVO getDataPeriodic(String dpName, Date starttime, Date endtime, Float period, int mode) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -345,9 +338,33 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
      * Returns the number of values for given datapoint in available in the given range
      * Author : Nikunj Thakkar
      */
+
     @Override
     public Integer getNumberOfValues(String dpName, Date starttime, Date endtime)
     {
+        if(!starttime.before(endtime) || !checkExist(dpName))
+        return null;
+
+        session = cluster.connect();  //Connect to the cassandra cluster
+        session.execute("use most");  //Specifying keysapce name
+
+        //Get select query to execute for given period
+        query=getSelectQuery(dpName,starttime,endtime);
+
+        //Since we need only count of the columns for the specified duration we are getting only count value
+        //using select count(*).... query
+
+        String q=query.replace("*","count(*)");
+        ResultSet results = session.execute(q);
+
+        //Returned result is BigInt type casting it to int and return the result
+
+        Integer rtrn=new Integer((int) results.one().getLong(0));
+        System.out.println("Return : " + rtrn);
+
+        return rtrn;
+    }
+    /*
         int result_count=0;
         //First check if columnfamily exist or not
        if(checkExist(dpName))
@@ -411,7 +428,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     }
     return null;
   }
-
+   */
     /*
      * addData adds data to the cassndra columnfamily
      * @param dpName : columnfamily name
@@ -420,25 +437,46 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
      */
     @Override
     public int addData(String dpName,DpDataDTO measurement) {
+        if(!checkExist(dpName))
+        {
+            LOG.error("Column family does not exist for this datapoint");
+            return 0;
+        }
         try
         {
             Date d=measurement.getTimestamp();
+
+            //Setting rowkey for the given measurement
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(d);
+            calendar.set(Calendar.DATE,1);
             calendar.set(Calendar.HOUR_OF_DAY,0);
             calendar.clear(Calendar.MINUTE);
             calendar.clear(Calendar.SECOND);
             calendar.clear(Calendar.MILLISECOND);
-            Date truncatedDate = calendar.getTime();
+            Long truncatedDate = calendar.getTimeInMillis();
             Long ts=measurement.getTimestamp().getTime();
             Double value=measurement.getValue();
             //Create serialize object
+
+            session=cluster.connect();
+            session.execute("use most");
+            session.execute("insert into "+dpName+"(day,ts,value) values("+truncatedDate+","+ts+","+value+")");
+            long rowkey=0;
+            session.execute("DELETE FROM "+dpName+" where day="+rowkey);
+            session.execute("insert into "+dpName+"(day,ts,value) values("+rowkey+","+ts+","+value+")");
+
+
+            /*
             DateSerializer ds=new DateSerializer();
+            StringSerializer ss=new StringSerializer();
             //Create Mutator object to insert data to columnfamily
             Mutator<Date> mu=HFactory.createMutator(keyspace, ds);
-
             //Here d act as a row key and columns are added to single row
             mu.insert(truncatedDate, dpName, HFactory.createColumn(ts, value));
+            Mutator<String> su=HFactory.createMutator(keyspace,ss);
+            su.delete("latestva",dpName,null,ss);
+            su.insert("latestva",dpName,HFactory.createColumn(ts,value));*/
             return 1;
         }
         catch(Exception e)
@@ -466,8 +504,10 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             cfname= cfname.toLowerCase();
             if(checkExist(cfname))
             {
-            myCluster.dropColumnFamily(keyspaceName,cfname);
-            return 1;
+               session=cluster.connect();
+               session.execute("use most");
+               session.execute("Drop table "+cfname);
+               return 1;
             }
 
 
@@ -485,7 +525,27 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     @Override
     public int delData(String dpName, Date starttime, Date endtime)
     {
-        int del_count=0;
+        if(!starttime.before(endtime) || !checkExist(dpName))
+            return 0;
+
+        //Initializing the session object used to interact with the cassandra
+        session = cluster.connect();  //Connect to the cassandra cluster
+        session.execute("use most");  //Specifying keysapce name
+
+        query=getSelectQuery(dpName,starttime,endtime);
+        ResultSet results = session.execute(query);
+        int i=0;
+        for (com.datastax.driver.core.Row row : results) {
+            session.execute("DELETE FROM "+dpName+" where day="+row.getDate("day").getTime()+" AND ts="+row.getDate("ts").getTime());
+            System.out.println(String.format("Deleted timestamp: %s; value: %s", row.getDate("ts"),row.getDouble("value")));
+            i++              ;
+        }
+        System.out.println("values:" + i);
+
+        return i;
+    }
+
+     /*   int del_count=0;
         //First check if columnfamily exist or not
         Iterator<HColumn<Long, Double>> hcit=null;
         if(checkExist(dpName))
@@ -553,5 +613,5 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         }
 
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    } */
 }

@@ -2,6 +2,11 @@ package bpi.most.migration;
 
 import bpi.most.domain.datapoint.*;
 import bpi.most.dto.DpDataDTO;
+import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.thrift.SchemaDisagreementException;
+import org.apache.cassandra.thrift.TimedOutException;
+import org.apache.cassandra.thrift.UnavailableException;
+import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -78,25 +83,21 @@ public class DataToCassandraMigrator  {
      */
     public void migrateData(String dpName){
 
-        String cfname=dpName.replaceAll("[^A-Za-z0-9]", "");
+
         //Add new columnfamily to keyspace to add data into it
-        dpDfCass.addColumnFamily(cfname);
+        dpDfCass.addColumnFamily(dpName);
+
 
         //Get the data from MySql
         DatapointDatasetVO ds=dpDfHibernate.getallData(dpName);
         System.out.println("Migrating "+ds.size()+"Rows from "+dpName+" to Cassandra");
 
         //Adds data to the cassandra columnfamily
-       int i=1;
        for(DatapointDataVO dp:ds)
        {
-           DpDataDTO insertData =new DpDataDTO();
-           insertData.setValue(dp.getValue());
-           insertData.setTimestamp(dp.getTimestamp());
-           dpDfCass.addData(cfname,insertData);
-           i++;
-           if(i>=20)
-               break;
+           DpDataDTO insertData =dp.getDTO();
+           dpDfCass.addData(dpName,insertData);
+
        }
 
     }
