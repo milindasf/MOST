@@ -114,7 +114,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         {
             LOG.error("Column Family doesn't exist for datapoint : "+dpName);
             return null;
-        }
+        }/*
         session = cluster.connect();  //Connect to the cassandra cluster
         session.execute("use most");  //Specifying keysapce name
 
@@ -132,10 +132,40 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         System.out.println("Timestamp : "+r.getDate("ts"));
         DatapointDataVO ds=new DatapointDataVO();
         ds.setTimestamp(r.getDate("ts"));
-        ds.setValue(r.getDouble("value"));
+        ds.setValue(r.getDouble("value"));*/
+        session = cluster.connect();  //Connect to the cassandra cluster
+        session.execute("use most");  //Specifying keysapce name
 
+        //Prepare select query to execute
+        query="Select day FROM "+dpName;
+        ResultSet results = session.execute(query);
+        List<Date> dateList=new ArrayList<Date>(100);
+        int i=0;
+        for (com.datastax.driver.core.Row row : results) {
+            dateList.add(row.getDate("day"));
+            i++;
+        }
+        LOG.debug("values:" + i);
+        Collections.sort(dateList);
+        Date lastDate=dateList.get(dateList.size()-1);
+        LOG.debug("Last Date: "+lastDate);
+        query="select * from "+dpName+" where day="+lastDate.getTime()+" order by ts DESC";
+        ResultSet r=session.execute(query);
+        Row rs=r.all().get(0);
+        LOG.debug("Final results : "+rs);
+        DatapointDataVO ds=new DatapointDataVO();
+        ds.setTimestamp(rs.getDate("ts"));
+        ds.setValue(rs.getDouble("value"));
         return ds;
     }
+
+
+
+
+
+
+
+
         /*
         LOG.debug("Running GetData Method Cassandra");
         // Define serializers to insert the data into columnfamily
@@ -462,9 +492,9 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             session=cluster.connect();
             session.execute("use most");
             session.execute("insert into "+dpName+"(day,ts,value) values("+truncatedDate+","+ts+","+value+")");
-            long rowkey=0;
+           /* long rowkey=0;
             session.execute("DELETE FROM "+dpName+" where day="+rowkey);
-            session.execute("insert into "+dpName+"(day,ts,value) values("+rowkey+","+ts+","+value+")");
+            session.execute("insert into "+dpName+"(day,ts,value) values("+rowkey+","+ts+","+value+")");*/
 
 
             /*
