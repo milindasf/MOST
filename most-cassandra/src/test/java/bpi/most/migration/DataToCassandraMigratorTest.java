@@ -37,7 +37,7 @@ public class DataToCassandraMigratorTest {
     @Transactional
     public void testMigrationSimpleDatapoint(){
 
-        migrator.migrateData("con1");
+        migrator.migrateData("con2");
         /*migrator.migrateData("con2");
         migrator.migrateData("con3");
         migrator.migrateData("con4");

@@ -41,12 +41,12 @@ public class DpDataFinderCassandraTest {
     @Test
     @Transactional
     public void testgetData(){
-      System.out.println(dpFinder.getData("con1"));
-      System.out.println(migrator.getDpDfHibernate().getData("con1"));
-      Assert.assertEquals(dpFinder.getData("con1"),migrator.getDpDfHibernate().getData("con1"));
+      System.out.println(dpFinder.getData("con2"));
+      System.out.println(migrator.getDpDfHibernate().getData("con2"));
+      Assert.assertEquals(dpFinder.getData("con2"),migrator.getDpDfHibernate().getData("con2"));
 
 
-    }
+    } /*
     @Test
     public void testdelData()
     {
@@ -66,7 +66,7 @@ public class DpDataFinderCassandraTest {
 
     /**
      * this is no real testcase. I (hare) used it to call getData and look at the returned values.
-     */
+     */ /*
     @Test
     @Transactional
     public void testgetDataRange1()
@@ -93,7 +93,8 @@ public class DpDataFinderCassandraTest {
         Date end = cal.getTime();
         Assert.assertNotSame(0,dpFinder.delData("con1",start,end));
 
-    }
+    } */
+
 
 
     //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)
