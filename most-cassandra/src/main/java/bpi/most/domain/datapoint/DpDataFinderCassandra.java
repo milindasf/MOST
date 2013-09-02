@@ -114,25 +114,8 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         {
             LOG.error("Column Family doesn't exist for datapoint : "+dpName);
             return null;
-        }/*
-        session = cluster.connect();  //Connect to the cassandra cluster
-        session.execute("use most");  //Specifying keysapce name
+        }
 
-        //Prepare select query to execute
-        long rowkey=0;
-        query="Select * FROM "+dpName+" where day="+rowkey;
-
-        //Executing query.....
-        ResultSet results = session.execute(query);
-
-        //Returning results....
-        Row r=results.one();
-        System.out.println(r);
-        System.out.println(" Value : " + r.getDouble("value"));
-        System.out.println("Timestamp : "+r.getDate("ts"));
-        DatapointDataVO ds=new DatapointDataVO();
-        ds.setTimestamp(r.getDate("ts"));
-        ds.setValue(r.getDouble("value"));*/
         session = cluster.connect();  //Connect to the cassandra cluster
         session.execute("use most");  //Specifying keysapce name
 
