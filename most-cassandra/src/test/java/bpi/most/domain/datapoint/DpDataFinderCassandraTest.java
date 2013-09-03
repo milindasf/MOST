@@ -41,9 +41,10 @@ public class DpDataFinderCassandraTest {
     @Test
     @Transactional
     public void testgetData(){
-      System.out.println(dpFinder.getData("con2"));
-      System.out.println(migrator.getDpDfHibernate().getData("con2"));
-      Assert.assertEquals(dpFinder.getData("con2"),migrator.getDpDfHibernate().getData("con2"));
+      DatapointDataVO dataHibernate = migrator.getDpDfHibernate().getData("con1");
+      DatapointDataVO dataCassandra = dpFinder.getData("con1");
+      Assert.assertEquals(dataHibernate.getTimestamp().getTime(), dataCassandra.getTimestamp().getTime());
+      Assert.assertEquals(dataHibernate.getValue(), dataCassandra.getValue());
 
 
     } /*

@@ -37,6 +37,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         try
         {
             cluster = com.datastax.driver.core.Cluster.builder().addContactPoint(CASSANDRA_ADDRESS).build();
+            session = cluster.connect("most");
             /*metadata = cluster.getMetadata();
             System.out.printf("Connected to cluster: %s\n",metadata.getClusterName());
             for ( Host host : metadata.getAllHosts() )
@@ -132,7 +133,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         Collections.sort(dateList);
         Date lastDate=dateList.get(dateList.size()-1);
         LOG.debug("Last Date: "+lastDate);
-        query="select * from "+dpName+" where day="+lastDate.getTime()+" order by ts DESC";
+        query="select * from "+dpName+" where day="+lastDate.getTime()+" order by ts DESC limit 1";
         ResultSet r=session.execute(query);
         Row rs=r.all().get(0);
         LOG.debug("Final results : "+rs);
@@ -472,7 +473,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             Double value=measurement.getValue();
             //Create serialize object
 
-            session=cluster.connect();
+      //      session=cluster.connect();
             session.execute("use most");
             session.execute("insert into "+dpName+"(day,ts,value) values("+truncatedDate+","+ts+","+value+")");
            /* long rowkey=0;
