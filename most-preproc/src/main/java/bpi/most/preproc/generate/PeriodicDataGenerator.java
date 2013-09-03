@@ -50,6 +50,8 @@ public class PeriodicDataGenerator {
     private DatapointDatasetVO generateValuesWeightedAvgLinearInterpolated(DatapointDatasetVO data, Date starttime, Date endtime, int period){
         DatapointDatasetVO periodicData = new DatapointDatasetVO();
 
+
+
         return periodicData;
     }
 

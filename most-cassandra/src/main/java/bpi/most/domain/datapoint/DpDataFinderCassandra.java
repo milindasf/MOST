@@ -269,7 +269,6 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         }
         System.out.println("values:" + i);
         return null;
-
     }
     /*
 
@@ -345,6 +344,15 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     */
     @Override
     public DatapointDatasetVO getDataPeriodic(String dpName, Date starttime, Date endtime, Float period, int mode) {
+
+        /*
+        what to do here
+        1. DatapointDatasetVO data = this.getData(dpName, starttime, endtime)
+        2. DatapointDatasetVO periodicData = PeriodicDataGenerator.getValuesPeriodic(data, starttime, endtime, ...)
+        3. return periodicData;
+         */
+
+
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -476,9 +484,9 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
       //      session=cluster.connect();
             session.execute("use most");
             session.execute("insert into "+dpName+"(day,ts,value) values("+truncatedDate+","+ts+","+value+")");
-           /* long rowkey=0;
+         /* long rowkey=0;
             session.execute("DELETE FROM "+dpName+" where day="+rowkey);
-            session.execute("insert into "+dpName+"(day,ts,value) values("+rowkey+","+ts+","+value+")");*/
+            session.execute("insert into "+dpName+"(day,ts,value) values("+rowkey+","+ts+","+value+")"); */
 
 
             /*
