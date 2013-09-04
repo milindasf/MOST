@@ -181,7 +181,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
         for(int i=0;i<=diffMonth;i++)
         {
             temp.add(Calendar.MONTH,1);
-            sb.append(String.format("'%s',",temp.getTime()));
+            sb.append(String.format("'%s',",temp.getTime().getTime()));
             System.out.println(temp.getTime());
         }
         sb.deleteCharAt(sb.length()-1);
@@ -195,17 +195,22 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     public DatapointDatasetVO getData(String dpName, Date starttime, Date endtime){
         if(!starttime.before(endtime) || !checkExist(dpName))
         return null;
-
+        DatapointDatasetVO returnData=new DatapointDatasetVO();
         cfname=getColumnFamilyName(dpName);
         query=getSelectQuery(dpName,starttime,endtime);
+        System.out.println(query);
         ResultSet results = session.execute(query);
         int i=0;
         for (com.datastax.driver.core.Row row : results) {
-            System.out.println(String.format("at %s; value: %s", row.getDate("ts"),row.getDouble("value")));
+            DatapointDataVO returnRow = new DatapointDataVO();
+            returnRow.setTimestamp(row.getDate("ts"));
+            returnRow.setValue(row.getDouble("value"));
+            System.out.println(String.format("at %s; value: %s", row.getDate("ts"), row.getDouble("value")));
+            returnData.add(returnRow);
             i++              ;
         }
         System.out.println("values:" + i);
-        return null;
+        return returnData;
 
     }
     @Override
@@ -324,7 +329,7 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     public int delData(String dpName, Date starttime, Date endtime)
     {
         if(!starttime.before(endtime) || !checkExist(dpName))
-            return 0;
+        return 0;
 
         query=getSelectQuery(dpName,starttime,endtime);
         ResultSet results = session.execute(query);
