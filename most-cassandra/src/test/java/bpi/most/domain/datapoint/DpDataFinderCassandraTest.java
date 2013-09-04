@@ -31,6 +31,7 @@ public class DpDataFinderCassandraTest {
     DpDataFinderCassandra dpFinder;
     @Inject
     DataToCassandraMigrator migrator;
+
     @Test
     public void testExistence(){
 
@@ -45,34 +46,12 @@ public class DpDataFinderCassandraTest {
       DatapointDataVO dataCassandra = dpFinder.getData("con1");
       Assert.assertEquals(dataHibernate.getTimestamp().getTime(), dataCassandra.getTimestamp().getTime());
       Assert.assertEquals(dataHibernate.getValue(), dataCassandra.getValue());
-    }
-
-
-    @Test
-    @Transactional
-    public void testgetDataRange1()
-    {
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(2011, 04, 19, 12, 00, 00);
-        Date start = cal.getTime();
-        cal.set(2011, 05, 19, 11, 22, 00);
-        Date end = cal.getTime();
-        DatapointDatasetVO dataset =dpFinder.getData("con1",start,end);
-        System.out.println("data from " + start + " to " + end);
-        for (DatapointDataVO data: dataset){
-            System.out.println(data.getTimestamp() + ": " + data.getValue());
-        }
-    }
-
-
-
-    /*
+    } /*
     @Test
     public void testdelData()
     {
         Assert.assertEquals(1,dpFinder.delData("con9"));
-    }
+    }/*
     @Test
     @Transactional
     public void testgetDataRange()
@@ -118,5 +97,6 @@ public class DpDataFinderCassandraTest {
 
 
 
-    //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)
+
+
 }
