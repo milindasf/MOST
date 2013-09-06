@@ -30,12 +30,16 @@ public class PeriodicDataGenerator {
                 periodicData = generateValuesWeightedAvgLinearInterpolated(data, starttime, endtime, period);
                 break;
             case WEIGHTED_AVG_SAMPLE_AND_HOLD:
+                periodicData = generateValuesWeightedAvgSampleAndHold(data, starttime, endtime, period);
                 break;
             case MAJORITY_SAMPLE_AND_HOLD:
+                periodicData = generateValuesMajoritySampleAndHold(data, starttime, endtime, period);
                 break;
             case DOMINATING_ZERO_DEFAULT_ONE:
+                periodicData = generateValuesDominatingZeroDefaultOne(data, starttime, endtime, period);
                 break;
             case DOMINATING_ONE_DEFAULT_ZERO:
+                periodicData=generateValuesDominatingOneDefaultZero(data, starttime, endtime, period);
                 break;
         }
 
@@ -53,5 +57,34 @@ public class PeriodicDataGenerator {
 
         return periodicData;
     }
+    private DatapointDatasetVO generateValuesWeightedAvgSampleAndHold(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    private DatapointDatasetVO generateValuesMajoritySampleAndHold(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    private DatapointDatasetVO generateValuesDominatingZeroDefaultOne(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    private DatapointDatasetVO generateValuesDominatingOneDefaultZero(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+
 
 }

@@ -257,10 +257,14 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
      */
     @Override
     public int addData(String dpName,DpDataDTO measurement) {
-        if(!checkExist(dpName))
+        cfname=getColumnFamilyName(dpName);
+        if(!checkExist(cfname))
         {
-            LOG.error("Column family does not exist for this datapoint");
-            return 0;
+            LOG.debug("Column family does not exist for this datapoint");
+
+            //If columnfamily doesn't exist then create new columnfamily for the datapoint
+            addColumnFamily(cfname);
+
         }
         try
         {
