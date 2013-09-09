@@ -23,6 +23,21 @@ public class PeriodicDataGenerator {
      */
     public DatapointDatasetVO getValuesPeriodic(DatapointDatasetVO data, Date starttime, Date endtime, int period, PeriodicMode mode){
         DatapointDatasetVO periodicData = new DatapointDatasetVO();
+        if(getTimeDifference(starttime,endtime)<period)
+        {
+            System.out.println("endtime must be later than starttime + one periode");
+            return null;
+        }
+        else if (data.size()==0)
+        {
+            System.out.println("Values doesn't exist for given datapoint");
+            return null;
+        }
+        else if(mode.getValue()==0 || mode==null)
+        {
+            mode.setValue(1);
+        }
+
 
         //TODO create periodic data
         switch (mode) {
@@ -84,6 +99,10 @@ public class PeriodicDataGenerator {
 
 
         return periodicData;
+    }
+    public int getTimeDifference(Date lastValue,Date newValue)
+    {
+        return (int) ((newValue.getTime()-lastValue.getTime())/1000);
     }
 
 

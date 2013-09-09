@@ -153,4 +153,24 @@ public class DatapointVO implements Serializable {
     public String getUnit() {
         return unit;
     }
+    public BigDecimal getDeadband()
+    {
+        return deadband;
+    }
+    public BigDecimal getMin()
+    {
+        return min;
+    }
+    public BigDecimal getMax()
+    {
+        return max;
+    }
+    public BigDecimal getSample_interval()
+    {
+        return sample_interval;
+    }
+    public BigDecimal getSample_interval_min()
+    {
+        return  sample_interval_min;
+    }
 }

@@ -148,10 +148,12 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             LOG.error("Column Family doesn't exist for datapoint : "+dpName);
             return null;
         }
-
         query="select * from "+cfname+" where day="+latestvalue+" order by ts DESC limit 1";
         ResultSet r=session.execute(query);
-        Row rs=r.all().get(0);
+        List<Row> lstrslt=r.all();
+        if(lstrslt.size()==0)
+        return null;
+        Row rs=lstrslt.get(0);
         LOG.debug("Final results : "+rs);
         DatapointDataVO ds=new DatapointDataVO();
         ds.setTimestamp(rs.getDate("ts"));

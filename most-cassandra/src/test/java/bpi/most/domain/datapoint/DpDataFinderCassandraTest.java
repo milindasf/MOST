@@ -45,20 +45,23 @@ public class DpDataFinderCassandraTest {
         Assert.assertNotNull(dpFinder);
         Assert.assertTrue(migrator.initSuccessful());
     }
-
+    */
     @Test
     @Transactional
     public void testgetData(){
-      DatapointDataVO dataHibernate = migrator.getDpDfHibernate().getData("con1");
-      DatapointDataVO dataCassandra = dpFinder.getData("con1");
+
+      Assert.assertNotNull(migrator.getDpDfHibernate().getData("con5"));
+      Assert.assertNotNull(dpFinder.getData("con5"));  //Assertion Error if Columnfamily doesn't exist or exist with no data
+      DatapointDataVO dataHibernate = migrator.getDpDfHibernate().getData("con5");
+      DatapointDataVO dataCassandra= dpFinder.getData("con5");
       Assert.assertEquals(dataHibernate.getTimestamp().getTime(), dataCassandra.getTimestamp().getTime());
       Assert.assertEquals(dataHibernate.getValue(), dataCassandra.getValue());
-    }
+    } /*
     @Test
     public void testdelData()
     {
         Assert.assertEquals(1,dpFinder.delData("con5"));
-    } */
+    } *//*
     @Test
     @Transactional
     public void testgetDataRange()
@@ -93,7 +96,7 @@ public class DpDataFinderCassandraTest {
         for (DatapointDataVO data: dataset){
             System.out.println(data.getTimestamp() + ": " + data.getValue());
         }
-    } */
+    }
     @Test
     public void testdelDataRange()
     {
@@ -107,7 +110,7 @@ public class DpDataFinderCassandraTest {
         //If the size of data between those two dates and number of records deleted matches then test is passed
         Assert.assertNotSame(dataCassandra.size(),dpFinder.delData("con1",start,end));
 
-    }
+    } */
 
 
 
