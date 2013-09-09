@@ -126,11 +126,25 @@ public class DatapointVO implements Serializable {
         return new DpDTO(name, type, description, getVirtual(), unit);
     }
 
-	@Override
-	public String toString() {
-		return "DatapointVO [name=" + name + ", type=" + type + ", description="
-				+ description + ", virtual=" + virtual + ", unit=" + unit +"]";
-	}
+    @Override
+    public String toString() {
+        return "DatapointVO{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", virtual='" + virtual + '\'' +
+                ", unit='" + unit + '\'' +
+                ", min=" + min +
+                ", max=" + max +
+                ", accuracy=" + accuracy +
+                ", deadband=" + deadband +
+                ", sample_interval=" + sample_interval +
+                ", sample_interval_min=" + sample_interval_min +
+                ", watchdog=" + watchdog +
+                ", custom_attr='" + custom_attr + '\'' +
+                ", zone_idzone=" + zone_idzone +
+                '}';
+    }
 
     public void setUnit(String unit) {
         this.unit = unit;

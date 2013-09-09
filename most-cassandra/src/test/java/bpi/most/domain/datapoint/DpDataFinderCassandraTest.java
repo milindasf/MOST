@@ -31,6 +31,13 @@ public class DpDataFinderCassandraTest {
     DpDataFinderCassandra dpFinder;
     @Inject
     DataToCassandraMigrator migrator;
+
+
+    @Test
+    public void testInitialization(){
+        Assert.assertTrue(dpFinder.initSuccess());
+    }
+
     /*
     @Test
     public void testExistence(){

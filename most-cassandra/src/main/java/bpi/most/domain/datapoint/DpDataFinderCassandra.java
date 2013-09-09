@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.xml.crypto.Data;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
@@ -30,6 +32,15 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
     private Cluster cluster=null;
     private Metadata metadata;
     private Session session;
+
+
+    /**
+     * access to mysql database
+     */
+    @PersistenceContext(unitName = "most")
+    private EntityManager em;
+    private DatapointFinder dpFinderHibernate;
+
     @PostConstruct
     public void initIt() throws Exception {
         try
@@ -37,11 +48,18 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             cluster = com.datastax.driver.core.Cluster.builder().addContactPoint(CASSANDRA_ADDRESS).build();
             session = cluster.connect(keyspace);
             session.execute("use "+keyspace);
+
+            dpFinderHibernate = new DatapointFinder(em);
         }
         catch(Exception e){
             LOG.error(e.getMessage(), e);
         }
     }
+
+    public boolean initSuccess(){
+        return dpFinderHibernate != null && cluster != null && session != null;
+    }
+
     /*
      * Adds new columnfamily to the cassandra keyspace
      * @param dpName : datapoint name to add as a columnfamily
