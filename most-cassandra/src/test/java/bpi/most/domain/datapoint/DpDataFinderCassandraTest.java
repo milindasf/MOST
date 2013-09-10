@@ -1,12 +1,19 @@
 package bpi.most.domain.datapoint;
 
+import bpi.most.migration.DataToCassandraMigrator;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import sun.util.LocaleServiceProviderPool;
 
 import javax.inject.Inject;
+import java.util.Calendar;
+import java.util.Date;
+
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,13 +28,92 @@ import javax.inject.Inject;
 public class DpDataFinderCassandraTest {
 
     @Inject
-    private IDatapointDataFinder dpDataFinder;
+    DpDataFinderCassandra dpFinder;
+    @Inject
+    DataToCassandraMigrator migrator;
+
 
     @Test
-    public void testExistence(){
-        Assert.assertNotNull(dpDataFinder);
-        Assert.assertTrue(dpDataFinder instanceof DpDataFinderCassandra);
+    public void testInitialization(){
+        Assert.assertTrue(dpFinder.initSuccess());
     }
 
-    //TODO test calls to IDatapointDataFinder (DpDataFinderCassandra gets injected here)
+    /*
+    @Test
+    public void testExistence(){
+
+        Assert.assertNotNull(dpFinder);
+        Assert.assertTrue(migrator.initSuccessful());
+    }
+    */
+    @Test
+    @Transactional
+    public void testgetData(){
+
+      Assert.assertNotNull(migrator.getDpDfHibernate().getData("con5"));
+      Assert.assertNotNull(dpFinder.getData("con5"));  //Assertion Error if Columnfamily doesn't exist or exist with no data
+      DatapointDataVO dataHibernate = migrator.getDpDfHibernate().getData("con5");
+      DatapointDataVO dataCassandra= dpFinder.getData("con5");
+      Assert.assertEquals(dataHibernate.getTimestamp().getTime(), dataCassandra.getTimestamp().getTime());
+      Assert.assertEquals(dataHibernate.getValue(), dataCassandra.getValue());
+    } /*
+    @Test
+    public void testdelData()
+    {
+        Assert.assertEquals(1,dpFinder.delData("con5"));
+    } *//*
+    @Test
+    @Transactional
+    public void testgetDataRange()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 04, 19, 12, 00, 00);
+        Date start = cal.getTime();
+        cal.set(2011, 05, 19, 11, 22, 00);
+        Date end = cal.getTime();
+        DatapointDatasetVO dataCassandra=dpFinder.getData("con4",start,end);
+        DatapointDatasetVO dataHibernate=migrator.getDpDfHibernate().getData("con4",start,end);
+        DatapointDataVO dataCassandraSingle=dataCassandra.get(0);
+        DatapointDataVO dataHibernateSingle=dataHibernate.get(0);
+        Assert.assertEquals(dataCassandraSingle.getValue(),dataHibernateSingle.getValue());
+    }
+
+    /**
+     * this is no real testcase. I (hare) used it to call getData and look at the returned values.
+     */ /*
+    @Test
+    @Transactional
+    public void testgetDataRange1()
+    {
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 04, 19, 12, 00, 00);
+        Date start = cal.getTime();
+        cal.set(2011, 05, 19, 11, 22, 00);
+        Date end = cal.getTime();
+        DatapointDatasetVO dataset =dpFinder.getData("con1",start,end);
+        System.out.println("data from " + start + " to " + end);
+        for (DatapointDataVO data: dataset){
+            System.out.println(data.getTimestamp() + ": " + data.getValue());
+        }
+    }
+    @Test
+    public void testdelDataRange()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 04, 19, 12, 00, 00);
+        Date start = cal.getTime();
+        cal.set(2011, 05, 19, 11, 22, 00);
+        Date end = cal.getTime();
+        DatapointDatasetVO dataCassandra=dpFinder.getData("con1",start,end);
+
+        //If the size of data between those two dates and number of records deleted matches then test is passed
+        Assert.assertNotSame(dataCassandra.size(),dpFinder.delData("con1",start,end));
+
+    } */
+
+
+
+
+
 }

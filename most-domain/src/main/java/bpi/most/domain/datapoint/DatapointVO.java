@@ -127,11 +127,25 @@ public class DatapointVO implements Serializable {
         return new DpDTO(name, type, description, getVirtual(), unit);
     }
 
-	@Override
-	public String toString() {
-		return "DatapointVO [name=" + name + ", type=" + type + ", description="
-				+ description + ", virtual=" + virtual + ", unit=" + unit +"]";
-	}
+    @Override
+    public String toString() {
+        return "DatapointVO{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", virtual='" + virtual + '\'' +
+                ", unit='" + unit + '\'' +
+                ", min=" + min +
+                ", max=" + max +
+                ", accuracy=" + accuracy +
+                ", deadband=" + deadband +
+                ", sample_interval=" + sample_interval +
+                ", sample_interval_min=" + sample_interval_min +
+                ", watchdog=" + watchdog +
+                ", custom_attr='" + custom_attr + '\'' +
+                ", zone_idzone=" + zone_idzone +
+                '}';
+    }
 
     public void setUnit(String unit) {
         this.unit = unit;
@@ -139,5 +153,25 @@ public class DatapointVO implements Serializable {
 
     public String getUnit() {
         return unit;
+    }
+    public BigDecimal getDeadband()
+    {
+        return deadband;
+    }
+    public BigDecimal getMin()
+    {
+        return min;
+    }
+    public BigDecimal getMax()
+    {
+        return max;
+    }
+    public BigDecimal getSample_interval()
+    {
+        return sample_interval;
+    }
+    public BigDecimal getSample_interval_min()
+    {
+        return  sample_interval_min;
     }
 }

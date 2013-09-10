@@ -1,5 +1,4 @@
 package bpi.most.preproc.generate;
-
 import bpi.most.domain.datapoint.DatapointDatasetVO;
 import bpi.most.dto.DpDatasetDTO;
 import bpi.most.preproc.PeriodicMode;
@@ -24,6 +23,21 @@ public class PeriodicDataGenerator {
      */
     public DatapointDatasetVO getValuesPeriodic(DatapointDatasetVO data, Date starttime, Date endtime, int period, PeriodicMode mode){
         DatapointDatasetVO periodicData = new DatapointDatasetVO();
+        if(getTimeDifference(starttime,endtime)<period)
+        {
+            System.out.println("endtime must be later than starttime + one periode");
+            return null;
+        }
+        else if (data.size()==0)
+        {
+            System.out.println("Values doesn't exist for given datapoint");
+            return null;
+        }
+        else if(mode.getValue()==0 || mode==null)
+        {
+            mode.setValue(1);
+        }
+
 
         //TODO create periodic data
         switch (mode) {
@@ -31,12 +45,16 @@ public class PeriodicDataGenerator {
                 periodicData = generateValuesWeightedAvgLinearInterpolated(data, starttime, endtime, period);
                 break;
             case WEIGHTED_AVG_SAMPLE_AND_HOLD:
+                periodicData = generateValuesWeightedAvgSampleAndHold(data, starttime, endtime, period);
                 break;
             case MAJORITY_SAMPLE_AND_HOLD:
+                periodicData = generateValuesMajoritySampleAndHold(data, starttime, endtime, period);
                 break;
             case DOMINATING_ZERO_DEFAULT_ONE:
+                periodicData = generateValuesDominatingZeroDefaultOne(data, starttime, endtime, period);
                 break;
             case DOMINATING_ONE_DEFAULT_ZERO:
+                periodicData=generateValuesDominatingOneDefaultZero(data, starttime, endtime, period);
                 break;
         }
 
@@ -50,7 +68,42 @@ public class PeriodicDataGenerator {
     private DatapointDatasetVO generateValuesWeightedAvgLinearInterpolated(DatapointDatasetVO data, Date starttime, Date endtime, int period){
         DatapointDatasetVO periodicData = new DatapointDatasetVO();
 
+
+
         return periodicData;
     }
+    private DatapointDatasetVO generateValuesWeightedAvgSampleAndHold(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    private DatapointDatasetVO generateValuesMajoritySampleAndHold(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    private DatapointDatasetVO generateValuesDominatingZeroDefaultOne(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    private DatapointDatasetVO generateValuesDominatingOneDefaultZero(DatapointDatasetVO data, Date starttime, Date endtime, int period){
+        DatapointDatasetVO periodicData = new DatapointDatasetVO();
+
+
+
+        return periodicData;
+    }
+    public int getTimeDifference(Date lastValue,Date newValue)
+    {
+        return (int) ((newValue.getTime()-lastValue.getTime())/1000);
+    }
+
 
 }
