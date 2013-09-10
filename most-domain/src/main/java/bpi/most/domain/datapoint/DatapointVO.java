@@ -29,6 +29,7 @@ public class DatapointVO implements Serializable {
 	private String virtual;
     private String unit;
 
+    //min value
     private BigDecimal min;
     private BigDecimal max;
     private BigDecimal accuracy;
