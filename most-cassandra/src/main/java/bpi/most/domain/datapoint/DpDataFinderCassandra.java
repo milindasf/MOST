@@ -1,5 +1,6 @@
 package bpi.most.domain.datapoint;
 import bpi.most.dto.DpDataDTO;
+import bpi.most.preproc.validate.PersistValidator;
 import com.datastax.driver.core.*;
 import org.hibernate.type.DateType;
 import org.hibernate.type.DoubleType;
@@ -301,12 +302,23 @@ public class DpDataFinderCassandra implements IDatapointDataFinder{
             long truncatedDate = calendar.getTimeInMillis();
             Long ts=measurement.getTimestamp().getTime();
             Double value=measurement.getValue();
+            DatapointVO datapoint=dpFinderHibernate.getDatapoint(dpName);
+            DatapointDataVO newValue=new DatapointDataVO(new Date(ts),value);
+            DatapointDataVO lastValue=getData(cfname);
+            PersistValidator pvalid=new PersistValidator();
+            if(pvalid.validate(datapoint,lastValue,newValue))
+            {
 
-            session.execute("insert into "+dpName+"(day,ts,value) values("+truncatedDate+","+ts+","+value+")");
-            session.execute("DELETE FROM "+dpName+" where day="+latestvalue);
-            session.execute("insert into "+dpName+"(day,ts,value) values("+latestvalue+","+ts+","+value+")");
-
-            return 1;
+                session.execute("insert into "+dpName+"(day,ts,value) values("+truncatedDate+","+ts+","+value+")");
+                session.execute("DELETE FROM "+dpName+" where day="+latestvalue);
+                session.execute("insert into "+dpName+"(day,ts,value) values("+latestvalue+","+ts+","+value+")");
+                return 1;
+            }
+            else
+            {
+                LOG.error("Invalid value");
+                return 0;
+            }
         }
         catch(Exception e)
         {
