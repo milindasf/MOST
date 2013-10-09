@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
@@ -24,6 +25,10 @@ import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.kernel.configuration.ConfigParam.Conversion;
+
+import bpi.most.domain.datapoint.DatapointVO;
+import bpi.most.domain.neo4j.migration.Neo4jMigration;
 
 public class Neo4jDatabaseProcedure {
 
@@ -35,13 +40,16 @@ public class Neo4jDatabaseProcedure {
 	private Date date;
 	private ExecutionEngine executeEng;
 	private ExecutionResult result;
-
+    private Neo4jMigration migrate;
+	
+	
 	public void SetDatabasePath(String databasePath) {
 
 		this.databasePath = databasePath;
 		dbFolder = new File(databasePath);
 		graphDbFactory = new GraphDatabaseFactory();
 		date = new Date();
+		migrate=new Neo4jMigration();
 
 	}
 
@@ -204,11 +212,13 @@ public class Neo4jDatabaseProcedure {
 
 		// ------ These values needed to be get from the MySQL database......
 
-		dpDeadband = null;
-		maxValue = null;
-		minValue = null;
-		sampleInterval = null;
-		sampleIntervalMin = null;
+		DatapointVO datapoint_sql=migrate.getDatapointFromMySQL(p_datapoint_name);
+		
+		dpDeadband = Double.valueOf(datapoint_sql.getDeadband().toString());
+		maxValue = Double.valueOf(datapoint_sql.getMax().toString());
+		minValue = Double.valueOf(datapoint_sql.getMin().toString());
+		sampleInterval = Double.valueOf(datapoint_sql.getSample_interval().toString());
+		sampleIntervalMin = Double.valueOf(datapoint_sql.getSample_interval_min().toString());
 
 		// ////////////////////////////////////////////////////////////////////////
 

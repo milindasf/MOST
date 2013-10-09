@@ -1,6 +1,11 @@
 package bpi.most.domain.neo4j.migration;
 
+import java.util.List;
+
+import bpi.most.domain.datapoint.DatapointDataVO;
+import bpi.most.domain.datapoint.DatapointDatasetVO;
 import bpi.most.domain.datapoint.DatapointFinder;
+import bpi.most.domain.datapoint.DatapointVO;
 import bpi.most.domain.datapoint.DpDataFinderHibernate;
 import bpi.most.domain.neo4j.datapoint.DpDataFinderNeo4j;
 
@@ -24,8 +29,7 @@ public class Neo4jMigration {
     /**
      * access to neo4j
      */
-	private static final Logger LOG = LoggerFactory.getLogger(Neo4jMigration.class);
-
+	
     @Inject
     private DpDataFinderNeo4j dpDfNeo;
 
@@ -39,9 +43,10 @@ public class Neo4jMigration {
 
 
     @PostConstruct
-    private void init(){
+    private void init() throws Exception {
         dpFinderHibernate = new DatapointFinder(em);
         dpDfHibernate = new DpDataFinderHibernate(em);
+        dpDfNeo.initIt();
     }
 
     public boolean initSuccessful(){
@@ -50,17 +55,49 @@ public class Neo4jMigration {
 
     /**
      * migrates all data of all datapoints
+     * @author milinda
      */
     public void migrateData(){
-        //TODO implement
+       
+    	List<DatapointVO> datapoint=dpFinderHibernate.getDatapoints(null);
+    	DatapointVO temp;
+    	for(int i=0;i<datapoint.size();i++){
+    		temp=datapoint.get(i);
+    		System.out.println("Starting Migration from datapoint "+temp.getName());
+    		this.migrateData(temp.getName());
+    		System.out.println("MIgration completed of datapoint "+temp.getName());
+    	}
+    	
+    	System.out.println("MySQL table Data sucessfully migrated to Neo4j Graph database....");
+    	
+    	
     }
 
     /**
      * migrates data of given datapoint
      * @param dpName
+     * @author milinda
      */
     public void migrateData(String dpName){
-        //TODO implement
+       
+    	DatapointDatasetVO dataSet=dpDfHibernate.getallData(dpName);
+        System.out.println("Migrating data from datapoint "+dpName+" to Neo4j graph Database..");
+    	DatapointDataVO temp;
+        for (int i=0;i<dataSet.size();i++){
+    		temp=dataSet.get(i);
+    		dpDfNeo.addData(dpName, temp.getDTO());
+    	}
+    	
+        System.out.println("Data Migration Successfull... "+dataSet.size() +"Rows successfully migrated");
+    	
+    	
     }
 
+    public DatapointVO getDatapointFromMySQL(String dpName){
+    	
+    	DatapointVO temp=dpFinderHibernate.getDatapoint(dpName);
+    	return temp;
+    }
+    
+    
 }
