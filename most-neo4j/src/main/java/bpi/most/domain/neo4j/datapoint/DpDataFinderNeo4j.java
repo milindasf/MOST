@@ -47,7 +47,7 @@ public class DpDataFinderNeo4j implements IDatapointDataFinder {
 		 * initialize local neo4j VS connecting to neo4j standalone server.
 		 */
 		procedure=new Neo4jDatabaseProcedure();
-		procedure.SetDatabasePath("MOST_DB");
+		procedure.SetDatabasePath("/home/milinda/neo4j-community-1.8.2","MOST.db");
 		procedure.CreateDatabase();
 		
 	}

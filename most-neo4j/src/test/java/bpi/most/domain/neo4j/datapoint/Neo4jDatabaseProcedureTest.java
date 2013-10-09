@@ -21,7 +21,7 @@ public class Neo4jDatabaseProcedureTest {
 	@Before
 	public void setup() throws Exception  {
 	    db=new Neo4jDatabaseProcedure();
-        db.SetDatabasePath("/home/milinda/Desktop/MOSTDB");
+        db.SetDatabasePath("/home/milinda/neo4j-community-1.8.2","MOST.db");
         db.CreateDatabase();
 
 		
@@ -154,7 +154,7 @@ public class Neo4jDatabaseProcedureTest {
 		
 		 db.ShutDownDatabase();
 
-	        File file = new File("/home/milinda/Desktop/MOSTDB/index");
+	        File file = new File("/home/milinda/neo4j-community-1.8.2/data/MOST.db/index");
 	        String[] myFiles;
 	        if (file.isDirectory()) {
 	            myFiles = file.list();
@@ -165,7 +165,7 @@ public class Neo4jDatabaseProcedureTest {
 	        }
 	        file.delete();
 
-	        file = new File("/home/milinda/Desktop/MOSTDB");
+	        file = new File("/home/milinda/neo4j-community-1.8.2/data/MOST.db");
 
 	        if (file.isDirectory()) {
 	            myFiles = file.list();

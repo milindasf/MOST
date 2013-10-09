@@ -34,19 +34,21 @@ public class Neo4jDatabaseProcedure {
 
 	private GraphDatabaseFactory graphDbFactory;
 	private EmbeddedGraphDatabase graphDb;
-	private String databasePath;
+	private String neo4jHome;
 	private File dbFolder;
 	private Node startNode;
 	private Date date;
 	private ExecutionEngine executeEng;
 	private ExecutionResult result;
     private Neo4jMigration migrate;
+    private String databaseName; 
 	
 	
-	public void SetDatabasePath(String databasePath) {
+	public void SetDatabasePath(String neo4jHome,String databaseName) {
 
-		this.databasePath = databasePath;
-		dbFolder = new File(databasePath);
+		this.neo4jHome = neo4jHome;
+		this.databaseName=databaseName;
+		dbFolder = new File(neo4jHome+"/data/"+this.databaseName);
 		graphDbFactory = new GraphDatabaseFactory();
 		date = new Date();
 		migrate=new Neo4jMigration();
@@ -57,20 +59,23 @@ public class Neo4jDatabaseProcedure {
 		if (dbFolder.exists() && dbFolder.list().length != 0) {
 			// Database Exits.
 			graphDb = (EmbeddedGraphDatabase) graphDbFactory
-					.newEmbeddedDatabaseBuilder(this.databasePath)
+					.newEmbeddedDatabaseBuilder(this.neo4jHome+"/data/"+this.databaseName)
 					.loadPropertiesFromFile(
-							this.databasePath + "conf/neo4j.properties")
+							this.neo4jHome + "conf/neo4j.properties")
 					.newGraphDatabase();
 		} else {
 
 			graphDb = (EmbeddedGraphDatabase) graphDbFactory
-					.newEmbeddedDatabase(databasePath);
+					.newEmbeddedDatabase(neo4jHome+"/data/"+this.databaseName);
 			this.createStartNode();
-			executeEng = new ExecutionEngine(this.graphDb);
+			
 		}
-
+			
 		registerShutdownHook(graphDb);// To Ensure that the database is shutdown
 		// properly when JVM Exits
+		executeEng = new ExecutionEngine(this.graphDb);
+		this.startNode=this.getStaNodeFromExistingDatabase();
+		
 	}
 
 	public void ShutDownDatabase() {
@@ -82,7 +87,7 @@ public class Neo4jDatabaseProcedure {
 		}
 
 	}
-
+	
 	private static void registerShutdownHook(final EmbeddedGraphDatabase graphDb) {
 		/*
 		 * Registers a shutdown hook for the Neo4j instance so that it shuts
@@ -105,6 +110,22 @@ public class Neo4jDatabaseProcedure {
 		return this.startNode;
 	}
 
+	public Node getStaNodeFromExistingDatabase(){
+		
+		String cypherquerry = "START startNode=NODE(1) RETURN startNode;";
+		result=executeEng.execute(cypherquerry);
+		Iterator<Node> iterator=result.columnAs("startNode");
+		if(iterator.hasNext()){
+			return iterator.next();
+		}else{
+			return null;
+		}
+		
+		
+	}
+	
+	
+	
 	private void createStartNode() {
 
 		Transaction tx = this.graphDb.beginTx();
