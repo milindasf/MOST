@@ -3,6 +3,9 @@ package bpi.most.domain.neo4j.migration;
 import bpi.most.domain.datapoint.DatapointFinder;
 import bpi.most.domain.datapoint.DpDataFinderHibernate;
 import bpi.most.domain.neo4j.datapoint.DpDataFinderNeo4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +24,8 @@ public class Neo4jMigration {
     /**
      * access to neo4j
      */
+	private static final Logger LOG = LoggerFactory.getLogger(Neo4jMigration.class);
+
     @Inject
     private DpDataFinderNeo4j dpDfNeo;
 
