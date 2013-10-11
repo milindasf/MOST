@@ -4,7 +4,8 @@ import bpi.most.domain.datapoint.DatapointDataVO;
 import bpi.most.domain.datapoint.DatapointDatasetVO;
 import bpi.most.domain.datapoint.IDatapointDataFinder;
 import bpi.most.dto.DpDataDTO;
-
+import bpi.most.preproc.generate.PeriodicDataGenerator;
+import bpi.most.preproc.PeriodicMode;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Node;
@@ -14,6 +15,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.springframework.stereotype.Service;
+
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -35,7 +37,7 @@ import java.util.Map;
 public class DpDataFinderNeo4j implements IDatapointDataFinder {
 
 	private Neo4jDatabaseProcedure procedure;
-	
+	private PeriodicDataGenerator periodicDatagenerator;
 	/**
 	 * connects to neo4j server
 	 * 
@@ -49,6 +51,7 @@ public class DpDataFinderNeo4j implements IDatapointDataFinder {
 		procedure=new Neo4jDatabaseProcedure();
 		procedure.SetDatabasePath("/home/milinda/neo4j-community-1.8.2","MOST.db");
 		procedure.CreateDatabase();
+		periodicDatagenerator=new PeriodicDataGenerator();
 		
 	}
 
@@ -116,8 +119,15 @@ public class DpDataFinderNeo4j implements IDatapointDataFinder {
 	@Override
 	public DatapointDatasetVO getDataPeriodic(String dpName, Date starttime,
 			Date endtime, Float period, int mode) {
-		return null; // To change body of implemented methods use File |
-						// Settings | File Templates.
+		
+		DatapointDatasetVO temp=this.getData(dpName, starttime, endtime);
+		int periodTime=Math.round(period);
+		PeriodicMode periMode=PeriodicMode.DOMINATING_ONE_DEFAULT_ZERO;
+		periMode.setValue(mode);
+		DatapointDatasetVO periodicDataSet=periodicDatagenerator.getValuesPeriodic(temp, starttime, endtime,periodTime, periMode);
+		return periodicDataSet; 
+		
+	
 	}
 
 	@Override
