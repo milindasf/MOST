@@ -46,7 +46,7 @@ public class Neo4jDatabaseProcedureTest {
 	public void testAddData(){
 		this.addTestDatatoDataPoints();
 		boolean state=db.addData("datapoint_1",new Timestamp(new Date().getTime()).toString(), 26.34);
-		assertEquals(true, state);
+		assertEquals(false, state);
 	}
 	
 	@Test

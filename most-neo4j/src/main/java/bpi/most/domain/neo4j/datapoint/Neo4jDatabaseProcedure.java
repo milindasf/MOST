@@ -61,7 +61,7 @@ public class Neo4jDatabaseProcedure {
 			graphDb = (EmbeddedGraphDatabase) graphDbFactory
 					.newEmbeddedDatabaseBuilder(this.neo4jHome+"/data/"+this.databaseName)
 					.loadPropertiesFromFile(
-							this.neo4jHome + "conf/neo4j.properties")
+							this.neo4jHome + "/conf/neo4j.properties")
 					.newGraphDatabase();
 		} else {
 
